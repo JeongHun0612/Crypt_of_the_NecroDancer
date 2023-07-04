@@ -17,6 +17,6 @@ public:
 	inline float getWorldTime() const { return _timer->getWorldTime(); }
 
 	TimeManager();
-	~TimeManager();
+	~TimeManager() {}
 };
 

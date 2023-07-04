@@ -46,6 +46,18 @@
     <Filter Include="2D FrameWork\Timer">
       <UniqueIdentifier>{6c06d1bd-b97e-4a74-ba26-10faf24a37b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D FrameWork\ManagerClass\SceneManager">
+      <UniqueIdentifier>{63f2f89b-6912-43bc-80d5-5e65d08c187d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene">
+      <UniqueIdentifier>{22bdb7a3-8f3c-40b2-9979-f45c9f00ca5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene\Title">
+      <UniqueIdentifier>{1b2ebc12-44cb-450c-a9a5-34d77ed87894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene\Lobby">
+      <UniqueIdentifier>{e9318cab-e7ff-48ea-9be2-caf7398eeeda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -77,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>2D FrameWork\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>MainGame\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>MainGame\Scene\Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>2D FrameWork\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>MainGame\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>MainGame\Scene\Lobby</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

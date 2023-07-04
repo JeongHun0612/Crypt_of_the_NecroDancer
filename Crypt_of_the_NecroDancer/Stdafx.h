@@ -85,6 +85,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "KeyManager.h"
 #include "ImageManager.h"
 #include "TimeManager.h"
+#include "SceneManager.h"
 
 
 // # ΩÃ±€≈Ê # ==============================================================================================================
@@ -92,6 +93,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define KEYMANAGER KeyManager::getSingleton()
 #define IMAGEMANAGER ImageManager::getSingleton()
 #define TIMEMANAGER TimeManager::getSingleton()
+#define SCENEMANAGER SceneManager::getSingleton()
 
 
 // # ∏≈≈©∑Œ #  ==============================================================================================================

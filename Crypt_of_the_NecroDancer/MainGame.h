@@ -1,5 +1,7 @@
 #pragma once
 #include "GameNode.h"
+#include "TitleScene.h"
+#include "LobbyScene.h"
 
 class MainGame : public GameNode
 {

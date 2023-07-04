@@ -20,6 +20,7 @@ HRESULT GameNode::init(bool managerInit)
 		KEYMANAGER->init();
 		IMAGEMANAGER->init();
 		TIMEMANAGER->init();
+		SCENEMANAGER->init();
 	}
 
 	return S_OK;
@@ -38,6 +39,9 @@ void GameNode::release(void)
 		
 		TIMEMANAGER->release();
 		TIMEMANAGER->releaseSingleton();
+
+		SCENEMANAGER->release();
+		SCENEMANAGER->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);

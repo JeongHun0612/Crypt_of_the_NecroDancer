@@ -6,10 +6,6 @@ TimeManager::TimeManager()
 {
 }
 
-TimeManager::~TimeManager()
-{
-}
-
 HRESULT TimeManager::init()
 {
 	_timer = new Timer;
