@@ -3,6 +3,9 @@
 
 HRESULT GameNode::init(void)
 {
+	_hdc = GetDC(_hWnd);
+	_managerInit = false;
+
 	return S_OK;
 }
 
@@ -13,12 +16,10 @@ HRESULT GameNode::init(bool managerInit)
 
 	if (managerInit)
 	{
-		// 타이머 초기화
-		SetTimer(_hWnd, 1, 10, NULL);
-
 		RND->init();
 		KEYMANAGER->init();
 		IMAGEMANAGER->init();
+		TIMEMANAGER->init();
 	}
 
 	return S_OK;
@@ -28,13 +29,15 @@ void GameNode::release(void)
 {
 	if (_managerInit)
 	{
-		// 동적할당과 같이 삭제하지 않고 종료하면 메모리 누수가 발생한다.
-		KillTimer(_hWnd, 1);
-
 		RND->releaseSingleton();
+
 		KEYMANAGER->releaseSingleton();
+
 		IMAGEMANAGER->release();
 		IMAGEMANAGER->releaseSingleton();
+		
+		TIMEMANAGER->release();
+		TIMEMANAGER->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);
@@ -42,7 +45,8 @@ void GameNode::release(void)
 
 void GameNode::update(void)
 {
-	InvalidateRect(_hWnd, NULL, false);
+	//! Do Noting
+	//InvalidateRect(_hWnd, NULL, false);
 }
 
 void GameNode::render(void)
@@ -69,7 +73,13 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 		EndPaint(hWnd, &ps);
 		break;
-
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			PostQuitMessage(0);
+		}
+		break;
 	case WM_MOUSEMOVE:
 		_ptMouse.x = LOWORD(lParam);
 		_ptMouse.y = HIWORD(lParam);

@@ -5,6 +5,8 @@ HRESULT MainGame::init(void)
 {
 	GameNode::init(true);
 
+	rc = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y / 2, 100, 100);
+
 	return S_OK;
 }
 
@@ -20,10 +22,16 @@ void MainGame::update(void)
 
 void MainGame::render(void)
 {
-	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, WHITENESS);
+	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
+	// =====================================================================
 	
-	// render
-	RectangleMakeCenter(getMemDC(), WINSIZE_X / 2, WINSIZE_Y / 2, 100, 100);
+	// 시간 확인 (프레임, 월드 시간, 델타 타임)
+	TIMEMANAGER->render(getMemDC());
 
+	// render
+	DrawRectMake(getMemDC(), rc);
+
+
+	// =====================================================================
 	this->getBackBuffer()->render(getHDC(), 0, 0);
 }

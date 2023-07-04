@@ -134,10 +134,22 @@ int APIENTRY WinMain(HINSTANCE hInstance,		 // hInstance       ->   프로그램 인�
 	ㄴ 윈도우 프로시저에서 전달된 메세지를 실제 윈도우로 전달해 준다.
 	*/
 
-	while (GetMessage(&message, 0, 0, 0))
+	while (true)
 	{
-		TranslateMessage(&message);
-		DispatchMessage(&message);
+		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+		{
+			if (message.message == WM_QUIT) break;
+
+			TranslateMessage(&message);
+			DispatchMessage(&message);
+		}
+		else
+		{
+			TIMEMANAGER->update(60.0f);
+
+			_mg->update();
+			_mg->render();
+		}
 	}
 
 	_mg->release();

@@ -34,6 +34,18 @@
     <Filter Include="MainGame\Object\Player">
       <UniqueIdentifier>{923db661-8dd5-44f6-8727-a5cef60d9676}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D FrameWork\ManagerClass\ImageManager">
+      <UniqueIdentifier>{37501053-20ad-4aa0-be61-0ce0ffe61026}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D FrameWork\ManagerClass\KeyManager">
+      <UniqueIdentifier>{5fdc22dd-39f0-480e-8910-603e857f455a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D FrameWork\ManagerClass\TimeManager">
+      <UniqueIdentifier>{81b80751-bf5c-4178-b195-e4819aa4892b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D FrameWork\Timer">
+      <UniqueIdentifier>{6c06d1bd-b97e-4a74-ba26-10faf24a37b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -45,23 +57,26 @@
     <ClCompile Include="GImage.cpp">
       <Filter>2D FrameWork\GImage</Filter>
     </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
-      <Filter>2D FrameWork\ManagerClass</Filter>
-    </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
     <ClCompile Include="MainGame.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="ImageManager.cpp">
-      <Filter>2D FrameWork\ManagerClass</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>MainGame\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="TimerManager.cpp">
-      <Filter>2D FrameWork\ManagerClass</Filter>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>2D FrameWork\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,20 +98,23 @@
     <ClInclude Include="GImage.h">
       <Filter>2D FrameWork\GImage</Filter>
     </ClInclude>
-    <ClInclude Include="KeyManager.h">
-      <Filter>2D FrameWork\ManagerClass</Filter>
-    </ClInclude>
     <ClInclude Include="MainGame.h">
       <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageManager.h">
-      <Filter>2D FrameWork\ManagerClass</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="TimerManager.h">
-      <Filter>2D FrameWork\ManagerClass</Filter>
+    <ClInclude Include="ImageManager.h">
+      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>2D FrameWork\Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,9 @@
 
 class MainGame : public GameNode
 {
+private:
+	RECT rc;
+
 public:
 	HRESULT init(void);
 	void release(void);

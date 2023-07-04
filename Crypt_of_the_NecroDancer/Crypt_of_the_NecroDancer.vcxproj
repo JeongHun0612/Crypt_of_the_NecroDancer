@@ -148,7 +148,8 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stdafx.cpp" />
-    <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +163,8 @@
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="Stdafx.h" />
-    <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
