@@ -58,6 +58,9 @@
     <Filter Include="MainGame\Scene\Lobby">
       <UniqueIdentifier>{e9318cab-e7ff-48ea-9be2-caf7398eeeda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D FrameWork\ManagerClass\FontManager">
+      <UniqueIdentifier>{91649f45-c8bb-4074-9b35-e10e135a0c04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="LobbyScene.cpp">
       <Filter>MainGame\Scene\Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="LobbyScene.h">
       <Filter>MainGame\Scene\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

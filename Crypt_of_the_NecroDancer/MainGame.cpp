@@ -9,7 +9,6 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("title", new TitleScene);
 	SCENEMANAGER->addScene("lobby", new LobbyScene);
 
-
 	SCENEMANAGER->changeScene("title");
 
 
