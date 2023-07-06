@@ -31,9 +31,6 @@
     <Filter Include="MainGame\Object">
       <UniqueIdentifier>{9484468f-b874-424e-be23-a09a836a7901}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Player">
-      <UniqueIdentifier>{923db661-8dd5-44f6-8727-a5cef60d9676}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2D FrameWork\ManagerClass\ImageManager">
       <UniqueIdentifier>{37501053-20ad-4aa0-be61-0ce0ffe61026}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,18 @@
     <Filter Include="2D FrameWork\ManagerClass\FontManager">
       <UniqueIdentifier>{91649f45-c8bb-4074-9b35-e10e135a0c04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Player">
+      <UniqueIdentifier>{8c64a784-651e-4190-a1e0-63e351c2f53a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Enemy">
+      <UniqueIdentifier>{42de1f58-0a54-4d05-8f9c-eddb7f8e49c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Enemy\Slime">
+      <UniqueIdentifier>{ebe4da18-c6eb-4f78-837b-647710c46f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Beat">
+      <UniqueIdentifier>{e10c5776-0b7b-4275-959d-3b5a15c2a09e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -77,9 +86,6 @@
     </ClCompile>
     <ClCompile Include="MainGame.cpp">
       <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>MainGame\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
       <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
@@ -105,6 +111,18 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>MainGame\Enemy\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime_Green.cpp">
+      <Filter>MainGame\Enemy\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatBox.cpp">
+      <Filter>MainGame\Object\Beat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -127,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="MainGame.h">
       <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="ImageManager.h">
       <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
@@ -154,6 +169,18 @@
     </ClInclude>
     <ClInclude Include="FontManager.h">
       <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>MainGame\Enemy\Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime_Green.h">
+      <Filter>MainGame\Enemy\Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatBox.h">
+      <Filter>MainGame\Object\Beat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

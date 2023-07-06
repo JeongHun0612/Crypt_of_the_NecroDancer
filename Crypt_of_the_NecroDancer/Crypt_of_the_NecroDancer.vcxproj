@@ -117,7 +117,9 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BeatBox.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GImage.cpp" />
@@ -150,6 +153,8 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -157,6 +162,7 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BeatBox.h" />
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameNode.h" />
@@ -169,6 +175,8 @@
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SingletonBase.h" />
+    <ClInclude Include="Slime.h" />
+    <ClInclude Include="Slime_Green.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Timer.h" />

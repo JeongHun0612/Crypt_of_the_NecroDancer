@@ -112,6 +112,7 @@ public:
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
+
 	// = 인라인 함수 = 
 	inline HDC getMemDC(void) { return _imageInfo->hMemDC; }
 

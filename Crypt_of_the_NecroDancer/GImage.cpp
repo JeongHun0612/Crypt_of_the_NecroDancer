@@ -684,4 +684,3 @@ void GImage::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, in
 {
 
 }
-

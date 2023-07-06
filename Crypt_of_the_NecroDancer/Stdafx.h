@@ -99,7 +99,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 // # 매크로 #  ==============================================================================================================
 
 // ! 타이틀
-#define WINNAME				(LPTSTR)(TEXT("WindowsAPI"))
+#define WINNAME				(LPTSTR)(TEXT("Crypt of the NecroDancer"))
 
 // ! 전체 화면 
 //#define FULLSCREEN

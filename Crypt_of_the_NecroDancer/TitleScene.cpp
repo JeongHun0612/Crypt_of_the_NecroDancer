@@ -3,9 +3,6 @@
 
 HRESULT TitleScene::init()
 {
-	IMAGEMANAGER->addImage("title", "Images/UI/title.bmp", WINSIZE_X, WINSIZE_Y);
-	IMAGEMANAGER->addImage("anykey", "Images/UI/anykey.bmp", WINSIZE_X / 3, WINSIZE_Y / 15, true, RGB(255, 0, 255));
-
 	_title = IMAGEMANAGER->findImage("title");
 	_anyKey = IMAGEMANAGER->findImage("anykey");
 
@@ -14,11 +11,12 @@ HRESULT TitleScene::init()
 
 void TitleScene::release()
 {
+	_title->release();
+	_anyKey->release();
 }
 
 void TitleScene::update()
 {
-
 }
 
 void TitleScene::render()
