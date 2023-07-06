@@ -13,6 +13,7 @@ public:
 	void render(void);
 	
 	void addImage();
+	char* getPath(const char* path);
 
 	MainGame() {}
 	~MainGame() {}

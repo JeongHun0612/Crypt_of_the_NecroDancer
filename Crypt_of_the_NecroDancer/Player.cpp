@@ -22,7 +22,7 @@ void Player::release(void)
 
 void Player::update(void)
 {
-	_count += TIMEMANAGER->getElapsedTime();
+	_count += TIMEMANAGER->getDeltaTime();
 
 	if (_count >= 0.2f)
 	{

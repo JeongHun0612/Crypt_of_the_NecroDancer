@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Beat.cpp" />
     <ClCompile Include="BeatBox.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
@@ -155,13 +156,14 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TimeManager.cpp" />
-    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Beat.h" />
     <ClInclude Include="BeatBox.h" />
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="FontManager.h" />
@@ -177,9 +179,9 @@
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Slime_Green.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TimeManager.h" />
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

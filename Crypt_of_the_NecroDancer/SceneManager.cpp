@@ -2,12 +2,9 @@
 #include "SceneManager.h"
 #include "GameNode.h"
 
-//스태틱 변수인 현재씬을 널 값으로 초기화
-GameNode* SceneManager::_currentScene = NULL;
-
 HRESULT SceneManager::init()
 {
-	_currentScene = NULL;
+	_currentScene = nullptr;
 
 	return S_OK;
 }
@@ -18,7 +15,7 @@ void SceneManager::release()
 
 	for (; iter != _mSceneList.end();)
 	{
-		if (iter->second != NULL)
+		if (iter->second != nullptr)
 		{
 			if (iter->second == _currentScene)
 			{
@@ -38,12 +35,18 @@ void SceneManager::release()
 
 void SceneManager::update()
 {
-	if (_currentScene) _currentScene->update();
+	if (_currentScene != nullptr)
+	{
+		_currentScene->update();
+	}
 }
 
 void SceneManager::render()
 {
-	if (_currentScene) _currentScene->render();
+	if (_currentScene != nullptr)
+	{
+		_currentScene->render();
+	}
 }
 
 GameNode* SceneManager::addScene(string sceneName, GameNode* scene)

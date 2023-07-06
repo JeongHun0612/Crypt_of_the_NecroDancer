@@ -11,7 +11,7 @@ private:
 	typedef map<string, GameNode*>::iterator mapSceneIter;
 
 private:
-	static GameNode* _currentScene;		// ÇöÀç ¾À
+	GameNode* _currentScene;			// ÇöÀç ¾À
 	mapSceneList _mSceneList;			// ¾À ¸ñ·Ï
 
 public:

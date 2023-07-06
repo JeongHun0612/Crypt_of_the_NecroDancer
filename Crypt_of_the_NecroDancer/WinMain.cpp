@@ -153,6 +153,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,		 // hInstance       ->   프로그램 인�
 	}
 
 	_mg->release();
+	delete(_mg);
 	UnregisterClass(WINNAME, hInstance);
 
 	return (int)message.wParam;

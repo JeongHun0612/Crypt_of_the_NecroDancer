@@ -3,7 +3,7 @@
 
 HRESULT BeatBox::init(void)
 {
-	_beatBoxImg = IMAGEMANAGER->findImage("beat_box");
+	_beatBoxImg = IMAGEMANAGER->findImage("beat_heart");
 	_rc = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y - _beatBoxImg->getFrameHeight() / 2 - 20, 150, 100);
 
 	_count = 0.0f;
@@ -18,7 +18,7 @@ void BeatBox::release(void)
 void BeatBox::update(void)
 {
 	// 비트 박스 이미지 프레임 변경
-	_count += TIMEMANAGER->getElapsedTime();
+	_count += TIMEMANAGER->getDeltaTime();
 
 	if (_count >= 0.5f)
 	{
@@ -67,7 +67,7 @@ void BeatBox::crateBeatBar()
 {
 	static float count = 0.0f;
 
-	count += TIMEMANAGER->getElapsedTime();
+	count += TIMEMANAGER->getDeltaTime();
 
 	if (count >= 1.0f)
 	{
