@@ -3,10 +3,18 @@
 
 HRESULT BeatBox::init(void)
 {
+	// 심장 이미지
 	_beatBoxImg = IMAGEMANAGER->findImage("beat_heart");
-	_rc = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y - _beatBoxImg->getFrameHeight() / 2 - 20, 150, 100);
+	_rc = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y - 70, 150, 100);
+
+	// 빗나감 이미지
+	_missed.img = IMAGEMANAGER->findImage("missed");
+	_missed.x = WINSIZE_X / 2 - _missed.img->getWidth() / 2;
+	_missed.y = WINSIZE_Y - 90;
+	_missed.alpha = 255;
 
 	_count = 0.0f;
+	_isMissed = false;
 
 	return S_OK;
 }
@@ -45,11 +53,11 @@ void BeatBox::update(void)
 
 void BeatBox::render(void)
 {
-	// 비트 막대기
+	// 노트
 	for (auto iter = _vBeatBar.begin(); iter != _vBeatBar.end(); ++iter)
 	{
 		DrawRectMake(getMemDC(), iter->rc);
-		iter->img->render(getMemDC(), iter->pos.x, iter->pos.y);
+		iter->img->render(getMemDC(), iter->x, iter->y);
 	}
 
 	// 비트 박스 범위
@@ -61,6 +69,10 @@ void BeatBox::render(void)
 		WINSIZE_Y - _beatBoxImg->getFrameHeight() - 20,
 		_beatBoxImg->getFrameX(),
 		_beatBoxImg->getFrameY());
+
+
+	// 빗나감 처리
+	_missed.img->alphaRender(getMemDC(), _missed.x, _missed.y, _missed.alpha);
 }
 
 void BeatBox::crateBeatBar()
@@ -71,22 +83,19 @@ void BeatBox::crateBeatBar()
 
 	if (count >= 1.0f)
 	{
-		for (int i = 0; i < 2; i++)
-		{
-			BeatBar beatBar;
+		BeatBar beatBar[2];
 
-			beatBar.img = IMAGEMANAGER->findImage("beat_bar1");
+		beatBar[LEFT].img = IMAGEMANAGER->findImage("beat_bar1");
+		beatBar[LEFT].x = -50;
+		beatBar[LEFT].y = WINSIZE_Y - 100;
+		beatBar[LEFT].speed = 5.0f;
 
-			beatBar.pos.x = (i % 2 == 0) ? -50 : WINSIZE_X + 50;
-			beatBar.pos.y = WINSIZE_Y - 100;
+		beatBar[RIGHT].img = IMAGEMANAGER->findImage("beat_bar1");
+		beatBar[RIGHT].x = WINSIZE_X + 50;
+		beatBar[RIGHT].y = WINSIZE_Y - 100;
+		beatBar[RIGHT].speed = -5.0f;
 
-			beatBar.rc = { 0 ,0, 0, 0 };
-
-			beatBar.direction = (i % 2 == 0) ? 0 : 1;	// 0 : LEFT  1 : RIGHT
-			beatBar.speed = 5.0f;
-
-			_vBeatBar.push_back(beatBar);
-		}
+		_vBeatBar.push_back(beatBar);
 
 		count = 0.0f;
 	}
@@ -96,20 +105,15 @@ void BeatBox::moveBeatBar()
 {
 	for (auto iter = _vBeatBar.begin(); iter != _vBeatBar.end();)
 	{
-		if (iter->direction == 0)
+		// 노트 이동
+		for (int i = 0; i < 2; i++)
 		{
-			iter->pos.x += iter->speed;
-		}
-		else
-		{
-			iter->pos.x -= iter->speed;
+			iter[i]->x += iter[i]->speed;
+			iter[i]->rc = RectMake(iter[i]->x, iter[i]->y, 12, 64);
 		}
 
-		// 충돌체 위치 재정의
-		iter->rc = RectMake(iter->pos.x, iter->pos.y, 12, 64);
-
-		// 비트 막대기 제거 (가운데 도착했을 시)
-		if (iter->rc.left == WINSIZE_X / 2)
+		// 가운데 오면 삭제
+		if (iter[LEFT]->rc.right == iter[RIGHT]->rc.left)
 		{
 			iter = _vBeatBar.erase(iter);
 		}

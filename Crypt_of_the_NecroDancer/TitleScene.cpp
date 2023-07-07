@@ -6,17 +6,22 @@ HRESULT TitleScene::init()
 	_title = IMAGEMANAGER->findImage("title");
 	_anyKey = IMAGEMANAGER->findImage("anykey");
 
+	SOUNDMANAGER->play("title");
+
 	return S_OK;
 }
 
 void TitleScene::release()
 {
-	_title->release();
-	_anyKey->release();
+	SOUNDMANAGER->stop("title");
 }
 
 void TitleScene::update()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		SCENEMANAGER->changeScene("lobby");
+	}
 }
 
 void TitleScene::render()

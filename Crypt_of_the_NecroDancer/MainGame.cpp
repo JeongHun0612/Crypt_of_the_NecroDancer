@@ -11,9 +11,12 @@ HRESULT MainGame::init(void)
 	// 이미지 추가
 	addImage();
 
+	// 사운드 추가
+	addSound();
+
 	// 씬 추가
-	SCENEMANAGER->addScene("title", new TitleScene);
-	SCENEMANAGER->addScene("lobby", new LobbyScene);
+	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
+	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 
 	SCENEMANAGER->changeScene("lobby");
 
@@ -61,6 +64,7 @@ void MainGame::addImage()
 	IMAGEMANAGER->addImage("beat_bar1", "Resources/Images/HUD/BeatBar1.bmp", 12, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("beat_bar2", "Resources/Images/HUD/BeatBar2.bmp", 12, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("beat_bar3", "Resources/Images/HUD/BeatBar3.bmp", 12, 64, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("missed", "Resources/Images/HUD/Missed.bmp", 72, 26, true, RGB(255, 0, 255));
 
 	// 플레이어
 	IMAGEMANAGER->addFrameImage("player_head", "Resources/Images/Player/Head.bmp", 244, 44, 8, 2, true, RGB(255, 0, 255));
@@ -70,4 +74,11 @@ void MainGame::addImage()
 	IMAGEMANAGER->addFrameImage("slime_green", "Resources/Images/Enemy/Slime/Slime_Green.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_blue", "Resources/Images/Enemy/Slime/Slime_Blue.bmp", 416, 208, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_yellow", "Resources/Images/Enemy/Slime/Slime_Yellow.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
+}
+
+void MainGame::addSound()
+{
+	// BGM
+	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, false);
+	SOUNDMANAGER->addSound("stage1-1", "Resources/Sounds/BGM/stage1-1.mp3", true, false);
 }

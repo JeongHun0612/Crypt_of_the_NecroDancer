@@ -9,6 +9,8 @@ HRESULT Beat::init(void)
 	_heartRate.frameY = 0;
 	_heartRate.frameCount = 0.0f;
 
+	_missed = IMAGEMANAGER->findImage("missed");
+
 	return S_OK;
 }
 

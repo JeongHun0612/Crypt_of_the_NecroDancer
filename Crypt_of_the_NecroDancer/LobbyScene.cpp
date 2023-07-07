@@ -7,11 +7,14 @@ HRESULT LobbyScene::init()
 
 	_player.init();
 
+	SOUNDMANAGER->play("stage1-1");
+
 	return S_OK;
 }
 
 void LobbyScene::release()
 {
+	SOUNDMANAGER->stop("stage1-1");
 }
 
 void LobbyScene::update()
@@ -19,6 +22,11 @@ void LobbyScene::update()
 	_beatBox.update();
 
 	_player.update();
+
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		SCENEMANAGER->changeScene("title");
+	}
 }
 
 void LobbyScene::render()

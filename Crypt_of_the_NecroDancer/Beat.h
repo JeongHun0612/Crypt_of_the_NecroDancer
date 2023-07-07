@@ -26,6 +26,7 @@ private:
 	vector<Note> _vNote;
 
 	FrameImage _heartRate;
+	GImage* _missed;
 
 public:
 	HRESULT init(void);
