@@ -8,6 +8,8 @@ class LobbyScene : public GameNode
 private:
 	Player _player;
 
+	GImage* _tile;
+
 	vector<Slime> _vSlime;
 
 	float _count;

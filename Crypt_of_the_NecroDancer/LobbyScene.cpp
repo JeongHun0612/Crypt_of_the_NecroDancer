@@ -3,10 +3,13 @@
 
 HRESULT LobbyScene::init()
 {
+	SOUNDMANAGER->play("stage1-1");
+
 	BEAT->init();
+
 	_player.init();
 
-	SOUNDMANAGER->play("stage1-1");
+	_tile = IMAGEMANAGER->findImage("tile_terrain");
 
 	return S_OK;
 }
@@ -25,6 +28,7 @@ void LobbyScene::update()
 
 void LobbyScene::render()
 {
+
 	// 비트 출력
 	BEAT->render(getMemDC());
 	

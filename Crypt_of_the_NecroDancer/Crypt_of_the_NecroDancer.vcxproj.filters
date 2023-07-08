@@ -70,6 +70,9 @@
     <Filter Include="2D FrameWork\ManagerClass\SoundManager">
       <UniqueIdentifier>{273645c2-2aa6-435c-a90b-e29d8cd574d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Tile">
+      <UniqueIdentifier>{8db82bd2-3196-4c4c-80c5-270387854a33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">

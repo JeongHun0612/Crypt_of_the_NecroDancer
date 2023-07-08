@@ -68,6 +68,7 @@ void Player::update(void)
 		{
 			_isMove = true;
 		}
+
 	}
 }
 
