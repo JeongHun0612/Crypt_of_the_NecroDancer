@@ -47,6 +47,9 @@ public:
 	void pause(string strKey);
 	void resume(string strKey);
 
+	unsigned int getPosition(string strKey);
+	void setPosition(string strKey, float pos);
+
 	SoundManager();
 	~SoundManager() {}
 };

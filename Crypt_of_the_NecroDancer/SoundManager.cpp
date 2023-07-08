@@ -147,3 +147,34 @@ void SoundManager::resume(string strKey)
 		}
 	}
 }
+
+unsigned int SoundManager::getPosition(string strKey)
+{
+	mapSoundIter iter = _mSoundList.begin();
+	int count = 0;
+
+	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	{
+		if (strKey == iter->first)
+		{
+			unsigned int pos = 0;
+			_channel[count]->getPosition(&pos, FMOD_TIMEUNIT_MS);
+			return pos;
+		}
+	}
+}
+
+void SoundManager::setPosition(string strKey, float pos)
+{
+	mapSoundIter iter = _mSoundList.begin();
+	int count = 0;
+
+	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	{
+		if (strKey == iter->first)
+		{
+			_channel[count]->setPosition(pos, FMOD_TIMEUNIT_MS);
+			break;
+		}
+	}
+}

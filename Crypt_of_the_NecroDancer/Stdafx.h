@@ -32,11 +32,16 @@
 
 //! C++ 런타임 헤더 파일 ============================================================================================================
 #include <iostream>
+#include <fstream>
+#include <istream>
+#include <string>
 
 // C++11에서 추가된 시간 관련 라이브러리 (STL)
 #include <chrono>		
 #include <random>
 #include <vector>
+#include <queue>
+#include <stack>
 #include <map>
 
 /*
@@ -54,9 +59,12 @@ unordered_map : Hash 자료구조
 using namespace std;
 
 using std::vector;
+using std::queue;
+using std::stack;
 using std::map;
 using std::unordered_map;
 using std::bitset;
+using std::string;
 
 /*
 // ! D2D/D3D 헤더 파일 ============================================================================================================

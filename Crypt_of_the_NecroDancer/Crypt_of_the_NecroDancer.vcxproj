@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Beat.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GImage.cpp" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Beat.h" />
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GImage.h" />

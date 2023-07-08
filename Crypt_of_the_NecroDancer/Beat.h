@@ -36,12 +36,14 @@ private:
 
 private:
 	vector<Note> _vNote;
+	queue<int> _qNoteData;
 
 	FrameImage _heartRate;
 
-	float _noteCreateCycle;
+	unsigned int _noteCycle;
 
 	bool _isBeat;
+	bool _isMusic;
 
 public:
 	HRESULT init(void);

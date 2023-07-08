@@ -1,8 +1,12 @@
 #include "Stdafx.h"
 #include "Beat.h"
+#include "FileManager.h"
 
 HRESULT Beat::init(void)
 {
+	// 노트 정보 불러오기 (stage 1-1)
+	FileManager::loadBeatFile("stage1-1.txt", _qNoteData);
+
 	// 심장 박동 초기화
 	_heartRate.img = IMAGEMANAGER->findImage("beat_heart");
 	_heartRate.x = WINSIZE_X_HALF - _heartRate.img->getFrameWidth() / 2;
@@ -12,9 +16,12 @@ HRESULT Beat::init(void)
 	_heartRate.frameY = 0;
 	_heartRate.frameCount = 0.0f;
 
-	_noteCreateCycle = 0.0f;
+	_noteCycle = 0;
 
 	_isBeat = false;
+	_isMusic = true;
+
+	SOUNDMANAGER->setPosition("stage1-1", 170000);
 
 	return S_OK;
 }
@@ -46,9 +53,10 @@ void Beat::update(void)
 	}
 
 	// 노트 생성
-	_noteCreateCycle += TIMEMANAGER->getDeltaTime();
+	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
+	cout << soundPos << endl;
 
-	if (_noteCreateCycle >= 0.5f)
+	if (_noteCycle <= soundPos && _isMusic)
 	{
 		for (int i = 0; i < 2; i++)
 		{
@@ -73,7 +81,14 @@ void Beat::update(void)
 			_vNote.push_back(note);
 		}
 
-		_noteCreateCycle = 0.0f;
+		_noteCycle = _qNoteData.front();
+		_qNoteData.pop();
+
+		// 노트가 비었을 때 음악 종료
+		if (_qNoteData.empty())
+		{
+			_isMusic = false;
+		}
 	}
 
 	for (auto iter = _vNote.begin(); iter != _vNote.end();)
@@ -118,9 +133,10 @@ void Beat::update(void)
 			}
 		}
 
-		cout << _isBeat << endl;
-
-		++iter;
+		if (iter != _vNote.end())
+		{
+			++iter;
+		}
 	}
 }
 
