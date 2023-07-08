@@ -21,12 +21,14 @@ HRESULT GameNode::init(bool managerInit)
 		setlocale(LC_ALL, "korean");
 
 		// ½Ì±ÛÅæ ¸Å´ÏÁ® ÃÊ±âÈ­
-		RND->init();
 		KEYMANAGER->init();
 		IMAGEMANAGER->init();
 		TIMEMANAGER->init();
 		SCENEMANAGER->init();
 		SOUNDMANAGER->init();
+
+		// ½Ì±ÛÅæ Å¬·¡½º ÃÊ±âÈ­
+		RND->init();
 	}
 
 	return S_OK;
@@ -36,8 +38,7 @@ void GameNode::release(void)
 {
 	if (_managerInit)
 	{
-		RND->releaseSingleton();
-
+		// ½Ì±ÛÅæ ¸Å´ÏÁ® ÇØÁ¦
 		KEYMANAGER->releaseSingleton();
 
 		IMAGEMANAGER->release();
@@ -50,6 +51,12 @@ void GameNode::release(void)
 
 		SOUNDMANAGER->release();
 		SOUNDMANAGER->releaseSingleton();
+
+
+		// ½Ì±ÛÅæ Å¬·¡½º ÇØÁ¦
+		RND->releaseSingleton();
+		BEAT->release();
+		BEAT->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);

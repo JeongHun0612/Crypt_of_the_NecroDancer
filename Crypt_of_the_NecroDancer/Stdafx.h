@@ -80,22 +80,27 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 */
 
 // # 사용자 정의 헤더 파일 # ================================================================================================
-#include "CommonMacroFunction.h"
-#include "RandomFunction.h"
 #include "KeyManager.h"
 #include "ImageManager.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
 
+#include "CommonMacroFunction.h"
+#include "RandomFunction.h"
+#include "Beat.h"
+
 
 // # 싱글톤 # ==============================================================================================================
-#define RND RandomFunction::getSingleton()
 #define KEYMANAGER KeyManager::getSingleton()
 #define IMAGEMANAGER ImageManager::getSingleton()
 #define TIMEMANAGER TimeManager::getSingleton()
 #define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
+
+
+#define RND RandomFunction::getSingleton()
+#define BEAT Beat::getSingleton()
 
 
 // # 매크로 #  ==============================================================================================================
@@ -113,6 +118,9 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 // ㄴ SM_CXSCREEN + SM_CYSCREEN = 현재 화면 해상도 X / Y 축 반환
 #define WINSIZE_X		GetSystemMetrics(SM_CXSCREEN)  
 #define WINSIZE_Y		GetSystemMetrics(SM_CYSCREEN)
+
+#define WINSIZE_X_HALF		WINSIZE_X / 2
+#define WINSIZE_Y_HALF		WINSIZE_Y / 2
 #define WINSTYLE		WS_POPUPWINDOW | WS_MAXIMIZE
 
 #else
@@ -120,8 +128,12 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 // ! 윈도우 창 초기화 매크로
 #define WINSTART_X			400
 #define WINSTART_Y			100
+
 #define WINSIZE_X			1280
 #define WINSIZE_Y			800
+
+#define WINSIZE_X_HALF		WINSIZE_X / 2
+#define WINSIZE_Y_HALF		WINSIZE_Y / 2
 
 // WS_CAPTION : 타이틀바를 가지기 위한 옵션
 // WS_SYSMENU : 제목 표시줄에 컨트롤 메뉴 상자 창

@@ -3,8 +3,7 @@
 
 HRESULT LobbyScene::init()
 {
-	_beatBox.init();
-
+	BEAT->init();
 	_player.init();
 
 	SOUNDMANAGER->play("stage1-1");
@@ -19,24 +18,16 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
-	_beatBox.update();
+	BEAT->update();
 
 	_player.update();
-
-	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
-	{
-		SCENEMANAGER->changeScene("title");
-	}
 }
 
 void LobbyScene::render()
 {
-	_beatBox.render();
-
+	// 비트 출력
+	BEAT->render(getMemDC());
+	
+	// 플레이어 출력
 	_player.render();
-
-	//for (auto iter = _vSlime.begin(); iter != _vSlime.end(); ++iter)
-	//{
-	//	iter->render();
-	//}
 }

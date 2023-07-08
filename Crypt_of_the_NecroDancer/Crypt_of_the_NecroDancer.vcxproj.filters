@@ -117,9 +117,6 @@
     <ClCompile Include="Slime_Green.cpp">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClCompile>
-    <ClCompile Include="BeatBox.cpp">
-      <Filter>MainGame\Object\Beat</Filter>
-    </ClCompile>
     <ClCompile Include="Beat.cpp">
       <Filter>MainGame\Object\Beat</Filter>
     </ClCompile>
@@ -178,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="Slime_Green.h">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
-    </ClInclude>
-    <ClInclude Include="BeatBox.h">
-      <Filter>MainGame\Object\Beat</Filter>
     </ClInclude>
     <ClInclude Include="Beat.h">
       <Filter>MainGame\Object\Beat</Filter>

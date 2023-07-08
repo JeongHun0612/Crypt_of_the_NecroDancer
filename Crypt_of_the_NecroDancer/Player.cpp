@@ -24,16 +24,17 @@ void Player::update(void)
 {
 	_count += TIMEMANAGER->getDeltaTime();
 
-	if (_count >= 0.2f)
+	if (_count >= 0.15f)
 	{
 		_headImg->setFrameX(_headImg->getFrameX() + 1);
 		_bodyImg->setFrameX(_bodyImg->getFrameX() + 1);
 
-		if (_headImg->getFrameX() == _headImg->getMaxFrameX() / 2)
+		if (_headImg->getFrameX() == _headImg->getMaxFrameX() / 2 + 1)
 		{
 			_bodyImg->setFrameX(0);
 			_headImg->setFrameX(0);
 		}
+
 
 		_count = 0.0f;
 	}
@@ -42,8 +43,9 @@ void Player::update(void)
 	{
 		moveAction(_curDirection);
 	}
+	
 
-	if (!_isMove)
+	if (!_isMove && BEAT->getBeat())
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
@@ -60,7 +62,6 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_curDirection = PLAYER_DIRECTION::DOWN;
-			_isMove = true;
 		}
 
 		if (_curDirection != PLAYER_DIRECTION::NONE)
@@ -73,6 +74,8 @@ void Player::update(void)
 void Player::render(void)
 {
 	// 플레이어 그리기
+	DrawRectMake(getMemDC(), _rc);
+
 	_bodyImg->frameRender(getMemDC(),
 		_pos.x + _headImg->getFrameWidth() / 2,
 		_pos.y + _headImg->getFrameHeight() / 2 + 16,
@@ -91,29 +94,28 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 	switch (direction)
 	{
 	case PLAYER_DIRECTION::LEFT:
-		_pos.x -= 8;
+		_pos.x -= 4;
 		break;
 	case PLAYER_DIRECTION::RIGHT:
-		_pos.x += 8;
+		_pos.x += 4;
 		break;
 	case PLAYER_DIRECTION::UP:
-		_pos.y -= 8;
+		_pos.y -= 4;
 		break;
 	case PLAYER_DIRECTION::DOWN:
-		_pos.y += 8;
+		_pos.y += 4;
 		break;
 	}
 
-	_rc = RectMake(_pos.x, _pos.y - 8, 64, 64);
-
-	_pos.y += (jumpCount < 4) ? -4 : 4;
+	_pos.y += (jumpCount < 8) ? -2 : 2;
 
 	jumpCount++;
 
-	if (jumpCount == 8)
+	if (jumpCount == 16)
 	{
 		jumpCount = 0;
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
+		_rc = RectMake(_pos.x, _pos.y, 64, 64);
 	}
 }
