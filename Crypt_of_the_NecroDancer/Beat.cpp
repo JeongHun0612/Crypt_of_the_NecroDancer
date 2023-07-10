@@ -16,12 +16,13 @@ HRESULT Beat::init(void)
 	_heartRate.frameY = 0;
 	_heartRate.frameCount = 0.0f;
 
+	_eraseLine = { WINSIZE_X_HALF, WINSIZE_Y - 80 };
+
 	_noteCycle = 0;
 
 	_isBeat = false;
+	_isSuccess = false;
 	_isMusic = true;
-
-	SOUNDMANAGER->setPosition("stage1-1", 170000);
 
 	return S_OK;
 }
@@ -36,7 +37,7 @@ void Beat::update(void)
 	// 심장 박동 애니메이션
 	_heartRate.frameCount += TIMEMANAGER->getDeltaTime();
 
-	if (_heartRate.frameCount >= 0.5f)
+	if (_heartRate.frameCount >= 0.276f)
 	{
 		if (_heartRate.frameX == _heartRate.img->getMaxFrameX())
 		{
@@ -53,10 +54,12 @@ void Beat::update(void)
 	}
 
 	// 노트 생성
-	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
-	cout << soundPos << endl;
+	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
 
-	if (_noteCycle <= soundPos && _isMusic)
+	static int test = 0;
+	test += 10;
+
+	if (_noteCycle <= test && _isMusic)
 	{
 		for (int i = 0; i < 2; i++)
 		{
@@ -70,15 +73,17 @@ void Beat::update(void)
 				note.x = -50;
 				note.speed = 5.0f;
 				note.distance = LEFT;
+
+				_vNoteLeft.push_back(note);
 			}
-			if (i == RIGHT)
+			else
 			{
 				note.x = WINSIZE_X + 50;
 				note.speed = -5.0f;
 				note.distance = RIGHT;
-			}
 
-			_vNote.push_back(note);
+				_vNoteRight.push_back(note);;
+			}
 		}
 
 		_noteCycle = _qNoteData.front();
@@ -91,7 +96,30 @@ void Beat::update(void)
 		}
 	}
 
-	for (auto iter = _vNote.begin(); iter != _vNote.end();)
+	moveNote(_vNoteLeft);
+	moveNote(_vNoteRight);
+}
+
+void Beat::render(HDC hdc)
+{
+	//노트 출력
+	for (auto iter = _vNoteLeft.begin(); iter != _vNoteLeft.end(); ++iter)
+	{
+		iter->img->alphaRender(hdc, iter->x, iter->y, iter->alpha);
+	}
+	for (auto iter = _vNoteRight.begin(); iter != _vNoteRight.end(); ++iter)
+	{
+		iter->img->alphaRender(hdc, iter->x, iter->y, iter->alpha);
+	}
+
+	// 심장 박동 출력
+	_heartRate.img->frameRender(hdc, _heartRate.x, _heartRate.y);
+	//DrawRectMake(hdc, _heartRate.rc);
+}
+
+void Beat::moveNote(vector<Note>& vNote)
+{
+	for (auto iter = vNote.begin(); iter != vNote.end(); ++iter)
 	{
 		// 노트 이동
 		iter->x += iter->speed;
@@ -108,47 +136,19 @@ void Beat::update(void)
 			}
 		}
 
-		if (iter->distance == LEFT)
+		// 노트 키입력 감지 범위 In
+		RECT rt;
+		if (IntersectRect(&rt, &iter->rc, &_heartRate.rc))
 		{
-			// 비트 범위 In
-			if (iter->rc.right >= _heartRate.rc.left)
-			{
-				_isBeat = true;
-
-				// 왼쪽 노드 제거
-				if (iter->rc.right >= WINSIZE_X_HALF)
-				{
-					iter = _vNote.erase(iter);
-					_isBeat = false;
-				}
-			}
+			_isBeat = true;
 		}
 
-		if (iter->distance == RIGHT)
+		// 노트 삭제 라인 도달
+		if (PtInRect(&iter->rc, _eraseLine) || iter->alpha == 0)
 		{
-			// 오른쪽 노드 제거
-			if (iter->rc.left <= WINSIZE_X_HALF)
-			{
-				iter = _vNote.erase(iter);
-			}
-		}
+			iter = vNote.erase(iter);
 
-		if (iter != _vNote.end())
-		{
-			++iter;
+			_isBeat = false;
 		}
 	}
-}
-
-void Beat::render(HDC hdc)
-{
-	 //노트 출력
-	for (auto iter = _vNote.begin(); iter != _vNote.end(); ++iter)
-	{
-		iter->img->alphaRender(hdc, iter->x, iter->y, iter->alpha);
-	}
-
-	// 심장 박동 출력
-	_heartRate.img->frameRender(hdc, _heartRate.x, _heartRate.y);
-	DrawRectMake(hdc, _heartRate.rc);
 }

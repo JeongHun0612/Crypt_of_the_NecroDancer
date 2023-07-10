@@ -7,7 +7,6 @@
 
 using namespace FMOD;
 
-
 // 사운드 버퍼를 총 20개 + 5개의 여유분으로 준비
 #define SOUNDBUFFER 20
 #define EXTRACHANNELBUFFER 5
@@ -27,7 +26,7 @@ private:
 	System* _system;
 
 	// 더블 포인터인 이유
-	// 프로젝트->FMOD(hpp)의 가상함수 -> 코어 로 두 번 건너뛰기 때문이다.
+	// 프로젝트->FMOD(hpp)의 가상함수 -> 코어로 두 번 건너뛰기 때문이다.
 	Sound** _sound;
 	Channel** _channel;
 

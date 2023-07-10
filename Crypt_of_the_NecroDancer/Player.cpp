@@ -43,7 +43,6 @@ void Player::update(void)
 	{
 		moveAction(_curDirection);
 	}
-	
 
 	if (!_isMove && BEAT->getBeat())
 	{
@@ -67,8 +66,8 @@ void Player::update(void)
 		if (_curDirection != PLAYER_DIRECTION::NONE)
 		{
 			_isMove = true;
+			BEAT->setSuccess(true);
 		}
-
 	}
 }
 
@@ -117,6 +116,7 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		jumpCount = 0;
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
-		_rc = RectMake(_pos.x, _pos.y, 64, 64);
+		_rc = RectMake(_pos.x, _pos.y, TILESIZE, TILESIZE);
+		BEAT->setSuccess(false);
 	}
 }

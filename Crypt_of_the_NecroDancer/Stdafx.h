@@ -149,7 +149,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #endif
 
 // ! 타일 객체 초기화 매크로
-#define TILESIZE			39
+#define TILESIZE			64
 
 
 
