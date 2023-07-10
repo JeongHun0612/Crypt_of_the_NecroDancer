@@ -6,12 +6,14 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
-	_pos = { WINSIZE_X / 2, WINSIZE_Y / 2 + 16 };
+	_posIdx = { 10, 6 };
+	_pos = { _posIdx.x * TILESIZE, _posIdx.y * TILESIZE };
 
 	_rc = RectMake(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
 
 	_isMove = false;
+	_isLeft = false;
 
 	return S_OK;
 }
@@ -26,15 +28,25 @@ void Player::update(void)
 
 	if (_count >= 0.15f)
 	{
-		_headImg->setFrameX(_headImg->getFrameX() + 1);
-		_bodyImg->setFrameX(_bodyImg->getFrameX() + 1);
-
-		if (_headImg->getFrameX() == _headImg->getMaxFrameX() / 2 + 1)
+		if (_isLeft)
 		{
-			_bodyImg->setFrameX(0);
-			_headImg->setFrameX(0);
+			if (_headImg->getFrameX() == _headImg->getMaxFrameX())
+			{
+				_bodyImg->setFrameX(4);
+				_headImg->setFrameX(4);
+			}
+		}
+		else
+		{
+			if (_headImg->getFrameX() == _headImg->getMaxFrameX() / 2)
+			{
+				_bodyImg->setFrameX(0);
+				_headImg->setFrameX(0);
+			}
 		}
 
+		_headImg->setFrameX(_headImg->getFrameX() + 1);
+		_bodyImg->setFrameX(_bodyImg->getFrameX() + 1);
 
 		_count = 0.0f;
 	}
@@ -49,10 +61,16 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
 			_curDirection = PLAYER_DIRECTION::LEFT;
+			_isLeft = true;
+			_bodyImg->setFrameX(4);
+			_headImg->setFrameX(4);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
 			_curDirection = PLAYER_DIRECTION::RIGHT;
+			_isLeft = false;
+			_bodyImg->setFrameX(0);
+			_headImg->setFrameX(0);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
@@ -71,19 +89,19 @@ void Player::update(void)
 	}
 }
 
-void Player::render(void)
+void Player::render(HDC hdc)
 {
 	// 플레이어 그리기
-	DrawRectMake(getMemDC(), _rc);
+	DrawRectMake(hdc, _rc);
 
-	_bodyImg->frameRender(getMemDC(),
-		_pos.x + _headImg->getFrameWidth() / 2,
-		_pos.y + _headImg->getFrameHeight() / 2 + 16,
+	_bodyImg->frameRender(hdc,
+		_pos.x + (TILESIZE / 2) - _bodyImg->getFrameWidth() / 2,
+		_pos.y + (TILESIZE / 2) - _bodyImg->getFrameHeight() / 2 + 10,
 		_bodyImg->getFrameX(), _bodyImg->getFrameY());
 
-	_headImg->frameRender(getMemDC(),
-		_pos.x + _headImg->getFrameWidth() / 2,
-		_pos.y + _headImg->getFrameHeight() / 2,
+	_headImg->frameRender(hdc,
+		_pos.x + (TILESIZE / 2) - _headImg->getFrameWidth() / 2,
+		_pos.y + (TILESIZE / 2) - _headImg->getFrameHeight() / 2 - 11,
 		_headImg->getFrameX(), _headImg->getFrameY());
 }
 
@@ -117,6 +135,7 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
 		_rc = RectMake(_pos.x, _pos.y, TILESIZE, TILESIZE);
+		_posIdx = { _pos.x / TILESIZE, _pos.y / TILESIZE };
 		BEAT->setSuccess(false);
 	}
 }

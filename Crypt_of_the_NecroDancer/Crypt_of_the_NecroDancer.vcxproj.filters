@@ -76,6 +76,9 @@
     <Filter Include="2D FrameWork\ManagerClass\FileManager">
       <UniqueIdentifier>{7fc91411-deac-4028-8fd8-b4eab7499bce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D FrameWork\Camera">
+      <UniqueIdentifier>{5e83fcd0-5225-4f4e-a246-34be1e4c6624}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -131,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
       <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>2D FrameWork\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>MainGame\Object\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +202,12 @@
     </ClInclude>
     <ClInclude Include="FileManager.h">
       <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>2D FrameWork\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

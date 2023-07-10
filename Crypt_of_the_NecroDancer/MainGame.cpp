@@ -20,7 +20,6 @@ HRESULT MainGame::init(void)
 
 	SCENEMANAGER->changeScene("lobby");
 
-
 	return S_OK;
 }
 
@@ -51,10 +50,6 @@ void MainGame::render(void)
 
 void MainGame::addImage()
 {
-	//char path[128] = "../Resources/";
-	//strcat_s(path, sizeof(path), "Images/UI/Title.bmp");
-	//cout << path << endl;
-
 	// 타이틀 화면
 	IMAGEMANAGER->addImage("title", "Resources/Images/UI/Title.bmp", WINSIZE_X, WINSIZE_Y);
 	IMAGEMANAGER->addImage("anykey", "Resources/Images/UI/Anykey.bmp", WINSIZE_X / 3, WINSIZE_Y / 15, true, RGB(255, 0, 255));
@@ -70,7 +65,7 @@ void MainGame::addImage()
 	IMAGEMANAGER->addImage("missed", "Resources/Images/HUD/Missed.bmp", 72, 26, true, RGB(255, 0, 255));
 
 	// 플레이어
-	IMAGEMANAGER->addFrameImage("player_head", "Resources/Images/Player/Head.bmp", 244, 44, 8, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("player_head", "Resources/Images/Player/Head.bmp", 224, 44, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("player_body", "Resources/Images/Player/Body.bmp", 272, 300, 8, 10, true, RGB(255, 0, 255));
 
 	// 몬스터 - 슬라임

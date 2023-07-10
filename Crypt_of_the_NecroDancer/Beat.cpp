@@ -18,7 +18,8 @@ HRESULT Beat::init(void)
 
 	_eraseLine = { WINSIZE_X_HALF, WINSIZE_Y - 80 };
 
-	_noteCycle = 0;
+	_noteCycle = _qNoteData.front();
+	_qNoteData.pop();
 
 	_isBeat = false;
 	_isSuccess = false;
@@ -54,12 +55,9 @@ void Beat::update(void)
 	}
 
 	// 노트 생성
-	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
+	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
 
-	static int test = 0;
-	test += 10;
-
-	if (_noteCycle <= test && _isMusic)
+	if (_noteCycle <= soundPos && _isMusic)
 	{
 		for (int i = 0; i < 2; i++)
 		{

@@ -17,20 +17,26 @@ private:
 	GImage* _bodyImg;
 
 	POINT _pos;
+	POINT _posIdx;
+
 	RECT _rc;
 
 	PLAYER_DIRECTION _curDirection;
 
 	bool _isMove;
+	bool _isLeft;
 	float _count;
 
 public:
 	HRESULT init(void);
 	void release(void);
 	void update(void);
-	void render(void);
+	void render(HDC hdc);
 
 	void moveAction(PLAYER_DIRECTION direction);
+
+	POINT getPos() { return _pos; }
+	POINT getPosIdx() { return _posIdx; }
 
 	Player() {}
 	~Player() {}

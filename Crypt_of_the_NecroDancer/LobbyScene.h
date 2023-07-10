@@ -3,16 +3,31 @@
 #include "Player.h"
 #include "Slime_Green.h"
 
+#define MAX_TILE_COL		50
+#define MAX_TILE_ROW		50
+
 class LobbyScene : public GameNode
 {
+public:
+	struct Tile
+	{
+		POINT imgNum;
+		POINT posIdx;
+		POINT size;
+		RECT rc;
+	};
+
 private:
 	Player _player;
 
-	GImage* _tile;
+	GImage* _tileImg;
+	Tile _tile[MAX_TILE_ROW][MAX_TILE_COL];
 
-	vector<Slime> _vSlime;
+	RECT _camera;
 
 	float _count;
+	
+	int testCount;
 
 public:
 	HRESULT init();
