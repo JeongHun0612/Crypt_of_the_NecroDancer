@@ -17,22 +17,16 @@ public:
 		RECT rc;
 	};
 
-	struct Camera
-	{
-		float x, y;
-	};
-
 private:
 	Player _player;
 
 	GImage* _tileImg;
 	Tile _tile[MAX_TILE_ROW][MAX_TILE_COL];
 
-	Camera _camera;
-
 	float _count;
-	
-	int testCount;
+
+	int tileCountX;
+	int tileCountY;
 
 public:
 	HRESULT init();

@@ -85,3 +85,16 @@ bool KeyManager::isToggleKey(int key)
 
 	return false;
 }
+
+bool KeyManager::isAnyKeyDown()
+{
+	for (int i = 0; i < KEY_MAX; i++)
+	{
+		if (GetAsyncKeyState(i) & 0x8000)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

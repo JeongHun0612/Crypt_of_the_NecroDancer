@@ -40,9 +40,6 @@ HRESULT LobbyScene::init()
 		}
 	}
 
-	_camera.x = 0;
-	_camera.y = 0;
-
 	return S_OK;
 }
 
@@ -56,37 +53,44 @@ void LobbyScene::update()
 {
 	BEAT->update();
 
-	if (KEYMANAGER->isStayKeyDown('A'))
-	{
-		_camera.x -= 5.0f;
-	}
-	if (KEYMANAGER->isStayKeyDown('D'))
-	{
-		_camera.x += 5.0f;
-	}
-	if (KEYMANAGER->isStayKeyDown('W'))
-	{
-		_camera.y -= 5.0f;
-	}
-	if (KEYMANAGER->isStayKeyDown('S'))
-	{
-		_camera.y += 5.0f;
-	}
-
 	_player.update();
 }
 
 void LobbyScene::render()
 {
-	for (int i = 0; i < MAX_TILE_ROW; i++)
+	//for (int i = 0; i < MAX_TILE_ROW; i++)
+	//{
+	//	for (int j = 0; j < MAX_TILE_COL; j++)
+	//	{
+	//		_tileImg->render(getMemDC(), j * 64 - CAMERA->getLookPos().x, i * 64 - CAMERA->getLookPos().y, _tile[i][j].imgNum.x, _tile[i][j].imgNum.y, TILESIZE, TILESIZE);
+	//	}
+	//}
+
+	for (int i = CAMERA->getLookPosIdx().y - 8; i < CAMERA->getLookPosIdx().y + 8; i++, tileCountY++)
 	{
-		for (int j = 0; j < MAX_TILE_COL; j++)
+		for (int j = CAMERA->getLookPosIdx().x - 11; j < CAMERA->getLookPosIdx().x + 11; j++, tileCountX++)
 		{
-			_tileImg->render(getMemDC(), j * 64 - _camera.x, i * 64 - _camera.y, _tile[i][j].imgNum.x, _tile[i][j].imgNum.y, TILESIZE, TILESIZE);
+			if (j < 0 || i < 0) continue;
+
+			if (j >= MAX_TILE_COL || i >= MAX_TILE_ROW) continue;
+
+			_tileImg->render(getMemDC(),
+				tileCountX * 64 - CAMERA->getLookPos().x,
+				tileCountY * 64 - CAMERA->getLookPos().y,
+				_tile[j][i].imgNum.x, 
+				_tile[j][i].imgNum.y, TILESIZE, TILESIZE);
+
+			if (j == CAMERA->getLookPosIdx().x + 11 - 1)
+			{
+				tileCountX = 0;
+			}
+ 		}
+
+		if (i == CAMERA->getLookPosIdx().y + 8 - 1)
+		{
+			tileCountY = 0;
 		}
 	}
-
-
 
 	// 비트 출력
 	BEAT->render(getMemDC());

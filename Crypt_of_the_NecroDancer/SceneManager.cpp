@@ -4,8 +4,6 @@
 
 HRESULT SceneManager::init()
 {
-	_currentScene = nullptr;
-
 	return S_OK;
 }
 

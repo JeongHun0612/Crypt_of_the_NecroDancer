@@ -16,6 +16,7 @@ public:
 	bool isOnceKeyUp(int key);		// 한번 누르고 띄었는지
 	bool isStayKeyDown(int key);	// 키가 계속 눌려 있는지
 	bool isToggleKey(int key);		// 토글키
+	bool isAnyKeyDown();			// 아무키나 입력했을 시
 
 	bitset<KEY_MAX> getKeyUp(void) { return _keyUp; }
 	bitset<KEY_MAX> getKeyDown(void) { return _keyDown; }

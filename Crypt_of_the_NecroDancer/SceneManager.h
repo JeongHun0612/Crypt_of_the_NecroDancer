@@ -24,7 +24,7 @@ public:
 
 	HRESULT changeScene(string sceneName);
 
-	SceneManager() {}
+	SceneManager() : _currentScene(nullptr) {}
 	~SceneManager() {}
 };
 
