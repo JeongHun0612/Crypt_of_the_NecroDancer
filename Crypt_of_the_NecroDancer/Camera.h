@@ -4,9 +4,9 @@
 class Camera : public SingletonBase<Camera>
 {
 private:
-	float _moveSpeed;
 	float _posX;
 	float _posY;
+	float _moveSpeed;
 	RECT _rc;
 
 public:

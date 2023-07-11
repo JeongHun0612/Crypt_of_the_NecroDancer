@@ -9,10 +9,10 @@ HRESULT MainGame::init(void)
 	GameNode::init(true);
 
 	// 이미지 추가
-	addImage();
+	initImage();
 
 	// 사운드 추가
-	addSound();
+	initSound();
 
 	// 씬 추가
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
@@ -48,7 +48,7 @@ void MainGame::render(void)
 	this->getBackBuffer()->render(getHDC(), 0, 0);
 }
 
-void MainGame::addImage()
+void MainGame::initImage()
 {
 	// 타이틀 화면
 	IMAGEMANAGER->addImage("title", "Resources/Images/UI/Title.bmp", WINSIZE_X, WINSIZE_Y);
@@ -74,7 +74,7 @@ void MainGame::addImage()
 	IMAGEMANAGER->addFrameImage("slime_yellow", "Resources/Images/Enemy/Slime/Slime_Yellow.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 }
 
-void MainGame::addSound()
+void MainGame::initSound()
 {
 	// BGM
 	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, false);

@@ -4,7 +4,6 @@
 class MainGame : public GameNode
 {
 private:
-	RECT rc;
 
 public:
 	HRESULT init(void);
@@ -12,8 +11,8 @@ public:
 	void update(void);
 	void render(void);
 	
-	void addImage();
-	void addSound();
+	void initImage();
+	void initSound();
 
 	MainGame() {}
 	~MainGame() {}

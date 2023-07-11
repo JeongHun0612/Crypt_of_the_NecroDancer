@@ -40,10 +40,8 @@ HRESULT LobbyScene::init()
 		}
 	}
 
-	_camera = RectMakeCenter(_player.getPos().x, _player.getPos().y, WINSIZE_X, WINSIZE_Y);
-
-	cout << _camera.left << endl;
-	cout << _camera.top << endl;
+	_camera.x = 0;
+	_camera.y = 0;
 
 	return S_OK;
 }
@@ -51,58 +49,48 @@ HRESULT LobbyScene::init()
 
 void LobbyScene::release()
 {
-	SOUNDMANAGER->stop("stage1-1");                                                                                                       
+	SOUNDMANAGER->stop("stage1-1");
 }
 
 void LobbyScene::update()
 {
 	BEAT->update();
 
+	if (KEYMANAGER->isStayKeyDown('A'))
+	{
+		_camera.x -= 5.0f;
+	}
+	if (KEYMANAGER->isStayKeyDown('D'))
+	{
+		_camera.x += 5.0f;
+	}
+	if (KEYMANAGER->isStayKeyDown('W'))
+	{
+		_camera.y -= 5.0f;
+	}
+	if (KEYMANAGER->isStayKeyDown('S'))
+	{
+		_camera.y += 5.0f;
+	}
+
 	_player.update();
 }
 
 void LobbyScene::render()
 {
-	//for (int i = 0; i < 14; i++)
-	//{
-	//	for (int j = 0; j < 21; j++)
-	//	{
-	//		if (_player.getPosIdx().y - 5 >= 0 && j - _player.getPosIdx().x - 6 >= 0)
-	//		{
-	//			_tileImg->render(getMemDC(), _tile[i][j].posIdx.x * 64, _tile[i][j].posIdx.y * 64, _tile[i][j].imgNum.x, _tile[i][j].imgNum.y, _tile[i][j].size.x, _tile[i][j].size.y);
-	//		}
-	//	}
-	//}
-
-	//for (int i = 0; i < MAX_TILE_ROW; i++)
-	//{
-	//	for (int j = 0; j < MAX_TILE_COL; j++)
-	//	{
-	//		_tileImg->render(getMemDC(), _tile[i][j].posIdx.x * 64, _tile[i][j].posIdx.y * 64, _tile[i][j].imgNum.x, _tile[i][j].imgNum.y, _tile[i][j].size.x, _tile[i][j].size.y);
-
-	//		RECT rt;
-	//		if (IntersectRect(&rt, &_camera, &_tile[i][j].rc))
-	//		{
-	//			printf("[%d, %d]", _tile[i][j].posIdx.x, _tile[i][j].posIdx.y);
-	//		}
-	//	}
-	//}
-
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < MAX_TILE_ROW; i++)
 	{
-		for (int j = 0; j < 21; j++)
+		for (int j = 0; j < MAX_TILE_COL; j++)
 		{
-			if (_camera.left + (j * 64) >= 0 && _camera.top + (i * 64) >= 0)
-			{
-				_tileImg->render(getMemDC(), j * 64, i * 64, 0, 0, 64, 64);
-			}
+			_tileImg->render(getMemDC(), j * 64 - _camera.x, i * 64 - _camera.y, _tile[i][j].imgNum.x, _tile[i][j].imgNum.y, TILESIZE, TILESIZE);
 		}
 	}
 
 
+
 	// 비트 출력
 	BEAT->render(getMemDC());
-	
+
 	// 플레이어 출력
 	_player.render(getMemDC());
 }

@@ -6,10 +6,10 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
-	_posIdx = { 10, 6 };
-	_pos = { _posIdx.x * TILESIZE, _posIdx.y * TILESIZE };
+	_posIdx = { 0, 0 };
+	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
 
-	_rc = RectMake(_pos.x, _pos.y, 64, 64);
+	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
 
 	_isMove = false;
@@ -95,13 +95,13 @@ void Player::render(HDC hdc)
 	DrawRectMake(hdc, _rc);
 
 	_bodyImg->frameRender(hdc,
-		_pos.x + (TILESIZE / 2) - _bodyImg->getFrameWidth() / 2,
-		_pos.y + (TILESIZE / 2) - _bodyImg->getFrameHeight() / 2 + 10,
+		_pos.x - _bodyImg->getFrameWidth() / 2,
+		_pos.y - _bodyImg->getFrameHeight() / 2 + 10,
 		_bodyImg->getFrameX(), _bodyImg->getFrameY());
 
 	_headImg->frameRender(hdc,
-		_pos.x + (TILESIZE / 2) - _headImg->getFrameWidth() / 2,
-		_pos.y + (TILESIZE / 2) - _headImg->getFrameHeight() / 2 - 11,
+		_pos.x - _headImg->getFrameWidth() / 2,
+		_pos.y - _headImg->getFrameHeight() / 2 - 11,
 		_headImg->getFrameX(), _headImg->getFrameY());
 }
 
@@ -134,7 +134,7 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		jumpCount = 0;
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
-		_rc = RectMake(_pos.x, _pos.y, TILESIZE, TILESIZE);
+		_rc = RectMakeCenter(_pos.x, _pos.y, TILESIZE, TILESIZE);
 		_posIdx = { _pos.x / TILESIZE, _pos.y / TILESIZE };
 		BEAT->setSuccess(false);
 	}
