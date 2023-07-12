@@ -6,7 +6,7 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
-	_posIdx = { 0, 0 };
+	_posIdx = { 1, 1 };
 	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
@@ -14,9 +14,6 @@ HRESULT Player::init(void)
 
 	_isMove = false;
 	_isLeft = false;
-
-	CAMERA->setLookPosIdx(_posIdx.x, _posIdx.y);
-	CAMERA->setLookPos(_pos.x, _pos.y);
 
 	return S_OK;
 }
@@ -128,8 +125,6 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		break;
 	}
 
-	CAMERA->setLookPos(_pos.x, _pos.y);
-
 	_pos.y += (jumpCount < 8) ? -2 : 2;
 
 	jumpCount++;
@@ -141,7 +136,6 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		_curDirection = PLAYER_DIRECTION::NONE;
 		_rc = RectMakeCenter(_pos.x, _pos.y, TILESIZE, TILESIZE);
 		_posIdx = { _pos.x / TILESIZE, _pos.y / TILESIZE };
-		CAMERA->setLookPosIdx(_posIdx.x, _posIdx.y);
 		BEAT->setSuccess(false);
 	}
 }

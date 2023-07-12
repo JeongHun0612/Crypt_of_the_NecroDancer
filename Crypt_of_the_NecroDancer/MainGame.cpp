@@ -3,6 +3,7 @@
 
 #include "TitleScene.h"
 #include "LobbyScene.h"
+#include "TestScene.h"
 
 HRESULT MainGame::init(void)
 {
@@ -18,7 +19,9 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 
-	SCENEMANAGER->changeScene("lobby");
+	SCENEMANAGER->addScene("test", new TestScene);				// 테스트 씬
+
+	SCENEMANAGER->changeScene("test");
 
 	return S_OK;
 }
@@ -55,7 +58,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("anykey", "Resources/Images/UI/Anykey.bmp", WINSIZE_X / 3, WINSIZE_Y / 15, true, RGB(255, 0, 255));
 
 	// 타일
-	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0 ,255));
+	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("tile_wall", "Resources/Images/Tile/WallTile.bmp", 320, 1107, true, RGB(255, 0 ,255));
 
 	// HUD
 	IMAGEMANAGER->addFrameImage("beat_heart", "Resources/Images/HUD/BeatHeart.bmp", 164, 104, 2, 1, true, RGB(255, 0, 255));

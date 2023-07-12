@@ -3,8 +3,7 @@
 
 HRESULT Camera::init(void)
 {
-    _lookPos = { 0, 0 };
-    _lookPosIdx = { 0, 0 };
+    _targetPos = { 0.0f, 0.0f };
 
     return S_OK;
 }
@@ -21,3 +20,4 @@ void Camera::update(void)
 void Camera::render(HDC hdc)
 {
 }
+

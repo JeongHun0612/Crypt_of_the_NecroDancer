@@ -11,7 +11,7 @@ class LobbyScene : public GameNode
 public:
 	struct Tile
 	{
-		POINT imgNum;
+		int imgNum;
 		POINT posIdx;
 		POINT size;
 		RECT rc;
@@ -22,6 +22,8 @@ private:
 
 	GImage* _tileImg;
 	Tile _tile[MAX_TILE_ROW][MAX_TILE_COL];
+
+	Tile _testTile[4][4];
 
 	float _count;
 

@@ -4,8 +4,7 @@
 class Camera : public SingletonBase<Camera>
 {
 private:
-	POINT _lookPos;
-	POINT _lookPosIdx;
+	POINTFLOAT _targetPos;
 
 public:
 	HRESULT init(void);
@@ -13,11 +12,8 @@ public:
 	void update(void);
 	void render(HDC hdc);
 
+	void setTargetPos(float x, float y) { _targetPos = { x, y }; }
 
-	POINT getLookPos() { return _lookPos; }
-	void setLookPos(int x, int y) { _lookPos = { x, y }; }
-
-	POINT getLookPosIdx() { return _lookPosIdx; }
-	void setLookPosIdx(int x, int y) { _lookPosIdx = { x, y }; }
+	float getDiffX(float objPosX) { return objPosX - 640.f; }
+	float getDiffY(float objPosY) { return objPosY - 400.f; }
 };
-
