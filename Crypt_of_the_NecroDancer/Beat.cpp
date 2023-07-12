@@ -55,11 +55,12 @@ void Beat::update(void)
 	}
 
 	// 노트 생성
-	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
-	static int test = 0;
-	test += 10;
+	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
 
-	if (_noteCycle <= test && _isMusic)
+	//static int test = 0;
+	//test += 10;
+
+	if (_noteCycle <= soundPos && _isMusic)
 	{
 		for (int i = 0; i < 2; i++)
 		{

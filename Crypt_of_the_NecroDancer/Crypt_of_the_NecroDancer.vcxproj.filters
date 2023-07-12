@@ -82,6 +82,9 @@
     <Filter Include="MainGame\Scene\TestScene">
       <UniqueIdentifier>{1ec34570-aa5e-4ee6-9981-29a57f6fead4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Scene\Stage">
+      <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -146,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>MainGame\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCameraScene.cpp">
+      <Filter>MainGame\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +226,12 @@
     </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>MainGame\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCameraScene.h">
+      <Filter>MainGame\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

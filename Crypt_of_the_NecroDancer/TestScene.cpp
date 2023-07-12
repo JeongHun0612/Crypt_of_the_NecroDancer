@@ -96,11 +96,11 @@ void TestScene::release(void)
 
 void TestScene::update(void)
 {
-	CAMERA->setTargetPos(_pos.x, _pos.y);
+	//CAMERA->setTargetPos(_pos.x, _pos.y);
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (!_tileWall[_posIdx.y][_posIdx.x - 1].isColiider)
+		if (!_tileTest[_posIdx.y][_posIdx.x - 1].isColiider)
 		{
 			_pos.x -= 64.f;
 			_posIdx.x--;
@@ -108,7 +108,7 @@ void TestScene::update(void)
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (!_tileWall[_posIdx.y][_posIdx.x + 1].isColiider)
+		if (!_tileTest[_posIdx.y][_posIdx.x + 1].isColiider)
 		{
 			_pos.x += 64.f;
 			_posIdx.x++;
@@ -116,7 +116,7 @@ void TestScene::update(void)
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (!_tileWall[_posIdx.y - 1][_posIdx.x].isColiider)
+		if (!_tileTest[_posIdx.y - 1][_posIdx.x].isColiider)
 		{
 			_pos.y -= 64.f;
 			_posIdx.y--;
@@ -124,7 +124,7 @@ void TestScene::update(void)
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (!_tileWall[_posIdx.y + 1][_posIdx.x].isColiider)
+		if (!_tileTest[_posIdx.y + 1][_posIdx.x].isColiider)
 		{
 			_pos.y += 64.f;
 			_posIdx.y++;
@@ -141,7 +141,7 @@ void TestScene::render(void)
 			if (_posIdx.x + j < 0 || _posIdx.y + i < 0) continue;
 
 			// 29 == tile max count
-			if (_posIdx.x + j > 29 || _posIdx.y + i > 29) continue;
+			if (_posIdx.x + j > 7 || _posIdx.y + i > 7) continue;
 
 			//RectangleMakeCenter(getMemDC(), WINSIZE_X_HALF + (j * 64), WINSIZE_Y_HALF + (i * 64), 64, 64);
 
@@ -184,5 +184,5 @@ void TestScene::render(void)
 	sprintf_s(idx, "[%d, %d]", _posIdx.x, _posIdx.y);
 	TextOut(getMemDC(), WINSIZE_X - 50, 0, idx, strlen(idx));
 
-	RectangleMakeCenter(getMemDC(), _pos.x - CAMERA->getDiffX(_pos.x), _pos.y - CAMERA->getDiffY(_pos.y), 64, 64);
+	RectangleMakeCenter(getMemDC(), _pos.x, _pos.y, 64, 64);
 }

@@ -21,7 +21,6 @@ private:
 
 	Tile _tileTest[8][8];
 
-
 	Tile _tileTerrain[30][30];
 	Tile _tileWall[30][30];
 

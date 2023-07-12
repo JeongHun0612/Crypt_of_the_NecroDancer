@@ -7,7 +7,7 @@ HRESULT Player::init(void)
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
 	_posIdx = { 1, 1 };
-	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
+	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
@@ -24,6 +24,9 @@ void Player::release(void)
 
 void Player::update(void)
 {
+	// 카메라 업데이트
+	CAMERA->setTargetPos(_pos.x, _pos.y);
+
 	_count += TIMEMANAGER->getDeltaTime();
 
 	if (_count >= 0.15f)
@@ -61,6 +64,7 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
 			_curDirection = PLAYER_DIRECTION::LEFT;
+			_posIdx.x--;
 			_isLeft = true;
 			_bodyImg->setFrameX(4);
 			_headImg->setFrameX(4);
@@ -68,6 +72,7 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
 			_curDirection = PLAYER_DIRECTION::RIGHT;
+			_posIdx.x++;
 			_isLeft = false;
 			_bodyImg->setFrameX(0);
 			_headImg->setFrameX(0);
@@ -75,10 +80,12 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
 			_curDirection = PLAYER_DIRECTION::UP;
+			_posIdx.y--;
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_curDirection = PLAYER_DIRECTION::DOWN;
+			_posIdx.y++;
 		}
 
 		if (_curDirection != PLAYER_DIRECTION::NONE)
@@ -87,6 +94,9 @@ void Player::update(void)
 			BEAT->setSuccess(true);
 		}
 	}
+
+	//_pos.x += ((float)WINSIZE_X_HALF - _pos.x) * TIMEMANAGER->getDeltaTime() * 5.f;
+	//_pos.y += ((float)WINSIZE_Y_HALF - _pos.y) * TIMEMANAGER->getDeltaTime() * 5.f;
 }
 
 void Player::render(HDC hdc)
@@ -135,7 +145,6 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
 		_rc = RectMakeCenter(_pos.x, _pos.y, TILESIZE, TILESIZE);
-		_posIdx = { _pos.x / TILESIZE, _pos.y / TILESIZE };
 		BEAT->setSuccess(false);
 	}
 }

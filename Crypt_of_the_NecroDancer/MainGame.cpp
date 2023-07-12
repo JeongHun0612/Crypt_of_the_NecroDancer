@@ -3,7 +3,10 @@
 
 #include "TitleScene.h"
 #include "LobbyScene.h"
+#include "GameScene.h"
+
 #include "TestScene.h"
+#include "TestCameraScene.h"
 
 HRESULT MainGame::init(void)
 {
@@ -18,10 +21,12 @@ HRESULT MainGame::init(void)
 	// 씬 추가
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
+	SCENEMANAGER->addScene("game", new GameScene);				// 인게임
 
-	SCENEMANAGER->addScene("test", new TestScene);				// 테스트 씬
+	SCENEMANAGER->addScene("test", new TestScene);							// 테스트 씬
+	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// 테스트 씬
 
-	SCENEMANAGER->changeScene("test");
+	SCENEMANAGER->changeScene("testCamera");
 
 	return S_OK;
 }
