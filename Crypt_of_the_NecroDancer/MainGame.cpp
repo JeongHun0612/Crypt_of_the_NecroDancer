@@ -26,7 +26,7 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("test", new TestScene);							// Å×½ºÆ® ¾À
 	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// Å×½ºÆ® ¾À
 
-	SCENEMANAGER->changeScene("testCamera");
+	SCENEMANAGER->changeScene("lobby");
 
 	return S_OK;
 }
@@ -64,7 +64,9 @@ void MainGame::initImage()
 
 	// Å¸ÀÏ
 	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("tile_wall", "Resources/Images/Tile/WallTile.bmp", 320, 1107, true, RGB(255, 0 ,255));
+
+	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 128, 128, 2, 2, true, RGB(255, 0 ,255));
+	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1107, 5, 9, true, RGB(255, 0, 255));
 
 	// HUD
 	IMAGEMANAGER->addFrameImage("beat_heart", "Resources/Images/HUD/BeatHeart.bmp", 164, 104, 2, 1, true, RGB(255, 0, 255));

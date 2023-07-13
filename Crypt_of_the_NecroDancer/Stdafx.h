@@ -153,6 +153,8 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 // ! 타일 객체 초기화 매크로
 #define TILESIZE			64
 
+#define MAX_TILE_COL		10
+#define MAX_TILE_ROW		10
 
 
 // # 매크로 함수 #  ================================================================================================================

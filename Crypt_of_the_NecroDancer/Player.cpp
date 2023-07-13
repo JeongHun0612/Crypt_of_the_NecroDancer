@@ -24,9 +24,6 @@ void Player::release(void)
 
 void Player::update(void)
 {
-	// 카메라 업데이트
-	CAMERA->setTargetPos(_pos.x, _pos.y);
-
 	_count += TIMEMANAGER->getDeltaTime();
 
 	if (_count >= 0.15f)
@@ -61,7 +58,7 @@ void Player::update(void)
 
 	if (!_isMove && BEAT->getBeat())
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && !_isCollider)
 		{
 			_curDirection = PLAYER_DIRECTION::LEFT;
 			_posIdx.x--;
@@ -69,7 +66,7 @@ void Player::update(void)
 			_bodyImg->setFrameX(4);
 			_headImg->setFrameX(4);
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && !_isCollider)
 		{
 			_curDirection = PLAYER_DIRECTION::RIGHT;
 			_posIdx.x++;
@@ -77,12 +74,12 @@ void Player::update(void)
 			_bodyImg->setFrameX(0);
 			_headImg->setFrameX(0);
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_UP))
+		if (KEYMANAGER->isOnceKeyDown(VK_UP) && !_isCollider)
 		{
 			_curDirection = PLAYER_DIRECTION::UP;
 			_posIdx.y--;
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN) && !_isCollider)
 		{
 			_curDirection = PLAYER_DIRECTION::DOWN;
 			_posIdx.y++;
@@ -94,15 +91,12 @@ void Player::update(void)
 			BEAT->setSuccess(true);
 		}
 	}
-
-	//_pos.x += ((float)WINSIZE_X_HALF - _pos.x) * TIMEMANAGER->getDeltaTime() * 5.f;
-	//_pos.y += ((float)WINSIZE_Y_HALF - _pos.y) * TIMEMANAGER->getDeltaTime() * 5.f;
 }
 
 void Player::render(HDC hdc)
 {
 	// 플레이어 그리기
-	DrawRectMake(hdc, _rc);
+	//DrawRectMake(hdc, _rc);
 
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
@@ -113,27 +107,15 @@ void Player::render(HDC hdc)
 		_pos.x - _headImg->getFrameWidth() / 2,
 		_pos.y - _headImg->getFrameHeight() / 2 - 11,
 		_headImg->getFrameX(), _headImg->getFrameY());
+
+	char playerIdx[40];
+	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdx.x, _posIdx.y);
+	TextOut(getMemDC(), WINSIZE_X - 150, 0, playerIdx, strlen(playerIdx));
 }
 
 void Player::moveAction(PLAYER_DIRECTION direction)
 {
 	static int jumpCount = 0;
-
-	switch (direction)
-	{
-	case PLAYER_DIRECTION::LEFT:
-		_pos.x -= 4;
-		break;
-	case PLAYER_DIRECTION::RIGHT:
-		_pos.x += 4;
-		break;
-	case PLAYER_DIRECTION::UP:
-		_pos.y -= 4;
-		break;
-	case PLAYER_DIRECTION::DOWN:
-		_pos.y += 4;
-		break;
-	}
 
 	_pos.y += (jumpCount < 8) ? -2 : 2;
 
@@ -144,7 +126,6 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		jumpCount = 0;
 		_isMove = false;
 		_curDirection = PLAYER_DIRECTION::NONE;
-		_rc = RectMakeCenter(_pos.x, _pos.y, TILESIZE, TILESIZE);
 		BEAT->setSuccess(false);
 	}
 }

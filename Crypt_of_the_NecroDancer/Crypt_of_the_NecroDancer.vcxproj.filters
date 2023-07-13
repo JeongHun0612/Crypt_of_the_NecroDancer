@@ -70,9 +70,6 @@
     <Filter Include="2D FrameWork\ManagerClass\SoundManager">
       <UniqueIdentifier>{273645c2-2aa6-435c-a90b-e29d8cd574d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Tile">
-      <UniqueIdentifier>{8db82bd2-3196-4c4c-80c5-270387854a33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2D FrameWork\ManagerClass\FileManager">
       <UniqueIdentifier>{7fc91411-deac-4028-8fd8-b4eab7499bce}</UniqueIdentifier>
     </Filter>
@@ -143,9 +140,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>2D FrameWork\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>MainGame\Object\Tile</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>MainGame\Scene\TestScene</Filter>
@@ -220,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2D FrameWork\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>MainGame\Scene\TestScene</Filter>

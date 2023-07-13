@@ -4,6 +4,15 @@
 // 백버퍼 -> 정적 이미지
 static GImage* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZE_X, WINSIZE_Y);
 
+struct Tile
+{
+	POINT imgNum;
+	POINT posIdx;
+
+	bool isExist;
+	bool isColiider;
+};
+
 class GameNode
 {
 private:

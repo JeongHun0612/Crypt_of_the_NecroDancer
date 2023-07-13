@@ -4,6 +4,15 @@
 class TestScene : public GameNode
 {
 public:
+	enum class PLAYER_DISTANCE
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		NONE
+	};
+
 	struct Tile
 	{
 		POINT imgNum;
@@ -23,6 +32,19 @@ private:
 
 	Tile _tileTerrain[30][30];
 	Tile _tileWall[30][30];
+
+	bool isMove;
+
+	POINTFLOAT _cameraLT;
+	POINTFLOAT _prevCameraLT;
+	POINTFLOAT _targetPosLT;
+
+	POINTFLOAT _posDiff;
+
+	bool _isCameraMove;
+	float _time;
+
+	PLAYER_DISTANCE _distance;
 
 public:
 	HRESULT init(void);

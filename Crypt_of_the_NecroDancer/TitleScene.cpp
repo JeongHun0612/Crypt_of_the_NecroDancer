@@ -18,10 +18,15 @@ void TitleScene::release()
 
 void TitleScene::update()
 {
-	if (KEYMANAGER->isAnyKeyDown())
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		SCENEMANAGER->changeScene("lobby");
 	}
+
+	//if (KEYMANAGER->isAnyKeyDown())
+	//{
+	//	SCENEMANAGER->changeScene("lobby");
+	//}
 }
 
 void TitleScene::render()

@@ -24,6 +24,7 @@ private:
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
 
 	bool _isMove;
+	bool _isCollider;
 	bool _isLeft;
 	float _count;
 
@@ -36,7 +37,12 @@ public:
 	void moveAction(PLAYER_DIRECTION direction);
 
 	POINTFLOAT	getPos() { return _pos; }
+	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
+
 	POINT		getPosIdx() { return _posIdx; }
+	void setPosIdx(int x, int y) { _posIdx.x = x, _posIdx.y = y; }
+
+	void setCollider(bool isCollider) { _isCollider = isCollider; }
 
 	Player() {}
 	~Player() {}

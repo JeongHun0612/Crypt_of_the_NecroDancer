@@ -87,6 +87,21 @@ HRESULT TestScene::init(void)
 		}
 	}
 
+	_cameraLT.x = _pos.x - 32.f - (64.f * 10.f);
+	_cameraLT.y = _pos.y - 32.f - (64.f * 6.f);
+
+	_prevCameraLT.x = _cameraLT.x;
+	_prevCameraLT.y = _cameraLT.y;
+
+	_targetPosLT.x = _cameraLT.x;
+	_targetPosLT.y = _cameraLT.y;
+
+	_posDiff = { 0.0f, 0.0f };
+
+	_isCameraMove = false;
+
+	_distance = PLAYER_DISTANCE::NONE;
+
 	return S_OK;
 }
 
@@ -96,89 +111,183 @@ void TestScene::release(void)
 
 void TestScene::update(void)
 {
-	//CAMERA->setTargetPos(_pos.x, _pos.y);
+	_cameraLT.x += _posDiff.x * TIMEMANAGER->getDeltaTime() * 15.0f;
+	_cameraLT.y += _posDiff.y * TIMEMANAGER->getDeltaTime() * 15.0f;
+
+	if (abs(_targetPosLT.x - _cameraLT.x) < 2.f)
+	{
+		_posDiff.x = 0.f;
+		_cameraLT.x = _targetPosLT.x;
+		_isCameraMove = false;
+	}
+
+	if (abs(_targetPosLT.y - _cameraLT.y) < 2.f)
+	{
+		_posDiff.y = 0.f;
+		_cameraLT.y = _targetPosLT.y;
+		_isCameraMove = false;
+	}
+
+	if (_isCameraMove)
+	{
+		_cameraLT.x = _prevCameraLT.x;
+		_cameraLT.y = _prevCameraLT.y;
+
+		_targetPosLT.x = _prevCameraLT.x;
+		_targetPosLT.y = _prevCameraLT.y;
+
+		switch (_distance)
+		{
+		case PLAYER_DISTANCE::LEFT:
+			_posIdx.x--;
+			break;
+		case PLAYER_DISTANCE::RIGHT:
+			_posIdx.x++;
+			break;
+		case PLAYER_DISTANCE::UP:
+			_posIdx.y--;
+			break;
+		case PLAYER_DISTANCE::DOWN:
+			_posIdx.y++;
+			break;
+		}
+
+		_distance = PLAYER_DISTANCE::NONE;
+		_isCameraMove = false;
+	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
 		if (!_tileTest[_posIdx.y][_posIdx.x - 1].isColiider)
 		{
-			_pos.x -= 64.f;
-			_posIdx.x--;
+			_isCameraMove = true;
+			_targetPosLT.x += 64;
+			_posDiff.x = 64.f;
+			_distance = PLAYER_DISTANCE::LEFT;
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
 		if (!_tileTest[_posIdx.y][_posIdx.x + 1].isColiider)
 		{
-			_pos.x += 64.f;
-			_posIdx.x++;
+			_isCameraMove = true;
+			_targetPosLT.x -= 64;
+			_posDiff.x = -64.f;
+			_distance = PLAYER_DISTANCE::RIGHT;
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
 		if (!_tileTest[_posIdx.y - 1][_posIdx.x].isColiider)
 		{
-			_pos.y -= 64.f;
-			_posIdx.y--;
+			_isCameraMove = true;
+			_targetPosLT.y += 64;
+			_posDiff.y = 64.f;
+			_distance = PLAYER_DISTANCE::UP;
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
 		if (!_tileTest[_posIdx.y + 1][_posIdx.x].isColiider)
 		{
-			_pos.y += 64.f;
-			_posIdx.y++;
+			_isCameraMove = true;
+			_targetPosLT.y -= 64;
+			_posDiff.y = -64.f;
+			_distance = PLAYER_DISTANCE::DOWN;
 		}
 	}
 }
 
 void TestScene::render(void)
 {
-	for (int i = -7; i < 7; i++)
+	for (int i = 0; i < 14; i++)
 	{
-		for (int j = -11; j < 11; j++)
+		for (int j = 0; j < 22; j++)
 		{
-			if (_posIdx.x + j < 0 || _posIdx.y + i < 0) continue;
+			int curIdxX = (_posIdx.x - 10) + j;
+			int curIdxY = (_posIdx.y - 6) + i;
 
-			// 29 == tile max count
-			if (_posIdx.x + j > 7 || _posIdx.y + i > 7) continue;
+			if (curIdxX < 0 || curIdxX > 7) continue;
 
-			//RectangleMakeCenter(getMemDC(), WINSIZE_X_HALF + (j * 64), WINSIZE_Y_HALF + (i * 64), 64, 64);
+			if (curIdxY < 0 || curIdxY > 7) continue;
 
 			_terrainImg->render(
 				getMemDC(),
-				WINSIZE_X_HALF + (j * 64) - 32,
-				WINSIZE_Y_HALF + (i * 64) - 32,
-				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.x,
-				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.y,
+				_cameraLT.x + (j * 64),
+				_cameraLT.y + (i * 64),
+				_tileTest[curIdxY][curIdxX].imgNum.x,
+				_tileTest[curIdxY][curIdxX].imgNum.y,
 				64, 64
 			);
 
-			//_terrainImg->render(
-			//	getMemDC(),
-			//	WINSIZE_X_HALF + (j * 64) - 32,
-			//	WINSIZE_Y_HALF + (i * 64) - 32,
-			//	_tileTerrain[_posIdx.y + i][_posIdx.x + j].imgNum.x,
-			//	_tileTerrain[_posIdx.y + i][_posIdx.x + j].imgNum.y,
-			//	64, 64
-			//);
-
-			//_wallImg->render(
-			//	getMemDC(),
-			//	WINSIZE_X_HALF + (j * 64) - 32,
-			//	WINSIZE_Y_HALF + (i * 64) - 32,
-			//	_tileWall[_posIdx.y + i][_posIdx.x + j].imgNum.x,
-			//	_tileWall[_posIdx.y + i][_posIdx.x + j].imgNum.y,
-			//	64, 64
-			//);
-
-
 			char strIdx[15];
-			sprintf_s(strIdx, "[%d, %d]", _posIdx.x + j, _posIdx.y + i);
+			sprintf_s(strIdx, "[%d, %d]", curIdxX, curIdxY);
 
-			TextOut(getMemDC(), (WINSIZE_X_HALF - 32) + (j * 64), (WINSIZE_Y_HALF - 32) + (i * 64), strIdx, strlen(strIdx));
+			TextOut(getMemDC(), _cameraLT.x + (j * 64), _cameraLT.y + (i * 64), strIdx, strlen(strIdx));
 		}
 	}
+
+
+	//for (int i = -7; i < 7; i++)
+	//{
+	//	for (int j = -11; j < 11; j++)
+	//	{
+	//		if (_posIdx.x + j < 0 || _posIdx.y + i < 0) continue;
+
+	//		// 29 == tile max count
+	//		if (_posIdx.x + j > 7 || _posIdx.y + i > 7) continue;
+
+	//		//RectangleMakeCenter(getMemDC(), WINSIZE_X_HALF + (j * 64), WINSIZE_Y_HALF + (i * 64), 64, 64);
+
+	//		if (isMove)
+	//		{
+	//			_terrainImg->render(
+	//				getMemDC(),
+	//				WINSIZE_X_HALF + (j * 64) - 32,
+	//				WINSIZE_Y_HALF + (i * 64) - 32,
+	//				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.x,
+	//				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.y,
+	//				64, 64
+	//			);
+	//		}
+	//		else
+	//		{
+	//			_terrainImg->render(
+	//				getMemDC(),
+	//				WINSIZE_X_HALF + (j * 64) - 32,
+	//				WINSIZE_Y_HALF + (i * 64) - 32,
+	//				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.x,
+	//				_tileTest[_posIdx.y + i][_posIdx.x + j].imgNum.y,
+	//				64, 64
+	//			);
+	//		}
+
+
+	//		//_terrainImg->render(
+	//		//	getMemDC(),
+	//		//	WINSIZE_X_HALF + (j * 64) - 32,
+	//		//	WINSIZE_Y_HALF + (i * 64) - 32,
+	//		//	_tileTerrain[_posIdx.y + i][_posIdx.x + j].imgNum.x,
+	//		//	_tileTerrain[_posIdx.y + i][_posIdx.x + j].imgNum.y,
+	//		//	64, 64
+	//		//);
+
+	//		//_wallImg->render(
+	//		//	getMemDC(),
+	//		//	WINSIZE_X_HALF + (j * 64) - 32,
+	//		//	WINSIZE_Y_HALF + (i * 64) - 32,
+	//		//	_tileWall[_posIdx.y + i][_posIdx.x + j].imgNum.x,
+	//		//	_tileWall[_posIdx.y + i][_posIdx.x + j].imgNum.y,
+	//		//	64, 64
+	//		//);
+
+
+	//		char strIdx[15];
+	//		sprintf_s(strIdx, "[%d, %d]", _posIdx.x + j, _posIdx.y + i);
+
+	//		TextOut(getMemDC(), (WINSIZE_X_HALF - 32) + (j * 64), (WINSIZE_Y_HALF - 32) + (i * 64), strIdx, strlen(strIdx));
+	//	}
+	//}
 
 	char idx[128];
 	sprintf_s(idx, "[%d, %d]", _posIdx.x, _posIdx.y);
