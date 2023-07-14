@@ -1,17 +1,20 @@
 #include "Stdafx.h"
 #include "LobbyScene.h"
+#include "FileManager.h"
 
 HRESULT LobbyScene::init()
 {
+	FileManager::loadTileFile("Stage1-1_Ground.txt", _vTerrainTile);
+
 	SOUNDMANAGER->play("stage1-1");
 
 	_terrainImg = IMAGEMANAGER->findImage("terrain1");
 	_wallImg = IMAGEMANAGER->findImage("wall1");
 
 	// terrain
-	for (int i = 0; i < MAX_TILE_ROW; i++)
+	for (int i = 0; i < MAX_ROBBY_ROW; i++)
 	{
-		for (int j = 0; j < MAX_TILE_COL; j++)
+		for (int j = 0; j < MAX_ROBBY_COL; j++)
 		{
 			_terrainTile[i][j].posIdx = { i, j };
 			_terrainTile[i][j].isExist = true;
@@ -43,13 +46,13 @@ HRESULT LobbyScene::init()
 	}
 
 	// wall
-	for (int i = 0; i < MAX_TILE_ROW; i++)
+	for (int i = 0; i < MAX_ROBBY_ROW; i++)
 	{
-		for (int j = 0; j < MAX_TILE_COL; j++)
+		for (int j = 0; j < MAX_ROBBY_COL; j++)
 		{
 			_wallTile[i][j].posIdx = { i, j };
 
-			if (i == 0 || i == MAX_TILE_ROW - 1 || j == 0 || j == MAX_TILE_COL - 1)
+			if (i == 0 || i == MAX_ROBBY_ROW - 1 || j == 0 || j == MAX_ROBBY_COL - 1)
 			{
 				_wallTile[i][j].imgNum = { 0, 6 };
 				_wallTile[i][j].isColiider = true;
@@ -63,9 +66,6 @@ HRESULT LobbyScene::init()
 			}
 		}
 	}
-
-	// ºñÆ® ÃÊ±âÈ­
-	BEAT->init();
 
 	// ÇÃ·¹ÀÌ¾î ÃÊ±âÈ­
 	_player.init();
@@ -81,19 +81,56 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
-	BEAT->update();
-
 	_player.update();
 
-	if (
-		_wallTile[_player.getPosIdx().x - 1][_player.getPosIdx().y].isColiider ||
-		_wallTile[_player.getPosIdx().x + 1][_player.getPosIdx().y].isColiider ||
-		_wallTile[_player.getPosIdx().x][_player.getPosIdx().y - 1].isColiider ||
-		_wallTile[_player.getPosIdx().x][_player.getPosIdx().y + 1].isColiider
-		)
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		cout << "Ãæµ¹ " << endl;
-		_player.setCollider(true);
+		if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x - 1].isColiider)
+		{
+			cout << "±ø! ±ø!" << endl;
+		}
+		else
+		{
+			_player.setIsMove(true);
+			_player.setDirection(PLAYER_DIRECTION::LEFT);
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x + 1].isColiider)
+		{
+			cout << "±ø! ±ø!" << endl;
+		}
+		else
+		{
+			_player.setIsMove(true);
+			_player.setDirection(PLAYER_DIRECTION::RIGHT);
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (_wallTile[_player.getPosIdx().y - 1][_player.getPosIdx().x].isColiider)
+		{
+			cout << "±ø! ±ø!" << endl;
+		}
+		else
+		{
+			_player.setIsMove(true);
+			_player.setDirection(PLAYER_DIRECTION::UP);
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		if (_wallTile[_player.getPosIdx().y + 1][_player.getPosIdx().x].isColiider)
+		{
+			cout << "±ø! ±ø!" << endl;
+		}
+		else
+		{
+			_player.setIsMove(true);
+			_player.setDirection(PLAYER_DIRECTION::DOWN);
+		}
 	}
 }
 
@@ -107,8 +144,8 @@ void LobbyScene::render()
 			int curIdxX = _player.getPosIdx().x + j;
 			int curIdxY = _player.getPosIdx().y + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_TILE_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_TILE_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
 
 			// terrain Å¸ÀÏ Ãâ·Â
 			if (_terrainTile[curIdxY][curIdxX].isExist)
@@ -136,9 +173,6 @@ void LobbyScene::render()
 			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE), strIdx, strlen(strIdx));
 		}
 	}
-
-	// ºñÆ® Ãâ·Â
-	BEAT->render(getMemDC());
 
 	// ÇÃ·¹ÀÌ¾î Ãâ·Â
 	_player.render(getMemDC());

@@ -57,9 +57,7 @@ void TimeManager::render(HDC hdc)
 {
 	char strFrame[256];
 
-	// 글자 배경모드 - TRANSPARENT : 투명한
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, RGB(255, 255, 255));
+
 
 	// FPS
 	sprintf_s(strFrame, "FramePerSec : %d", _frameRate);

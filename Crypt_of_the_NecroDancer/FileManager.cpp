@@ -35,4 +35,33 @@ void FileManager::loadBeatFile(const char* fileName, queue<int> &queueList)
 			}
 		}
 	}
+
+	loadStream.close();
+}
+
+void FileManager::loadTileFile(const char* fileName, vector<Tile>& vectorList)
+{
+	char filePath[MAX_PATH] = "Resources/TileMap/";
+	strcat_s(filePath, fileName);
+
+	ifstream loadStream(filePath);
+
+	if (loadStream.is_open())
+	{
+		while (!loadStream.eof())		// 파일의 끝에 도달하면 -1을 반환
+		{
+			char line[128];
+			loadStream.getline(line, 128);
+
+			Tile tile;
+			tile.posIdx.x = line[0] - 48;
+			tile.posIdx.y = line[2] - 48;
+			tile.imgNum.x = line[4] - 48;
+			tile.imgNum.y = line[6] - 48;
+			tile.isExist = line[8] - 48;
+			tile.isColiider = line[10] - 48;
+
+			vectorList.push_back(tile);
+		}
+	}
 }

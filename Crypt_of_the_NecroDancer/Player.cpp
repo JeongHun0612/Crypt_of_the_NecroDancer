@@ -15,6 +15,11 @@ HRESULT Player::init(void)
 	_isMove = false;
 	_isLeft = false;
 
+	// HUD - slot 이미지 초기화
+	_slotShovelImg = IMAGEMANAGER->findImage("slot_shovel");
+	_slotAttackImg = IMAGEMANAGER->findImage("slot_attack");
+	_slotBodyImg = IMAGEMANAGER->findImage("slot_body");
+
 	return S_OK;
 }
 
@@ -55,46 +60,13 @@ void Player::update(void)
 	{
 		moveAction(_curDirection);
 	}
-
-	if (!_isMove && BEAT->getBeat())
-	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && !_isCollider)
-		{
-			_curDirection = PLAYER_DIRECTION::LEFT;
-			_posIdx.x--;
-			_isLeft = true;
-			_bodyImg->setFrameX(4);
-			_headImg->setFrameX(4);
-		}
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && !_isCollider)
-		{
-			_curDirection = PLAYER_DIRECTION::RIGHT;
-			_posIdx.x++;
-			_isLeft = false;
-			_bodyImg->setFrameX(0);
-			_headImg->setFrameX(0);
-		}
-		if (KEYMANAGER->isOnceKeyDown(VK_UP) && !_isCollider)
-		{
-			_curDirection = PLAYER_DIRECTION::UP;
-			_posIdx.y--;
-		}
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN) && !_isCollider)
-		{
-			_curDirection = PLAYER_DIRECTION::DOWN;
-			_posIdx.y++;
-		}
-
-		if (_curDirection != PLAYER_DIRECTION::NONE)
-		{
-			_isMove = true;
-			BEAT->setSuccess(true);
-		}
-	}
 }
 
 void Player::render(HDC hdc)
 {
+	// Slot 이미지 그리기
+	_slotShovelImg->render(hdc, 0, 0);
+
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);
 
@@ -108,6 +80,7 @@ void Player::render(HDC hdc)
 		_pos.y - _headImg->getFrameHeight() / 2 - 11,
 		_headImg->getFrameX(), _headImg->getFrameY());
 
+	// 플레이어 현재 인덱스 좌표
 	char playerIdx[40];
 	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdx.x, _posIdx.y);
 	TextOut(getMemDC(), WINSIZE_X - 150, 0, playerIdx, strlen(playerIdx));
@@ -115,6 +88,30 @@ void Player::render(HDC hdc)
 
 void Player::moveAction(PLAYER_DIRECTION direction)
 {
+	switch (direction)
+	{
+	case PLAYER_DIRECTION::LEFT:
+		_isLeft = true;
+		_bodyImg->setFrameX(4);
+		_headImg->setFrameX(4);
+		_posIdx.x--;
+		break;
+	case PLAYER_DIRECTION::RIGHT:
+		_isLeft = false;
+		_bodyImg->setFrameX(0);
+		_headImg->setFrameX(0);
+		_posIdx.x++;
+		break;
+	case PLAYER_DIRECTION::UP:
+		_posIdx.y--;
+		break;
+	case PLAYER_DIRECTION::DOWN:
+		_posIdx.y++;
+		break;
+	}
+
+	_curDirection = PLAYER_DIRECTION::NONE;
+
 	static int jumpCount = 0;
 
 	_pos.y += (jumpCount < 8) ? -2 : 2;
@@ -125,7 +122,5 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 	{
 		jumpCount = 0;
 		_isMove = false;
-		_curDirection = PLAYER_DIRECTION::NONE;
-		BEAT->setSuccess(false);
 	}
 }
