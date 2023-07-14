@@ -35,11 +35,6 @@ HRESULT Beat::init(void)
 	return S_OK;
 }
 
-void Beat::release(void)
-{
-
-}
-
 void Beat::update(void)
 {
 	// 심장 박동 애니메이션

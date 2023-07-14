@@ -18,6 +18,7 @@ private:
 	Tile _wallTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
 
 	vector<Tile> _vTerrainTile;
+	vector<vector<Tile>> _vTiles;
 
 public:
 	HRESULT init();

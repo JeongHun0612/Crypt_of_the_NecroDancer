@@ -99,6 +99,14 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("player_body", "Resources/Images/Player/Body.bmp", 272, 300, 8, 10, true, RGB(255, 0, 255));
 
 	// ===================
+	// 아이템
+	// ===================
+	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dagger", "Resources/Images/Item/Dagger.bmp", 26, 52, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+
+
+	// ===================
 	// 몬스터
 	// ===================
 	// 몬스터 - 슬라임
@@ -110,6 +118,7 @@ void MainGame::initImage()
 void MainGame::initSound()
 {
 	// BGM
-	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, false);
+	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, true);
+	SOUNDMANAGER->addSound("lobby", "Resources/Sounds/BGM/lobby.mp3", true, true);
 	SOUNDMANAGER->addSound("stage1-1", "Resources/Sounds/BGM/stage1-1.mp3", true, false);
 }

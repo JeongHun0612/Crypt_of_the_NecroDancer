@@ -6,8 +6,8 @@ static GImage* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZE_X, WIN
 
 struct Tile
 {
-	POINT imgNum;
-	POINT posIdx;
+	int idxX, idxY;
+	int frameX, frameY;
 
 	bool isExist;
 	bool isColiider;

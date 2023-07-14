@@ -82,6 +82,15 @@
     <Filter Include="MainGame\Scene\Stage">
       <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Item">
+      <UniqueIdentifier>{e088859f-b03e-479d-b813-1c099ccdcf45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\UI">
+      <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Tile">
+      <UniqueIdentifier>{82d742fb-b7eb-485c-a09d-0f466c1f09db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -149,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>MainGame\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>MainGame\Object\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>MainGame\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>MainGame\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

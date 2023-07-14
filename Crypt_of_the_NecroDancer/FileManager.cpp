@@ -54,10 +54,10 @@ void FileManager::loadTileFile(const char* fileName, vector<Tile>& vectorList)
 			loadStream.getline(line, 128);
 
 			Tile tile;
-			tile.posIdx.x = line[0] - 48;
-			tile.posIdx.y = line[2] - 48;
-			tile.imgNum.x = line[4] - 48;
-			tile.imgNum.y = line[6] - 48;
+			tile.idxX = line[0] - 48;
+			tile.idxY = line[2] - 48;
+			tile.frameX = line[4] - 48;
+			tile.frameY = line[6] - 48;
 			tile.isExist = line[8] - 48;
 			tile.isColiider = line[10] - 48;
 

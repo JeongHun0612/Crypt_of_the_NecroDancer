@@ -151,6 +151,7 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GImage.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestCameraScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -176,6 +178,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GImage.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MainGame.h" />
@@ -189,6 +192,7 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestCameraScene.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>

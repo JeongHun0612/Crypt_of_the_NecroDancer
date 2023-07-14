@@ -56,10 +56,10 @@ void GameNode::release(void)
 
 		// ½Ì±ÛÅæ Å¬·¡½º ÇØÁ¦
 		RND->releaseSingleton();
-		BEAT->release();
 		BEAT->releaseSingleton();
 		CAMERA->release();
 		CAMERA->releaseSingleton();
+		INVENTORY->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);

@@ -15,10 +15,11 @@ HRESULT Player::init(void)
 	_isMove = false;
 	_isLeft = false;
 
-	// HUD - slot 이미지 초기화
-	_slotShovelImg = IMAGEMANAGER->findImage("slot_shovel");
-	_slotAttackImg = IMAGEMANAGER->findImage("slot_attack");
-	_slotBodyImg = IMAGEMANAGER->findImage("slot_body");
+	_shovelItemImg = IMAGEMANAGER->findImage("shovel");
+	_weaponItemImg = IMAGEMANAGER->findImage("dagger");
+
+	// 인벤토리 초기화
+	INVENTORY->init();
 
 	return S_OK;
 }
@@ -65,7 +66,12 @@ void Player::update(void)
 void Player::render(HDC hdc)
 {
 	// Slot 이미지 그리기
-	_slotShovelImg->render(hdc, 0, 0);
+	INVENTORY->render(hdc);
+
+
+	// 아이템 이미지 그리기
+	_shovelItemImg->frameRender(hdc, 15, 20, _shovelItemImg->getFrameX(), _shovelItemImg->getFrameY());
+	_weaponItemImg->frameRender(hdc, 100, 35, _weaponItemImg->getFrameX(), _weaponItemImg->getFrameY());
 
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);

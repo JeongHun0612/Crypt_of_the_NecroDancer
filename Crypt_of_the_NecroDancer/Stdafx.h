@@ -98,6 +98,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "RandomFunction.h"
 #include "Beat.h"
 #include "Camera.h"
+#include "Inventory.h"
 
 
 // # ΩÃ±€≈Ê # ==============================================================================================================
@@ -111,6 +112,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define RND RandomFunction::getSingleton()
 #define BEAT Beat::getSingleton()
 #define CAMERA Camera::getSingleton()
+#define INVENTORY Inventory::getSingleton()
 
 
 // # ∏≈≈©∑Œ #  ==============================================================================================================

@@ -27,9 +27,8 @@ private:
 	bool _isLeft;
 	float _count;
 
-	GImage* _slotShovelImg;
-	GImage* _slotAttackImg;
-	GImage* _slotBodyImg;
+	GImage* _shovelItemImg;
+	GImage* _weaponItemImg;
 
 public:
 	HRESULT init(void);
