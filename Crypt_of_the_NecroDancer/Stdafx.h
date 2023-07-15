@@ -93,12 +93,13 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
+#include "UIManager.h"
 
 #include "CommonMacroFunction.h"
 #include "RandomFunction.h"
+#include "Player.h"
 #include "Beat.h"
 #include "Camera.h"
-#include "Inventory.h"
 
 
 // # ΩÃ±€≈Ê # ==============================================================================================================
@@ -107,12 +108,42 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define TIMEMANAGER TimeManager::getSingleton()
 #define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
+#define UIMANAGER UIManager::getSingleton()
 
 
 #define RND RandomFunction::getSingleton()
+#define PLAYER Player::getSingleton()
 #define BEAT Beat::getSingleton()
 #define CAMERA Camera::getSingleton()
-#define INVENTORY Inventory::getSingleton()
+
+
+// # ±∏¡∂√º / enum #  =======================================================================================================
+enum TERRAIN
+{
+	GROUND,
+	STAIR,
+
+	END
+};
+
+enum WALL
+{
+	
+};
+
+struct Tile
+{
+	TERRAIN terrain;
+	WALL wall;
+
+	int idxX, idxY;
+	int frameX, frameY;
+
+	int hardness;
+
+	bool isExist;
+	bool isColiider;
+};
 
 
 // # ∏≈≈©∑Œ #  ==============================================================================================================

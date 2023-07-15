@@ -61,13 +61,13 @@ void TimeManager::render(HDC hdc)
 
 	// FPS
 	sprintf_s(strFrame, "FramePerSec : %d", _frameRate);
-	TextOut(hdc, 0, 0, strFrame, strlen(strFrame));
+	TextOut(hdc, 10, WINSIZE_Y - 80, strFrame, strlen(strFrame));
 
 	// 월드 타임 (전체 경과 시간)
 	sprintf_s(strFrame, "WorldTime : %f", _worldTime);
-	TextOut(hdc, 0, 20, strFrame, strlen(strFrame));
+	TextOut(hdc, 10, WINSIZE_Y - 60, strFrame, strlen(strFrame));
 
 	// 한 프레임당 경과 시간
 	sprintf_s(strFrame, "DeltaTime : %f", _deltaTime);
-	TextOut(hdc, 0, 40, strFrame, strlen(strFrame));
+	TextOut(hdc, 10, WINSIZE_Y - 40, strFrame, strlen(strFrame));
 }

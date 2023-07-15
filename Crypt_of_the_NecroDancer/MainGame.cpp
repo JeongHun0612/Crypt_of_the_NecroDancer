@@ -54,7 +54,7 @@ void MainGame::render(void)
 	SCENEMANAGER->render();
 
 	// 시간 확인 (프레임, 월드 타임, 델타 타임)
-	//TIMEMANAGER->render(getMemDC());
+	TIMEMANAGER->render(getMemDC());
 
 	// =====================================================================
 	this->getBackBuffer()->render(getHDC(), 0, 0);
@@ -90,6 +90,19 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("slot_shovel", "Resources/Images/HUD/Slot_Shovel.bmp", 60, 66, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot_attack", "Resources/Images/HUD/Slot_Attack.bmp", 60, 66, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot_body", "Resources/Images/HUD/Slot_Body.bmp", 60, 66, true, RGB(255, 0, 255));
+
+	// HUD - HP
+	IMAGEMANAGER->addFrameImage("heart", "Resources/Images/HUD/heart.bmp", 144, 44, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("heart_full", "Resources/Images/HUD/heart_full.bmp", 109, 50, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("heart_half", "Resources/Images/HUD/heart_half.bmp", 109, 50, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("heart_null", "Resources/Images/HUD/heart_null.bmp", 109, 50, 2, 1, true, RGB(255, 0, 255));
+
+	// HUD - Coin / Diamond
+	IMAGEMANAGER->addImage("coin", "Resources/Images/HUD/coin.bmp", 40, 40, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("diamond", "Resources/Images/HUD/diamond.bmp", 50, 40, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("x_button", "Resources/Images/HUD/x_button.bmp", 15, 15, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("number", "Resources/Images/HUD/number.bmp", 150, 17, 10, 1, true, RGB(255, 0, 255));
+
 
 
 	// ===================

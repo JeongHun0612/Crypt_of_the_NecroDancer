@@ -53,13 +53,16 @@ void GameNode::release(void)
 		SOUNDMANAGER->release();
 		SOUNDMANAGER->releaseSingleton();
 
+		UIMANAGER->releaseSingleton();
+
 
 		// ½Ì±ÛÅæ Å¬·¡½º ÇØÁ¦
 		RND->releaseSingleton();
+		PLAYER->release();
+		PLAYER->releaseSingleton();
 		BEAT->releaseSingleton();
 		CAMERA->release();
 		CAMERA->releaseSingleton();
-		INVENTORY->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);

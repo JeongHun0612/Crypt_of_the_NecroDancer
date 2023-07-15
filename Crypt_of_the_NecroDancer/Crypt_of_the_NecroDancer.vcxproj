@@ -150,8 +150,8 @@
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GImage.cpp" />
+    <ClCompile Include="Heart.cpp" />
     <ClCompile Include="ImageManager.cpp" />
-    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -163,9 +163,9 @@
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestCameraScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,8 +177,8 @@
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GImage.h" />
+    <ClInclude Include="Heart.h" />
     <ClInclude Include="ImageManager.h" />
-    <ClInclude Include="Inventory.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MainGame.h" />
@@ -192,9 +192,9 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestCameraScene.h" />
     <ClInclude Include="TestScene.h" />
-    <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

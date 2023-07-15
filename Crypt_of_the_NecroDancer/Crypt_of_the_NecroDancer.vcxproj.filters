@@ -88,9 +88,6 @@
     <Filter Include="MainGame\Object\UI">
       <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Tile">
-      <UniqueIdentifier>{82d742fb-b7eb-485c-a09d-0f466c1f09db}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -159,11 +156,11 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp">
+    <ClCompile Include="Heart.cpp">
       <Filter>MainGame\Object\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>MainGame\Object\Tile</Filter>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>MainGame\Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,11 +236,11 @@
     <ClInclude Include="GameScene.h">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
+    <ClInclude Include="Heart.h">
       <Filter>MainGame\Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>MainGame\Object\Tile</Filter>
+    <ClInclude Include="UIManager.h">
+      <Filter>MainGame\Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

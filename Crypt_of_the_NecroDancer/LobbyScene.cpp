@@ -4,7 +4,7 @@
 
 HRESULT LobbyScene::init()
 {
-	//FileManager::loadTileFile("Stage1-1_Ground.txt", _vTerrainTile);
+	FileManager::loadTileFile("Stage1-1_Ground.txt", _vTerrainTile);
 
 	SOUNDMANAGER->play("lobby");
 
@@ -20,6 +20,7 @@ HRESULT LobbyScene::init()
 			_terrainTile[i][j].idxY = i;
 			_terrainTile[i][j].isExist = true;
 			_terrainTile[i][j].isColiider = false;
+			_terrainTile[i][j].terrain = TERRAIN::GROUND;
 
 			if (i % 2 == 0)
 			{
@@ -50,6 +51,13 @@ HRESULT LobbyScene::init()
 		}
 	}
 
+	_terrainTile[7][3].terrain = TERRAIN::STAIR;
+	_terrainTile[7][7].terrain = TERRAIN::STAIR;
+	_terrainTile[7][3].frameX = 0;
+	_terrainTile[7][7].frameX = 0;
+	_terrainTile[7][3].frameY = 1;
+	_terrainTile[7][7].frameY = 1;
+
 	// wall
 	for (int i = 0; i < MAX_ROBBY_ROW; i++)
 	{
@@ -64,6 +72,7 @@ HRESULT LobbyScene::init()
 				_wallTile[i][j].frameY = 6;
 				_wallTile[i][j].isColiider = true;
 				_wallTile[i][j].isExist = true;
+				_wallTile[i][j].hardness = 5;
 			}
 			else
 			{
@@ -120,9 +129,13 @@ HRESULT LobbyScene::init()
 
 	_vTiles.push_back(_vTerrainTile);
 
+
 	// ÇÃ·¹ÀÌ¾î ÃÊ±âÈ­
-	_player.init();
-	_player.setPosIdx(5, 5);
+	PLAYER->init();
+	PLAYER->setPosIdx(5, 5);
+
+	// UI ÃÊ±âÈ­
+	UIMANAGER->init();
 
 	return S_OK;
 }
@@ -134,58 +147,72 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
-	_player.update();
+	PLAYER->update();
+
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x - 1].isColiider)
+		if (_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].isColiider)
 		{
-			cout << "±ø! ±ø!" << endl;
+			PLAYER->setIsShovel(true);
+
+			if (_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].hardness < PLAYER->getShovel().hardness)
+			{
+				_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].isExist = false;
+			}
+			else
+			{
+				cout << "¾ÈºÎ¼ÅÁü" << endl;
+			}
 		}
 		else
 		{
-			_player.setIsMove(true);
-			_player.setDirection(PLAYER_DIRECTION::LEFT);
+			PLAYER->setIsMove(true);
+			PLAYER->setDirection(PLAYER_DIRECTION::LEFT);
 		}
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x + 1].isColiider)
+		if (_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x + 1].isColiider)
 		{
 			cout << "±ø! ±ø!" << endl;
 		}
 		else
 		{
-			_player.setIsMove(true);
-			_player.setDirection(PLAYER_DIRECTION::RIGHT);
+			PLAYER->setIsMove(true);
+			PLAYER->setDirection(PLAYER_DIRECTION::RIGHT);
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_wallTile[_player.getPosIdx().y - 1][_player.getPosIdx().x].isColiider)
+		if (_wallTile[PLAYER->getPosIdx().y - 1][PLAYER->getPosIdx().x].isColiider)
 		{
 			cout << "±ø! ±ø!" << endl;
 		}
 		else
 		{
-			_player.setIsMove(true);
-			_player.setDirection(PLAYER_DIRECTION::UP);
+			PLAYER->setIsMove(true);
+			PLAYER->setDirection(PLAYER_DIRECTION::UP);
 		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_wallTile[_player.getPosIdx().y + 1][_player.getPosIdx().x].isColiider)
+		if (_wallTile[PLAYER->getPosIdx().y + 1][PLAYER->getPosIdx().x].isColiider)
 		{
 			cout << "±ø! ±ø!" << endl;
 		}
 		else
 		{
-			_player.setIsMove(true);
-			_player.setDirection(PLAYER_DIRECTION::DOWN);
+			PLAYER->setIsMove(true);
+			PLAYER->setDirection(PLAYER_DIRECTION::DOWN);
 		}
 	}
 
+	if (_terrainTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x].terrain == STAIR)
+	{
+		cout << "´ÙÀ½ ½ºÅ×ÀÌÁö ÀÌµ¿" << endl;
+	}
 }
 
 void LobbyScene::render()
@@ -195,8 +222,8 @@ void LobbyScene::render()
 	{
 		for (int j = -11; j < 12; j++)
 		{
-			int curIdxX = _player.getPosIdx().x + j;
-			int curIdxY = _player.getPosIdx().y + i;
+			int curIdxX = PLAYER->getPosIdx().x + j;
+			int curIdxY = PLAYER->getPosIdx().y + i;
 
 			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
 			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
@@ -228,6 +255,38 @@ void LobbyScene::render()
 		}
 	}
 
+	//// º¤ÅÍ Ãâ·Â
+	//for (int i = -7; i < 8; i++)
+	//{
+	//	for (int j = -11; j < 12; j++)
+	//	{
+	//		for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+	//		{
+	//			_time += TIMEMANAGER->getDeltaTime();
+
+	//			if (iter->idxX == PLAYER->getPosIdx().x + j && iter->idxY == PLAYER->getPosIdx().y + i)
+	//			{
+	//				_terrainImg->frameRender(getMemDC(),
+	//					WINSIZE_X_HALF - 32 + (j * 64),
+	//					WINSIZE_Y_HALF - 32 + (i * 64),
+	//					iter->frameX,
+	//					iter->frameY);
+
+	//				break;
+	//			}
+	//		}
+
+	//		char strIdx[15];
+	//		sprintf_s(strIdx, "[%d, %d]", PLAYER->getPosIdx().x + j, PLAYER->getPosIdx().y + i);
+	//		TextOut(getMemDC(), WINSIZE_X_HALF - 32 + (j * 64), WINSIZE_Y_HALF - 32 + (i * 64), strIdx, strlen(strIdx));
+	//	}
+	//}
+	//cout << _time << endl;
+	//_time = 0.0f;
+
+
 	// ÇÃ·¹ÀÌ¾î Ãâ·Â
-	_player.render(getMemDC());
+	PLAYER->render(getMemDC());
+
+	UIMANAGER->render(getMemDC());
 }

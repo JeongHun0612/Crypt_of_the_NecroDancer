@@ -6,20 +6,27 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
-	_posIdx = { 1, 1 };
+	_posIdx = { 0, 0 };
 	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
 
+	_maxHP = 6;
+	_curHP = 6;
+
+	_coin = 0;
+	_diamond = 0;
+
 	_isMove = false;
 	_isLeft = false;
 
-	_shovelItemImg = IMAGEMANAGER->findImage("shovel");
-	_weaponItemImg = IMAGEMANAGER->findImage("dagger");
+	_isShovel = false;
 
-	// 인벤토리 초기화
-	INVENTORY->init();
+	_curShovel.img = IMAGEMANAGER->findImage("shovel");
+	_curShovel.hardness = 2;
+
+	_weaponItemImg = IMAGEMANAGER->findImage("dagger");
 
 	return S_OK;
 }
@@ -65,12 +72,8 @@ void Player::update(void)
 
 void Player::render(HDC hdc)
 {
-	// Slot 이미지 그리기
-	INVENTORY->render(hdc);
-
-
 	// 아이템 이미지 그리기
-	_shovelItemImg->frameRender(hdc, 15, 20, _shovelItemImg->getFrameX(), _shovelItemImg->getFrameY());
+	_curShovel.img->frameRender(hdc, 15, 20, _curShovel.img->getFrameX(), _curShovel.img->getFrameY());
 	_weaponItemImg->frameRender(hdc, 100, 35, _weaponItemImg->getFrameX(), _weaponItemImg->getFrameY());
 
 	// 플레이어 그리기
@@ -89,7 +92,7 @@ void Player::render(HDC hdc)
 	// 플레이어 현재 인덱스 좌표
 	char playerIdx[40];
 	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdx.x, _posIdx.y);
-	TextOut(getMemDC(), WINSIZE_X - 150, 0, playerIdx, strlen(playerIdx));
+	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, playerIdx, strlen(playerIdx));
 }
 
 void Player::moveAction(PLAYER_DIRECTION direction)

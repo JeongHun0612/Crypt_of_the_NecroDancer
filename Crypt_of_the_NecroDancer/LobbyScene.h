@@ -9,8 +9,6 @@
 class LobbyScene : public GameNode
 {
 private:
-	Player _player;
-
 	GImage* _terrainImg;
 	GImage* _wallImg;
 
@@ -19,6 +17,9 @@ private:
 
 	vector<Tile> _vTerrainTile;
 	vector<vector<Tile>> _vTiles;
+
+	Tile _testTile[5][6];
+	float _time;
 
 public:
 	HRESULT init();

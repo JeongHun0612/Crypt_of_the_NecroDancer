@@ -1,7 +1,7 @@
 #pragma once
 #include "SingletonBase.h"
 
-class Inventory : public SingletonBase<Inventory>
+class UIManager : public SingletonBase<UIManager>
 {
 private:
 	enum class ITEM_TYPE
@@ -13,30 +13,37 @@ private:
 		END
 	};
 
-	struct ItemSlot
+	enum class HEART_TYPE
+	{
+		EMPTY,
+		HALF,
+		FULL
+	};
+
+	struct Inventory
 	{
 		GImage* img;
 		ITEM_TYPE type;
 		int x, y;
 	};
 
-	struct Item
+	struct Heart
 	{
 		GImage* img;
-		ITEM_TYPE _itemType;
 		int x, y;
 	};
 
 private:
-	vector<ItemSlot> _vItemSlot;
-	vector<Item> _vInventory;
+	vector<Inventory> _vInventory;
+	vector<Heart> _vHeart;
+
+	int _prevHP;
+
 
 public:
 	HRESULT init(void);
 	void release(void);
+	void update(void);
 	void render(HDC hdc);
-
-	Inventory() {}
-	~Inventory() {}
 };
 
