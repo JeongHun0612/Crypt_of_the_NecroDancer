@@ -116,36 +116,6 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define BEAT Beat::getSingleton()
 #define CAMERA Camera::getSingleton()
 
-
-// # 구조체 / enum #  =======================================================================================================
-enum TERRAIN
-{
-	GROUND,
-	STAIR,
-
-	END
-};
-
-enum WALL
-{
-	
-};
-
-struct Tile
-{
-	TERRAIN terrain;
-	WALL wall;
-
-	int idxX, idxY;
-	int frameX, frameY;
-
-	int hardness;
-
-	bool isExist;
-	bool isColiider;
-};
-
-
 // # 매크로 #  ==============================================================================================================
 
 // ! 타이틀

@@ -4,8 +4,6 @@
 
 HRESULT LobbyScene::init()
 {
-	FileManager::loadTileFile("Stage1-1_Ground.txt", _vTerrainTile);
-
 	SOUNDMANAGER->play("lobby");
 
 	_terrainImg = IMAGEMANAGER->findImage("terrain1");
@@ -53,10 +51,10 @@ HRESULT LobbyScene::init()
 
 	_terrainTile[7][3].terrain = TERRAIN::STAIR;
 	_terrainTile[7][7].terrain = TERRAIN::STAIR;
-	_terrainTile[7][3].frameX = 0;
-	_terrainTile[7][7].frameX = 0;
-	_terrainTile[7][3].frameY = 1;
-	_terrainTile[7][7].frameY = 1;
+	_terrainTile[7][3].frameX = 2;
+	_terrainTile[7][7].frameX = 2;
+	_terrainTile[7][3].frameY = 0;
+	_terrainTile[7][7].frameY = 0;
 
 	// wall
 	for (int i = 0; i < MAX_ROBBY_ROW; i++)
@@ -84,52 +82,6 @@ HRESULT LobbyScene::init()
 		}
 	}
 
-	//for (int i = 0; i < MAX_ROBBY_ROW; i++)
-	//{
-	//	for (int j = 0; j < MAX_ROBBY_COL; j++)
-	//	{
-	//		Tile tile;
-	//		tile.isExist = true;
-	//		tile.isColiider = false;
-	//		tile.idxX = j;
-	//		tile.idxY = i;
-	//		tile.frameX = 0;
-	//		tile.frameY = 0;
-
-	//		if (i % 2 == 0)
-	//		{
-	//			if (j % 2 == 0)
-	//			{
-	//				tile.frameX = 0;
-	//				tile.frameY = 0;
-	//			}
-	//			else
-	//			{
-	//				tile.frameX = 1;
-	//				tile.frameY = 0;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			if (j % 2 == 0)
-	//			{
-	//				tile.frameX = 1;
-	//				tile.frameY = 0;
-	//			}
-	//			else
-	//			{
-	//				tile.frameX = 0;
-	//				tile.frameY = 0;
-	//			}
-	//		}
-
-	//		_vTerrainTile.push_back(tile);
-	//	}
-	//}
-
-	_vTiles.push_back(_vTerrainTile);
-
-
 	// 플레이어 초기화
 	PLAYER->init();
 	PLAYER->setPosIdx(5, 5);
@@ -147,6 +99,7 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
+	CAMERA->update();
 	PLAYER->update();
 
 
@@ -156,14 +109,14 @@ void LobbyScene::update()
 		{
 			PLAYER->setIsShovel(true);
 
-			if (_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].hardness < PLAYER->getShovel().hardness)
-			{
-				_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].isExist = false;
-			}
-			else
-			{
-				cout << "안부셔짐" << endl;
-			}
+			//if (_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].hardness < PLAYER->getShovel().hardness)
+			//{
+			//	_wallTile[PLAYER->getPosIdx().y][PLAYER->getPosIdx().x - 1].isExist = false;
+			//}
+			//else
+			//{
+			//	cout << "안부셔짐" << endl;
+			//}
 		}
 		else
 		{
@@ -213,47 +166,66 @@ void LobbyScene::update()
 	{
 		cout << "다음 스테이지 이동" << endl;
 	}
+
+	if (KEYMANAGER->isOnceKeyDown('A'))
+	{
+		CAMERA->cameraShake(30);
+	}
 }
 
 void LobbyScene::render()
 {
 	// 타일 출력
-	for (int i = -7; i < 8; i++)
-	{
-		for (int j = -11; j < 12; j++)
-		{
-			int curIdxX = PLAYER->getPosIdx().x + j;
-			int curIdxY = PLAYER->getPosIdx().y + i;
+	tileSet(_terrainTile, TILE_TYPE::TERRAIN);
+	tileSet(_wallTile, TILE_TYPE::WALL);
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+	//for (int i = -7; i < 8; i++)
+	//{
+	//	for (int j = -11; j < 12; j++)
+	//	{
+	//		int curIdxX = PLAYER->getPosIdx().x + j;
+	//		int curIdxY = PLAYER->getPosIdx().y + i;
 
-			// terrain 타일 출력
-			if (_terrainTile[curIdxY][curIdxX].isExist)
-			{
-				_terrainImg->frameRender(getMemDC(),
-					CAMERA->getPos().x + (j * TILESIZE),
-					CAMERA->getPos().y + (i * TILESIZE),
-					_terrainTile[curIdxY][curIdxX].frameX,
-					_terrainTile[curIdxY][curIdxX].frameY);
-			}
+	//		if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
+	//		if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
 
-			// wall 타일 출력
-			if (_wallTile[curIdxY][curIdxX].isExist)
-			{
-				_wallImg->frameRender(getMemDC(),
-					CAMERA->getPos().x + (j * TILESIZE),
-					CAMERA->getPos().y + (i * TILESIZE),
-					_wallTile[curIdxY][curIdxX].frameX,
-					_wallTile[curIdxY][curIdxX].frameY);
-			}
+	//		// terrain 타일 출력
+	//		if (!_terrainTile[curIdxY][curIdxX].isExist) continue;
 
-			char strIdx[15];
-			sprintf_s(strIdx, "[%d, %d]", curIdxX, curIdxY);
+	//		_terrainImg->frameRender(getMemDC(),
+	//			CAMERA->getPos().x + (j * TILESIZE),
+	//			CAMERA->getPos().y + (i * TILESIZE),
+	//			_terrainTile[curIdxY][curIdxX].frameX,
+	//			_terrainTile[curIdxY][curIdxX].frameY);
+	//	}
+	//}
 
-			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE), strIdx, strlen(strIdx));
-		}
-	}
+	//for (int i = -7; i < 8; i++)
+	//{
+	//	for (int j = -11; j < 12; j++)
+	//	{
+	//		int curIdxX = PLAYER->getPosIdx().x + j;
+	//		int curIdxY = PLAYER->getPosIdx().y + i;
+
+	//		if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
+	//		if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+
+	//		// wall 타일 출력
+	//		if (_wallTile[curIdxY][curIdxX].isExist)
+	//		{
+	//			_wallImg->frameRender(getMemDC(),
+	//				CAMERA->getPos().x + (j * TILESIZE),
+	//				CAMERA->getPos().y + (i * TILESIZE),
+	//				_wallTile[curIdxY][curIdxX].frameX,
+	//				_wallTile[curIdxY][curIdxX].frameY);
+	//		}
+
+	//		char strIdx[15];
+	//		sprintf_s(strIdx, "[%d, %d]", curIdxX, curIdxY);
+
+	//		TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE), strIdx, strlen(strIdx));
+	//	}
+	//}
 
 	//// 벡터 출력
 	//for (int i = -7; i < 8; i++)
@@ -289,4 +261,39 @@ void LobbyScene::render()
 	PLAYER->render(getMemDC());
 
 	UIMANAGER->render(getMemDC());
+}
+
+void LobbyScene::tileSet(Tile _tile[][MAX_ROBBY_COL], TILE_TYPE type)
+{
+	for (int i = -7; i < 8; i++)
+	{
+		for (int j = -11; j < 12; j++)
+		{
+			int curIdxX = PLAYER->getPosIdx().x + j;
+			int curIdxY = PLAYER->getPosIdx().y + i;
+
+			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+
+			if (!_tile[curIdxY][curIdxX].isExist) continue;
+
+			switch (type)
+			{
+			case TILE_TYPE::TERRAIN:
+				_terrainImg->frameRender(getMemDC(),
+					CAMERA->getPos().x + (j * TILESIZE),
+					CAMERA->getPos().y + (i * TILESIZE),
+					_tile[curIdxY][curIdxX].frameX,
+					_tile[curIdxY][curIdxX].frameY);
+				break;
+			case TILE_TYPE::WALL:
+				_wallImg->frameRender(getMemDC(),
+					CAMERA->getPos().x + (j * TILESIZE),
+					CAMERA->getPos().y + (i * TILESIZE),
+					_wallTile[curIdxY][curIdxX].frameX,
+					_wallTile[curIdxY][curIdxX].frameY);
+				break;
+			}
+		}
+	}
 }

@@ -1,19 +1,21 @@
 #pragma once
 #include "SingletonBase.h"
 
-#define TILE_COL_CNT		21
-#define TILE_ROW_CNT		13
-
 class Camera : public SingletonBase<Camera>
 {
 private:
 	POINTFLOAT _pos;
 
+	int _shakeCount;
+	float _shake;
+
 public:
 	HRESULT init(void);
 	void release(void);
 	void update(void);
-	void render(HDC hdc);
 
+	void cameraShake(int shakeCount);
+
+	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 	POINTFLOAT getPos() { return _pos; }
 };

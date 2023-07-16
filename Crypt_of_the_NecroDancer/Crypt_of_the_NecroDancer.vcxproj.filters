@@ -82,11 +82,14 @@
     <Filter Include="MainGame\Scene\Stage">
       <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Item">
-      <UniqueIdentifier>{e088859f-b03e-479d-b813-1c099ccdcf45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\UI">
       <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Tile">
+      <UniqueIdentifier>{188ac8df-4e1f-450f-ace6-924a23a95b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Item">
+      <UniqueIdentifier>{950ee595-a546-4953-adb9-839c05335572}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -156,11 +159,14 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Heart.cpp">
-      <Filter>MainGame\Object\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>MainGame\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>MainGame\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,11 +242,17 @@
     <ClInclude Include="GameScene.h">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Heart.h">
-      <Filter>MainGame\Object\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>MainGame\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TileNode.h">
+      <Filter>MainGame\Object\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>MainGame\Object\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

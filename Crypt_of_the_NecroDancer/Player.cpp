@@ -9,24 +9,21 @@ HRESULT Player::init(void)
 	_posIdx = { 0, 0 };
 	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 
+	_curWeapon.init(WEAPON_TYPE::DAGGER);
+
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
 
 	_maxHP = 6;
 	_curHP = 6;
 
-	_coin = 0;
+	_coin = 123;
 	_diamond = 0;
 
 	_isMove = false;
 	_isLeft = false;
 
 	_isShovel = false;
-
-	_curShovel.img = IMAGEMANAGER->findImage("shovel");
-	_curShovel.hardness = 2;
-
-	_weaponItemImg = IMAGEMANAGER->findImage("dagger");
 
 	return S_OK;
 }
@@ -72,12 +69,12 @@ void Player::update(void)
 
 void Player::render(HDC hdc)
 {
-	// 아이템 이미지 그리기
-	_curShovel.img->frameRender(hdc, 15, 20, _curShovel.img->getFrameX(), _curShovel.img->getFrameY());
-	_weaponItemImg->frameRender(hdc, 100, 35, _weaponItemImg->getFrameX(), _weaponItemImg->getFrameY());
-
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);
+
+	_curWeapon.getCurWeaponImg()->frameRender(hdc, 
+		110 - _curWeapon.getCurWeaponImg()->getFrameWidth() / 2,
+		45 - _curWeapon.getCurWeaponImg()->getFrameHeight() / 2);
 
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,

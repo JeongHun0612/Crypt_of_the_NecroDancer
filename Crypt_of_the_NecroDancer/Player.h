@@ -1,5 +1,6 @@
 #pragma once
 #include "SingletonBase.h"
+#include "Weapon.h"
 
 enum class PLAYER_DIRECTION
 {
@@ -10,22 +11,13 @@ enum class PLAYER_DIRECTION
 	DOWN
 };
 
-
 class Player : public SingletonBase<Player>
 {
-private:
-	struct Shovel
-	{
-		GImage* img;
-		int hardness;
-	};
-
-
 private:
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 
-	GImage* _weaponItemImg;
+	Weapon _curWeapon;
 
 	POINTFLOAT _pos;						// 현재 플레이어 포지션
 	POINT _posIdx;							// 현재 플레이어가 있는 타일번호
@@ -34,7 +26,6 @@ private:
 
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
 
-	Shovel _curShovel;						// 플레이어 현재 장착중인 삽
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
@@ -79,9 +70,6 @@ public:
 
 	void setIsShovel(bool isShovel) { _isShovel = isShovel; }
 	bool getIsShovel() { return _isShovel; }
-
-
-	Shovel getShovel() { return _curShovel; }
 
 	Player() {}
 	~Player() {}
