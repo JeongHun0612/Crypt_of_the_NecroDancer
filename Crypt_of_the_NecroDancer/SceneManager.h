@@ -21,6 +21,7 @@ public:
 	void render();
 
 	GameNode* addScene(string sceneName, GameNode* scene);
+	GameNode* getCurScene() { return _currentScene; }
 
 	HRESULT changeScene(string sceneName);
 

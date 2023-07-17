@@ -6,10 +6,15 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
-	_posIdx = { 0, 0 };
+	_posIdxX = 0;
+	_posIdxY = 0;
 	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 
+	_curShovel = new Shovel;
+	_curShovel->init();
+
 	_curWeapon.init(WEAPON_TYPE::DAGGER);
+	_curArmor.init();
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
@@ -17,13 +22,13 @@ HRESULT Player::init(void)
 	_maxHP = 6;
 	_curHP = 6;
 
+	_rightDist = 5;
+
 	_coin = 123;
 	_diamond = 0;
 
 	_isMove = false;
 	_isLeft = false;
-
-	_isShovel = false;
 
 	return S_OK;
 }
@@ -72,15 +77,33 @@ void Player::render(HDC hdc)
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);
 
-	_curWeapon.getCurWeaponImg()->frameRender(hdc, 
-		110 - _curWeapon.getCurWeaponImg()->getFrameWidth() / 2,
-		45 - _curWeapon.getCurWeaponImg()->getFrameHeight() / 2);
+	if (_curShovel->getIsDig())
+	{
+		showShovel(_curDirection, hdc);
 
+		if (SOUNDMANAGER->getPosition("dig_fail") == 417)
+		{
+			_curShovel->setIsDig(false);
+		}
+	}
+
+	// 현재 착용 삽
+	_curShovel->getImg()->frameRender(hdc,
+		30 - _curWeapon.getImg()->getFrameWidth() / 2,
+		35 - _curWeapon.getImg()->getFrameHeight() / 2);
+
+	// 현재 착용 무기
+	_curWeapon.getImg()->frameRender(hdc, 
+		110 - _curWeapon.getImg()->getFrameWidth() / 2,
+		45 - _curWeapon.getImg()->getFrameHeight() / 2);
+
+	// 몸통 이미지
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
 		_pos.y - _bodyImg->getFrameHeight() / 2 + 10,
 		_bodyImg->getFrameX(), _bodyImg->getFrameY());
 
+	// 머리 이미지
 	_headImg->frameRender(hdc,
 		_pos.x - _headImg->getFrameWidth() / 2,
 		_pos.y - _headImg->getFrameHeight() / 2 - 11,
@@ -88,7 +111,7 @@ void Player::render(HDC hdc)
 
 	// 플레이어 현재 인덱스 좌표
 	char playerIdx[40];
-	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdx.x, _posIdx.y);
+	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdxX, _posIdxY);
 	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, playerIdx, strlen(playerIdx));
 }
 
@@ -100,19 +123,11 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		_isLeft = true;
 		_bodyImg->setFrameX(4);
 		_headImg->setFrameX(4);
-		_posIdx.x--;
 		break;
 	case PLAYER_DIRECTION::RIGHT:
 		_isLeft = false;
 		_bodyImg->setFrameX(0);
 		_headImg->setFrameX(0);
-		_posIdx.x++;
-		break;
-	case PLAYER_DIRECTION::UP:
-		_posIdx.y--;
-		break;
-	case PLAYER_DIRECTION::DOWN:
-		_posIdx.y++;
 		break;
 	}
 
@@ -128,5 +143,24 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 	{
 		jumpCount = 0;
 		_isMove = false;
+	}
+}
+
+void Player::showShovel(PLAYER_DIRECTION direction, HDC hdc)
+{
+	switch (direction)
+	{
+	case PLAYER_DIRECTION::LEFT:
+		_curShovel->getImg()->frameRender(hdc, _pos.x - 90, _pos.y - 25);
+		break;
+	case PLAYER_DIRECTION::RIGHT:
+		_curShovel->getImg()->frameRender(hdc, _pos.x + 40, _pos.y - 25);
+		break;
+	case PLAYER_DIRECTION::UP:
+		_curShovel->getImg()->frameRender(hdc, _pos.x - 25, _pos.y - 90);
+		break;
+	case PLAYER_DIRECTION::DOWN:
+		_curShovel->getImg()->frameRender(hdc, _pos.x - 25, _pos.y + 40);
+		break;
 	}
 }

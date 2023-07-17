@@ -1,11 +1,5 @@
 #pragma once
 
-struct Shovel
-{
-	GImage* img;
-	int hardNess;
-};
-
 enum class ITEM_TYPE
 {
 	SHOVEL,

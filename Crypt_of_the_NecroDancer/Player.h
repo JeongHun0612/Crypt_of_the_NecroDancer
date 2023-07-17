@@ -1,6 +1,8 @@
 #pragma once
 #include "SingletonBase.h"
+#include "Shovel.h"
 #include "Weapon.h"
+#include "Armor.h"
 
 enum class PLAYER_DIRECTION
 {
@@ -17,26 +19,27 @@ private:
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 
-	Weapon _curWeapon;
+	Shovel* _curShovel;						// 플레이어가 착용 중인 삽
+	Weapon _curWeapon;						// 플레이어가 착용 중인 무기
+	Armor _curArmor;						// 플레이어가 착용 중인 갑옷
 
 	POINTFLOAT _pos;						// 현재 플레이어 포지션
-	POINT _posIdx;							// 현재 플레이어가 있는 타일번호
+	int _posIdxX;							// 현재 플레이어가 있는 타일인덱스 X
+	int _posIdxY;							// 현재 플레이어가 있는 타일인덱스 Y
 
 	RECT _rc;								// 플레이어 충돌체
 
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
 
-
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
+	int _rightDist;							// 불빛의 거리
 
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드
 
-	bool _isMove;
-	bool _isLeft;
-
-	bool _isShovel;
+	bool _isMove;							// 움직이고 있는 상태인지
+	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
 
 	float _count;
 
@@ -47,12 +50,17 @@ public:
 	void render(HDC hdc);
 
 	void moveAction(PLAYER_DIRECTION direction);
+	void showShovel(PLAYER_DIRECTION direction, HDC hdc);
+
 
 	POINTFLOAT	getPos() { return _pos; }
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 
-	POINT getPosIdx() { return _posIdx; }
-	void setPosIdx(int x, int y) { _posIdx.x = x, _posIdx.y = y; }
+	int getPosIdxX() { return _posIdxX; }
+	void setPosIdxX(int idxX) { _posIdxX = idxX; }
+
+	int getPosIdxY() { return _posIdxY; }
+	void setPosIdxY(int idxY) { _posIdxY = idxY; }
 
 	int getCoin() { return _coin; }
 	int getDiamond() { return _diamond; }
@@ -63,13 +71,16 @@ public:
 	void setCurHP(int curHP) { _curHP = curHP; }
 	int getCurHP() { return _curHP; }
 
-	void setDirection(PLAYER_DIRECTION direction) { _curDirection = direction; }
+	void setRightDist(int rightDist) { _rightDist = rightDist; }
+	int getRightDist() { return _rightDist; }
+
+	PLAYER_DIRECTION getCurDirection() { return _curDirection; }
+	void setCurDirection(PLAYER_DIRECTION direction) { _curDirection = direction; }
 
 	void setIsMove(bool isMove) { _isMove = isMove; }
 	bool getIsMove() { return _isMove; }
 
-	void setIsShovel(bool isShovel) { _isShovel = isShovel; }
-	bool getIsShovel() { return _isShovel; }
+	Shovel* getCurShovel() { return _curShovel; }
 
 	Player() {}
 	~Player() {}

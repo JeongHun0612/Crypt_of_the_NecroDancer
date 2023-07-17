@@ -10,6 +10,12 @@ private:
 	GImage* _terrainImg;
 	GImage* _wallImg;
 
+	int _nextIdxX;
+	int _nextIdxY;
+	PLAYER_DIRECTION _nextDirection;
+
+	vector<Tile> _vTerrainTile;
+
 	Tile _terrainTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
 	Tile _wallTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
 
@@ -20,6 +26,9 @@ public:
 	void render();
 
 	void tileSet(Tile _tile[][MAX_ROBBY_COL], TILE_TYPE type);
+
+	void showTileNum(Tile _tile[][MAX_ROBBY_COL]);
+	void showTileDist(Tile _tile[][MAX_ROBBY_COL]);
 
 	LobbyScene() {}
 	~LobbyScene() {}

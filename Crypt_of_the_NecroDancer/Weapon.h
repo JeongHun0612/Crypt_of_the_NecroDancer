@@ -6,30 +6,24 @@ enum class WEAPON_TYPE
 	DAGGER,
 	BROADSWORD,
 	RAPIER,
-	SPEAR,
-
-	END,
+	SPEAR
 };
 
 class Weapon : public Item
 {
-protected:
+private:
 	GImage* _img;
-	GImage* _effect;
-	WEAPON_TYPE _type;
+	GImage* _effectImg;
 	int _power;
-
-	vector<Weapon> _vWeapon;
 
 public:
 	HRESULT init(WEAPON_TYPE type);
 	void release();
 	void update();
 
-	void attack();
-	void changeWeapon(Weapon& weapon, WEAPON_TYPE type);
-
-	GImage* getCurWeaponImg() { return _img; }
+	GImage* getImg() { return _img; }
+	GImage* getEffectImg() { return _effectImg; }
+	int getPower() { return _power; }
 
 	Weapon() {}
 	~Weapon() {}

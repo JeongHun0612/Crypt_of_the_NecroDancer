@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Beat.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FileManager.cpp" />
@@ -151,12 +152,14 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GImage.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shovel.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -170,6 +173,7 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Armor.h" />
     <ClInclude Include="Beat.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
@@ -179,6 +183,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GImage.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="LobbyScene.h" />
@@ -186,6 +191,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shovel.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Slime_Green.h" />

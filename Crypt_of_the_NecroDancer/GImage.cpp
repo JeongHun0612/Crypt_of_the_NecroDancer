@@ -491,6 +491,90 @@ void GImage::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int c
     }
 }
 
+void GImage::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+    // 알파블렌드를 처음 사용하면 초기화
+    if (!_blendImage) initForAlphaBlend();
+
+    _blendFunc.SourceConstantAlpha = alpha;
+
+    // 이미지 예외처리
+    _imageInfo->currentFrameX = currentFrameX;
+    _imageInfo->currentFrameY = currentFrameY;
+
+    if (currentFrameX > _imageInfo->maxFrameX)
+    {
+        _imageInfo->currentFrameX = _imageInfo->maxFrameX;
+    }
+
+    if (currentFrameY > _imageInfo->maxFrameY)
+    {
+        _imageInfo->currentFrameY = _imageInfo->maxFrameY;
+    }
+
+    if (_isTrans)
+    {
+        // 1. 출력해야 할 DC에 그려져 있는 내용을 블렌드 이미지에 그린다. (복사)
+        BitBlt
+        (
+            _blendImage->hMemDC,
+            0,
+            0,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
+            hdc,
+            _imageInfo->currentFrameX * _imageInfo->frameWidth,
+            _imageInfo->currentFrameY * _imageInfo->frameHeight,
+            SRCCOPY
+        );
+
+        // 2. 원본 이미지의 배경을 없앤 후 블렌드 이미지에 그린다.
+        GdiTransparentBlt
+        (
+            _blendImage->hMemDC,                                        // 복사할 장소의 DC (화면 DC)
+            0, 0,                                                       // 복사될 좌표 시작
+            _imageInfo->frameWidth,                                     // 복사될 이미지 가로 크기
+            _imageInfo->frameHeight,                                    // 복사될 이미지 세로 크기
+            _imageInfo->hMemDC,                                         // 복사될 대상 메모리 DC
+            _imageInfo->currentFrameX * _imageInfo->frameWidth,         // 복사 시작지점 X
+            _imageInfo->currentFrameY * _imageInfo->frameHeight,        // 복사 시작지점 Y
+            _imageInfo->frameWidth,                                     // 복사 영역 가로 크기
+            _imageInfo->frameHeight,                                    // 복사 영역 세로 크기
+            _transColor                                                 // 복사할 때 제외할 색상 (마젠타)
+        );
+
+
+        // 3. 블렌드 이미지를 화면에 그린다.
+        AlphaBlend
+        (
+            hdc,
+            destX, destY,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
+            _blendImage->hMemDC,
+            0,
+            0,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
+            _blendFunc
+        );
+    }
+
+    else
+    {
+        AlphaBlend(hdc,
+            destX, destY,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
+            _imageInfo->hMemDC, 
+            _imageInfo->currentFrameX * _imageInfo->frameWidth,
+            _imageInfo->currentFrameY * _imageInfo->frameHeight,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
+            _blendFunc);
+    }
+}
+
 void GImage::loopRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY)
 {
     //IMAGEMANAGER->loopRender("bg_loop", getMemDC(), &RectMake(0, 0, WINSIZE_X, WINSIZE_Y), _bgSpeed, _offsetY);
@@ -582,8 +666,8 @@ void GImage::alphaRender(HDC hdc, BYTE alpha)
         (
             _blendImage->hMemDC,
             0, 0,
-            _imageInfo->width,
-            _imageInfo->height,
+            _imageInfo->frameWidth,
+            _imageInfo->frameHeight,
             hdc,
             0, 0,
             SRCCOPY

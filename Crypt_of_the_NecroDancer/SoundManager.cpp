@@ -98,6 +98,7 @@ void SoundManager::play(string strKey, float volume)
 		{
 			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
 			_channel[count]->setVolume(volume);
+
 			break;
 		}
 	}
@@ -159,6 +160,7 @@ unsigned int SoundManager::getPosition(string strKey)
 		{
 			unsigned int pos = 0;
 			_channel[count]->getPosition(&pos, FMOD_TIMEUNIT_MS);
+
 			return pos;
 		}
 	}

@@ -91,6 +91,9 @@
     <Filter Include="MainGame\Object\Item">
       <UniqueIdentifier>{950ee595-a546-4953-adb9-839c05335572}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Scene\Intro">
+      <UniqueIdentifier>{325be4aa-a9e0-4d32-a316-442831286c81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -167,6 +170,15 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Shovel.cpp">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>MainGame\Scene\Intro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +265,15 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Shovel.h">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>MainGame\Scene\Intro</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

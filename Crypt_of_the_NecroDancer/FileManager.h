@@ -6,5 +6,6 @@ class FileManager
 {
 public:
 	static void loadBeatFile(const char* fileName, queue<int>& queueList);
+	static void loadTileMapFile(const char* fileName, vector<Tile>& vTileList);
 };
 

@@ -51,6 +51,7 @@ GameNode* SceneManager::addScene(string sceneName, GameNode* scene)
 {
 	if (!scene) return nullptr;
 
+	scene->setName(sceneName);
 	_mSceneList.insert(make_pair(sceneName, scene));
 
 	return scene;

@@ -1,6 +1,7 @@
 #include "Stdafx.h"
 #include "MainGame.h"
 
+#include "IntroScene.h"
 #include "TitleScene.h"
 #include "LobbyScene.h"
 #include "GameScene.h"
@@ -19,6 +20,7 @@ HRESULT MainGame::init(void)
 	initSound();
 
 	// 씬 추가
+	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 	SCENEMANAGER->addScene("game", new GameScene);				// 인게임
@@ -43,21 +45,24 @@ void MainGame::update(void)
 
 void MainGame::render(void)
 {
-	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
-	// =====================================================================
+	if (SCENEMANAGER->getCurScene()->getName() != "intro")
+	{
+		PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
+		// =====================================================================
 
-	// 글자 배경모드 - TRANSPARENT : 투명한
-	SetBkMode(getMemDC(), TRANSPARENT);
-	SetTextColor(getMemDC(), RGB(255, 255, 255));
+		// 글자 배경모드 - TRANSPARENT : 투명한
+		SetBkMode(getMemDC(), TRANSPARENT);
+		SetTextColor(getMemDC(), RGB(255, 255, 255));
 
-	// 현재 씬 출력
-	SCENEMANAGER->render();
+		// 현재 씬 출력
+		SCENEMANAGER->render();
 
-	// 시간 확인 (프레임, 월드 타임, 델타 타임)
-	TIMEMANAGER->render(getMemDC());
+		// 시간 확인 (프레임, 월드 타임, 델타 타임)
+		TIMEMANAGER->render(getMemDC());
 
-	// =====================================================================
-	this->getBackBuffer()->render(getHDC(), 0, 0);
+		// =====================================================================
+		this->getBackBuffer()->render(getHDC(), 0, 0);
+	}
 }
 
 void MainGame::initImage()
@@ -73,7 +78,7 @@ void MainGame::initImage()
 	// ===================
 	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 192, 128, 3, 2, true, RGB(255, 0 ,255));
+	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1107, 5, 9, true, RGB(255, 0, 255));
 
 	// ===================
@@ -116,6 +121,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dagger", "Resources/Images/Item/Dagger.bmp", 26, 52, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 
 	// ===================
 	// Effect
@@ -135,8 +141,31 @@ void MainGame::initImage()
 
 void MainGame::initSound()
 {
+	// ===================
 	// BGM
+	// ===================
 	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, true);
 	SOUNDMANAGER->addSound("lobby", "Resources/Sounds/BGM/lobby.mp3", true, true);
 	SOUNDMANAGER->addSound("stage1-1", "Resources/Sounds/BGM/stage1-1.mp3", true, false);
+
+	// ===================
+	// 플레이어
+	// ===================
+
+	// 플레이어 - 삽질
+	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/vo_cad_dig_01.mp3", false, false);
+	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/vo_cad_dig_02.mp3", false, false);
+	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/vo_cad_dig_03.mp3", false, false);
+	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/vo_cad_dig_04.mp3", false, false);
+	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/vo_cad_dig_05.mp3", false, false);
+	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/vo_cad_dig_06.mp3", false, false);
+
+	// ===================
+	// 오브젝트
+	// ===================
+	SOUNDMANAGER->addSound("dig_brick", "Resources/Sounds/Object/mov_dig_brick.mp3", false, false);
+	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.mp3", false, false);
+	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
+	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
+
 }
