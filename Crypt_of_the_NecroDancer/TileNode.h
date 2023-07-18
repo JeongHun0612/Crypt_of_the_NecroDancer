@@ -6,10 +6,11 @@
 enum class TILE_TYPE
 {
 	TERRAIN,
-	WALL
+	WALL,
+	DECO
 };
 
-enum TERRAIN
+enum class TERRAIN
 {
 	GROUND,
 	STAIR,
@@ -17,9 +18,13 @@ enum TERRAIN
 	END
 };
 
-enum WALL
+enum class WALL
 {
-
+	NONE,
+	DIRT,
+	BRICK,
+	STONE,
+	STEEL
 };
 
 struct Tile
@@ -34,4 +39,10 @@ struct Tile
 
 	bool isExist;
 	bool isColiider;
+	bool isLight;
+};
+
+struct Enemy
+{
+	int idxX, idxY;
 };

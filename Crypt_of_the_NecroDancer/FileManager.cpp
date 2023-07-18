@@ -39,7 +39,7 @@ void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 	loadStream.close();
 }
 
-void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList)
+void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList, TILE_TYPE type)
 {
 	char filePath[MAX_PATH] = "Resources/TileMap/";
 	strcat_s(filePath, fileName);
@@ -64,7 +64,17 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList)
 
 			if (cutIndex == -1)
 			{
-				tile.hardness = stoi(line);
+				switch (type)
+				{
+				case TILE_TYPE::TERRAIN:
+					tile.terrain = (TERRAIN)stoi(line);
+					break;
+				case TILE_TYPE::WALL:
+					tile.wall = (WALL)stoi(line);
+					break;
+				case TILE_TYPE::DECO:
+					break;
+				}
 				break;
 			}
 
@@ -90,6 +100,8 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList)
 			case 5:
 				tile.isExist = tileData;
 				break;
+			case 6:
+				tile.hardness = tileData;
 			}
 
 			cutIndex++;
@@ -100,4 +112,3 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList)
 		vTileList.push_back(tile);
 	}
 }
-

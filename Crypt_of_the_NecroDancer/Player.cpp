@@ -13,7 +13,9 @@ HRESULT Player::init(void)
 	_curShovel = new Shovel;
 	_curShovel->init();
 
-	_curWeapon.init(WEAPON_TYPE::DAGGER);
+	_curWeapon = new Weapon;
+	_curWeapon->init(WEAPON_TYPE::DAGGER);
+
 	_curArmor.init();
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
@@ -22,7 +24,7 @@ HRESULT Player::init(void)
 	_maxHP = 6;
 	_curHP = 6;
 
-	_rightDist = 5;
+	_lightPower = 5;
 
 	_coin = 123;
 	_diamond = 0;
@@ -66,9 +68,16 @@ void Player::update(void)
 		_count = 0.0f;
 	}
 
+	// 움직임 상태일때
 	if (_isMove)
 	{
 		moveAction(_curDirection);
+	}
+
+	// 공격 상태일때
+	if (_curWeapon->getIsAttack())
+	{
+		_curWeapon->update();
 	}
 }
 
@@ -76,7 +85,8 @@ void Player::render(HDC hdc)
 {
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);
-
+	
+	// 삽 모션
 	if (_curShovel->getIsDig())
 	{
 		showShovel(_curDirection, hdc);
@@ -87,15 +97,21 @@ void Player::render(HDC hdc)
 		}
 	}
 
+	// 공격 모션
+	if (_curWeapon->getIsAttack())
+	{
+		showAttackEffect(_curDirection, hdc);
+	}
+
 	// 현재 착용 삽
 	_curShovel->getImg()->frameRender(hdc,
-		30 - _curWeapon.getImg()->getFrameWidth() / 2,
-		35 - _curWeapon.getImg()->getFrameHeight() / 2);
+		40 - _curShovel->getImg()->getFrameWidth() / 2,
+		45 - _curShovel->getImg()->getFrameHeight() / 2);
 
 	// 현재 착용 무기
-	_curWeapon.getImg()->frameRender(hdc, 
-		110 - _curWeapon.getImg()->getFrameWidth() / 2,
-		45 - _curWeapon.getImg()->getFrameHeight() / 2);
+	_curWeapon->getImg()->frameRender(hdc, 
+		110 - _curWeapon->getImg()->getFrameWidth() / 2,
+		45 - _curWeapon->getImg()->getFrameHeight() / 2);
 
 	// 몸통 이미지
 	_bodyImg->frameRender(hdc,
@@ -161,6 +177,25 @@ void Player::showShovel(PLAYER_DIRECTION direction, HDC hdc)
 		break;
 	case PLAYER_DIRECTION::DOWN:
 		_curShovel->getImg()->frameRender(hdc, _pos.x - 25, _pos.y + 40);
+		break;
+	}
+}
+
+void Player::showAttackEffect(PLAYER_DIRECTION direction, HDC hdc)
+{
+	switch (direction)
+	{
+	case PLAYER_DIRECTION::LEFT:
+		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 90, _pos.y - 25, 0, 2);
+		break;
+	case PLAYER_DIRECTION::RIGHT:
+		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x + 40, _pos.y - 25, 0, 3);
+		break;
+	case PLAYER_DIRECTION::UP:
+		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 25, _pos.y - 90, 0, 0);
+		break;
+	case PLAYER_DIRECTION::DOWN:
+		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 25, _pos.y + 40, 0, 1);
 		break;
 	}
 }

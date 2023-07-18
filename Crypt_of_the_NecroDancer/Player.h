@@ -20,7 +20,7 @@ private:
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 
 	Shovel* _curShovel;						// 플레이어가 착용 중인 삽
-	Weapon _curWeapon;						// 플레이어가 착용 중인 무기
+	Weapon* _curWeapon;						// 플레이어가 착용 중인 무기
 	Armor _curArmor;						// 플레이어가 착용 중인 갑옷
 
 	POINTFLOAT _pos;						// 현재 플레이어 포지션
@@ -33,7 +33,7 @@ private:
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
-	int _rightDist;							// 불빛의 거리
+	int _lightPower;						// 불빛의 세기
 
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드
@@ -51,6 +51,7 @@ public:
 
 	void moveAction(PLAYER_DIRECTION direction);
 	void showShovel(PLAYER_DIRECTION direction, HDC hdc);
+	void showAttackEffect(PLAYER_DIRECTION direction, HDC hdc);
 
 
 	POINTFLOAT	getPos() { return _pos; }
@@ -71,8 +72,8 @@ public:
 	void setCurHP(int curHP) { _curHP = curHP; }
 	int getCurHP() { return _curHP; }
 
-	void setRightDist(int rightDist) { _rightDist = rightDist; }
-	int getRightDist() { return _rightDist; }
+	void setLightPower(int lightPower) { _lightPower = lightPower; }
+	int getLightPower() { return _lightPower; }
 
 	PLAYER_DIRECTION getCurDirection() { return _curDirection; }
 	void setCurDirection(PLAYER_DIRECTION direction) { _curDirection = direction; }
@@ -81,6 +82,7 @@ public:
 	bool getIsMove() { return _isMove; }
 
 	Shovel* getCurShovel() { return _curShovel; }
+	Weapon* getCurWeapon() { return _curWeapon; }
 
 	Player() {}
 	~Player() {}

@@ -1,7 +1,7 @@
 #pragma once
 #include "Slime.h"
 
-class Slime_Green : public Slime
+class Slime_Blue : public Slime
 {
 private:
 
@@ -11,6 +11,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	Slime_Green() {}
-	~Slime_Green() {}
+	Slime_Blue() {}
+	~Slime_Blue() {}
 };
+

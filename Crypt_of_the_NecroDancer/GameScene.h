@@ -5,7 +5,11 @@
 class GameScene : public GameNode
 {
 private:
-	Player* _player;
+
+
+	int _nextIdxX;
+	int _nextIdxY;
+	PLAYER_DIRECTION _nextDirection;
 
 public:
 	HRESULT init(void);

@@ -3,105 +3,46 @@
 
 HRESULT GameScene::init(void)
 {
+	SOUNDMANAGER->play("stage1-1", 0.5f);
+
+	// ÇÃ·¹ÀÌ¾î ÃÊ±âÈ­
+	PLAYER->init();
+	PLAYER->setPosIdxX(5);
+	PLAYER->setPosIdxY(5);
+
+	// ºñÆ® ÃÊ±âÈ­
+	BEAT->init();
+
+	_nextIdxY = PLAYER->getPosIdxY();
+	_nextIdxX = PLAYER->getPosIdxX();
+	_nextDirection = PLAYER->getCurDirection();
+
+	// UI ÃÊ±âÈ­
+	UIMANAGER->init();
+
     return S_OK;
 }
 
 void GameScene::release(void)
 {
+	SOUNDMANAGER->stop("stage1-1");
 }
 
 void GameScene::update(void)
 {
-	//if (!_player.getIsMove())
-	//{
-	//	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
-	//	{
-	//		if (!BEAT->getBeat())
-	//		{
-	//			BEAT->setIsMissed(true);
-	//		}
-	//		else
-	//		{
-	//			BEAT->setIsSuccess(true);
-
-	//			if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x - 1].isColiider)
-	//			{
-	//				cout << "±ø! ±ø!" << endl;
-	//			}
-	//			else
-	//			{
-	//				_player.setIsMove(true);
-	//				_player.setDirection(PLAYER_DIRECTION::LEFT);
-	//			}
-	//		}
-	//	}
-
-	//	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	//	{
-	//		if (!BEAT->getBeat())
-	//		{
-	//			BEAT->setIsMissed(true);
-	//		}
-	//		else
-	//		{
-	//			BEAT->setIsSuccess(true);
-
-	//			if (_wallTile[_player.getPosIdx().y][_player.getPosIdx().x + 1].isColiider)
-	//			{
-	//				cout << "±ø! ±ø!" << endl;
-	//			}
-	//			else
-	//			{
-	//				_player.setIsMove(true);
-	//				_player.setDirection(PLAYER_DIRECTION::RIGHT);
-	//			}
-	//		}
-	//	}
-	//	if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	//	{
-	//		if (!BEAT->getBeat())
-	//		{
-	//			BEAT->setIsMissed(true);
-	//		}
-	//		else
-	//		{
-	//			BEAT->setIsSuccess(true);
-
-	//			if (_wallTile[_player.getPosIdx().y - 1][_player.getPosIdx().x].isColiider)
-	//			{
-	//				cout << "±ø! ±ø!" << endl;
-	//			}
-	//			else
-	//			{
-	//				_player.setIsMove(true);
-	//				_player.setDirection(PLAYER_DIRECTION::UP);
-	//			}
-	//		}
-	//	}
-	//	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	//	{
-	//		if (!BEAT->getBeat())
-	//		{
-	//			BEAT->setIsMissed(true);
-	//		}
-	//		else
-	//		{
-	//			BEAT->setIsSuccess(true);
-
-	//			if (_wallTile[_player.getPosIdx().y + 1][_player.getPosIdx().x].isColiider)
-	//			{
-	//				cout << "±ø! ±ø!" << endl;
-	//			}
-	//			else
-	//			{
-	//				_player.setIsMove(true);
-	//				_player.setDirection(PLAYER_DIRECTION::DOWN);
-	//			}
-	//		}
-	//	}
-	//}
+	CAMERA->update();
+	PLAYER->update();
+	BEAT->update();
 }
 
 void GameScene::render(void)
 {
+	// ÇÃ·¹ÀÌ¾î Ãâ·Â
+	PLAYER->render(getMemDC());
+
+	// ºñÆ® Ãâ·Â
+	BEAT->render(getMemDC());
+
+	// UI Ãâ·Â
+	UIMANAGER->render(getMemDC());
 }

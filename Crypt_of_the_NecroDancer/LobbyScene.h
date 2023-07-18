@@ -1,8 +1,9 @@
 #pragma once
 #include "GameNode.h"
 #include "Player.h"
-#include "Slime_Green.h"
 #include "TileNode.h"
+#include "Slime_Green.h"
+#include "Slime_Blue.h"
 
 class LobbyScene : public GameNode
 {
@@ -14,10 +15,14 @@ private:
 	int _nextIdxY;
 	PLAYER_DIRECTION _nextDirection;
 
-	vector<Tile> _vTerrainTile;
+	vector<Slime*> _vSlime;
 
-	Tile _terrainTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
-	Tile _wallTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
+	vector<Tile> _vTerrainTile;
+	vector<Tile> _vWallTile;
+
+	Enemy _enemyTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
+
+	bool _isMove;
 
 public:
 	HRESULT init();
@@ -25,10 +30,13 @@ public:
 	void update();
 	void render();
 
-	void tileSet(Tile _tile[][MAX_ROBBY_COL], TILE_TYPE type);
+	void tileSet(vector<Tile> _vTile, TILE_TYPE type);
+	void enemySet();
+	int getAlphaSet(int distance, int rightPower);
 
-	void showTileNum(Tile _tile[][MAX_ROBBY_COL]);
-	void showTileDist(Tile _tile[][MAX_ROBBY_COL]);
+	void showTileNum(vector<Tile> _vTile);
+	void showTileDist(vector<Tile> _vTile);
+
 
 	LobbyScene() {}
 	~LobbyScene() {}

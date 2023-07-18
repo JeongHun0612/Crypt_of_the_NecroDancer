@@ -161,6 +161,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shovel.cpp" />
     <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="Slime_Blue.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stdafx.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Shovel.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="Slime.h" />
+    <ClInclude Include="Slime_Blue.h" />
     <ClInclude Include="Slime_Green.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Stdafx.h" />

@@ -46,9 +46,6 @@
     <Filter Include="MainGame\Scene">
       <UniqueIdentifier>{22bdb7a3-8f3c-40b2-9979-f45c9f00ca5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Scene\Title">
-      <UniqueIdentifier>{1b2ebc12-44cb-450c-a9a5-34d77ed87894}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Scene\Lobby">
       <UniqueIdentifier>{e9318cab-e7ff-48ea-9be2-caf7398eeeda}</UniqueIdentifier>
     </Filter>
@@ -93,6 +90,9 @@
     </Filter>
     <Filter Include="MainGame\Scene\Intro">
       <UniqueIdentifier>{325be4aa-a9e0-4d32-a316-442831286c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene\Title">
+      <UniqueIdentifier>{1b2ebc12-44cb-450c-a9a5-34d77ed87894}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>MainGame\Scene\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime_Blue.cpp">
+      <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>MainGame\Scene\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime_Blue.h">
+      <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

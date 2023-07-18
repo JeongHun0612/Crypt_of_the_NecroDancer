@@ -81,6 +81,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1107, 5, 9, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addFrameImage("tile_torch", "Resources/Images/Tile/Tile_Torch.bmp", 96, 52, 4, 1, true, RGB(255, 0, 255));
+
 	// ===================
 	// HUD
 	// ===================

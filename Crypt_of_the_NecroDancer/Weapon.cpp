@@ -32,4 +32,5 @@ void Weapon::release()
 
 void Weapon::update()
 {
+
 }
