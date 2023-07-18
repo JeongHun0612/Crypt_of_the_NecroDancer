@@ -5,19 +5,24 @@ class Shovel : public Item
 {
 private:
 	GImage* _img;
+	int _idxX;
+	int _idxY;
 	int _hardNess;
-	bool _isDig;
+
+	vector<Shovel> _vShowShovel;
+	float _destoryTime;
+
 
 public:
 	HRESULT init();
 	void release();
 	void update();
+	void render(HDC hdc);
 
 	GImage* getImg() { return _img; }
 	int getHardNess() { return _hardNess; }
 
-	void setIsDig(bool isDig) { _isDig = isDig; }
-	bool getIsDig() { return _isDig; }
+	void addShowShovel(int idxX, int idxY);
 
 	Shovel() {}
 	~Shovel() {}

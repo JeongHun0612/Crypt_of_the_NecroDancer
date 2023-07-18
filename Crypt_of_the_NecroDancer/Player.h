@@ -27,6 +27,9 @@ private:
 	int _posIdxX;							// 현재 플레이어가 있는 타일인덱스 X
 	int _posIdxY;							// 현재 플레이어가 있는 타일인덱스 Y
 
+	int _nextIdxX;							// 플레이어의 다음 행동 좌표 X
+	int _nextIdxY;							// 플레이어의 다음 행동 좌표 Y
+
 	RECT _rc;								// 플레이어 충돌체
 
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
@@ -50,10 +53,8 @@ public:
 	void render(HDC hdc);
 
 	void moveAction(PLAYER_DIRECTION direction);
-	void showShovel(PLAYER_DIRECTION direction, HDC hdc);
-	void showAttackEffect(PLAYER_DIRECTION direction, HDC hdc);
 
-
+	// 플레이어 포지션
 	POINTFLOAT	getPos() { return _pos; }
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 
@@ -63,24 +64,43 @@ public:
 	int getPosIdxY() { return _posIdxY; }
 	void setPosIdxY(int idxY) { _posIdxY = idxY; }
 
+	int getNextIdxX() { return _nextIdxX; }
+	void setNextIdxX(int idxX) { _nextIdxX = idxX; }
+
+	int getNextIdxY() { return _nextIdxY; }
+	void setNextIdxY(int idxY) { _nextIdxY = idxY; }
+
+
+	// 플레이어 재화
+	void setCoin(int coin) { _coin = coin; }
 	int getCoin() { return _coin; }
 	int getDiamond() { return _diamond; }
 
+
+	// 플레이어 체력
 	void setMaxHP(int maxHP) { _maxHP = maxHP; }
 	int getMaxHP() { return _maxHP; }
 
 	void setCurHP(int curHP) { _curHP = curHP; }
 	int getCurHP() { return _curHP; }
 
+
+	// 플레이어 시야 범위
 	void setLightPower(int lightPower) { _lightPower = lightPower; }
 	int getLightPower() { return _lightPower; }
 
+
+	// 플레이어 상하좌우 상태
 	PLAYER_DIRECTION getCurDirection() { return _curDirection; }
 	void setCurDirection(PLAYER_DIRECTION direction) { _curDirection = direction; }
 
+
+	// 플레이어 상태 변수
 	void setIsMove(bool isMove) { _isMove = isMove; }
 	bool getIsMove() { return _isMove; }
 
+
+	// 플레이어 소지 장비
 	Shovel* getCurShovel() { return _curShovel; }
 	Weapon* getCurWeapon() { return _curWeapon; }
 

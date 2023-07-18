@@ -9,11 +9,13 @@ HRESULT Weapon::init(WEAPON_TYPE type)
 		_img = IMAGEMANAGER->findImage("dagger");
 		_effectImg = IMAGEMANAGER->findImage("effect_dagger");
 		_power = 1;
+		_isAttack = false;
 		break;
 	case WEAPON_TYPE::BROADSWORD:
 		_img = IMAGEMANAGER->findImage("sword");
 		_effectImg = IMAGEMANAGER->findImage("effect_dagger");
 		_power = 2;
+		_isAttack = false;
 		break;
 	case WEAPON_TYPE::RAPIER:
 		break;
@@ -23,7 +25,7 @@ HRESULT Weapon::init(WEAPON_TYPE type)
 		break;
 	}
 
-    return S_OK;
+	return S_OK;
 }
 
 void Weapon::release()
@@ -32,5 +34,41 @@ void Weapon::release()
 
 void Weapon::update()
 {
+	if (_isAttack)
+	{
+		_count++;
 
+		if (_count % 5 == 0)
+		{
+			if (_effectImg->getFrameX() == _effectImg->getMaxFrameX())
+			{
+				_effectImg->setFrameX(0);
+				_isAttack = false;
+			}
+
+			_effectImg->setFrameX(_effectImg->getFrameX() + 1);
+		}
+	}
+}
+
+void Weapon::render(HDC hdc)
+{
+	if (_isAttack)
+	{
+		switch (PLAYER->getCurDirection())
+		{
+		case PLAYER_DIRECTION::LEFT:
+			_effectImg->frameRender(hdc, CAMERA->getPos().x - 64, CAMERA->getPos().y, _effectImg->getFrameX(), 2);
+			break;
+		case PLAYER_DIRECTION::RIGHT:
+			_effectImg->frameRender(hdc, CAMERA->getPos().x + 64, CAMERA->getPos().y, _effectImg->getFrameX(), 3);
+			break;
+		case PLAYER_DIRECTION::UP:
+			_effectImg->frameRender(hdc, CAMERA->getPos().x, CAMERA->getPos().y - 64, _effectImg->getFrameX(), 0);
+			break;
+		case PLAYER_DIRECTION::DOWN:
+			_effectImg->frameRender(hdc, CAMERA->getPos().x, CAMERA->getPos().y + 64, _effectImg->getFrameX(), 1);
+			break;
+		}
+	}
 }

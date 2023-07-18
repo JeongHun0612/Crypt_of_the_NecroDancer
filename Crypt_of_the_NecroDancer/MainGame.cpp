@@ -28,7 +28,7 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("test", new TestScene);							// 테스트 씬
 	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// 테스트 씬
 
-	SCENEMANAGER->changeScene("lobby");
+	SCENEMANAGER->changeScene("game");
 
 	return S_OK;
 }
@@ -88,9 +88,7 @@ void MainGame::initImage()
 	// ===================
 	// HUD - Beat
 	IMAGEMANAGER->addFrameImage("beat_heart", "Resources/Images/HUD/BeatHeart.bmp", 164, 104, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("beat_bar1", "Resources/Images/HUD/BeatBar1.bmp", 12, 64, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("beat_bar2", "Resources/Images/HUD/BeatBar2.bmp", 12, 64, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("beat_bar3", "Resources/Images/HUD/BeatBar3.bmp", 12, 64, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("beat_bar", "Resources/Images/HUD/BeatBar.bmp", 36, 60, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("missed", "Resources/Images/HUD/Missed.bmp", 72, 26, true, RGB(255, 0, 255));
 
 	// HUD - Slot
@@ -99,6 +97,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("slot_body", "Resources/Images/HUD/Slot_Body.bmp", 60, 66, true, RGB(255, 0, 255));
 
 	// HUD - HP
+	IMAGEMANAGER->addFrameImage("small_heart", "Resources/Images/HUD/small_heart.bmp", 48, 22, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heart", "Resources/Images/HUD/heart.bmp", 144, 44, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heart_full", "Resources/Images/HUD/heart_full.bmp", 109, 50, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heart_half", "Resources/Images/HUD/heart_half.bmp", 109, 50, 2, 1, true, RGB(255, 0, 255));
@@ -109,7 +108,6 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("diamond", "Resources/Images/HUD/diamond.bmp", 50, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("x_button", "Resources/Images/HUD/x_button.bmp", 15, 15, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("number", "Resources/Images/HUD/number.bmp", 150, 17, 10, 1, true, RGB(255, 0, 255));
-
 
 	// ===================
 	// 플레이어
@@ -125,11 +123,16 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 
+	// 아이템 - 코인
+	IMAGEMANAGER->addFrameImage("coin1", "Resources/Images/Item/Coin/coin1.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin3", "Resources/Images/Item/Coin/coin3.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin4", "Resources/Images/Item/Coin/coin4.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+
 	// ===================
 	// Effect
 	// ===================
 	IMAGEMANAGER->addFrameImage("effect_dagger", "Resources/Images/Effect/effect_dagger.bmp", 144, 192, 3, 4, true, RGB(255, 0, 255));
-
 
 
 	// ===================
@@ -155,12 +158,18 @@ void MainGame::initSound()
 	// ===================
 
 	// 플레이어 - 삽질
-	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/vo_cad_dig_01.mp3", false, false);
-	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/vo_cad_dig_02.mp3", false, false);
-	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/vo_cad_dig_03.mp3", false, false);
-	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/vo_cad_dig_04.mp3", false, false);
-	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/vo_cad_dig_05.mp3", false, false);
-	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/vo_cad_dig_06.mp3", false, false);
+	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/Dig/vo_cad_dig_01.mp3", false, false);
+	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/Dig/vo_cad_dig_02.mp3", false, false);
+	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/Dig/vo_cad_dig_03.mp3", false, false);
+	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/Dig/vo_cad_dig_04.mp3", false, false);
+	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/Dig/vo_cad_dig_05.mp3", false, false);
+	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/Dig/vo_cad_dig_06.mp3", false, false);
+
+	// 플레이어 - 난투
+	SOUNDMANAGER->addSound("melee1_1", "Resources/Sounds/Player/Melee/vo_cad_melee_1_01.mp3", false, false);
+	SOUNDMANAGER->addSound("melee1_2", "Resources/Sounds/Player/Melee/vo_cad_melee_1_02.mp3", false, false);
+	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.mp3", false, false);
+	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.mp3", false, false);
 
 	// ===================
 	// 오브젝트

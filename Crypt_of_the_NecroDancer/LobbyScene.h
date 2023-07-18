@@ -11,8 +11,6 @@ private:
 	GImage* _terrainImg;
 	GImage* _wallImg;
 
-	int _nextIdxX;
-	int _nextIdxY;
 	PLAYER_DIRECTION _nextDirection;
 
 	vector<Slime*> _vSlime;
@@ -30,13 +28,7 @@ public:
 	void update();
 	void render();
 
-	void tileSet(vector<Tile> _vTile, TILE_TYPE type);
-	void enemySet();
-	int getAlphaSet(int distance, int rightPower);
-
-	void showTileNum(vector<Tile> _vTile);
-	void showTileDist(vector<Tile> _vTile);
-
+	void tileSet(vector<Tile> &_vTile, TILE_TYPE type);
 
 	LobbyScene() {}
 	~LobbyScene() {}

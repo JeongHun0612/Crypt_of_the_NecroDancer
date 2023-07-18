@@ -51,6 +51,7 @@ void UIManager::release(void)
 
 void UIManager::update(void)
 {
+
 }
 
 void UIManager::render(HDC hdc)
@@ -96,4 +97,32 @@ void UIManager::render(HDC hdc)
 	{
 		IMAGEMANAGER->findImage("number")->frameRender(hdc, WINSIZE_X - 70 + (i * 15), 77, to_string(PLAYER->getDiamond())[i] - 48, 0);
 	}
+
+	for (auto iter = _vCoin.begin(); iter != _vCoin.end();)
+	{
+		iter->img->frameRender(hdc,
+			CAMERA->getPos().x - (PLAYER->getPosIdxX() - iter->x) * 64,
+			CAMERA->getPos().y - (PLAYER->getPosIdxY() - iter->y) * 64);
+
+		if (iter->x == PLAYER->getPosIdxX() && iter->y == PLAYER->getPosIdxY())
+		{
+			PLAYER->setCoin(PLAYER->getCoin() + iter->coinCount);
+			iter = _vCoin.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+}
+
+void UIManager::addCoin(int idxX, int idxY, int coinCount)
+{
+	Coin coin;
+	coin.img = IMAGEMANAGER->findImage("coin" + to_string(coinCount));
+	coin.x = idxX;
+	coin.y = idxY;
+	coin.coinCount = coinCount;
+
+	_vCoin.push_back(coin);
 }

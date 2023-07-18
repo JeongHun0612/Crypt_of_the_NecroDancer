@@ -14,3 +14,7 @@ void Item::release()
 void Item::update()
 {
 }
+
+void Item::render(HDC hdc)
+{
+}

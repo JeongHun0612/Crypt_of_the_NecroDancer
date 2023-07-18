@@ -16,6 +16,7 @@ private:
 		RECT rc;
 
 		int alpha;
+		int frameX;
 
 		float x, y;
 		float speed;
@@ -53,7 +54,9 @@ private:
 
 	vector<Missed> _vMissed;			// 빗나감 이미지 벡터
 	GImage* _missedImg;					// 빗나감 이미지
+	int _beatCount;						// 박자 갯수
 	int _missedAlpha;					// 빗나감 이미지 알파값
+	int _noteFrameX;					// 노트 이미지 프레임X
 
 	bool _isBeat;						// 박자가 맞는지
 	bool _isMusic;						// 현재 음악이 재생되고 있는지
@@ -71,6 +74,7 @@ public:
 	void moveMissed();
 
 	bool getBeat() { return _isBeat; }
+	int getBeatCount() { return _beatCount; }
 
 	bool getIsMissed() { return _isMissed; }
 	void setIsMissed(bool isMissed) { _isMissed = isMissed; }

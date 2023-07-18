@@ -14,9 +14,10 @@ enum class ITEM_TYPE
 class Item
 {
 public:
-	HRESULT init();
-	void release();
-	void update();
+	virtual HRESULT init();
+	virtual void release();
+	virtual void update();
+	virtual void render(HDC hdc);
 
 	Item() {}
 	~Item() {}

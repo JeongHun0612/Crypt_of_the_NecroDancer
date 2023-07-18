@@ -6,9 +6,12 @@ HRESULT Player::init(void)
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
+	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 	_posIdxX = 0;
 	_posIdxY = 0;
-	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
+
+	_nextIdxX = 0;
+	_nextIdxY = 0;
 
 	_curShovel = new Shovel;
 	_curShovel->init();
@@ -75,33 +78,19 @@ void Player::update(void)
 	}
 
 	// 공격 상태일때
-	if (_curWeapon->getIsAttack())
-	{
-		_curWeapon->update();
-	}
+	_curWeapon->update();
 }
 
 void Player::render(HDC hdc)
 {
 	// 플레이어 그리기
 	//DrawRectMake(hdc, _rc);
-	
-	// 삽 모션
-	if (_curShovel->getIsDig())
-	{
-		showShovel(_curDirection, hdc);
 
-		if (SOUNDMANAGER->getPosition("dig_fail") == 417)
-		{
-			_curShovel->setIsDig(false);
-		}
-	}
+	// 삽 모션
+	_curShovel->render(hdc);
 
 	// 공격 모션
-	if (_curWeapon->getIsAttack())
-	{
-		showAttackEffect(_curDirection, hdc);
-	}
+	_curWeapon->render(hdc);
 
 	// 현재 착용 삽
 	_curShovel->getImg()->frameRender(hdc,
@@ -109,7 +98,7 @@ void Player::render(HDC hdc)
 		45 - _curShovel->getImg()->getFrameHeight() / 2);
 
 	// 현재 착용 무기
-	_curWeapon->getImg()->frameRender(hdc, 
+	_curWeapon->getImg()->frameRender(hdc,
 		110 - _curWeapon->getImg()->getFrameWidth() / 2,
 		45 - _curWeapon->getImg()->getFrameHeight() / 2);
 
@@ -159,43 +148,5 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 	{
 		jumpCount = 0;
 		_isMove = false;
-	}
-}
-
-void Player::showShovel(PLAYER_DIRECTION direction, HDC hdc)
-{
-	switch (direction)
-	{
-	case PLAYER_DIRECTION::LEFT:
-		_curShovel->getImg()->frameRender(hdc, _pos.x - 90, _pos.y - 25);
-		break;
-	case PLAYER_DIRECTION::RIGHT:
-		_curShovel->getImg()->frameRender(hdc, _pos.x + 40, _pos.y - 25);
-		break;
-	case PLAYER_DIRECTION::UP:
-		_curShovel->getImg()->frameRender(hdc, _pos.x - 25, _pos.y - 90);
-		break;
-	case PLAYER_DIRECTION::DOWN:
-		_curShovel->getImg()->frameRender(hdc, _pos.x - 25, _pos.y + 40);
-		break;
-	}
-}
-
-void Player::showAttackEffect(PLAYER_DIRECTION direction, HDC hdc)
-{
-	switch (direction)
-	{
-	case PLAYER_DIRECTION::LEFT:
-		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 90, _pos.y - 25, 0, 2);
-		break;
-	case PLAYER_DIRECTION::RIGHT:
-		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x + 40, _pos.y - 25, 0, 3);
-		break;
-	case PLAYER_DIRECTION::UP:
-		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 25, _pos.y - 90, 0, 0);
-		break;
-	case PLAYER_DIRECTION::DOWN:
-		_curWeapon->getEffectImg()->frameRender(hdc, _pos.x - 25, _pos.y + 40, 0, 1);
-		break;
 	}
 }

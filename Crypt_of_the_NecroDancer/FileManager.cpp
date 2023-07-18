@@ -109,6 +109,8 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 			count++;
 		}
 
+		tile.isLight = false;
+
 		vTileList.push_back(tile);
 	}
 }

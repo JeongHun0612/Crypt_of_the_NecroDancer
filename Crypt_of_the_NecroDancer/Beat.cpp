@@ -24,6 +24,7 @@ HRESULT Beat::init(void)
 	_missedImg->setY(WINSIZE_Y - 130);
 	_missedAlpha = 255;
 
+	_noteFrameX = 0;
 	_noteCycle = _qNoteData.front();
 	_qNoteData.pop();
 
@@ -60,15 +61,17 @@ void Beat::update(void)
 	// 노트 생성
 	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
 
-	//static int test = 0;
-	//test += 10;
-
 	if (_noteCycle <= soundPos && _isMusic)
 	{
 		createNote();
 
 		_noteCycle = _qNoteData.front();
 		_qNoteData.pop();
+
+		if (soundPos >= 140000)
+		{
+			_noteFrameX = 2;
+		}
 
 		// 노트가 비었을 때 음악 종료
 		if (_qNoteData.empty())
@@ -81,10 +84,10 @@ void Beat::update(void)
 	{
 		// 노트 이동
 		_vNoteLeft[i].x += _vNoteLeft[i].speed;
-		_vNoteLeft[i].rc = RectMake(_vNoteLeft[i].x, _vNoteLeft[i].y, _vNoteLeft[i].img->getWidth(), _vNoteLeft[i].img->getHeight());
+		_vNoteLeft[i].rc = RectMake(_vNoteLeft[i].x, _vNoteLeft[i].y, _vNoteLeft[i].img->getFrameWidth(), _vNoteLeft[i].img->getFrameHeight());
 
 		_vNoteRight[i].x += _vNoteRight[i].speed;
-		_vNoteRight[i].rc = RectMake(_vNoteRight[i].x, _vNoteRight[i].y, _vNoteRight[i].img->getWidth(), _vNoteRight[i].img->getHeight());
+		_vNoteRight[i].rc = RectMake(_vNoteRight[i].x, _vNoteRight[i].y, _vNoteLeft[i].img->getFrameWidth(), _vNoteRight[i].img->getFrameHeight());
 
 		// 알파값 변경
 		if (_vNoteLeft[i].alpha < 255)
@@ -107,11 +110,13 @@ void Beat::update(void)
 
 			if (_isSuccess)
 			{
+				_beatCount++;
+
 				_vNoteLeft[i].isDestory = true;
 				_vNoteRight[i].isDestory = true;
 
-				_isSuccess = false;
 				_isBeat = false;
+				_isSuccess = false;
 			}
 		}
 
@@ -133,11 +138,13 @@ void Beat::update(void)
 
 		if (PtInRect(&_vNoteLeft[i].rc, _eraseLine))
 		{
+			_beatCount++;
+			_isBeat = false;
+			_isMissed = true;
 			_vNoteLeft.erase(_vNoteLeft.begin() + i);
 			_vNoteRight.erase(_vNoteRight.begin() + i);
 		}
 	}
-
 
 	// 빗나감 상태가 true일 때 빗나감 객체 생성
 	if (_isMissed)
@@ -156,8 +163,8 @@ void Beat::render(HDC hdc)
 	//노트 출력
 	for (int i = 0; i < _vNoteLeft.size(); i++)
 	{
-		_vNoteLeft[i].img->alphaRender(hdc, _vNoteLeft[i].x, _vNoteLeft[i].y, _vNoteLeft[i].alpha);
-		_vNoteRight[i].img->alphaRender(hdc, _vNoteRight[i].x, _vNoteRight[i].y, _vNoteRight[i].alpha);
+		_vNoteLeft[i].img->frameAlphaRender(hdc, _vNoteLeft[i].x, _vNoteLeft[i].y, _vNoteLeft[i].frameX, _vNoteLeft[i].img->getFrameY(), _vNoteLeft[i].alpha);
+		_vNoteRight[i].img->frameAlphaRender(hdc, _vNoteRight[i].x, _vNoteRight[i].y, _vNoteLeft[i].frameX, _vNoteLeft[i].img->getFrameY(), _vNoteRight[i].alpha);
 	}
 
 	// 심장 박동 출력
@@ -180,8 +187,9 @@ void Beat::createNote()
 	for (int i = 0; i < 2; i++)
 	{
 		Note note;
-		note.img = IMAGEMANAGER->findImage("beat_bar1");
+		note.img = IMAGEMANAGER->findImage("beat_bar");
 		note.y = WINSIZE_Y - 100;
+		note.frameX = _noteFrameX;
 		note.alpha = 50;
 		note.isDestory = false;
 

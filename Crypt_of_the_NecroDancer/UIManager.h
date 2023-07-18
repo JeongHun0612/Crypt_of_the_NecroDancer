@@ -27,6 +27,13 @@ private:
 		int x, y;
 	};
 
+	struct Coin
+	{
+		GImage* img;
+		int x, y;
+		int coinCount;
+	};
+
 	struct Heart
 	{
 		GImage* img;
@@ -36,6 +43,7 @@ private:
 private:
 	vector<Inventory> _vInventory;
 	vector<Heart> _vHeart;
+	vector<Coin> _vCoin;
 
 	int _prevHP;
 
@@ -45,5 +53,7 @@ public:
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
+
+	void addCoin(int idxX, int idxY, int coinCount);
 };
 
