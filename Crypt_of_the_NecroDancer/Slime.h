@@ -8,6 +8,7 @@ protected:
 	int _idxX;
 	int _idxY;
 	int _heart;
+	bool _isAttack;
 
 	float _count;
 

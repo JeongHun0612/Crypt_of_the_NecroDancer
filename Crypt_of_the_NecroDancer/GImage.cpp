@@ -523,8 +523,8 @@ void GImage::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, 
             _imageInfo->frameWidth,
             _imageInfo->frameHeight,
             hdc,
-            _imageInfo->currentFrameX * _imageInfo->frameWidth,
-            _imageInfo->currentFrameY * _imageInfo->frameHeight,
+            destX,
+            destY,
             SRCCOPY
         );
 

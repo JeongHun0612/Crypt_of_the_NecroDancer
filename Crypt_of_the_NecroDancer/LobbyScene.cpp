@@ -13,6 +13,12 @@ HRESULT LobbyScene::init()
 	FileManager::loadTileMapFile("Stage1-1_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
 	FileManager::loadTileMapFile("Stage1-1_Wall.txt", _vWallTile, TILE_TYPE::WALL);
 
+	for (int i = 0; i < _vTerrainTile.size(); i++)
+	{
+		_vTerrainTile[i].isLight = false;
+		_vWallTile[i].isLight = false;
+	}
+
 	// 플레이어 초기화
 	PLAYER->init();
 	PLAYER->setPosIdxX(5);
@@ -248,7 +254,7 @@ void LobbyScene::enemySet()
 
 int LobbyScene::getAlphaSet(int distance, int rightPower)
 {
-	int minAlpha = 180;
+	int minAlpha = 80;
 
 	int alphaAmount = (255 - minAlpha) / rightPower;
 
