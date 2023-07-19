@@ -171,6 +171,15 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.mp3", false, false);
 	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.mp3", false, false);
 
+	// 플레이어 - 피격
+	SOUNDMANAGER->addSound("hurt1", "Resources/Sounds/Player/Hurt/vo_cad_hurt_01.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt2", "Resources/Sounds/Player/Hurt/vo_cad_hurt_02.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt3", "Resources/Sounds/Player/Hurt/vo_cad_hurt_03.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt4", "Resources/Sounds/Player/Hurt/vo_cad_hurt_04.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt5", "Resources/Sounds/Player/Hurt/vo_cad_hurt_05.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt6", "Resources/Sounds/Player/Hurt/vo_cad_hurt_06.mp3", false, false);
+
+
 	// ===================
 	// 오브젝트
 	// ===================
