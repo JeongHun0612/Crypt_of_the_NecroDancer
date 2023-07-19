@@ -4,7 +4,7 @@
 #define MAX_ROBBY_ROW		15
 
 #define MAX_STAGE1_COL		31
-#define MAX_STAGE1_ROW		23
+#define MAX_STAGE1_ROW		25
 
 enum class TILE_TYPE
 {
