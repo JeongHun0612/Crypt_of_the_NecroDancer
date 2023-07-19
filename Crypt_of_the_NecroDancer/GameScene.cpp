@@ -65,7 +65,6 @@ void GameScene::update(void)
 		(*iter)->update();
 	}
 
-
 	// 플레이어 키입력 동작
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
@@ -131,7 +130,6 @@ void GameScene::update(void)
 
 			for (auto iter = _vSlime.begin(); iter != _vSlime.end();)
 			{
-				// 애너미 공격
 				if ((*iter)->getIdxX() == PLAYER->getNextIdxX() && (*iter)->getIdxY() == PLAYER->getNextIdxY())
 				{
 					_isMove = false;

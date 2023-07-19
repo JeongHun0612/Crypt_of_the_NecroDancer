@@ -33,7 +33,30 @@ void Slime_Blue::update()
 	{
 		_isUp = !_isUp;
 
-		_idxY = (_isUp) ? _idxY + 1 : _idxY - 1;
+		if (_isUp)
+		{
+			if (_idxY - 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
+			{
+				cout << "°ãÄ§" << endl;
+				_isUp = !_isUp;
+			}
+			else
+			{
+				_idxY--;
+			}
+		}
+		else
+		{
+			if (_idxY + 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
+			{
+				cout << "°ãÄ§" << endl;
+				_isUp = !_isUp;
+			}
+			else
+			{
+				_idxY++;
+			}
+		}
 
 		_isMove = false;
 	}
