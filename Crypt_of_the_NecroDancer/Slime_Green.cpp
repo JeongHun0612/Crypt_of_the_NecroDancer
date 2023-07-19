@@ -3,13 +3,14 @@
 
 HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
-	Slime::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxX, idxY, maxHP, power, coinCount);
 
 	_img = IMAGEMANAGER->findImage("slime_green");
-	_img->setFrameY(1);
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
+
+	_frameY = 1;
 
 
 	return S_OK;
@@ -17,20 +18,12 @@ HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCoun
 
 void Slime_Green::release()
 {
-	Slime::release();
+	Enemy::release();
 }
 	
 void Slime_Green::update()
 {
-	Slime::update();
-
-	_beatCount = BEAT->getBeatCount();
-
-	if (_prevBeatCount < _beatCount)
-	{
-		_isMove = true;
-		_prevBeatCount = _beatCount;
-	}
+	Enemy::update();
 
 	if (_isMove)
 	{
@@ -50,5 +43,5 @@ void Slime_Green::update()
 
 void Slime_Green::render(HDC hdc)
 {
-	Slime::render(hdc);
+	Enemy::render(hdc);
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-class Slime_Blue : public Enemy
+class Skeleton_Black : public Enemy
 {
 private:
 
@@ -11,9 +11,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	bool _isUp;
-
-	Slime_Blue() {}
-	~Slime_Blue() {}
+	Skeleton_Black() {}
+	~Skeleton_Black() {}
 };
 

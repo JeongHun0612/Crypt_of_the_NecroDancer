@@ -3,12 +3,13 @@
 
 HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
-	Slime::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxX, idxY, maxHP, power, coinCount);
 	_img = IMAGEMANAGER->findImage("slime_blue");
-	_img->setFrameY(1);
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
+
+	_frameY = 1;
 
 	_isUp = false;
 
@@ -17,54 +18,32 @@ HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount
 
 void Slime_Blue::release()
 {
-	Slime::release();
+	Enemy::release();
 }
 
 void Slime_Blue::update()
 {
-	Slime::update();
-
-	_beatCount = BEAT->getBeatCount();
-
-	if (_prevBeatCount + 1 < _beatCount)
-	{
-		_isMove = true;
-		_prevBeatCount = _beatCount;
-	}
+	Enemy::update();
 
 	if (_isMove)
 	{
-		_isUp = !_isUp;
-
-		if (_isUp)
+		for (int i = 2; i < 4; i++)
 		{
-			if (_idxY - 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
+			if (_idxX == PLAYER->getPosIdxX() &&_idxY + direction[i].y == PLAYER->getPosIdxY())
 			{
-				_nextIdxY = _idxY - 1;
 				_isAttack = true;
 				PLAYER->setIsHit(true);
 				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
-				_isUp = !_isUp;
-			}
-			else
-			{
-				_idxY--;
+
+				_nextIdxY = _idxY + direction[i].y;
 			}
 		}
-		else
+
+		if (!_isAttack)
 		{
-			if (_idxY + 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
-			{
-				_nextIdxY = _idxY + 1;
-				_isAttack = true;
-				PLAYER->setIsHit(true);
-				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
-				_isUp = !_isUp;
-			}
-			else
-			{
-				_idxY++;
-			}
+			_isUp = !_isUp;
+
+			_idxY = (_isUp) ? _idxY - 1 : _idxY + 1;
 		}
 
 		_isMove = false;
@@ -73,5 +52,5 @@ void Slime_Blue::update()
 
 void Slime_Blue::render(HDC hdc)
 {
-	Slime::render(hdc);
+	Enemy::render(hdc);
 }

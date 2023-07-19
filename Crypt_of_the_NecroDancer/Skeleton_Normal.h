@@ -1,9 +1,10 @@
 #pragma once
 #include "Enemy.h"
 
-class Slime_Blue : public Enemy
+class Skeleton_Normal : public Enemy
 {
 private:
+
 
 public:
 	HRESULT init(int idxX, int idxY, int maxHP, int power, int coinCount);
@@ -11,9 +12,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	bool _isUp;
-
-	Slime_Blue() {}
-	~Slime_Blue() {}
+	Skeleton_Normal() {}
+	~Skeleton_Normal() {}
 };
 

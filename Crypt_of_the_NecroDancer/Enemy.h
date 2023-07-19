@@ -1,22 +1,25 @@
 #pragma once
 
-enum class ENEMY_DIRECTION
+enum ENEMY_DIRECTION
 {
-	NONE,
 	LEFT,
 	RIGHT,
 	UP,
-	DOWN
+	DOWN,
+	NONE
 };
 
-class Slime
+class Enemy
 {
 protected:
+	POINT direction[4] =
+	{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
 	GImage* _img;
 	GImage* _heartImg;
 	GImage* _effectImg;
 
-	ENEMY_DIRECTION _attackDirection;
+	int _attackDirection;
 
 	int _posX;
 	int _posY;
@@ -26,6 +29,9 @@ protected:
 
 	int _nextIdxX;
 	int _nextIdxY;
+
+	int _frameX;
+	int _frameY;
 
 	int _curHP;
 	int _maxHP;
@@ -55,7 +61,7 @@ public:
 
 	int getCoinCount() { return _coinCount; }
 
-	Slime() {}
-	~Slime() {}
+	Enemy() {}
+	~Enemy() {}
 };
 

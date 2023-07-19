@@ -53,6 +53,9 @@ void GameNode::release(void)
 		SOUNDMANAGER->release();
 		SOUNDMANAGER->releaseSingleton();
 
+		ENEMYMANAGER->release();
+		ENEMYMANAGER->releaseSingleton();
+
 		UIMANAGER->releaseSingleton();
 
 

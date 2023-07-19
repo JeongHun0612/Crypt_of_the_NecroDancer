@@ -94,6 +94,9 @@
     <Filter Include="MainGame\Scene\Title">
       <UniqueIdentifier>{1b2ebc12-44cb-450c-a9a5-34d77ed87894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\Skeleton">
+      <UniqueIdentifier>{e1dc1c88-9624-40eb-a3d9-548484e9b70b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>MainGame\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Slime.cpp">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClCompile>
     <ClCompile Include="Slime_Green.cpp">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
@@ -182,6 +182,18 @@
     </ClCompile>
     <ClCompile Include="Slime_Blue.cpp">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton_Black.cpp">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +242,6 @@
     <ClInclude Include="Player.h">
       <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Slime.h">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
-    </ClInclude>
     <ClInclude Include="Slime_Green.h">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClInclude>
@@ -280,6 +289,18 @@
     </ClInclude>
     <ClInclude Include="Slime_Blue.h">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton_Normal.h">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton_Black.h">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

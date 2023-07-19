@@ -146,6 +146,8 @@
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Beat.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
@@ -160,7 +162,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shovel.cpp" />
-    <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="Skeleton_Black.cpp" />
+    <ClCompile Include="Skeleton_Normal.cpp" />
     <ClCompile Include="Slime_Blue.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -178,6 +181,8 @@
     <ClInclude Include="Beat.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameNode.h" />
@@ -194,7 +199,8 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shovel.h" />
     <ClInclude Include="SingletonBase.h" />
-    <ClInclude Include="Slime.h" />
+    <ClInclude Include="Skeleton_Black.h" />
+    <ClInclude Include="Skeleton_Normal.h" />
     <ClInclude Include="Slime_Blue.h" />
     <ClInclude Include="Slime_Green.h" />
     <ClInclude Include="SoundManager.h" />

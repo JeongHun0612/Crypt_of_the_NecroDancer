@@ -26,25 +26,14 @@ HRESULT GameScene::init(void)
 	// 비트 초기화
 	BEAT->init();
 
+	// 애너미 초기화
+	ENEMYMANAGER->init();
+
 	// UI 초기화
 	UIMANAGER->init();
 
 	// 애너미 초기화
-	Slime* _slime = new Slime_Green;
-	_slime->init(3, 3, 1, 0, 3);
-
-	_enemyTile[3][3].idxY = 3;
-	_enemyTile[3][3].idxX = 3;
-
-	_vSlime.push_back(_slime);
-
-	Slime* _slime2 = new Slime_Blue;
-	_slime2->init(3, 5, 2, 1, 4);
-
-	_enemyTile[3][5].idxY = 3;
-	_enemyTile[3][5].idxX = 5;
-
-	_vSlime.push_back(_slime2);
+	_vEnemy = ENEMYMANAGER->getEnemyList();
 
 	return S_OK;
 }
@@ -60,7 +49,7 @@ void GameScene::update(void)
 	PLAYER->update();
 	BEAT->update();
 
-	for (auto iter = _vSlime.begin(); iter != _vSlime.end(); ++iter)
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 	{
 		(*iter)->update();
 	}
@@ -128,7 +117,7 @@ void GameScene::update(void)
 				}
 			}
 
-			for (auto iter = _vSlime.begin(); iter != _vSlime.end();)
+			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
 			{
 				if ((*iter)->getIdxX() == PLAYER->getNextIdxX() && (*iter)->getIdxY() == PLAYER->getNextIdxY())
 				{
@@ -147,7 +136,7 @@ void GameScene::update(void)
 
 						// 몬스터 객체 삭제 및 벡터 삭제
 						delete((*iter));
-						iter = _vSlime.erase(iter);
+						iter = _vEnemy.erase(iter);
 					}
 					else
 					{
@@ -194,7 +183,7 @@ void GameScene::render(void)
 	}
 
 	// 몬스터 출력
-	for (auto iter = _vSlime.begin(); iter != _vSlime.end(); ++iter)
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 	{
 		(*iter)->render(getMemDC());
 	}

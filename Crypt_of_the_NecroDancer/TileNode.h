@@ -42,7 +42,7 @@ struct Tile
 	bool isLight;
 };
 
-struct Enemy
+struct EnemyTile
 {
 	int idxX, idxY;
 };

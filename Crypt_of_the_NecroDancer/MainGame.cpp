@@ -144,6 +144,10 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("slime_blue", "Resources/Images/Enemy/Slime/Slime_Blue.bmp", 416, 208, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_yellow", "Resources/Images/Enemy/Slime/Slime_Yellow.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 
+	// ¸ó½ºÅÍ - ½ºÄÌ·¹Åæ
+	IMAGEMANAGER->addFrameImage("skeleton_normal", "Resources/Images/Enemy/Skeleton/Skeleton_normal.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skeleton_black", "Resources/Images/Enemy/Skeleton/Skeleton_black.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));
+
 	
 }
 

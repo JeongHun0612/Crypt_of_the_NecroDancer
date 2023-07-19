@@ -1,7 +1,7 @@
 #pragma once
-#include "Slime.h"
+#include "Enemy.h"
 
-class Slime_Green : public Slime
+class Slime_Green : public Enemy
 {
 private:
 

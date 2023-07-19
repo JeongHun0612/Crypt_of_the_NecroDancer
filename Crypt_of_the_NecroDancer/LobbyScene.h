@@ -13,8 +13,6 @@ private:
 
 	PLAYER_DIRECTION _nextDirection;
 
-	vector<Slime*> _vSlime;
-
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
 

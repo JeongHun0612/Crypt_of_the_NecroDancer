@@ -4,6 +4,7 @@
 #include "TileNode.h"
 #include "Slime_Green.h"
 #include "Slime_Blue.h"
+#include "Skeleton_normal.h"
 
 class GameScene : public GameNode
 {
@@ -13,12 +14,12 @@ private:
 
 	PLAYER_DIRECTION _nextDirection;
 
-	vector<Slime*> _vSlime;
+	vector<Enemy*> _vEnemy;
 
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
 
-	Enemy _enemyTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
+	EnemyTile _enemyTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
 
 	bool _isMove;
 
