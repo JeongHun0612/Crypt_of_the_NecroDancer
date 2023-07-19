@@ -138,6 +138,7 @@ void GameScene::update(void)
 					SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
 
 					(*iter)->setCurHP((*iter)->getCurHP() - PLAYER->getCurWeapon()->getPower());
+					SOUNDMANAGER->play("enemy_hit");
 
 					if ((*iter)->getCurHP() <= 0)
 					{

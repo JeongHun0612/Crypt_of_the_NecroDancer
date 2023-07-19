@@ -28,6 +28,7 @@ HRESULT Player::init(void)
 	_curHP = 6;
 
 	_lightPower = 5;
+	_effectAlpha = 50;
 
 	_coin = 123;
 	_diamond = 0;
@@ -85,6 +86,19 @@ void Player::update(void)
 	{
 		CAMERA->cameraShake(20);
 
+		if (_effectAlpha == 50)
+		{
+			SOUNDMANAGER->play("hurt" + to_string(RND->getFromIntTo(1, 6)));
+		}
+
+		_effectAlpha -= 10;
+
+		if (_effectAlpha <= 0)
+		{
+			_effectAlpha = 50;
+			_isHit = false;
+		}
+
 		if (_curHP <= 0)
 		{
 			cout << "사망" << endl;
@@ -94,7 +108,7 @@ void Player::update(void)
 
 void Player::render(HDC hdc)
 {
-	// 플레이어 그리기
+	// 충돌체 그리기
 	//DrawRectMake(hdc, _rc);
 
 	// 삽 모션
@@ -106,9 +120,8 @@ void Player::render(HDC hdc)
 	// 피격 모션
 	if (_isHit)
 	{
-		IMAGEMANAGER->findImage("hit_effect")->alphaRender(hdc, 30);
+		IMAGEMANAGER->findImage("hit_effect")->alphaRender(hdc, _effectAlpha);
 	}
-
 
 	// 현재 착용 삽
 	_curShovel->getImg()->frameRender(hdc,

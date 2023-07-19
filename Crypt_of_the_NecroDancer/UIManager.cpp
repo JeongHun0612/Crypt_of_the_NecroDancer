@@ -107,6 +107,7 @@ void UIManager::render(HDC hdc)
 		if (iter->x == PLAYER->getPosIdxX() && iter->y == PLAYER->getPosIdxY())
 		{
 			PLAYER->setCoin(PLAYER->getCoin() + iter->coinCount);
+			SOUNDMANAGER->play("pickup_gold");
 			iter = _vCoin.erase(iter);
 		}
 		else

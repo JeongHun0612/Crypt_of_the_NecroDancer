@@ -37,6 +37,7 @@ private:
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
 	int _lightPower;						// 불빛의 세기
+	int _effectAlpha;						// 피격 이펙트 알파값
 
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드

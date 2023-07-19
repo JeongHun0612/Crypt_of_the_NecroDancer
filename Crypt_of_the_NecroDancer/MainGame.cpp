@@ -191,4 +191,14 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
 
+	SOUNDMANAGER->addSound("enemy_hit", "Resources/Sounds/Object/sfx_cauldron_hit.mp3", false, false);
+
+
+	// ===================
+	// UI
+	// ===================
+
+	// °ñµå È¹µæ
+	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/UI/sfx_pickup_gold_01.mp3", false, false);
+
 }
