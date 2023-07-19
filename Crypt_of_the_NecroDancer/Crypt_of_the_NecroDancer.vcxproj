@@ -170,6 +170,8 @@
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestCameraScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -207,7 +209,8 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestCameraScene.h" />
     <ClInclude Include="TestScene.h" />
-    <ClInclude Include="TileNode.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />

@@ -46,17 +46,31 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 
 	ifstream loadStream(filePath);
 
-	int tileType = 0;
-
 	while (!loadStream.eof())		// 파일의 끝에 도달하면 -1을 반환
 	{
 		string line;
 		getline(loadStream, line);	// 파일을 읽어들인다.
 
+		if (line.empty())
+		{
+			cout << "File Empty - " << fileName << endl;
+			break;
+		}
+
 		int cutIndex = 0;
 		int count = 0;
 
 		Tile tile;
+
+		int idxX = 0;
+		int idxY = 0;
+		int frameX = 0;
+		int frameY = 0;
+		bool isCollider = false;
+		bool isExist = false;
+		int hardNess = 0;
+		TERRAIN terrain;
+		WALL wall;
 
 		while (true)
 		{
@@ -67,10 +81,18 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 				switch (type)
 				{
 				case TILE_TYPE::TERRAIN:
-					tile.terrain = (TERRAIN)stoi(line);
+				{
+					terrain = (TERRAIN)stoi(line);
+					tile.init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, terrain);
+					vTileList.push_back(tile);
+				}
 					break;
 				case TILE_TYPE::WALL:
-					tile.wall = (WALL)stoi(line);
+				{
+					wall = (WALL)stoi(line);
+					tile.init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, wall);
+					vTileList.push_back(tile);
+				}
 					break;
 				case TILE_TYPE::DECO:
 					break;
@@ -83,34 +105,30 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 			switch (count)
 			{
 			case 0:
-				tile.idxY = tileData;
+				idxY = tileData;
 				break;
 			case 1:
-				tile.idxX = tileData;
+				idxX = tileData;
 				break;
 			case 2:
-				tile.frameX = tileData;
+				frameX = tileData;
 				break;
 			case 3:
-				tile.frameY = tileData;
+				frameY = tileData;
 				break;
 			case 4:
-				tile.isColiider = tileData;
+				isCollider = tileData;
 				break;
 			case 5:
-				tile.isExist = tileData;
+				isExist = tileData;
 				break;
 			case 6:
-				tile.hardness = tileData;
+				hardNess = tileData;
 			}
 
 			cutIndex++;
 			line = line.substr(cutIndex, line.length());
 			count++;
 		}
-
-		tile.isLight = false;
-
-		vTileList.push_back(tile);
 	}
 }

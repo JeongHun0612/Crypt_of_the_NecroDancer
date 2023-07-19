@@ -10,8 +10,10 @@ HRESULT LobbyScene::init()
 	_wallImg = IMAGEMANAGER->findImage("wall1");
 
 	// 타일 초기화
-	FileManager::loadTileMapFile("Stage1-1_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Stage1-1_Wall.txt", _vWallTile, TILE_TYPE::WALL);
+	FileManager::loadTileMapFile("Lobby_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
+	FileManager::loadTileMapFile("Lobby_Wall.txt", _vWallTile, TILE_TYPE::WALL);
+
+	cout << _vTerrainTile.size() << endl;
 
 	// 플레이어 초기화
 	PLAYER->init();
@@ -72,7 +74,7 @@ void LobbyScene::update()
 		for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
 		{
 			// 다음 스테이지 이동
-			if (iter->idxX == PLAYER->getNextIdxX() && iter->idxY == PLAYER->getNextIdxY() && iter->terrain == TERRAIN::STAIR)
+			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
 			{
 				SCENEMANAGER->changeScene("game");
 			}
@@ -81,12 +83,12 @@ void LobbyScene::update()
 		for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
 		{
 			// 충돌체 발견 시
-			if (iter->idxX == PLAYER->getNextIdxX() && iter->idxY == PLAYER->getNextIdxY() && iter->isColiider)
+			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
 			{
 				_isMove = false;
 
 				// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-				if (iter->hardness > PLAYER->getCurShovel()->getHardNess())
+				if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
 				{
 					PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 					SOUNDMANAGER->play("dig_fail");
@@ -94,10 +96,9 @@ void LobbyScene::update()
 				else
 				{
 					// 벽 부수기
-					iter->isExist = false;
+					iter->setIsExist(false);
 				}
 			}
-
 		}
 
 		if (_isMove)
@@ -126,8 +127,11 @@ void LobbyScene::render()
 	UIMANAGER->render(getMemDC());
 }
 
-void LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
+HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 {
+	if (_vTile.empty()) return E_FAIL;
+
+
 	for (int i = -7; i < 8; i++)
 	{
 		for (int j = -11; j < 12; j++)
@@ -141,7 +145,7 @@ void LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 			int vIndex = (curIdxY * MAX_ROBBY_COL) + curIdxX;
 
 			// 타일을 그리지 않겠다면 continue
-			if (!_vTile[vIndex].isExist) continue;
+			if (!_vTile[vIndex].getIsExist()) continue;
 
 			switch (type)
 			{
@@ -149,15 +153,15 @@ void LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 				_terrainImg->frameRender(getMemDC(),
 					CAMERA->getPos().x + (j * TILESIZE),
 					CAMERA->getPos().y + (i * TILESIZE),
-					_vTile[vIndex].frameX,
-					_vTile[vIndex].frameY);
+					_vTile[vIndex].getFrameX(),
+					_vTile[vIndex].getFrameY());
 				break;
 			case TILE_TYPE::WALL:
 				_wallImg->frameRender(getMemDC(),
 					CAMERA->getPos().x + (j * TILESIZE),
 					CAMERA->getPos().y + (i * TILESIZE),
-					_vTile[vIndex].frameX,
-					_vTile[vIndex].frameY);
+					_vTile[vIndex].getFrameX(),
+					_vTile[vIndex].getFrameY());
 				break;
 			case TILE_TYPE::DECO:
 				break;

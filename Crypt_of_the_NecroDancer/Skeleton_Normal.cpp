@@ -5,12 +5,13 @@ HRESULT Skeleton_Normal::init(int idxX, int idxY, int maxHP, int power, int coin
 {
 	Enemy::init(idxX, idxY, maxHP, power, coinCount);
 	_img = IMAGEMANAGER->findImage("skeleton_normal");
-	_img->setFrameY(0);
+
+	_img->setFrameY(5);
+	_prevFrameY = _img->getFrameY();
+	_maxFramX = _img->getMaxFrameX();
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
-
-	_frameY = 5;
 
 	return S_OK;
 }

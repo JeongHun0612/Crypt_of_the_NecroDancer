@@ -6,10 +6,13 @@ HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount
 	Enemy::init(idxX, idxY, maxHP, power, coinCount);
 	_img = IMAGEMANAGER->findImage("slime_blue");
 
+	_img->setFrameY(1);
+	_prevFrameY = _img->getFrameY();
+	_maxFramX = _img->getMaxFrameX();
+
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
 
-	_frameY = 1;
 
 	_isUp = false;
 
@@ -19,6 +22,8 @@ HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount
 void Slime_Blue::release()
 {
 	Enemy::release();
+
+	SOUNDMANAGER->play("slime_death");
 }
 
 void Slime_Blue::update()
@@ -32,6 +37,7 @@ void Slime_Blue::update()
 			if (_idxX == PLAYER->getPosIdxX() &&_idxY + direction[i].y == PLAYER->getPosIdxY())
 			{
 				_isAttack = true;
+				SOUNDMANAGER->play("slime_attack");
 				PLAYER->setIsHit(true);
 				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 

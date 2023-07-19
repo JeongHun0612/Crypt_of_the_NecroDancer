@@ -1,7 +1,7 @@
 #pragma once
 #include "GameNode.h"
 #include "Player.h"
-#include "TileNode.h"
+#include "Tile.h"
 #include "Slime_Green.h"
 #include "Slime_Blue.h"
 #include "Skeleton_normal.h"
@@ -19,8 +19,6 @@ private:
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
 
-	EnemyTile _enemyTile[MAX_ROBBY_ROW][MAX_ROBBY_COL];
-
 	bool _isMove;
 
 public:
@@ -29,7 +27,11 @@ public:
 	void update(void);
 	void render(void);
 
-	void tileSet(vector<Tile>& _vTile, TILE_TYPE type);
+	GameScene() {}
+	~GameScene() {}
+
+private:
+	HRESULT tileSet(vector<Tile>& _vTile, TILE_TYPE type);
 	void enemySet();
 	int getAlphaSet(int distance, int rightPower);
 

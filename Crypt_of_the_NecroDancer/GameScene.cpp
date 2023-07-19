@@ -90,7 +90,7 @@ void GameScene::update(void)
 			for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
 			{
 				// 다음 스테이지 이동
-				if (iter->idxX == PLAYER->getNextIdxX() && iter->idxY == PLAYER->getNextIdxY() && iter->terrain == TERRAIN::STAIR)
+				if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
 				{
 					cout << "다음 스테이지 이동" << endl;
 				}
@@ -99,20 +99,36 @@ void GameScene::update(void)
 			for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
 			{
 				// 충돌체 발견 시
-				if (iter->idxX == PLAYER->getNextIdxX() && iter->idxY == PLAYER->getNextIdxY() && iter->isColiider)
+				if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
 				{
 					_isMove = false;
+					PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 
 					// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-					if (iter->hardness > PLAYER->getCurShovel()->getHardNess())
+					if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
 					{
-						PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 						SOUNDMANAGER->play("dig_fail");
 					}
 					else
 					{
 						// 벽 부수기
-						iter->isExist = false;
+						iter->setIsExist(false);
+						iter->setIsCollider(false);
+						CAMERA->cameraShake(15);
+						SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
+
+						switch (iter->getWall())
+						{
+						case WALL::DIRT:
+							SOUNDMANAGER->play("dig_dirt");
+							break;
+						case WALL::BRICK:
+							SOUNDMANAGER->play("dig_brick");
+							break;
+						case WALL::STONE:
+							SOUNDMANAGER->play("dig_stone");
+							break;
+						}
 					}
 				}
 			}
@@ -122,20 +138,18 @@ void GameScene::update(void)
 				if ((*iter)->getIdxX() == PLAYER->getNextIdxX() && (*iter)->getIdxY() == PLAYER->getNextIdxY())
 				{
 					_isMove = false;
-					CAMERA->cameraShake(10);
+					CAMERA->cameraShake(15);
 					PLAYER->getCurWeapon()->setIsAttack(true);
 					SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
 
 					(*iter)->setCurHP((*iter)->getCurHP() - PLAYER->getCurWeapon()->getPower());
-					SOUNDMANAGER->play("enemy_hit");
+					SOUNDMANAGER->play("cauldron_hit");
 
 					if ((*iter)->getCurHP() <= 0)
 					{
-						// 몬스터 소지금
-						UIMANAGER->addCoin((*iter)->getIdxX(), (*iter)->getIdxY(), (*iter)->getCoinCount());
-
 						// 몬스터 객체 삭제 및 벡터 삭제
-						delete((*iter));
+						(*iter)->release();
+						delete(*iter);
 						iter = _vEnemy.erase(iter);
 					}
 					else
@@ -173,11 +187,11 @@ void GameScene::render(void)
 	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
 	tileSet(_vWallTile, TILE_TYPE::WALL);
 
-	if (KEYMANAGER->isToggleKey(VK_F1))
+	if (KEYMANAGER->isToggleKey(VK_F1) && !_vTerrainTile.empty())
 	{
 		showTileNum(_vTerrainTile);
 	}
-	if (KEYMANAGER->isToggleKey(VK_F2))
+	if (KEYMANAGER->isToggleKey(VK_F2) && !_vTerrainTile.empty())
 	{
 		showTileDist(_vTerrainTile);
 	}
@@ -198,8 +212,10 @@ void GameScene::render(void)
 	BEAT->render(getMemDC());
 }
 
-void GameScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
+HRESULT GameScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 {
+	if (_vTile.empty()) return E_FAIL;
+
 	for (int i = -7; i < 8; i++)
 	{
 		for (int j = -11; j < 12; j++)
@@ -207,21 +223,21 @@ void GameScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 			int curIdxX = PLAYER->getPosIdxX() + j;
 			int curIdxY = PLAYER->getPosIdxY() + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_STAGE1_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_STAGE1_ROW - 1) continue;
 
-			int vIndex = (curIdxY * MAX_ROBBY_COL) + curIdxX;
+			int vIndex = (curIdxY * MAX_STAGE1_COL) + curIdxX;
 
 			// 타일을 그리지 않겠다면 continue
-			if (!_vTile[vIndex].isExist) continue;
+			if (!_vTile[vIndex].getIsExist()) continue;
 
 			// 플레이어와 타일간의 거리
-			int distance = sqrt(pow(_vTile[vIndex].idxX - PLAYER->getPosIdxX(), 2) + pow(_vTile[vIndex].idxY - PLAYER->getPosIdxY(), 2));
+			int distance = sqrt(pow(_vTile[vIndex].getIdxX() - PLAYER->getPosIdxX(), 2) + pow(_vTile[vIndex].getIdxY() - PLAYER->getPosIdxY(), 2));
 
 			// 플레이어와 타일간의 거리에 따른 알파값
 			int _alpha = getAlphaSet(distance, PLAYER->getLightPower());
 
-			if (distance < PLAYER->getLightPower() || _vTile[vIndex].isLight)
+			if (distance < PLAYER->getLightPower() || _vTile[vIndex].getIsLight())
 			{
 				switch (type)
 				{
@@ -229,25 +245,25 @@ void GameScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 					_terrainImg->frameAlphaRender(getMemDC(),
 						CAMERA->getPos().x + (j * TILESIZE),
 						CAMERA->getPos().y + (i * TILESIZE),
-						_vTile[vIndex].frameX,
-						_vTile[vIndex].frameY,
+						_vTile[vIndex].getFrameX(),
+						_vTile[vIndex].getFrameY(),
 						_alpha);
 					break;
 				case TILE_TYPE::WALL:
 					_wallImg->frameAlphaRender(getMemDC(),
 						CAMERA->getPos().x + (j * TILESIZE),
 						CAMERA->getPos().y + (i * TILESIZE),
-						_vTile[vIndex].frameX,
-						_vTile[vIndex].frameY,
+						_vTile[vIndex].getFrameX(),
+						_vTile[vIndex].getFrameY(),
 						_alpha);
 					break;
 				case TILE_TYPE::DECO:
 					break;
 				}
 
-				if (!_vTile[vIndex].isLight)
+				if (!_vTile[vIndex].getIsLight())
 				{
-					_vTile[vIndex].isLight = true;
+					_vTile[vIndex].setIsLight(true);
 				}
 			}
 		}
@@ -263,8 +279,8 @@ void GameScene::enemySet()
 			int curIdxX = PLAYER->getPosIdxX() + j;
 			int curIdxY = PLAYER->getPosIdxY() + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_STAGE1_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_STAGE1_ROW - 1) continue;
 		}
 	}
 }
@@ -294,13 +310,13 @@ void GameScene::showTileNum(vector<Tile> _vTile)
 			int curIdxX = PLAYER->getPosIdxX() + j;
 			int curIdxY = PLAYER->getPosIdxY() + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_STAGE1_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_STAGE1_ROW - 1) continue;
 
-			int vIndex = curIdxY * MAX_ROBBY_COL + curIdxX;
+			int vIndex = curIdxY * MAX_STAGE1_COL + curIdxX;
 
 			char strIdx[15];
-			sprintf_s(strIdx, "[%d, %d]", _vTile[vIndex].idxY, _vTile[vIndex].idxX);
+			sprintf_s(strIdx, "[%d, %d]", _vTile[vIndex].getIdxY(), _vTile[vIndex].getIdxX());
 
 			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE), strIdx, strlen(strIdx));
 		}
@@ -316,12 +332,12 @@ void GameScene::showTileDist(vector<Tile> _vTile)
 			int curIdxX = PLAYER->getPosIdxX() + j;
 			int curIdxY = PLAYER->getPosIdxY() + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_STAGE1_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_STAGE1_ROW - 1) continue;
 
-			int vIndex = curIdxY * MAX_ROBBY_COL + curIdxX;
+			int vIndex = curIdxY * MAX_STAGE1_COL + curIdxX;
 
-			int distance = sqrt(pow(_vTile[vIndex].idxX - PLAYER->getPosIdxX(), 2) + pow(_vTile[vIndex].idxY - PLAYER->getPosIdxY(), 2));
+			int distance = sqrt(pow(_vTile[vIndex].getIdxX() - PLAYER->getPosIdxX(), 2) + pow(_vTile[vIndex].getIdxY() - PLAYER->getPosIdxY(), 2));
 
 			char strDist[15];
 			sprintf_s(strDist, "%d", distance);

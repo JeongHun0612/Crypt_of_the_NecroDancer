@@ -1,6 +1,6 @@
 #pragma once
 #include "GameNode.h"
-#include "TileNode.h"
+#include "Tile.h"
 
 class FileManager
 {

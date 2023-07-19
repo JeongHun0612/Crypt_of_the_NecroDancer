@@ -12,7 +12,6 @@ public:
 	HRESULT init(void);
 	void release(void);
 
-
 	vector<Enemy*> getEnemyList() { return _vEnemy; }
 };
 

@@ -4,14 +4,14 @@
 HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
 	Enemy::init(idxX, idxY, maxHP, power, coinCount);
-
 	_img = IMAGEMANAGER->findImage("slime_green");
+
+	_img->setFrameY(1);
+	_prevFrameY = _img->getFrameY();
+	_maxFramX = _img->getMaxFrameX();
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
-
-	_frameY = 1;
-
 
 	return S_OK;
 }
@@ -19,6 +19,8 @@ HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCoun
 void Slime_Green::release()
 {
 	Enemy::release();
+
+	SOUNDMANAGER->play("slime_death");
 }
 	
 void Slime_Green::update()

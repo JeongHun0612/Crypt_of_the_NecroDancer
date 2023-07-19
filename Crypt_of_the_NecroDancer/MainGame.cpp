@@ -124,10 +124,16 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 
 	// ¾ÆÀÌÅÛ - ÄÚÀÎ
-	IMAGEMANAGER->addFrameImage("coin1", "Resources/Images/Item/Coin/coin1.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("coin3", "Resources/Images/Item/Coin/coin3.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("coin4", "Resources/Images/Item/Coin/coin4.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin3", "Resources/Images/Item/Coin/coin3.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin4", "Resources/Images/Item/Coin/coin4.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin5", "Resources/Images/Item/Coin/coin5.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin6", "Resources/Images/Item/Coin/coin6.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin7", "Resources/Images/Item/Coin/coin7.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin8", "Resources/Images/Item/Coin/coin8.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin9", "Resources/Images/Item/Coin/coin9.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin10", "Resources/Images/Item/Coin/coin10.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin_hoard", "Resources/Images/Item/Coin/coin_hoard.bmp", 68, 76, 1, 2, true, RGB(255, 0, 255));
 
 	// ===================
 	// Effect
@@ -146,7 +152,8 @@ void MainGame::initImage()
 
 	// ¸ó½ºÅÍ - ½ºÄÌ·¹Åæ
 	IMAGEMANAGER->addFrameImage("skeleton_normal", "Resources/Images/Enemy/Skeleton/Skeleton_normal.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("skeleton_black", "Resources/Images/Enemy/Skeleton/Skeleton_black.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skeleton_black", "Resources/Images/Enemy/Skeleton/Skeleton_black.bmp", 468, 416, 9, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skeleton_yellow", "Resources/Images/Enemy/Skeleton/Skeleton_yellow.bmp", 468, 416, 9, 8, true, RGB(255, 0, 255));
 
 	
 }
@@ -186,6 +193,15 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("hurt5", "Resources/Sounds/Player/Hurt/vo_cad_hurt_05.mp3", false, false);
 	SOUNDMANAGER->addSound("hurt6", "Resources/Sounds/Player/Hurt/vo_cad_hurt_06.mp3", false, false);
 
+	// ===================
+	// ¾Ö³Ê¹Ì
+	// ===================
+	 
+	// ½½¶óÀÓ
+	SOUNDMANAGER->addSound("slime_attack", "Resources/Sounds/Enemy/Slime/en_slime_attack.mp3", false, false);
+	SOUNDMANAGER->addSound("slime_hit", "Resources/Sounds/Enemy/Slime/en_slime_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("slime_death", "Resources/Sounds/Enemy/Slime/en_slime_death_01.mp3", false, false);
+
 
 	// ===================
 	// ¿ÀºêÁ§Æ®
@@ -195,14 +211,15 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
 
-	SOUNDMANAGER->addSound("enemy_hit", "Resources/Sounds/Object/sfx_cauldron_hit.mp3", false, false);
 
 
 	// ===================
-	// UI
+	// SFX
 	// ===================
 
 	// °ñµå È¹µæ
-	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/UI/sfx_pickup_gold_01.mp3", false, false);
-
+	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.mp3", false, false);
+	SOUNDMANAGER->addSound("cauldron_hit", "Resources/Sounds/SFX/sfx_cauldron_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.mp3", false, false);
+	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.mp3", false, false);
 }

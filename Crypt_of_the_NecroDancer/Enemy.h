@@ -30,8 +30,9 @@ protected:
 	int _nextIdxX;
 	int _nextIdxY;
 
-	int _frameX;
-	int _frameY;
+	int _prevFrameY;
+
+	int _maxFramX;
 
 	int _curHP;
 	int _maxHP;
@@ -62,6 +63,6 @@ public:
 	int getCoinCount() { return _coinCount; }
 
 	Enemy() {}
-	~Enemy() {}
+	virtual ~Enemy() {}
 };
 

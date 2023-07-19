@@ -20,8 +20,8 @@ HRESULT Enemy::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 	_nextIdxX = 0;
 	_nextIdxY = 0;
 
-	_frameX = 0;
-	_frameY = 0;
+	_prevFrameY = 0;
+	_maxFramX = 0;
 
 	_beatCount = 0;
 	_prevBeatCount = 0;
@@ -34,7 +34,7 @@ HRESULT Enemy::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 
 void Enemy::release()
 {
-	cout << "release" << endl;
+	UIMANAGER->addCoin(_idxX, _idxY, _coinCount);
 }
 
 void Enemy::update()
@@ -54,14 +54,12 @@ void Enemy::update()
 
 	if (_count >= 0.2f)
 	{
-		_img->setFrameX(_frameX);
+		_img->setFrameX(_img->getFrameX() + 1);
 
-		if (_frameX == _img->getMaxFrameX())
+		if (_img->getFrameX() == _maxFramX)
 		{
-			_frameX = 0;
+			_img->setFrameX(0);
 		}
-
-		_frameX++;
 
 		_count = 0.f;
 	}
@@ -94,18 +92,19 @@ void Enemy::render(HDC hdc)
 
 	if (distance > PLAYER->getLightPower())
 	{
-		_img->setFrameY(_frameY - 1);
+		_img->setFrameY(_prevFrameY + 1);
 	}
 	else
 	{
-		_img->setFrameY(_frameY + 1);
+		_img->setFrameY(_prevFrameY);
 	}
 
 	// 적 개체 이미지 출력
 	_img->frameRender(hdc,
 		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64,
 		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY,
-		_frameX, _frameY);
+		_img->getFrameX(),
+		_img->getFrameY());
 
 
 	// 적 개체 HP 출력

@@ -92,7 +92,7 @@ void Player::update(void)
 		}
 
 		_effectAlpha -= 10;
-
+		
 		if (_effectAlpha <= 0)
 		{
 			_effectAlpha = 50;
