@@ -79,6 +79,17 @@ void Player::update(void)
 
 	// 공격 상태일때
 	_curWeapon->update();
+
+	// 피격 상태일때
+	if (_isHit)
+	{
+		CAMERA->cameraShake(20);
+
+		if (_curHP <= 0)
+		{
+			cout << "사망" << endl;
+		}
+	}
 }
 
 void Player::render(HDC hdc)
@@ -91,6 +102,13 @@ void Player::render(HDC hdc)
 
 	// 공격 모션
 	_curWeapon->render(hdc);
+
+	// 피격 모션
+	if (_isHit)
+	{
+		IMAGEMANAGER->findImage("hit_effect")->alphaRender(hdc, 30);
+	}
+
 
 	// 현재 착용 삽
 	_curShovel->getImg()->frameRender(hdc,

@@ -31,7 +31,7 @@ HRESULT GameScene::init(void)
 
 	// 애너미 초기화
 	Slime* _slime = new Slime_Green;
-	_slime->init(3, 3, 1, 3);
+	_slime->init(3, 3, 1, 0, 3);
 
 	_enemyTile[3][3].idxY = 3;
 	_enemyTile[3][3].idxX = 3;
@@ -39,7 +39,7 @@ HRESULT GameScene::init(void)
 	_vSlime.push_back(_slime);
 
 	Slime* _slime2 = new Slime_Blue;
-	_slime2->init(3, 5, 2, 4);
+	_slime2->init(3, 5, 2, 1, 4);
 
 	_enemyTile[3][5].idxY = 3;
 	_enemyTile[3][5].idxX = 5;

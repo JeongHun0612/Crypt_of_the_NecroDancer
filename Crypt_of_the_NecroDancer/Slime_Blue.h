@@ -6,7 +6,7 @@ class Slime_Blue : public Slime
 private:
 
 public:
-	HRESULT init(int idxX, int idxY, int maxHP, int coinCount);
+	HRESULT init(int idxX, int idxY, int maxHP, int power, int coinCount);
 	void release();
 	void update();
 	void render(HDC hdc);

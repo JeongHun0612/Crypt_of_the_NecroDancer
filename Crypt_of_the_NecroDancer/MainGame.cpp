@@ -133,7 +133,8 @@ void MainGame::initImage()
 	// Effect
 	// ===================
 	IMAGEMANAGER->addFrameImage("effect_dagger", "Resources/Images/Effect/effect_dagger.bmp", 144, 192, 3, 4, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addFrameImage("enemy_effect", "Resources/Images/Effect/enemy_effect.bmp", 240, 44, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("hit_effect", "Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
 
 	// ===================
 	// ¸ó½ºÅÍ
@@ -142,6 +143,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("slime_green", "Resources/Images/Enemy/Slime/Slime_Green.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_blue", "Resources/Images/Enemy/Slime/Slime_Blue.bmp", 416, 208, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_yellow", "Resources/Images/Enemy/Slime/Slime_Yellow.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
+
+	
 }
 
 void MainGame::initSound()
