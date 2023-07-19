@@ -43,6 +43,7 @@ private:
 
 	bool _isMove;							// 움직이고 있는 상태인지
 	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
+	bool _isHit;							// 플레이어가 피격 상태인지
 
 	float _count;
 
@@ -98,6 +99,7 @@ public:
 	// 플레이어 상태 변수
 	void setIsMove(bool isMove) { _isMove = isMove; }
 	bool getIsMove() { return _isMove; }
+	void setIsHit(bool isHit) { _isHit = isHit; }
 
 
 	// 플레이어 소지 장비

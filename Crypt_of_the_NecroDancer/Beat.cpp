@@ -11,7 +11,7 @@ HRESULT Beat::init(void)
 	_heartRate.img = IMAGEMANAGER->findImage("beat_heart");
 	_heartRate.x = WINSIZE_X_HALF - _heartRate.img->getFrameWidth() / 2;
 	_heartRate.y = WINSIZE_Y - 130;
-	_heartRate.rc = RectMakeCenter(_heartRate.x + _heartRate.img->getFrameWidth() / 2, _heartRate.y + _heartRate.img->getFrameHeight() / 2, 150, 100);
+	_heartRate.rc = RectMakeCenter(_heartRate.x + _heartRate.img->getFrameWidth() / 2, _heartRate.y + _heartRate.img->getFrameHeight() / 2, 180, 100);
 	_heartRate.frameX = 0;
 	_heartRate.frameY = 0;
 	_heartRate.frameCount = 0.0f;
@@ -59,7 +59,9 @@ void Beat::update(void)
 
 
 	// 노트 생성
-	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
+	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
+	static int soundPos = 0;
+	soundPos += 15;
 
 	if (_noteCycle <= soundPos && _isMusic)
 	{

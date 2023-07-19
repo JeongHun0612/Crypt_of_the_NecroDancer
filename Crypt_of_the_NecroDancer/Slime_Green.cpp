@@ -1,12 +1,16 @@
 #include "Stdafx.h"
 #include "Slime_Green.h"
 
-HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int coinCount)
+HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
-	Slime::init(idxX, idxY, maxHP, coinCount);
-	_img = IMAGEMANAGER->findImage("slime_green");
+	Slime::init(idxX, idxY, maxHP, power, coinCount);
 
+	_img = IMAGEMANAGER->findImage("slime_green");
 	_img->setFrameY(1);
+
+	_nextIdxX = idxX;
+	_nextIdxY = idxY;
+
 
 	return S_OK;
 }
@@ -15,7 +19,7 @@ void Slime_Green::release()
 {
 	Slime::release();
 }
-
+	
 void Slime_Green::update()
 {
 	Slime::update();

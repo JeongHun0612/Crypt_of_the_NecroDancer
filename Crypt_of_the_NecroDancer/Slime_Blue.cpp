@@ -1,13 +1,16 @@
 #include "Stdafx.h"
 #include "Slime_Blue.h"
 
-HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int coinCount)
+HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
-	Slime::init(idxX, idxY, maxHP, coinCount);
+	Slime::init(idxX, idxY, maxHP, power, coinCount);
 	_img = IMAGEMANAGER->findImage("slime_blue");
-	_isUp = false;
-
 	_img->setFrameY(1);
+
+	_nextIdxX = idxX;
+	_nextIdxY = idxY;
+
+	_isUp = false;
 
 	return S_OK;
 }
@@ -37,7 +40,10 @@ void Slime_Blue::update()
 		{
 			if (_idxY - 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
 			{
-				cout << "°ãÄ§" << endl;
+				_nextIdxY = _idxY - 1;
+				_isAttack = true;
+				PLAYER->setIsHit(true);
+				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 				_isUp = !_isUp;
 			}
 			else
@@ -49,7 +55,10 @@ void Slime_Blue::update()
 		{
 			if (_idxY + 1 == PLAYER->getPosIdxY() && _idxX == PLAYER->getPosIdxX())
 			{
-				cout << "°ãÄ§" << endl;
+				_nextIdxY = _idxY + 1;
+				_isAttack = true;
+				PLAYER->setIsHit(true);
+				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 				_isUp = !_isUp;
 			}
 			else
