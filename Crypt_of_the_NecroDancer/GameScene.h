@@ -32,10 +32,11 @@ public:
 
 private:
 	HRESULT tileSet(vector<Tile>& _vTile, TILE_TYPE type);
+
 	void enemySet();
+
 	int getAlphaSet(int distance, int rightPower);
 
 	void showTileNum(vector<Tile> _vTile);
 	void showTileDist(vector<Tile> _vTile);
 };
-

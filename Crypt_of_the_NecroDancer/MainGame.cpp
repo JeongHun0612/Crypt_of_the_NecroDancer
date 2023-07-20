@@ -28,7 +28,7 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("test", new TestScene);							// 테스트 씬
 	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// 테스트 씬
 
-	SCENEMANAGER->changeScene("game");
+	SCENEMANAGER->changeScene("lobby");
 
 	return S_OK;
 }
@@ -114,6 +114,10 @@ void MainGame::initImage()
 	// ===================
 	IMAGEMANAGER->addFrameImage("player_head", "Resources/Images/Player/Head.bmp", 224, 44, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("player_body", "Resources/Images/Player/Body.bmp", 272, 300, 8, 10, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("shadow_standard", "Resources/Images/Player/shadow_standard.bmp", 48, 54, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("shadow_large", "Resources/Images/Player/shadow_large.bmp", 48, 56, true, RGB(255, 0, 255));
+
 
 	// ===================
 	// 아이템

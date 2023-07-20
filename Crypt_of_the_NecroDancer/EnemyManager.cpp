@@ -19,7 +19,7 @@ HRESULT EnemyManager::init(void)
 	_vEnemy.push_back(_slime2);
 
 	Enemy* _skeleton1 = new Skeleton_Normal;
-	_skeleton1->init(6, 3, 1, 1, 3);
+	_skeleton1->init(6, 5, 1, 1, 3);
 
 	_vEnemy.push_back(_skeleton1);
 

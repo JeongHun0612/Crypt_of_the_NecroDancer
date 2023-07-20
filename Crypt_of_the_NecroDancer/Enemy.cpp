@@ -5,6 +5,9 @@ HRESULT Enemy::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 {
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
 	_effectImg = IMAGEMANAGER->findImage("enemy_effect");
+
+	_vStage1Wall = TILEMAP->getStage1Wall();
+
 	_attackDirection = ENEMY_DIRECTION::NONE;
 	_idxX = idxX;
 	_idxY = idxY;
@@ -92,7 +95,7 @@ void Enemy::render(HDC hdc)
 
 	if (distance > PLAYER->getLightPower())
 	{
-		_img->setFrameY(_prevFrameY + 1);
+		_img->setFrameY(_prevFrameY - 1);
 	}
 	else
 	{

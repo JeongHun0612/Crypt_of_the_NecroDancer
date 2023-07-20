@@ -30,6 +30,7 @@ HRESULT GameNode::init(bool managerInit)
 		// ½Ì±ÛÅæ Å¬·¡½º ÃÊ±âÈ­
 		RND->init();
 		CAMERA->init();
+		TILEMAP->init();
 	}
 
 	return S_OK;
@@ -66,6 +67,8 @@ void GameNode::release(void)
 		BEAT->releaseSingleton();
 		CAMERA->release();
 		CAMERA->releaseSingleton();
+		TILEMAP->release();
+		TILEMAP->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);

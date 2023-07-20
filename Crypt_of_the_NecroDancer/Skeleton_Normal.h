@@ -4,7 +4,12 @@
 class Skeleton_Normal : public Enemy
 {
 private:
+	int moveDirection;
+	int prevMoveDirection;
 
+	int minDistance;
+
+	int distance[4];
 
 public:
 	HRESULT init(int idxX, int idxY, int maxHP, int power, int coinCount);

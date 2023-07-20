@@ -7,7 +7,7 @@ HRESULT UIManager::init(void)
 	Inventory shovelSlot;
 
 	shovelSlot.img = IMAGEMANAGER->findImage("slot_shovel");
-	shovelSlot.type = ITEM_TYPE::SHOVEL;
+	shovelSlot.type = INVENTORY_TYPE::SHOVEL;
 	shovelSlot.x = 10;
 	shovelSlot.y = 10;
 
@@ -15,7 +15,7 @@ HRESULT UIManager::init(void)
 
 	Inventory attackSlot;
 	attackSlot.img = IMAGEMANAGER->findImage("slot_attack");
-	attackSlot.type = ITEM_TYPE::ATTACK;
+	attackSlot.type = INVENTORY_TYPE::ATTACK;
 	attackSlot.x = 80;
 	attackSlot.y = 10;
 
@@ -23,12 +23,13 @@ HRESULT UIManager::init(void)
 
 	Inventory bodySlot;
 	bodySlot.img = IMAGEMANAGER->findImage("slot_body");
-	bodySlot.type = ITEM_TYPE::BODY;
+	bodySlot.type = INVENTORY_TYPE::BODY;
 	bodySlot.x = 10;
 	bodySlot.y = 80;
 
 	_vInventory.push_back(bodySlot);
 
+	_prevHP = 0;
 
 	// 하트 초기화
 	for (int i = PLAYER->getMaxHP() / 2; i > 0; i--)
@@ -65,7 +66,8 @@ void UIManager::render(HDC hdc)
 	// HP 출력
 	for (int i = 0; i < _vHeart.size(); i++)
 	{
-		_prevHP = PLAYER->getCurHP() - (i * 2);
+		//_prevHP = PLAYER->getCurHP() - (i * 2);
+		_prevHP = 0;
 
 		if (_prevHP > 1)
 		{

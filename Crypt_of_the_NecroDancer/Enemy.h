@@ -19,6 +19,8 @@ protected:
 	GImage* _heartImg;
 	GImage* _effectImg;
 
+	vector<Tile> _vStage1Wall;
+
 	int _attackDirection;
 
 	int _posX;
@@ -56,6 +58,11 @@ public:
 
 	int getIdxX() { return _idxX; }
 	int getIdxY() { return _idxY; }
+	void setIdxX(int idxX) { _idxX = idxX; }
+	void setIdxY(int idxY) { _idxX = idxY; }
+
+	int getNextIdxX() { return _nextIdxX; }
+	int getNextIdxY() { return _nextIdxY; }
 
 	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
