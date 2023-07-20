@@ -144,3 +144,50 @@ void TestScene::render(void)
 //	cout << _time << endl;
 //	_time = 0.f;
 //}
+
+
+//for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+//{
+//	// 다음 스테이지 이동
+//	if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
+//	{
+//		cout << "다음 스테이지 이동" << endl;
+//	}
+//}
+//
+//for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
+//{
+//	// 충돌체 발견 시
+//	if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
+//	{
+//		_isMove = false;
+//		PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
+//
+//		// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
+//		if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
+//		{
+//			SOUNDMANAGER->play("dig_fail");
+//		}
+//		else
+//		{
+//			// 벽 부수기
+//			iter->setIsExist(false);
+//			iter->setIsCollider(false);
+//			CAMERA->cameraShake(15);
+//			SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
+//
+//			switch (iter->getWall())
+//			{
+//			case WALL::DIRT:
+//				SOUNDMANAGER->play("dig_dirt");
+//				break;
+//			case WALL::BRICK:
+//				SOUNDMANAGER->play("dig_brick");
+//				break;
+//			case WALL::STONE:
+//				SOUNDMANAGER->play("dig_stone");
+//				break;
+//			}
+//		}
+//	}
+//}

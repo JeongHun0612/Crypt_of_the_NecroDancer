@@ -101,6 +101,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "Player.h"
 #include "Beat.h"
 #include "Camera.h"
+#include "TileMap.h"
 
 
 // # ΩÃ±€≈Ê # ==============================================================================================================
@@ -116,6 +117,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define PLAYER Player::getSingleton()
 #define BEAT Beat::getSingleton()
 #define CAMERA Camera::getSingleton()
+#define TILEMAP TileMap::getSingleton()
 
 // # ∏≈≈©∑Œ #  ==============================================================================================================
 

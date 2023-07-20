@@ -10,23 +10,16 @@ HRESULT LobbyScene::init()
 	_wallImg = IMAGEMANAGER->findImage("wall1");
 
 	// 타일 초기화
-	FileManager::loadTileMapFile("Lobby_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Lobby_Wall.txt", _vWallTile, TILE_TYPE::WALL);
-
-	cout << _vTerrainTile.size() << endl;
+	_vTerrainTile = TILEMAP->getLoobyTerrain();
+	_vWallTile = TILEMAP->getLoobyWall();
 
 	// 플레이어 초기화
-	PLAYER->init();
-	PLAYER->setPosIdxX(5);
-	PLAYER->setPosIdxY(5);
-
-	PLAYER->setNextIdxX(PLAYER->getPosIdxX());
-	PLAYER->setNextIdxY(PLAYER->getPosIdxY());
-
-	_nextDirection = PLAYER->getCurDirection();
+	PLAYER->init(5, 5);
 
 	// UI 초기화
 	UIMANAGER->init();
+
+	_nextDirection = PLAYER->getCurDirection();
 
 	return S_OK;
 }
@@ -71,24 +64,27 @@ void LobbyScene::update()
 		_isMove = true;
 		PLAYER->setCurDirection(_nextDirection);
 
-		for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+		for (int i = TILEMAP->getStartIdx(); i < TILEMAP->getStartIdx() + INSPRECTION_RANGE; i++)
 		{
+			// 범위 밖 검사
+			if (i > _vTerrainTile.size() - 1)
+			{
+				break;
+			}
+
 			// 다음 스테이지 이동
-			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
+			if (_vTerrainTile[i].getIdxX() == PLAYER->getNextIdxX() && _vTerrainTile[i].getIdxY() == PLAYER->getNextIdxY() && _vTerrainTile[i].getTerrain() == TERRAIN::STAIR)
 			{
 				SCENEMANAGER->changeScene("game");
 			}
-		}
 
-		for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
-		{
 			// 충돌체 발견 시
-			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
+			if (_vWallTile[i].getIdxX() == PLAYER->getNextIdxX() && _vWallTile[i].getIdxY() == PLAYER->getNextIdxY() && _vWallTile[i].getIsCollider())
 			{
 				_isMove = false;
 
 				// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-				if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
+				if (_vWallTile[i].getHardNess() > PLAYER->getCurShovel()->getHardNess())
 				{
 					PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 					SOUNDMANAGER->play("dig_fail");
@@ -96,11 +92,10 @@ void LobbyScene::update()
 				else
 				{
 					// 벽 부수기
-					iter->setIsExist(false);
 				}
 			}
 		}
-
+		
 		if (_isMove)
 		{
 			PLAYER->setIsMove(true);
@@ -111,6 +106,10 @@ void LobbyScene::update()
 		PLAYER->setNextIdxX(PLAYER->getPosIdxX());
 		PLAYER->setNextIdxY(PLAYER->getPosIdxY());
 		_nextDirection = PLAYER_DIRECTION::NONE;
+
+
+		// 움직일 때 마다 setStartIndex 갱신
+		TILEMAP->setStartIdx(PLAYER->getPosIdxX(), PLAYER->getNextIdxY(), MAX_LOBBY_COL);
 	}
 }
 
@@ -131,7 +130,6 @@ HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 {
 	if (_vTile.empty()) return E_FAIL;
 
-
 	for (int i = -7; i < 8; i++)
 	{
 		for (int j = -11; j < 12; j++)
@@ -139,10 +137,10 @@ HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 			int curIdxX = PLAYER->getPosIdxX() + j;
 			int curIdxY = PLAYER->getPosIdxY() + i;
 
-			if (curIdxX < 0 || curIdxX > MAX_ROBBY_COL - 1) continue;
-			if (curIdxY < 0 || curIdxY > MAX_ROBBY_ROW - 1) continue;
+			if (curIdxX < 0 || curIdxX > MAX_LOBBY_COL - 1) continue;
+			if (curIdxY < 0 || curIdxY > MAX_LOBBY_ROW - 1) continue;
 
-			int vIndex = (curIdxY * MAX_ROBBY_COL) + curIdxX;
+			int vIndex = (curIdxY * MAX_LOBBY_COL) + curIdxX;
 
 			// 타일을 그리지 않겠다면 continue
 			if (!_vTile[vIndex].getIsExist()) continue;

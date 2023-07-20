@@ -49,7 +49,7 @@ private:
 	float _count;
 
 public:
-	HRESULT init(void);
+	HRESULT init(int startIdxX, int startIxY);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);

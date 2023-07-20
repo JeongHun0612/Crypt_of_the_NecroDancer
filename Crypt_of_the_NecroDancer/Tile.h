@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAX_ROBBY_COL		11
-#define MAX_ROBBY_ROW		15
+#define MAX_LOBBY_COL		11
+#define MAX_LOBBY_ROW		15
 
 #define MAX_STAGE1_COL		31
 #define MAX_STAGE1_ROW		25

@@ -1,17 +1,17 @@
 #include "Stdafx.h"
 #include "Player.h"
 
-HRESULT Player::init(void)
+HRESULT Player::init(int startIdxX, int startIxY)
 {
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 
 	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
-	_posIdxX = 0;
-	_posIdxY = 0;
+	_posIdxX = startIdxX;
+	_posIdxY = startIxY;
 
-	_nextIdxX = 0;
-	_nextIdxY = 0;
+	_nextIdxX = startIdxX;
+	_nextIdxY = startIxY;
 
 	_curShovel = new Shovel;
 	_curShovel->init();
@@ -25,12 +25,12 @@ HRESULT Player::init(void)
 	_curDirection = PLAYER_DIRECTION::NONE;
 
 	_maxHP = 6;
-	_curHP = 6;
+	_curHP = _maxHP;
 
 	_lightPower = 5;
 	_effectAlpha = 50;
 
-	_coin = 123;
+	_coin = 0;
 	_diamond = 0;
 
 	_isMove = false;
@@ -109,7 +109,10 @@ void Player::update(void)
 void Player::render(HDC hdc)
 {
 	// 충돌체 그리기
-	//DrawRectMake(hdc, _rc);
+	if(KEYMANAGER->isToggleKey(VK_F3))
+	{
+		DrawRectMake(hdc, _rc);
+	}
 
 	// 삽 모션
 	_curShovel->render(hdc);
@@ -132,6 +135,7 @@ void Player::render(HDC hdc)
 	_curWeapon->getImg()->frameRender(hdc,
 		110 - _curWeapon->getImg()->getFrameWidth() / 2,
 		45 - _curWeapon->getImg()->getFrameHeight() / 2);
+
 
 	// 몸통 이미지
 	_bodyImg->frameRender(hdc,

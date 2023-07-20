@@ -10,30 +10,24 @@ HRESULT GameScene::init(void)
 	_wallImg = IMAGEMANAGER->findImage("wall1");
 
 	// 타일 초기화
-	FileManager::loadTileMapFile("Stage1-1_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Stage1-1_Wall.txt", _vWallTile, TILE_TYPE::WALL);
+	_vTerrainTile = TILEMAP->getStage1Terrain();
+	_vWallTile = TILEMAP->getStage1Wall();
 
-	// 플레이어 초기화
-	PLAYER->init();
-	PLAYER->setPosIdxX(5);
-	PLAYER->setPosIdxY(5);
 
+	// 플레이어 위치 초기화
+	PLAYER->setPosIdxX(25);
+	PLAYER->setPosIdxY(20);
 	PLAYER->setNextIdxX(PLAYER->getPosIdxX());
 	PLAYER->setNextIdxY(PLAYER->getPosIdxY());
-
-	_nextDirection = PLAYER->getCurDirection();
 
 	// 비트 초기화
 	BEAT->init();
 
 	// 애너미 초기화
 	ENEMYMANAGER->init();
-
-	// UI 초기화
-	UIMANAGER->init();
-
-	// 애너미 초기화
 	_vEnemy = ENEMYMANAGER->getEnemyList();
+
+	_isMove = false;
 
 	return S_OK;
 }
@@ -87,37 +81,40 @@ void GameScene::update(void)
 			BEAT->setIsSuccess(true);
 			PLAYER->setCurDirection(_nextDirection);
 
-			for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+
+			// 타일 검사
+			for (int i = TILEMAP->getStartIdx(); i < TILEMAP->getStartIdx() + INSPRECTION_RANGE; i++)
 			{
+				// 범위 밖 검사
+				if (i > _vTerrainTile.size() - 1) break;
+
+
 				// 다음 스테이지 이동
-				if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
+				if (_vTerrainTile[i].getIdxX() == PLAYER->getNextIdxX() && _vTerrainTile[i].getIdxY() == PLAYER->getNextIdxY() && _vTerrainTile[i].getTerrain() == TERRAIN::STAIR)
 				{
 					cout << "다음 스테이지 이동" << endl;
 				}
-			}
 
-			for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
-			{
 				// 충돌체 발견 시
-				if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
+				if (_vWallTile[i].getIdxX() == PLAYER->getNextIdxX() && _vWallTile[i].getIdxY() == PLAYER->getNextIdxY() && _vWallTile[i].getIsCollider())
 				{
 					_isMove = false;
 					PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 
 					// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-					if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
+					if (_vWallTile[i].getHardNess() > PLAYER->getCurShovel()->getHardNess())
 					{
 						SOUNDMANAGER->play("dig_fail");
 					}
 					else
 					{
 						// 벽 부수기
-						iter->setIsExist(false);
-						iter->setIsCollider(false);
+						_vWallTile[i].setIsExist(false);
+						_vWallTile[i].setIsCollider(false);
 						CAMERA->cameraShake(15);
 						SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
 
-						switch (iter->getWall())
+						switch (_vWallTile[i].getWall())
 						{
 						case WALL::DIRT:
 							SOUNDMANAGER->play("dig_dirt");
@@ -133,7 +130,7 @@ void GameScene::update(void)
 				}
 			}
 
-			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
+			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
 				if ((*iter)->getIdxX() == PLAYER->getNextIdxX() && (*iter)->getIdxY() == PLAYER->getNextIdxY())
 				{
@@ -143,7 +140,7 @@ void GameScene::update(void)
 					SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
 
 					(*iter)->setCurHP((*iter)->getCurHP() - PLAYER->getCurWeapon()->getPower());
-					SOUNDMANAGER->play("cauldron_hit");
+					//SOUNDMANAGER->play("cauldron_hit");
 
 					if ((*iter)->getCurHP() <= 0)
 					{
@@ -152,14 +149,6 @@ void GameScene::update(void)
 						delete(*iter);
 						iter = _vEnemy.erase(iter);
 					}
-					else
-					{
-						++iter;
-					}
-				}
-				else
-				{
-					++iter;
 				}
 			}
 
@@ -178,6 +167,9 @@ void GameScene::update(void)
 		_nextDirection = PLAYER_DIRECTION::NONE;
 		PLAYER->setNextIdxX(PLAYER->getPosIdxX());
 		PLAYER->setNextIdxY(PLAYER->getPosIdxY());
+
+		// 움직일 때 마다 setStartIndex 갱신
+		TILEMAP->setStartIdx(PLAYER->getPosIdxX(), PLAYER->getPosIdxY(), MAX_STAGE1_COL);
 	}
 }
 
