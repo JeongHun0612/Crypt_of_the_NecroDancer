@@ -60,14 +60,22 @@ void Skeleton_Normal::update()
 				{
 					if (_nextIdxX == ENEMYMANAGER->getEnemyList()[i]->getIdxX() && _idxY == ENEMYMANAGER->getEnemyList()[i]->getIdxY())
 					{
-						//cout << "몬스터 충돌" << endl;
 						_nextIdxX = _idxX;
+						_nextIdxY = _idxY - 1;
+						break;
 					}
 				}
 
 				for (auto iter = _vStage1Wall.begin(); iter != _vStage1Wall.end(); ++iter)
 				{
+					if (_nextIdxX == _idxX) break;
 
+					if (_nextIdxX == iter->getIdxX() && _idxY == iter->getIdxY())
+					{
+						_nextIdxX = _idxX;
+						_nextIdxY = _idxY - 1;
+						break;
+					}
 				}
 
 				if (PLAYER->getPosIdxY() < _idxY)
@@ -96,10 +104,9 @@ void Skeleton_Normal::update()
 				//	_frameY = 7;
 				//}
 			}
+
+			_idxX = _nextIdxX;
 		}
-
-
-
 
 
 		_isMove = false;
