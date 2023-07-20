@@ -63,11 +63,13 @@ void UIManager::render(HDC hdc)
 		iter->img->render(hdc, iter->x, iter->y);
 	}
 
+	// 삽 모션
+	PLAYER->getCurShovel()->render(hdc);
+
 	// HP 출력
 	for (int i = 0; i < _vHeart.size(); i++)
 	{
-		//_prevHP = PLAYER->getCurHP() - (i * 2);
-		_prevHP = 0;
+		_prevHP = PLAYER->getCurHP() - (i * 2);
 
 		if (_prevHP > 1)
 		{

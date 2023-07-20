@@ -16,6 +16,7 @@ protected:
 	{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
 	GImage* _img;
+	GImage* _shadowImg;
 	GImage* _heartImg;
 	GImage* _effectImg;
 
@@ -23,8 +24,8 @@ protected:
 
 	int _attackDirection;
 
-	int _posX;
-	int _posY;
+	float _posX;
+	float _posY;
 
 	int _idxX;
 	int _idxY;
@@ -33,7 +34,6 @@ protected:
 	int _nextIdxY;
 
 	int _prevFrameY;
-
 	int _maxFramX;
 
 	int _curHP;
@@ -51,7 +51,7 @@ protected:
 	bool _isMove;
 
 public:
-	virtual HRESULT init(int idxX, int idxY, int maxHP, int power, int coinCount);
+	virtual HRESULT init(int idxY, int idxX);
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);

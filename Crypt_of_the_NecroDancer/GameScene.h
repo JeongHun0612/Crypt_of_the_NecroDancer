@@ -9,15 +9,10 @@
 class GameScene : public GameNode
 {
 private:
-	GImage* _terrainImg;
-	GImage* _wallImg;
-
-	PLAYER_DIRECTION _nextDirection;
-
-	vector<Enemy*> _vEnemy;
-
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
+
+	vector<Enemy*> _vEnemy;
 
 	bool _isMove;
 

@@ -18,6 +18,12 @@ class Player : public SingletonBase<Player>
 private:
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
+	GImage* _shadowImg;						// 플레이어 그림자 이미지
+
+	RECT _rc;								// 플레이어 충돌체
+
+	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
+	PLAYER_DIRECTION _nextDirection;		// 플레이어 다음 방향 정보
 
 	Shovel* _curShovel;						// 플레이어가 착용 중인 삽
 	Weapon* _curWeapon;						// 플레이어가 착용 중인 무기
@@ -30,14 +36,13 @@ private:
 	int _nextIdxX;							// 플레이어의 다음 행동 좌표 X
 	int _nextIdxY;							// 플레이어의 다음 행동 좌표 Y
 
-	RECT _rc;								// 플레이어 충돌체
-
-	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
+	float _jumpPower;						// 점프 강도
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
 	int _lightPower;						// 불빛의 세기
 	int _effectAlpha;						// 피격 이펙트 알파값
+	int _shadowAlpha;						// 그림자 알파값
 
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드
@@ -87,6 +92,10 @@ public:
 	int getCurHP() { return _curHP; }
 
 
+	// 플레이어 그림자 알파값
+	void setShadowAlpha(int alpha) { _shadowAlpha = alpha; }
+
+
 	// 플레이어 시야 범위
 	void setLightPower(int lightPower) { _lightPower = lightPower; }
 	int getLightPower() { return _lightPower; }
@@ -95,6 +104,9 @@ public:
 	// 플레이어 상하좌우 상태
 	PLAYER_DIRECTION getCurDirection() { return _curDirection; }
 	void setCurDirection(PLAYER_DIRECTION direction) { _curDirection = direction; }
+
+	PLAYER_DIRECTION getNextDirection() { return _nextDirection; }
+	void setNextDirection(PLAYER_DIRECTION direction) { _nextDirection = direction; }
 
 
 	// 플레이어 상태 변수

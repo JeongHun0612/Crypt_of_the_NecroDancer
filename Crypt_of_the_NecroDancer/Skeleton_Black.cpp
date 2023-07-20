@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Skeleton_Black.h"
 
-HRESULT Skeleton_Black::init(int idxX, int idxY, int maxHP, int power, int coinCount)
+HRESULT Skeleton_Black::init(int idxY, int idxX)
 {
-	Enemy::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxY, idxX);
 	_img = IMAGEMANAGER->findImage("skeleton_black");
 
 	_img->setFrameY(5);
@@ -12,6 +12,13 @@ HRESULT Skeleton_Black::init(int idxX, int idxY, int maxHP, int power, int coinC
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
+
+	_maxHP = 3;
+	_curHP = _maxHP;
+
+	_power = 2;
+
+	_coinCount = 6;
 
 	return S_OK;
 }

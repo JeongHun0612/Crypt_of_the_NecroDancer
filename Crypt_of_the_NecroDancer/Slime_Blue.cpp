@@ -1,9 +1,10 @@
 #include "Stdafx.h"
 #include "Slime_Blue.h"
 
-HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount)
+HRESULT Slime_Blue::init(int idxY, int idxX)
 {
-	Enemy::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxY, idxX);
+
 	_img = IMAGEMANAGER->findImage("slime_blue");
 
 	_img->setFrameY(1);
@@ -13,6 +14,12 @@ HRESULT Slime_Blue::init(int idxX, int idxY, int maxHP, int power, int coinCount
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
 
+	_maxHP = 2;
+	_curHP = _maxHP;
+
+	_power = 1;
+
+	_coinCount = 5;
 
 	_isUp = false;
 
@@ -34,7 +41,7 @@ void Slime_Blue::update()
 	{
 		for (int i = 2; i < 4; i++)
 		{
-			if (_idxX == PLAYER->getPosIdxX() &&_idxY + direction[i].y == PLAYER->getPosIdxY())
+			if (_idxX == PLAYER->getNextIdxX() &&_idxY + direction[i].y == PLAYER->getNextIdxY())
 			{
 				_isAttack = true;
 				SOUNDMANAGER->play("slime_attack");

@@ -1,9 +1,10 @@
 #include "Stdafx.h"
 #include "Slime_Green.h"
 
-HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCount)
+HRESULT Slime_Green::init(int idxY, int idxX)
 {
-	Enemy::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxY, idxX);
+
 	_img = IMAGEMANAGER->findImage("slime_green");
 
 	_img->setFrameY(1);
@@ -12,6 +13,15 @@ HRESULT Slime_Green::init(int idxX, int idxY, int maxHP, int power, int coinCoun
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
+
+	_maxHP = 1;
+	_curHP = _maxHP;
+
+	_power = 0;
+
+	_coinCount = 4;
+
+	_jumpCount = 0;
 
 	return S_OK;
 }
@@ -29,15 +39,13 @@ void Slime_Green::update()
 
 	if (_isMove)
 	{
- 		static int jumpCount = 0;
+		_posY += (_jumpCount < 5) ? -4 : 4;
 
-		_posY += (jumpCount < 4) ? -4 : 4;
+		_jumpCount++;
 
-		jumpCount++;
-
-		if (jumpCount == 8)
+		if (_jumpCount == 10)
 		{
-			jumpCount = 0;
+			_jumpCount = 0;
 			_isMove = false;
 		}
 	}

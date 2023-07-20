@@ -4,8 +4,6 @@
 
 HRESULT TileMap::init(void)
 {
-	_startIdx = 0;
-
 	// Lobby TileMap ÃÊ±âÈ­
 	FileManager::loadTileMapFile("Lobby_Terrain.txt", _vLobbyTerrain, TILE_TYPE::TERRAIN);
 	FileManager::loadTileMapFile("Lobby_Wall.txt", _vLobbyWall, TILE_TYPE::WALL);
@@ -20,20 +18,4 @@ HRESULT TileMap::init(void)
 
 void TileMap::release(void)
 {
-}
-
-void TileMap::setStartIdx(int playerIdxX, int playerIdxY, int max_col)
-{
-	// 247
-	if (playerIdxX - 9 >= 0 && playerIdxY - 6 >= 0)
-	{
-		int startX = playerIdxX - 9;
-		int startY = playerIdxY - 6;
-
-		_startIdx = (startY * max_col) + startX;
-	}
-	else
-	{
-		_startIdx = 0;
-	}
 }

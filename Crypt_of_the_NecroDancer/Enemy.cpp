@@ -1,8 +1,9 @@
 #include "Stdafx.h"
 #include "Enemy.h"
 
-HRESULT Enemy::init(int idxX, int idxY, int maxHP, int power, int coinCount)
+HRESULT Enemy::init(int idxY, int idxX)
 {
+	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
 	_effectImg = IMAGEMANAGER->findImage("enemy_effect");
 
@@ -12,11 +13,11 @@ HRESULT Enemy::init(int idxX, int idxY, int maxHP, int power, int coinCount)
 	_idxX = idxX;
 	_idxY = idxY;
 
-	_maxHP = maxHP;
-	_curHP = maxHP;
+	_maxHP = 0;
+	_curHP = 0;
 
-	_power = power;
-	_coinCount = coinCount;
+	_power = 0;
+	_coinCount = 0;
 
 	_posX = 0;
 	_posY = 0;
@@ -102,15 +103,22 @@ void Enemy::render(HDC hdc)
 		_img->setFrameY(_prevFrameY);
 	}
 
-	// 적 개체 이미지 출력
+
+	// 그림자 출력
+	_shadowImg->alphaRender(hdc,
+		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
+		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 8,
+		180);
+
+	// 이미지 출력
 	_img->frameRender(hdc,
-		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64,
-		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY,
+		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
+		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY - 13,
 		_img->getFrameX(),
 		_img->getFrameY());
 
 
-	// 적 개체 HP 출력
+	// HP 출력
 	if (_maxHP > _curHP)
 	{
 		for (int i = 0; i < _maxHP; i++)
@@ -126,7 +134,7 @@ void Enemy::render(HDC hdc)
 
 			_heartImg->frameRender(hdc,
 				CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + (i * 25),
-				CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 25,
+				CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 38,
 				_heartImg->getFrameX(),
 				_heartImg->getFrameY());
 		}
@@ -137,7 +145,7 @@ void Enemy::render(HDC hdc)
 	{
 		_effectImg->frameRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _nextIdxX) * 64 + 10,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _nextIdxY) * 64 + 10,
+			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _nextIdxY) * 64 - 3,
 			_effectImg->getFrameX(),
 			_effectImg->getFrameY());
 	}

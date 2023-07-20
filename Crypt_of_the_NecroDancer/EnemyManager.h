@@ -3,6 +3,14 @@
 
 class Enemy;
 
+enum ENEMY_TYPE
+{
+	SLIME_GREE,
+	SLIME_BLUE,
+	SKELETON_NORMAL,
+	SKELETON_BLACK
+};
+
 class EnemyManager : public SingletonBase<EnemyManager>
 {
 private:

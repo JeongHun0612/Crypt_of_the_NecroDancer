@@ -1,8 +1,0 @@
-1. idxX
-2. idxY
-3. frameX
-4. frameY
-5. isCollider
-6. isExist
-7. hardNess
-8. TileType

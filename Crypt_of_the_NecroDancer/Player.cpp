@@ -5,6 +5,7 @@ HRESULT Player::init(int startIdxX, int startIxY)
 {
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
+	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 
 	_pos = { (float)WINSIZE_X_HALF, (float)WINSIZE_Y_HALF };
 	_posIdxX = startIdxX;
@@ -12,6 +13,10 @@ HRESULT Player::init(int startIdxX, int startIxY)
 
 	_nextIdxX = startIdxX;
 	_nextIdxY = startIxY;
+
+	_jumpPower = 8.f;
+
+	_shadowAlpha = 130;
 
 	_curShovel = new Shovel;
 	_curShovel->init();
@@ -77,6 +82,12 @@ void Player::update(void)
 	{
 		moveAction(_curDirection);
 	}
+	else
+	{
+		_pos.y = (float)WINSIZE_Y_HALF;
+		_jumpPower = 8.f;
+		_isMove = false;
+	}
 
 	// 공격 상태일때
 	_curWeapon->update();
@@ -84,7 +95,7 @@ void Player::update(void)
 	// 피격 상태일때
 	if (_isHit)
 	{
-		CAMERA->cameraShake(20);
+		CAMERA->setShakeCount(20);
 
 		if (_effectAlpha == 50)
 		{
@@ -115,7 +126,7 @@ void Player::render(HDC hdc)
 	}
 
 	// 삽 모션
-	_curShovel->render(hdc);
+	//_curShovel->render(hdc);
 
 	// 공격 모션
 	_curWeapon->render(hdc);
@@ -136,22 +147,27 @@ void Player::render(HDC hdc)
 		110 - _curWeapon->getImg()->getFrameWidth() / 2,
 		45 - _curWeapon->getImg()->getFrameHeight() / 2);
 
+	// 그림자 이미지
+	_shadowImg->alphaRender(hdc,
+		_pos.x - _shadowImg->getWidth() / 2,
+		WINSIZE_Y_HALF - 40,
+		_shadowAlpha);
 
 	// 몸통 이미지
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
-		_pos.y - _bodyImg->getFrameHeight() / 2 + 10,
+		_pos.y - _bodyImg->getFrameHeight() / 2 - 15,
 		_bodyImg->getFrameX(), _bodyImg->getFrameY());
 
 	// 머리 이미지
 	_headImg->frameRender(hdc,
 		_pos.x - _headImg->getFrameWidth() / 2,
-		_pos.y - _headImg->getFrameHeight() / 2 - 11,
+		_pos.y - _headImg->getFrameHeight() / 2 - 40,
 		_headImg->getFrameX(), _headImg->getFrameY());
 
 	// 플레이어 현재 인덱스 좌표
 	char playerIdx[40];
-	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdxX, _posIdxY);
+	sprintf_s(playerIdx, "Player Index : [%d, %d]", _posIdxY, _posIdxX);
 	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, playerIdx, strlen(playerIdx));
 }
 
@@ -171,17 +187,14 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 		break;
 	}
 
-	_curDirection = PLAYER_DIRECTION::NONE;
+	_pos.y -= _jumpPower;
 
-	static int jumpCount = 0;
+	_jumpPower -= 2.0f;
 
-	_pos.y += (jumpCount < 8) ? -2 : 2;
-
-	jumpCount++;
-
-	if (jumpCount == 16)
+	if (_pos.y >= (float)WINSIZE_Y_HALF)
 	{
-		jumpCount = 0;
+		_pos.y = (float)WINSIZE_Y_HALF;
+		_jumpPower = 8.f;
 		_isMove = false;
 	}
 }

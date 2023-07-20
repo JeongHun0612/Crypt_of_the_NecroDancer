@@ -8,11 +8,6 @@
 class LobbyScene : public GameNode
 {
 private:
-	GImage* _terrainImg;
-	GImage* _wallImg;
-
-	PLAYER_DIRECTION _nextDirection;
-
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
 

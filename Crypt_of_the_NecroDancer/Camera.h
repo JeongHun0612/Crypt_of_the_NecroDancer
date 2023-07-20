@@ -5,21 +5,20 @@ class Camera : public SingletonBase<Camera>
 {
 private:
 	POINTFLOAT _pos;
+	POINTFLOAT _prevPos;
 
 	int _shakeCount;
-	float _shake;
 
-	bool _isMove;
+	int _maxCol;
 
 public:
 	HRESULT init(void);
 	void release(void);
 	void update(void);
 
-	void cameraShake(int shakeCount);
-
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 	POINTFLOAT getPos() { return _pos; }
 
-	void setMove(bool isMove) { _isMove = isMove; }
+	void setShakeCount(int shakeCount) { _shakeCount = shakeCount; }
+	void setMaxCol(int maxCol) { _maxCol = maxCol; }
 };

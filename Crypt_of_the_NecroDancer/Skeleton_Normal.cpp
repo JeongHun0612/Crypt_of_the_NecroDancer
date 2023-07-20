@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Skeleton_Normal.h"
 
-HRESULT Skeleton_Normal::init(int idxX, int idxY, int maxHP, int power, int coinCount)
+HRESULT Skeleton_Normal::init(int idxY, int idxX)
 {
-	Enemy::init(idxX, idxY, maxHP, power, coinCount);
+	Enemy::init(idxY, idxX);
 	_img = IMAGEMANAGER->findImage("skeleton_normal");
 
 	_img->setFrameY(5);
@@ -12,6 +12,13 @@ HRESULT Skeleton_Normal::init(int idxX, int idxY, int maxHP, int power, int coin
 
 	_nextIdxX = idxX;
 	_nextIdxY = idxY;
+
+	_maxHP = 1;
+	_curHP = _maxHP;
+
+	_power = 1;
+
+	_coinCount = 5;
 
 	return S_OK;
 }
@@ -53,7 +60,7 @@ void Skeleton_Normal::update()
 				{
 					if (_nextIdxX == ENEMYMANAGER->getEnemyList()[i]->getIdxX() && _idxY == ENEMYMANAGER->getEnemyList()[i]->getIdxY())
 					{
-						cout << "몬스터 충돌" << endl;
+						//cout << "몬스터 충돌" << endl;
 						_nextIdxX = _idxX;
 					}
 				}
