@@ -9,6 +9,8 @@ private:
 	int _shakeCount;
 	float _shake;
 
+	bool _isMove;
+
 public:
 	HRESULT init(void);
 	void release(void);
@@ -18,4 +20,6 @@ public:
 
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 	POINTFLOAT getPos() { return _pos; }
+
+	void setMove(bool isMove) { _isMove = isMove; }
 };

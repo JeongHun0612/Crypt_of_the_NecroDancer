@@ -6,6 +6,7 @@ HRESULT Camera::init(void)
 	_pos = { (float)WINSIZE_X_HALF - 32.f, (float)WINSIZE_Y_HALF - 32.f };
 
 	_shakeCount = 0;
+	_isMove = false;
 
 	return S_OK;
 }
@@ -29,6 +30,18 @@ void Camera::update(void)
 			_pos.y = (float)WINSIZE_Y_HALF - 32.f;
 		}
 	}
+
+	if (_isMove)
+	{
+		_pos.x -= 64 * TIMEMANAGER->getDeltaTime();
+
+		if (_pos.x <= (float)WINSIZE_X_HALF - 96.f)
+		{
+			_pos.x = (float)WINSIZE_X_HALF - 32.f;
+			_isMove = false;
+		}
+	}
+	
 }
 
 void Camera::cameraShake(int shakeCount)
