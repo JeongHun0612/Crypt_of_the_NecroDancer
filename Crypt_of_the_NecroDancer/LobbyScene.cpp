@@ -4,6 +4,8 @@
 
 HRESULT LobbyScene::init()
 {
+	_isMove = false;
+
 	// 타일 초기화
 	_vTerrainTile = TILEMAP->getLoobyTerrain();
 	_vWallTile = TILEMAP->getLoobyWall();
@@ -36,101 +38,88 @@ void LobbyScene::update()
 	// 플레이어 키입력 동작
 	if (!PLAYER->getIsMove())
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && !_isMove)
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
-			PLAYER->setNextIdxX(PLAYER->getPosIdxX() - 1);
 			PLAYER->setNextDirection(PLAYER_DIRECTION::LEFT);
-			_isMove = true;
+			PLAYER->setNextIdxX(PLAYER->getNextIdxX() - 1);
 		}
 
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && !_isMove)
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
-			PLAYER->setNextIdxX(PLAYER->getPosIdxX() + 1);
 			PLAYER->setNextDirection(PLAYER_DIRECTION::RIGHT);
-			_isMove = true;
+			PLAYER->setNextIdxX(PLAYER->getNextIdxX() + 1);
 		}
 
-		if (KEYMANAGER->isOnceKeyDown(VK_UP) && !_isMove)
+		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			PLAYER->setNextIdxY(PLAYER->getPosIdxY() - 1);
 			PLAYER->setNextDirection(PLAYER_DIRECTION::UP);
-			_isMove = true;
+			PLAYER->setNextIdxY(PLAYER->getNextIdxY() - 1);
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN) && !_isMove)
+
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			PLAYER->setNextIdxY(PLAYER->getPosIdxY() + 1);
 			PLAYER->setNextDirection(PLAYER_DIRECTION::DOWN);
-			_isMove = true;
+			PLAYER->setNextIdxY(PLAYER->getNextIdxY() + 1);
 		}
 	}
 
+	int _curIdx = MAX_LOBBY_COL * PLAYER->getPosIdxY() + PLAYER->getPosIdxX();
+	int _nextIdx = MAX_LOBBY_COL * PLAYER->getNextIdxY() + PLAYER->getNextIdxX();
+
+	int _leftIdx = _curIdx - 1;
+	int _rightIdx = _curIdx + 1;
+	int _topIdx = _curIdx - MAX_LOBBY_COL;
+	int _bottomIdx = _curIdx + MAX_LOBBY_COL;
+
+
 	// 아래 쪽에 타일이 있을 시 그림자 숨기기
-	for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
+	if (_vWallTile[_bottomIdx].getIdxX() == PLAYER->getPosIdxX() && _vWallTile[_bottomIdx].getIdxY() == PLAYER->getPosIdxY() + 1 && _vWallTile[_bottomIdx].getIsCollider())
 	{
-		if (iter->getIdxX() == PLAYER->getPosIdxX() && (iter->getIdxY() == PLAYER->getNextIdxY() + 1 || iter->getIdxY() == PLAYER->getPosIdxY() + 1) && iter->getIsExist())
-		{
-			PLAYER->setShadowAlpha(0);
-			break;
-		}
+		PLAYER->setShadowAlpha(0);
 	}
 
 	// 키 입력이 있을 시 (좌 / 우 / 상 / 하)
 	if (PLAYER->getNextDirection() != PLAYER_DIRECTION::NONE)
 	{
-		PLAYER->setShadowAlpha(130);
+		_isMove = true;
 		PLAYER->setCurDirection(PLAYER->getNextDirection());
 
 		// 바닥 타일 검사
-		for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+		if (_vTerrainTile[_nextIdx].getTerrain() == TERRAIN::STAIR)
 		{
-			// 다음 스테이지 이동
-			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getTerrain() == TERRAIN::STAIR)
+			SCENEMANAGER->changeScene("game");
+		}
+
+		// 충돌체 발견 시
+		if (_vWallTile[_nextIdx].getIsCollider())
+		{
+			_isMove = false;
+
+			// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
+			if (_vWallTile[_nextIdx].getHardNess() > PLAYER->getCurShovel()->getHardNess())
 			{
-				SCENEMANAGER->changeScene("game");
+				PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
+				SOUNDMANAGER->play("dig_fail");
+			}
+			else
+			{
+				// 벽 부수기
 			}
 		}
 
-		// 벽 타일 검사
-		for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
-		{
-			// 아래 쪽에 타일이 있을 시 그림자 숨기기
-			if (iter->getIdxX() == PLAYER->getPosIdxX() && (iter->getIdxY() == PLAYER->getNextIdxY() + 1 || iter->getIdxY() == PLAYER->getPosIdxY() + 1) && iter->getIsExist())
-			{
-				PLAYER->setShadowAlpha(0);
-			}
-
-			// 충돌체 발견 시
-			if (iter->getIdxX() == PLAYER->getNextIdxX() && iter->getIdxY() == PLAYER->getNextIdxY() && iter->getIsCollider())
-			{
-				_isMove = false;
-
-				// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-				if (iter->getHardNess() > PLAYER->getCurShovel()->getHardNess())
-				{
-					PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
-					SOUNDMANAGER->play("dig_fail");
-				}
-				else
-				{
-					// 벽 부수기
-				}
-			}
-		}
-		
+		// 움직이기
 		if (_isMove)
 		{
 			PLAYER->setIsMove(true);
-			CAMERA->setMaxCol(MAX_LOBBY_COL);
 		}
 		else
 		{
-			// 플레이어 위치 좌표 설정
+			// 플레이어 Next좌표 초기화
 			PLAYER->setNextIdxX(PLAYER->getPosIdxX());
 			PLAYER->setNextIdxY(PLAYER->getPosIdxY());
 		}
 
 		PLAYER->setNextDirection(PLAYER_DIRECTION::NONE);
-		_isMove = false;
 	}
 }
 

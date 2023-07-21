@@ -104,49 +104,52 @@ void Enemy::render(HDC hdc)
 	}
 
 
-	// 그림자 출력
-	_shadowImg->alphaRender(hdc,
-		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
-		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 8,
-		180);
-
-	// 이미지 출력
-	_img->frameRender(hdc,
-		CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
-		CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY - 13,
-		_img->getFrameX(),
-		_img->getFrameY());
-
-
-	// HP 출력
-	if (_maxHP > _curHP)
+	if (distance < PLAYER->getLightPower() + 2)
 	{
-		for (int i = 0; i < _maxHP; i++)
+		// 그림자 출력
+		_shadowImg->alphaRender(hdc,
+			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
+			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 13,
+			180);
+
+		// 이미지 출력
+		_img->frameRender(hdc,
+			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
+			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY - 18,
+			_img->getFrameX(),
+			_img->getFrameY());
+
+
+		// HP 출력
+		if (_maxHP > _curHP)
 		{
-			if (i < _maxHP - _curHP)
+			for (int i = 0; i < _maxHP; i++)
 			{
-				_heartImg->setFrameX(1);
-			}
-			else
-			{
-				_heartImg->setFrameX(0);
-			}
+				if (i < _maxHP - _curHP)
+				{
+					_heartImg->setFrameX(1);
+				}
+				else
+				{
+					_heartImg->setFrameX(0);
+				}
 
-			_heartImg->frameRender(hdc,
-				CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + (i * 25),
-				CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 38,
-				_heartImg->getFrameX(),
-				_heartImg->getFrameY());
+				_heartImg->frameRender(hdc,
+					CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + (i * 25),
+					CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 43,
+					_heartImg->getFrameX(),
+					_heartImg->getFrameY());
+			}
 		}
-	}
 
-	// 공격 모션
-	if (_isAttack)
-	{
-		_effectImg->frameRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _nextIdxX) * 64 + 10,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _nextIdxY) * 64 - 3,
-			_effectImg->getFrameX(),
-			_effectImg->getFrameY());
+		// 공격 모션
+		if (_isAttack)
+		{
+			_effectImg->frameRender(hdc,
+				CAMERA->getPos().x - (PLAYER->getPosIdxX() - _nextIdxX) * 64 + 10,
+				CAMERA->getPos().y - (PLAYER->getPosIdxY() - _nextIdxY) * 64 - 8,
+				_effectImg->getFrameX(),
+				_effectImg->getFrameY());
+		}
 	}
 }

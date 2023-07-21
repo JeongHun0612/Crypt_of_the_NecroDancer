@@ -9,8 +9,6 @@ private:
 
 	int _shakeCount;
 
-	int _maxCol;
-
 public:
 	HRESULT init(void);
 	void release(void);
@@ -20,5 +18,4 @@ public:
 	POINTFLOAT getPos() { return _pos; }
 
 	void setShakeCount(int shakeCount) { _shakeCount = shakeCount; }
-	void setMaxCol(int maxCol) { _maxCol = maxCol; }
 };

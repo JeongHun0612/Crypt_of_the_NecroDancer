@@ -6,16 +6,17 @@
 
 enum class PLAYER_DIRECTION
 {
-	NONE,
 	LEFT,
 	RIGHT,
 	UP,
-	DOWN
+	DOWN,
+	NONE
 };
 
 class Player : public SingletonBase<Player>
 {
 private:
+
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 	GImage* _shadowImg;						// 플레이어 그림자 이미지

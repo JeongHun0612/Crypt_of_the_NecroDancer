@@ -28,6 +28,7 @@ HRESULT Player::init(int startIdxX, int startIxY)
 
 	_rc = RectMakeCenter(_pos.x, _pos.y, 64, 64);
 	_curDirection = PLAYER_DIRECTION::NONE;
+	_nextDirection = PLAYER_DIRECTION::NONE;
 
 	_maxHP = 6;
 	_curHP = _maxHP;
@@ -86,7 +87,6 @@ void Player::update(void)
 	{
 		_pos.y = (float)WINSIZE_Y_HALF;
 		_jumpPower = 8.f;
-		_isMove = false;
 	}
 
 	// 공격 상태일때
@@ -150,19 +150,19 @@ void Player::render(HDC hdc)
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
 		_pos.x - _shadowImg->getWidth() / 2,
-		WINSIZE_Y_HALF - 40,
+		WINSIZE_Y_HALF - 45,
 		_shadowAlpha);
 
 	// 몸통 이미지
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
-		_pos.y - _bodyImg->getFrameHeight() / 2 - 15,
+		_pos.y - _bodyImg->getFrameHeight() / 2 - 20,
 		_bodyImg->getFrameX(), _bodyImg->getFrameY());
 
 	// 머리 이미지
 	_headImg->frameRender(hdc,
 		_pos.x - _headImg->getFrameWidth() / 2,
-		_pos.y - _headImg->getFrameHeight() / 2 - 40,
+		_pos.y - _headImg->getFrameHeight() / 2 - 45,
 		_headImg->getFrameX(), _headImg->getFrameY());
 
 	// 플레이어 현재 인덱스 좌표
@@ -191,10 +191,8 @@ void Player::moveAction(PLAYER_DIRECTION direction)
 
 	_jumpPower -= 2.0f;
 
-	if (_pos.y >= (float)WINSIZE_Y_HALF)
+	if (_pos.y >= WINSIZE_Y_HALF)
 	{
-		_pos.y = (float)WINSIZE_Y_HALF;
-		_jumpPower = 8.f;
 		_isMove = false;
 	}
 }

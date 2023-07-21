@@ -8,8 +8,6 @@ HRESULT Camera::init(void)
 
 	_shakeCount = 0;
 
-	_maxCol = 0;
-
 	return S_OK;
 }
 

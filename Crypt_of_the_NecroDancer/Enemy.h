@@ -13,7 +13,7 @@ class Enemy
 {
 protected:
 	POINT direction[4] =
-	{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+	{ {-1, 0}, {0, -1}, {1, 0}, {0, 1} };
 
 	GImage* _img;
 	GImage* _shadowImg;

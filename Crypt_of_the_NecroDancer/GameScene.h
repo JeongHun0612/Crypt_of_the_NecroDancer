@@ -9,6 +9,8 @@
 class GameScene : public GameNode
 {
 private:
+	POINT _direction[4] = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
 	vector<Tile> _vTerrainTile;
 	vector<Tile> _vWallTile;
 

@@ -34,12 +34,23 @@ void Skeleton_Normal::update()
 
 	if (_isMove)
 	{
+		int _curIdx = MAX_STAGE1_COL * _idxY + _idxX;
+
+		int _leftIdx = _curIdx - 1;
+		int _rightIdx = _curIdx + 1;
+		int _topIdx = _curIdx - MAX_STAGE1_COL;
+		int _bottomIdx = _curIdx + MAX_STAGE1_COL;
+
+
 		// 4방향 탐색 후 공격 시전
 		for (int i = 0; i < 4; i++)
 		{
-			distance[i] = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
+			_FourDistacne[i].distance = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
+			_FourDistacne[i].direction = i;
 
-			if (_idxX + direction[i].x == PLAYER->getPosIdxX() && _idxY + direction[i].y == PLAYER->getPosIdxY())
+			//_distance[i] = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
+
+			if (_idxX + direction[i].x == PLAYER->getNextIdxX() && _idxY + direction[i].y == PLAYER->getNextIdxY())
 			{
 				_isAttack = true;
 				PLAYER->setIsHit(true);
@@ -52,60 +63,48 @@ void Skeleton_Normal::update()
 
 		if (!_isAttack)
 		{
-			if (PLAYER->getPosIdxX() < _idxX)
-			{
-				_nextIdxX = _idxX - 1;
+			//_minDistance = _distance[0];
+			//_moveDirection = 0;
 
-				for (int i = 0; i < ENEMYMANAGER->getEnemyList().size(); i++)
+			sort(_FourDistacne, _FourDistacne + 4);
+			printf("[%d, %d, %d, %d]\n", _FourDistacne[0].distance, _FourDistacne[1].distance, _FourDistacne[2].distance, _FourDistacne[2].distance);
+			printf("[%d, %d, %d, %d]\n\n", _FourDistacne[0].direction, _FourDistacne[1].direction, _FourDistacne[2].direction, _FourDistacne[2].direction);
+
+
+			// 최소 거리 방향 정하기
+			//for (int i = 0; i < 3; i++)
+			//{
+			//	if (_minDistance > _distance[i + 1])
+			//	{
+			//		_minDistance = _distance[i + 1];
+			//		_moveDirection = i + 1;
+			//	}
+			//}
+
+			// 최소 거리가 5 이하인 객체만 추적
+			if (_minDistance <= 5)
+			{
+				//printf("[%d, %d, %d, %d]\n", _distance[0], _distance[1], _distance[2], _distance[3]);
+				//cout << _minDistance << endl;
+				//cout << _moveDirection << endl;
+
+				_nextIdxX = _idxX + direction[_moveDirection].x;
+				_nextIdxY = _idxY + direction[_moveDirection].y;
+
+				int _nextIdx = MAX_STAGE1_COL * _nextIdxY + _nextIdxX;
+
+				if (_vStage1Wall[_nextIdx].getIsCollider())
 				{
-					if (_nextIdxX == ENEMYMANAGER->getEnemyList()[i]->getIdxX() && _idxY == ENEMYMANAGER->getEnemyList()[i]->getIdxY())
+					for (int i = 0; i < 4; i++)
 					{
-						_nextIdxX = _idxX;
-						_nextIdxY = _idxY - 1;
-						break;
+						_nextIdxX = _idxX + direction[_moveDirection].x;
+						_nextIdxY = _idxY + direction[_moveDirection].y;
 					}
 				}
 
-				for (auto iter = _vStage1Wall.begin(); iter != _vStage1Wall.end(); ++iter)
-				{
-					if (_nextIdxX == _idxX) break;
-
-					if (_nextIdxX == iter->getIdxX() && _idxY == iter->getIdxY())
-					{
-						_nextIdxX = _idxX;
-						_nextIdxY = _idxY - 1;
-						break;
-					}
-				}
-
-				if (PLAYER->getPosIdxY() < _idxY)
-				{
-					// 왼쪽 위
-					//_frameY = 1;
-					//_nextIdxY = _idxY - 1;
-				}
-				else
-				{
-					// 왼쪽 아래
-					//_frameY = 5;
-					//_nextIdxY = _idxY + 1;
-				}
+				_idxX += direction[_moveDirection].x;
+				_idxY += direction[_moveDirection].y;
 			}
-			else
-			{
-				//if (PLAYER->getPosIdxY() < _idxY)
-				//{
-				//	// 오른쪽 위
-				//	_frameY = 3;
-				//}
-				//else
-				//{
-				//	// 오른쪽 아래
-				//	_frameY = 7;
-				//}
-			}
-
-			_idxX = _nextIdxX;
 		}
 
 
