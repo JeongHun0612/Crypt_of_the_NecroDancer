@@ -10,14 +10,6 @@ struct Distance
 class Skeleton_Normal : public Enemy
 {
 private:
-	int _moveDirection;
-	int _prevMoveDirection;
-
-	int _minDistance;
-
-	//int _distance[4];
-	int _ASCDistance[4];
-
 	Distance _FourDistacne[4];
 
 public:

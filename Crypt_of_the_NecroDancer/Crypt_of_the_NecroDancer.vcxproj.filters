@@ -198,9 +198,7 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>MainGame\Object\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>MainGame\Object\Tile</Filter>
-    </ClCompile>
+    <ClCompile Include="StageCene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -308,8 +306,6 @@
     <ClInclude Include="TileMap.h">
       <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>MainGame\Object\Tile</Filter>
-    </ClInclude>
+    <ClInclude Include="StageCene.h" />
   </ItemGroup>
 </Project>

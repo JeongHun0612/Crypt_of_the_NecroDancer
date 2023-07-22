@@ -26,7 +26,7 @@ public:
 	GameScene() {}
 	~GameScene() {}
 
-protected:
+private:
 	HRESULT tileSet(vector<Tile*>& _vTile, TILE_TYPE type);
 
 	void enemySet();

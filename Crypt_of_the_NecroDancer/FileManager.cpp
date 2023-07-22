@@ -44,7 +44,7 @@ void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 	loadStream.close();
 }
 
-void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList, TILE_TYPE type)
+void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList, TILE_TYPE type)
 {
 	char filePath[MAX_PATH] = "Resources/TileMap/";
 	strcat_s(filePath, fileName);
@@ -65,7 +65,7 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 		int cutIndex = 0;
 		int count = 0;
 
-		Tile tile;
+		Tile* tile = new Tile;
 
 		int idxX = 0;
 		int idxY = 0;
@@ -87,15 +87,15 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 				{
 				case TILE_TYPE::TERRAIN:
 				{
-					terrain = (TERRAIN)stoi(line);
-					tile.init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, terrain);
+					tile->_terrain = (TERRAIN)stoi(line);
+					//tile->init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, terrain);
 					vTileList.push_back(tile);
 				}
 				break;
 				case TILE_TYPE::WALL:
 				{
-					wall = (WALL)stoi(line);
-					tile.init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, wall);
+					tile->_wall = (WALL)stoi(line);
+					//tile->init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, wall);
 					vTileList.push_back(tile);
 				}
 				break;
@@ -110,25 +110,25 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile>& vTileList,
 			switch (count)
 			{
 			case 0:
-				idxY = tileData;
+				tile->_idxY = tileData;
 				break;
 			case 1:
-				idxX = tileData;
+				tile->_idxX = tileData;
 				break;
 			case 2:
-				frameX = tileData;
+				tile->_frameX = tileData;
 				break;
 			case 3:
-				frameY = tileData;
+				tile->_frameY = tileData;
 				break;
 			case 4:
-				isCollider = tileData;
+				tile->_isCollider = tileData;
 				break;
 			case 5:
-				isExist = tileData;
+				tile->_isExist = tileData;
 				break;
 			case 6:
-				hardNess = tileData;
+				tile->_hardNess = tileData;
 			}
 
 			cutIndex++;

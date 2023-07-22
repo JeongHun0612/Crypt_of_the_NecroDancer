@@ -22,11 +22,6 @@ void TitleScene::update()
 	{
 		SCENEMANAGER->changeScene("lobby");
 	}
-
-	//if (KEYMANAGER->isAnyKeyDown())
-	//{
-	//	SCENEMANAGER->changeScene("lobby");
-	//}
 }
 
 void TitleScene::render()

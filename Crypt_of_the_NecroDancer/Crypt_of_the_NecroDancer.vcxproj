@@ -167,10 +167,10 @@
     <ClCompile Include="Slime_Blue.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="StageCene.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestCameraScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -206,10 +206,10 @@
     <ClInclude Include="Slime_Blue.h" />
     <ClInclude Include="Slime_Green.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="StageCene.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestCameraScene.h" />
     <ClInclude Include="TestScene.h" />
-    <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />

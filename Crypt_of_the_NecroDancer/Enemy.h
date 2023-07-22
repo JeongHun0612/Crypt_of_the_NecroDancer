@@ -20,7 +20,7 @@ protected:
 	GImage* _heartImg;
 	GImage* _effectImg;
 
-	vector<Tile> _vStage1Wall;
+	vector<Tile*> _vStage1Wall;
 
 	int _attackDirection;
 

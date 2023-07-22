@@ -4,6 +4,8 @@
 
 HRESULT LobbyScene::init()
 {
+	GameScene::init();
+
 	_isMove = false;
 
 	// 타일 초기화
@@ -73,7 +75,7 @@ void LobbyScene::update()
 
 
 	// 아래 쪽에 타일이 있을 시 그림자 숨기기
-	if (_vWallTile[_bottomIdx].getIdxX() == PLAYER->getPosIdxX() && _vWallTile[_bottomIdx].getIdxY() == PLAYER->getPosIdxY() + 1 && _vWallTile[_bottomIdx].getIsCollider())
+	if (_vWallTile[_bottomIdx]->_idxX == PLAYER->getPosIdxX() && _vWallTile[_bottomIdx]->_idxY == PLAYER->getPosIdxY() + 1 && _vWallTile[_bottomIdx]->_isCollider)
 	{
 		PLAYER->setShadowAlpha(0);
 	}
@@ -85,18 +87,18 @@ void LobbyScene::update()
 		PLAYER->setCurDirection(PLAYER->getNextDirection());
 
 		// 바닥 타일 검사
-		if (_vTerrainTile[_nextIdx].getTerrain() == TERRAIN::STAIR)
+		if (_vTerrainTile[_nextIdx]->_terrain == TERRAIN::STAIR)
 		{
 			SCENEMANAGER->changeScene("game");
 		}
 
 		// 충돌체 발견 시
-		if (_vWallTile[_nextIdx].getIsCollider())
+		if (_vWallTile[_nextIdx]->_isCollider)
 		{
 			_isMove = false;
 
 			// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-			if (_vWallTile[_nextIdx].getHardNess() > PLAYER->getCurShovel()->getHardNess())
+			if (_vWallTile[_nextIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
 			{
 				PLAYER->getCurShovel()->addShowShovel(PLAYER->getNextIdxX(), PLAYER->getNextIdxY());
 				SOUNDMANAGER->play("dig_fail");
@@ -136,7 +138,7 @@ void LobbyScene::render()
 	UIMANAGER->render(getMemDC());
 }
 
-HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
+HRESULT LobbyScene::tileSet(vector<Tile*>& _vTile, TILE_TYPE type)
 {
 	if (_vTile.empty()) return E_FAIL;
 
@@ -153,7 +155,7 @@ HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 			int vIndex = (curIdxY * MAX_LOBBY_COL) + curIdxX;
 
 			// 타일을 그리지 않겠다면 continue
-			if (!_vTile[vIndex].getIsExist()) continue;
+			if (!_vTile[vIndex]->_isExist) continue;
 
 			switch (type)
 			{
@@ -161,15 +163,15 @@ HRESULT LobbyScene::tileSet(vector<Tile>& _vTile, TILE_TYPE type)
 				IMAGEMANAGER->findImage("terrain1")->frameRender(getMemDC(),
 					CAMERA->getPos().x + (j * TILESIZE),
 					CAMERA->getPos().y + (i * TILESIZE),
-					_vTile[vIndex].getFrameX(),
-					_vTile[vIndex].getFrameY());
+					_vTile[vIndex]->_frameX,
+					_vTile[vIndex]->_frameY);
 				break;
 			case TILE_TYPE::WALL:
 				IMAGEMANAGER->findImage("wall1")->frameRender(getMemDC(),
 					CAMERA->getPos().x + (j * TILESIZE),
 					CAMERA->getPos().y + (i * TILESIZE) - 32,
-					_vTile[vIndex].getFrameX(),
-					_vTile[vIndex].getFrameY());
+					_vTile[vIndex]->_frameX,
+					_vTile[vIndex]->_frameY);
 				break;
 			case TILE_TYPE::DECO:
 				break;

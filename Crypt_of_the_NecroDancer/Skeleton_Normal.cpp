@@ -48,8 +48,6 @@ void Skeleton_Normal::update()
 			_FourDistacne[i].distance = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
 			_FourDistacne[i].direction = i;
 
-			//_distance[i] = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
-
 			if (_idxX + direction[i].x == PLAYER->getNextIdxX() && _idxY + direction[i].y == PLAYER->getNextIdxY())
 			{
 				_isAttack = true;
@@ -63,76 +61,49 @@ void Skeleton_Normal::update()
 
 		if (!_isAttack)
 		{
-			//_minDistance = _distance[0];
-			//_moveDirection = 0;
+			// 거리 오름차순 정렬 (가까운 순)
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 3 - i; ++j)
+				{
+					if (_FourDistacne[j].distance > _FourDistacne[j + 1].distance)
+					{
+						Distance tempDistance;
+						tempDistance = _FourDistacne[j];
+						_FourDistacne[j] = _FourDistacne[j + 1];
+						_FourDistacne[j + 1] = tempDistance;
 
-			sort(_FourDistacne, _FourDistacne + 4);
-			printf("[%d, %d, %d, %d]\n", _FourDistacne[0].distance, _FourDistacne[1].distance, _FourDistacne[2].distance, _FourDistacne[2].distance);
-			printf("[%d, %d, %d, %d]\n\n", _FourDistacne[0].direction, _FourDistacne[1].direction, _FourDistacne[2].direction, _FourDistacne[2].direction);
+					}
+				}
+			}
 
+			//printf("[%d, %d, %d, %d]\n", _FourDistacne[0].direction, _FourDistacne[1].direction, _FourDistacne[2].direction, _FourDistacne[3].direction);
 
-			// 최소 거리 방향 정하기
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	if (_minDistance > _distance[i + 1])
-			//	{
-			//		_minDistance = _distance[i + 1];
-			//		_moveDirection = i + 1;
-			//	}
-			//}
+			int _minDistance = _FourDistacne[0].distance;
 
 			// 최소 거리가 5 이하인 객체만 추적
 			if (_minDistance <= 5)
 			{
-				//printf("[%d, %d, %d, %d]\n", _distance[0], _distance[1], _distance[2], _distance[3]);
-				//cout << _minDistance << endl;
-				//cout << _moveDirection << endl;
-
-				_nextIdxX = _idxX + direction[_moveDirection].x;
-				_nextIdxY = _idxY + direction[_moveDirection].y;
-
-				int _nextIdx = MAX_STAGE1_COL * _nextIdxY + _nextIdxX;
-
-				if (_vStage1Wall[_nextIdx].getIsCollider())
+				for (int i = 0; i < 4; i++)
 				{
-					for (int i = 0; i < 4; i++)
+					int _curDirection = _FourDistacne[i].direction;
+					_nextIdxX = _idxX + direction[_curDirection].x;
+					_nextIdxY = _idxY + direction[_curDirection].y;
+
+					int _nextIdx = MAX_STAGE1_COL * _nextIdxY + _nextIdxX;
+
+					if (!_vStage1Wall[_nextIdx]->_isCollider)
 					{
-						_nextIdxX = _idxX + direction[_moveDirection].x;
-						_nextIdxY = _idxY + direction[_moveDirection].y;
+						_idxY = _nextIdxY;
+						_idxX = _nextIdxX;
+						break;
 					}
 				}
-
-				_idxX += direction[_moveDirection].x;
-				_idxY += direction[_moveDirection].y;
 			}
 		}
 
-
 		_isMove = false;
 	}
-
-	//if (abs(PLAYER->getPosIdxX() - _idxX) > abs(PLAYER->getPosIdxY() - _idxY))
-	//{
-	//	if (PLAYER->getPosIdxX() - _idxX > 0)
-	//	{
-	//		cout << "오른쪽" << endl;
-	//	}
-	//	else
-	//	{
-	//		cout << "왼쪽" << endl;
-	//	}
-	//}
-	//else
-	//{
-	//	if (PLAYER->getPosIdxY() - _idxY > 0)
-	//	{
-	//		cout << "아래" << endl;
-	//	}
-	//	else
-	//	{
-	//		cout << "위" << endl;
-	//	}
-	//}
 }
 
 void Skeleton_Normal::render(HDC hdc)
