@@ -49,15 +49,11 @@ void Camera::update(void)
 			break;
 		}
 
-		if (_pos.x >= (float)WINSIZE_X_HALF - 32.f + 64.f || _pos.x <= (float)WINSIZE_X_HALF - 32.f - 64.f ||
-			_pos.y >= (float)WINSIZE_Y_HALF - 32.f + 64.f || _pos.y <= (float)WINSIZE_Y_HALF - 32.f - 64.f)
+		if (_pos.x >= _prevPos.x + 64.f || _pos.x <= _prevPos.x - 64.f || _pos.y >= _prevPos.y + 64.f || _pos.y <= _prevPos.y - 64.f)
 		{
 			// 플레이어 위치 좌표 설정
-			PLAYER->setPosIdxX(PLAYER->getNextIdxX());
-			PLAYER->setPosIdxY(PLAYER->getNextIdxY());
-
-			PLAYER->setNextIdxX(PLAYER->getPosIdxX());
-			PLAYER->setNextIdxY(PLAYER->getPosIdxY());
+			PLAYER->setPosIdx(PLAYER->getNextPosIdx().x, PLAYER->getNextPosIdx().y);
+			PLAYER->setNextPosIdx(PLAYER->getPosIdx().x, PLAYER->getPosIdx().y);
 
 			_pos.x = _prevPos.x;
 			_pos.y = _prevPos.y;

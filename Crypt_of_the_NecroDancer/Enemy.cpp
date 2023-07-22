@@ -9,9 +9,12 @@ HRESULT Enemy::init(int idxY, int idxX)
 
 	_vStage1Wall = TILEMAP->getStage1Wall();
 
+	_distance = 0;
 	_attackDirection = ENEMY_DIRECTION::NONE;
-	_idxX = idxX;
-	_idxY = idxY;
+
+	_pos = { 0.f, 0.f };
+	_posIdx = { idxX, idxY };
+	_nextPosIdx = { idxX, idxY };
 
 	_maxHP = 0;
 	_curHP = 0;
@@ -19,26 +22,22 @@ HRESULT Enemy::init(int idxY, int idxX)
 	_power = 0;
 	_coinCount = 0;
 
-	_posX = 0;
-	_posY = 0;
-	_nextIdxX = 0;
-	_nextIdxY = 0;
-
 	_prevFrameY = 0;
 	_maxFramX = 0;
 
 	_beatCount = 0;
 	_prevBeatCount = 0;
 
-	_isAttack = false;
+	_isLeft = true;
 	_isMove = false;
+	_isAttack = false;
 
 	return S_OK;
 }
 
 void Enemy::release()
 {
-	UIMANAGER->addCoin(_idxX, _idxY, _coinCount);
+	UIMANAGER->addCoin(_posIdx.x, _posIdx.y, _coinCount);
 }
 
 void Enemy::update()
@@ -50,8 +49,10 @@ void Enemy::update()
 	{
 		_isMove = true;
 		_prevBeatCount = _beatCount;
-	}
 
+		// 플레이어와의 거리
+		_distance = sqrt(pow(_posIdx.x - PLAYER->getPosIdx().x, 2) + pow(_posIdx.y - PLAYER->getPosIdx().y, 2));
+	}
 
 	// 프레임 이미지 변경
 	_count += TIMEMANAGER->getDeltaTime();
@@ -78,21 +79,23 @@ void Enemy::update()
 			if (_effectImg->getFrameX() == _effectImg->getMaxFrameX())
 			{
 				_effectImg->setFrameX(0);
-				_isAttack = false;
 
-				_nextIdxX = _idxX;
-				_nextIdxY = _idxY;
+				_nextPosIdx.x =  _posIdx.x;
+				_nextPosIdx.y = _posIdx.y;
+
+				_isAttack = false;
 			}
 
 			_effectImg->setFrameX(_effectImg->getFrameX() + 1);
 		}
 	}
+
 }
 
 void Enemy::render(HDC hdc)
 {
 	// 거리에 따른 모습 변화
-	int distance = sqrt(pow(_idxX - PLAYER->getPosIdxX(), 2) + pow(_idxY - PLAYER->getPosIdxY(), 2));
+	int distance = sqrt(pow(_posIdx.x - PLAYER->getPosIdx().x, 2) + pow(_posIdx.y - PLAYER->getPosIdx().y, 2));
 
 	if (distance > PLAYER->getLightPower())
 	{
@@ -108,14 +111,14 @@ void Enemy::render(HDC hdc)
 	{
 		// 그림자 출력
 		_shadowImg->alphaRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 13,
+			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 13,
 			180);
 
 		// 이미지 출력
 		_img->frameRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 + _posY - 18,
+			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 + _pos.y - 18,
 			_img->getFrameX(),
 			_img->getFrameY());
 
@@ -135,8 +138,8 @@ void Enemy::render(HDC hdc)
 				}
 
 				_heartImg->frameRender(hdc,
-					CAMERA->getPos().x - (PLAYER->getPosIdxX() - _idxX) * 64 + (i * 25),
-					CAMERA->getPos().y - (PLAYER->getPosIdxY() - _idxY) * 64 - 43,
+					CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + (i * 25),
+					CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 43,
 					_heartImg->getFrameX(),
 					_heartImg->getFrameY());
 			}
@@ -146,8 +149,8 @@ void Enemy::render(HDC hdc)
 		if (_isAttack)
 		{
 			_effectImg->frameRender(hdc,
-				CAMERA->getPos().x - (PLAYER->getPosIdxX() - _nextIdxX) * 64 + 10,
-				CAMERA->getPos().y - (PLAYER->getPosIdxY() - _nextIdxY) * 64 - 8,
+				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _nextPosIdx.x) * 64 + 10,
+				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _nextPosIdx.y) * 64 - 8,
 				_effectImg->getFrameX(),
 				_effectImg->getFrameY());
 		}

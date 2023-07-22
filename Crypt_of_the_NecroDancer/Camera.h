@@ -4,8 +4,8 @@
 class Camera : public SingletonBase<Camera>
 {
 private:
-	POINTFLOAT _pos;
-	POINTFLOAT _prevPos;
+	Vec2_F _pos;
+	Vec2_F _prevPos;
 
 	int _shakeCount;
 
@@ -15,7 +15,7 @@ public:
 	void update(void);
 
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
-	POINTFLOAT getPos() { return _pos; }
+	Vec2_F getPos() { return _pos; }
 
 	void setShakeCount(int shakeCount) { _shakeCount = shakeCount; }
 };

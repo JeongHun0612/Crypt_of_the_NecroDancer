@@ -18,8 +18,6 @@ private:
 	int _power;
 	int _count;
 
-	bool _isAttack;
-
 public:
 	HRESULT init(WEAPON_TYPE type);
 	void release();
@@ -29,9 +27,6 @@ public:
 	GImage* getImg() { return _img; }
 	GImage* getEffectImg() { return _effectImg; }
 	int getPower() { return _power; }
-
-	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
-	bool getIsAttack() { return _isAttack; }
 
 	Weapon() {}
 	~Weapon() {}

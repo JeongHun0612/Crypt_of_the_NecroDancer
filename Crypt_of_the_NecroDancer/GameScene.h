@@ -1,24 +1,23 @@
 #pragma once
 #include "GameNode.h"
-#include "Player.h"
-#include "Slime_Green.h"
-#include "Slime_Blue.h"
-#include "Skeleton_normal.h"
 
 class GameScene : public GameNode
 {
-private:
-	POINT _direction[4] = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-
+protected:
+	vector<vector<Tile*>> _vTiles;
 	vector<Tile*> _vTerrainTile;
 	vector<Tile*> _vWallTile;
 
 	vector<Enemy*> _vEnemy;
 
-	bool _isMove;
+	int _tileMaxCol;
+	int _tileMaxRow;
+
+	bool _isLobby;
 
 public:
 	HRESULT init(void);
+	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(void);
@@ -27,12 +26,10 @@ public:
 	~GameScene() {}
 
 protected:
-	HRESULT tileSet(vector<Tile*>& _vTile, TILE_TYPE type);
-
-	void enemySet();
-
-	int getAlphaSet(int distance, int rightPower);
+	void tileSet(vector<Tile*> vTile, TILE_TYPE tileType);
 
 	void showTileNum(vector<Tile*> _vTile);
 	void showTileDist(vector<Tile*> _vTile);
+
+	int getAlphaSet(int distance, int rightPower);
 };

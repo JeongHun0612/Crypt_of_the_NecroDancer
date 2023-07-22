@@ -18,7 +18,7 @@ HRESULT MainGame::init(void)
 
 	// 사운드 추가
 	initSound();
-
+	
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
@@ -213,7 +213,6 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
-
 
 
 	// ===================

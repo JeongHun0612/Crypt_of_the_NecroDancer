@@ -1,5 +1,6 @@
 #pragma once
 #include "SingletonBase.h"
+#include "Enemy.h"
 #include "Shovel.h"
 #include "Weapon.h"
 #include "Armor.h"
@@ -16,12 +17,21 @@ enum class PLAYER_DIRECTION
 class Player : public SingletonBase<Player>
 {
 private:
+	// Left - RIGHT - UP - DOWN
+	Vec2 _fourDirection[4] = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+
+	vector<vector<Tile*>> _vTiles;			// 타일 정보
+
+	vector<Tile*> _vTerrainTile;			// 바닥 타일 정보
+	vector<Tile*> _vWallTile;				// 벽 타일 정보
+	vector<Enemy*> _vEnemy;					// 적 정보
+
+	int _tileMaxCol;						// 타일 최대 가로 길이
+
 
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 	GImage* _shadowImg;						// 플레이어 그림자 이미지
-
-	RECT _rc;								// 플레이어 충돌체
 
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
 	PLAYER_DIRECTION _nextDirection;		// 플레이어 다음 방향 정보
@@ -30,12 +40,9 @@ private:
 	Weapon* _curWeapon;						// 플레이어가 착용 중인 무기
 	Armor _curArmor;						// 플레이어가 착용 중인 갑옷
 
-	POINTFLOAT _pos;						// 현재 플레이어 포지션
-	int _posIdxX;							// 현재 플레이어가 있는 타일인덱스 X
-	int _posIdxY;							// 현재 플레이어가 있는 타일인덱스 Y
-
-	int _nextIdxX;							// 플레이어의 다음 행동 좌표 X
-	int _nextIdxY;							// 플레이어의 다음 행동 좌표 Y
+	Vec2_F _pos;							// 현재 플레이어 포지션
+	Vec2 _posIdx;							// 현재 플레이어가 있는 타일 인덱스
+	Vec2 _nextPosIdx;						// 플레이어의 다음 행동 타일 인덱스
 
 	float _jumpPower;						// 점프 강도
 
@@ -50,47 +57,44 @@ private:
 
 	bool _isMove;							// 움직이고 있는 상태인지
 	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
+	bool _isAttack;							// 플레이어가 공격 상태인지
 	bool _isHit;							// 플레이어가 피격 상태인지
 
-	float _count;
+	float _count;							// 프레임 이미지 카운트
 
 public:
-	HRESULT init(int startIdxX, int startIxY);
+	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
 
-	void moveAction(PLAYER_DIRECTION direction);
+	void moveAction();
 
 	// 플레이어 포지션
-	POINTFLOAT	getPos() { return _pos; }
+	Vec2_F	getPos() { return _pos; }
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 
-	int getPosIdxX() { return _posIdxX; }
-	void setPosIdxX(int idxX) { _posIdxX = idxX; }
+	Vec2 getPosIdx() { return _posIdx; }
+	void setPosIdx(int x, int y) { _posIdx.x = x, _posIdx.y = y; }
 
-	int getPosIdxY() { return _posIdxY; }
-	void setPosIdxY(int idxY) { _posIdxY = idxY; }
-
-	int getNextIdxX() { return _nextIdxX; }
-	void setNextIdxX(int idxX) { _nextIdxX = idxX; }
-
-	int getNextIdxY() { return _nextIdxY; }
-	void setNextIdxY(int idxY) { _nextIdxY = idxY; }
+	Vec2 getNextPosIdx() { return _nextPosIdx; }
+	void setNextPosIdx(int x, int y) { _nextPosIdx.x = x, _nextPosIdx.y = y; }
 
 
 	// 플레이어 재화
-	void setCoin(int coin) { _coin = coin; }
 	int getCoin() { return _coin; }
+	void setCoin(int coin) { _coin = coin; }
+
 	int getDiamond() { return _diamond; }
+	void setDiamond(int diamond) { _diamond = diamond; }
 
 
 	// 플레이어 체력
-	void setMaxHP(int maxHP) { _maxHP = maxHP; }
 	int getMaxHP() { return _maxHP; }
+	void setMaxHP(int maxHP) { _maxHP = maxHP; }
 
-	void setCurHP(int curHP) { _curHP = curHP; }
 	int getCurHP() { return _curHP; }
+	void setCurHP(int curHP) { _curHP = curHP; }
 
 
 	// 플레이어 그림자 알파값
@@ -98,8 +102,8 @@ public:
 
 
 	// 플레이어 시야 범위
-	void setLightPower(int lightPower) { _lightPower = lightPower; }
 	int getLightPower() { return _lightPower; }
+	void setLightPower(int lightPower) { _lightPower = lightPower; }
 
 
 	// 플레이어 상하좌우 상태
@@ -111,9 +115,13 @@ public:
 
 
 	// 플레이어 상태 변수
-	void setIsMove(bool isMove) { _isMove = isMove; }
 	bool getIsMove() { return _isMove; }
+	void setIsMove(bool isMove) { _isMove = isMove; }
+
 	void setIsHit(bool isHit) { _isHit = isHit; }
+
+	bool getIsAttack() { return _isAttack; }
+	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
 
 
 	// 플레이어 소지 장비

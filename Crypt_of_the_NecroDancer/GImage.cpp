@@ -94,7 +94,7 @@ HRESULT GImage::init(const char* fileName, int width, int height, bool isTrans, 
     _imageInfo->width = width;
     _imageInfo->height = height;
 
-    int len = strlen(fileName);
+    int len = (int)strlen(fileName);
     int idx = len + 1;
 
     _fileName = new char[idx];
@@ -136,7 +136,7 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
     _imageInfo->width = width;
     _imageInfo->height = height;
 
-    int len = strlen(fileName);
+    int len = (int)strlen(fileName);
     int idx = len + 1;
     _fileName = new char[idx];
     strcpy_s(_fileName, idx, fileName);
@@ -177,7 +177,7 @@ HRESULT GImage::init(const char* fileName, int width, int height, int maxFrameX,
     _imageInfo->frameWidth = width / maxFrameX;
     _imageInfo->frameHeight = height / maxFrameY;
 
-    int len = strlen(fileName);
+    int len = (int)strlen(fileName);
     int idx = len + 1;
     _fileName = new char[idx];
     strcpy_s(_fileName, idx, fileName);
@@ -220,7 +220,7 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
     _imageInfo->frameWidth = width / maxFrameX;
     _imageInfo->frameHeight = height / maxFrameY;
 
-    int len = strlen(fileName);
+    int len = (int)strlen(fileName);
     int idx = len + 1;
     _fileName = new char[idx];
     strcpy_s(_fileName, idx, fileName);

@@ -11,8 +11,7 @@ HRESULT Slime_Blue::init(int idxY, int idxX)
 	_prevFrameY = _img->getFrameY();
 	_maxFramX = _img->getMaxFrameX();
 
-	_nextIdxX = idxX;
-	_nextIdxY = idxY;
+	_nextPosIdx = { idxX , idxY };
 
 	_maxHP = 2;
 	_curHP = _maxHP;
@@ -39,26 +38,30 @@ void Slime_Blue::update()
 
 	if (_isMove)
 	{
-		for (int i = 2; i < 4; i++)
+		if (_isUp)
 		{
-			if (_idxX == PLAYER->getNextIdxX() &&_idxY + direction[i].y == PLAYER->getNextIdxY())
-			{
-				_isAttack = true;
-				SOUNDMANAGER->play("slime_attack");
-				PLAYER->setIsHit(true);
-				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+			_nextPosIdx = { _posIdx.x + _fourDirection[UP].x, _posIdx.y + _fourDirection[UP].y };
+		}
+		else
+		{
+			_nextPosIdx = { _posIdx.x + _fourDirection[DOWN].x, _posIdx.y + _fourDirection[DOWN].y };
+		}
 
-				_nextIdxY = _idxY + direction[i].y;
-			}
+		if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
+		{
+			_isAttack = true;
+			SOUNDMANAGER->play("slime_attack");
+			PLAYER->setIsHit(true);
+			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
 
 		if (!_isAttack)
 		{
-			_isUp = !_isUp;
-
-			_idxY = (_isUp) ? _idxY - 1 : _idxY + 1;
+			_posIdx.x = _nextPosIdx.x;
+			_posIdx.y = _nextPosIdx.y;
 		}
 
+		_isUp = !_isUp;
 		_isMove = false;
 	}
 }

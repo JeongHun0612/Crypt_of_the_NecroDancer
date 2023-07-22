@@ -151,9 +151,8 @@ void Beat::update(void)
 	// 빗나감 상태가 true일 때 빗나감 객체 생성
 	if (_isMissed)
 	{
-		_isMissed = false;
-
 		createMissed();
+		_isMissed = false;
 	}
 
 	// 빗나감 객체 애니메이션

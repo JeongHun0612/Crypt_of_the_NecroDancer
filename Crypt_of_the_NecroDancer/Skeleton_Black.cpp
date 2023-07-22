@@ -10,8 +10,7 @@ HRESULT Skeleton_Black::init(int idxY, int idxX)
 	_prevFrameY = _img->getFrameY();
 	_maxFramX = _img->getMaxFrameX() - 1;
 
-	_nextIdxX = idxX;
-	_nextIdxY = idxY;
+	_nextPosIdx = { idxX , idxY };
 
 	_maxHP = 3;
 	_curHP = _maxHP;

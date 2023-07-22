@@ -10,8 +10,7 @@ HRESULT Skeleton_Normal::init(int idxY, int idxX)
 	_prevFrameY = _img->getFrameY();
 	_maxFramX = _img->getMaxFrameX();
 
-	_nextIdxX = idxX;
-	_nextIdxY = idxY;
+	_nextPosIdx = { idxX , idxY };
 
 	_maxHP = 1;
 	_curHP = _maxHP;
@@ -34,28 +33,20 @@ void Skeleton_Normal::update()
 
 	if (_isMove)
 	{
-		int _curIdx = MAX_STAGE1_COL * _idxY + _idxX;
-
-		int _leftIdx = _curIdx - 1;
-		int _rightIdx = _curIdx + 1;
-		int _topIdx = _curIdx - MAX_STAGE1_COL;
-		int _bottomIdx = _curIdx + MAX_STAGE1_COL;
-
-
 		// 4방향 탐색 후 공격 시전
 		for (int i = 0; i < 4; i++)
 		{
-			_FourDistacne[i].distance = abs(_idxX + direction[i].x - PLAYER->getPosIdxX()) + abs(_idxY + direction[i].y - PLAYER->getPosIdxY());
-			_FourDistacne[i].direction = i;
+			_nextPosIdx = { _posIdx.x + _fourDirection[i].x , _posIdx.y + _fourDirection[i].y };
 
-			if (_idxX + direction[i].x == PLAYER->getNextIdxX() && _idxY + direction[i].y == PLAYER->getNextIdxY())
+			_moveInfo[i].direction = i;
+			_moveInfo[i].distance = abs(_nextPosIdx.x - PLAYER->getPosIdx().x) + abs(_nextPosIdx.y - PLAYER->getPosIdx().y);
+
+			if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 			{
 				_isAttack = true;
 				PLAYER->setIsHit(true);
 				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
-
-				_nextIdxX = _idxX + direction[i].x;
-				_nextIdxY = _idxY + direction[i].y;
+				break;
 			}
 		}
 
@@ -66,42 +57,41 @@ void Skeleton_Normal::update()
 			{
 				for (int j = 0; j < 3 - i; ++j)
 				{
-					if (_FourDistacne[j].distance > _FourDistacne[j + 1].distance)
+					if (_moveInfo[j].distance > _moveInfo[j + 1].distance)
 					{
-						Distance tempDistance;
-						tempDistance = _FourDistacne[j];
-						_FourDistacne[j] = _FourDistacne[j + 1];
-						_FourDistacne[j + 1] = tempDistance;
+						MoveInfo tempMoveInfo;
+						tempMoveInfo = _moveInfo[j];
+						_moveInfo[j] = _moveInfo[j + 1];
+						_moveInfo[j + 1] = tempMoveInfo;
 
 					}
 				}
 			}
 
-			//printf("[%d, %d, %d, %d]\n", _FourDistacne[0].direction, _FourDistacne[1].direction, _FourDistacne[2].direction, _FourDistacne[3].direction);
-
-			int _minDistance = _FourDistacne[0].distance;
+			int _minDistance = _moveInfo[0].distance;
 
 			// 최소 거리가 5 이하인 객체만 추적
 			if (_minDistance <= 5)
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					int _curDirection = _FourDistacne[i].direction;
-					_nextIdxX = _idxX + direction[_curDirection].x;
-					_nextIdxY = _idxY + direction[_curDirection].y;
+					int _curDirection = _moveInfo[i].direction;
 
-					int _nextIdx = MAX_STAGE1_COL * _nextIdxY + _nextIdxX;
+					_nextPosIdx.x = _posIdx.x + _fourDirection[_curDirection].x;
+					_nextPosIdx.y = _posIdx.y + _fourDirection[_curDirection].y;
+
+					int _nextIdx = MAX_STAGE1_COL * _nextPosIdx.y + _nextPosIdx.x;
 
 					if (!_vStage1Wall[_nextIdx]->_isCollider)
 					{
-						_idxY = _nextIdxY;
-						_idxX = _nextIdxX;
+						_posIdx = _nextPosIdx;
 						break;
 					}
 				}
 			}
 		}
 
+		_nextPosIdx = _posIdx;
 		_isMove = false;
 	}
 }

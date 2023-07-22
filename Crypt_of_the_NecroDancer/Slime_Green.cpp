@@ -11,8 +11,7 @@ HRESULT Slime_Green::init(int idxY, int idxX)
 	_prevFrameY = _img->getFrameY();
 	_maxFramX = _img->getMaxFrameX();
 
-	_nextIdxX = idxX;
-	_nextIdxY = idxY;
+	_nextPosIdx = { idxX , idxY };
 
 	_maxHP = 1;
 	_curHP = _maxHP;
@@ -21,7 +20,7 @@ HRESULT Slime_Green::init(int idxY, int idxX)
 
 	_coinCount = 4;
 
-	_jumpCount = 0;
+	_jumpPower = 5.0f;
 
 	return S_OK;
 }
@@ -39,13 +38,14 @@ void Slime_Green::update()
 
 	if (_isMove)
 	{
-		_posY += (_jumpCount < 5) ? -4 : 4;
+		_pos.y -= _jumpPower;
 
-		_jumpCount++;
+		_jumpPower -= 1.0f;
 
-		if (_jumpCount == 10)
+		if (_pos.y <= 0.0f)
 		{
-			_jumpCount = 0;
+			_pos.y = 0.0f;
+			_jumpPower = 5.0f;
 			_isMove = false;
 		}
 	}

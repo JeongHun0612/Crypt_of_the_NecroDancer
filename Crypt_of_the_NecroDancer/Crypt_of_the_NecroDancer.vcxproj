@@ -167,7 +167,7 @@
     <ClCompile Include="Slime_Blue.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="StageCene.cpp" />
+    <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestCameraScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
@@ -183,6 +183,7 @@
     <ClInclude Include="Beat.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="CoordinateVector.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FileManager.h" />
@@ -206,7 +207,7 @@
     <ClInclude Include="Slime_Blue.h" />
     <ClInclude Include="Slime_Green.h" />
     <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="StageCene.h" />
+    <ClInclude Include="StageScene.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestCameraScene.h" />
     <ClInclude Include="TestScene.h" />

@@ -1,16 +1,16 @@
 #pragma once
 #include "Enemy.h"
 
-struct Distance
+struct MoveInfo
 {
-	int distance;
 	int direction;
+	int distance;
 };
 
 class Skeleton_Normal : public Enemy
 {
 private:
-	Distance _FourDistacne[4];
+	MoveInfo _moveInfo[4];
 
 public:
 	HRESULT init(int idxY, int idxX);

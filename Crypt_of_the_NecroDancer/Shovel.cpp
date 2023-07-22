@@ -22,8 +22,8 @@ void Shovel::render(HDC hdc)
 	for (auto iter = _vShowShovel.begin(); iter != _vShowShovel.end();)
 	{
 		iter->_img->frameRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdxX() - iter->_idxX) * 64 + 5,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - iter->_idxY) * 64 - 20);
+			CAMERA->getPos().x - (PLAYER->getPosIdx().x - iter->_idxX) * 64 + 5,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->_idxY) * 64 - 20);
 
 		iter->_destoryTime += TIMEMANAGER->getDeltaTime();
 

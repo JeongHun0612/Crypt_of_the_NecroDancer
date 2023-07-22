@@ -67,16 +67,6 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 
 		Tile* tile = new Tile;
 
-		int idxX = 0;
-		int idxY = 0;
-		int frameX = 0;
-		int frameY = 0;
-		bool isCollider = false;
-		bool isExist = false;
-		int hardNess = 0;
-		TERRAIN terrain;
-		WALL wall;
-
 		while (true)
 		{
 			cutIndex = line.find(",");
@@ -87,15 +77,13 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 				{
 				case TILE_TYPE::TERRAIN:
 				{
-					tile->_terrain = (TERRAIN)stoi(line);
-					//tile->init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, terrain);
+					tile->_terrainType = (TERRAIN_TYPE)stoi(line);
 					vTileList.push_back(tile);
 				}
 				break;
 				case TILE_TYPE::WALL:
 				{
-					tile->_wall = (WALL)stoi(line);
-					//tile->init(idxX, idxY, frameX, frameY, isCollider, isExist, hardNess, wall);
+					tile->_wallType = (WALL_TYPE)stoi(line);
 					vTileList.push_back(tile);
 				}
 				break;

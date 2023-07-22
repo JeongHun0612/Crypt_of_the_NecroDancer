@@ -14,7 +14,7 @@ enum class TILE_TYPE
 	DECO
 };
 
-enum class TERRAIN
+enum class TERRAIN_TYPE
 {
 	GROUND,
 	STAIR,
@@ -22,7 +22,7 @@ enum class TERRAIN
 	END
 };
 
-enum class WALL
+enum class WALL_TYPE
 {
 	NONE,
 	DIRT,
@@ -33,8 +33,8 @@ enum class WALL
 
 struct Tile
 {
-	TERRAIN _terrain;
-	WALL _wall;
+	TERRAIN_TYPE _terrainType;
+	WALL_TYPE _wallType;
 
 	int _idxX;
 	int _idxY;
@@ -49,12 +49,15 @@ struct Tile
 	bool _isLight;
 };
 
+
 class TileMap : public SingletonBase<TileMap>
 {
 private:
+	vector<vector<Tile*>> _vLobbyTiles;
 	vector<Tile*> _vLobbyTerrain;
 	vector<Tile*> _vLobbyWall;
 
+	vector<vector<Tile*>> _vStage1Tiles;
 	vector<Tile*> _vStage1Terrain;
 	vector<Tile*> _vStage1Wall;
 
@@ -65,9 +68,11 @@ public:
 	TileMap() {}
 	~TileMap() {}
 
+	vector<vector<Tile*>> getLoobyTiles() { return _vLobbyTiles; }
 	vector<Tile*> getLoobyTerrain() { return _vLobbyTerrain; }
 	vector<Tile*> getLoobyWall() { return _vLobbyWall; }
 
+	vector<vector<Tile*>> getStage1Tiles() { return _vStage1Tiles; }
 	vector<Tile*> getStage1Terrain() { return _vStage1Terrain; }
 	vector<Tile*> getStage1Wall() { return _vStage1Wall; }
 };

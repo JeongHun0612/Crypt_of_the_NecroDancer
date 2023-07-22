@@ -107,10 +107,10 @@ void UIManager::render(HDC hdc)
 	for (auto iter = _vCoin.begin(); iter != _vCoin.end();)
 	{
 		iter->img->frameRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdxX() - iter->x) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdxY() - iter->y) * 64 + 8);
+			CAMERA->getPos().x - (PLAYER->getPosIdx().x - iter->x) * 64 + 8,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->y) * 64 + 8);
 
-		if (iter->x == PLAYER->getPosIdxX() && iter->y == PLAYER->getPosIdxY())
+		if (iter->x == PLAYER->getPosIdx().x && iter->y == PLAYER->getPosIdx().y)
 		{
 			PLAYER->setCoin(PLAYER->getCoin() + iter->coinCount);
 			SOUNDMANAGER->play("pickup_gold");

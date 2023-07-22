@@ -3,8 +3,8 @@
 enum ENEMY_DIRECTION
 {
 	LEFT,
-	RIGHT,
 	UP,
+	RIGHT,
 	DOWN,
 	NONE
 };
@@ -12,7 +12,8 @@ enum ENEMY_DIRECTION
 class Enemy
 {
 protected:
-	POINT direction[4] =
+	// Left - Up - Right - Down
+	Vec2 _fourDirection[4] =
 	{ {-1, 0}, {0, -1}, {1, 0}, {0, 1} };
 
 	GImage* _img;
@@ -23,18 +24,14 @@ protected:
 	vector<Tile*> _vStage1Wall;
 
 	int _attackDirection;
+	int _distance;
 
-	float _posX;
-	float _posY;
+	Vec2_F _pos;
+	Vec2 _posIdx;
+	Vec2 _nextPosIdx;
 
-	int _idxX;
-	int _idxY;
-
-	int _nextIdxX;
-	int _nextIdxY;
-
-	int _prevFrameY;
 	int _maxFramX;
+	int _prevFrameY;
 
 	int _curHP;
 	int _maxHP;
@@ -47,8 +44,9 @@ protected:
 	float _count;
 	float _effectCount;
 
-	bool _isAttack;
+	bool _isLeft;
 	bool _isMove;
+	bool _isAttack;
 
 public:
 	virtual HRESULT init(int idxY, int idxX);
@@ -56,13 +54,11 @@ public:
 	virtual void update();
 	virtual void render(HDC hdc);
 
-	int getIdxX() { return _idxX; }
-	int getIdxY() { return _idxY; }
-	void setIdxX(int idxX) { _idxX = idxX; }
-	void setIdxY(int idxY) { _idxX = idxY; }
+	Vec2 getPosIdx() { return _posIdx; }
+	void setPosIdx(int idxX, int idxY) { _posIdx.x = idxX, _posIdx.y = idxY; }
 
-	int getNextIdxX() { return _nextIdxX; }
-	int getNextIdxY() { return _nextIdxY; }
+	Vec2 getNextPosIdx() { return _nextPosIdx; }
+	void setNextPosIdx(int idxX, int idxY) { _nextPosIdx.x = idxX, _nextPosIdx.y = idxY; }
 
 	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
