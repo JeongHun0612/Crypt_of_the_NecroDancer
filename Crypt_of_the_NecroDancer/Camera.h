@@ -8,6 +8,7 @@ private:
 	Vec2_F _prevPos;
 
 	int _shakeCount;
+	float _cameraSpeed;
 
 public:
 	HRESULT init(void);

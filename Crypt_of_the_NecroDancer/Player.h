@@ -28,7 +28,6 @@ private:
 
 	int _tileMaxCol;						// 타일 최대 가로 길이
 
-
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 	GImage* _shadowImg;						// 플레이어 그림자 이미지
@@ -38,13 +37,11 @@ private:
 
 	Shovel* _curShovel;						// 플레이어가 착용 중인 삽
 	Weapon* _curWeapon;						// 플레이어가 착용 중인 무기
-	Armor _curArmor;						// 플레이어가 착용 중인 갑옷
+	Armor* _curArmor;						// 플레이어가 착용 중인 갑옷
 
 	Vec2_F _pos;							// 현재 플레이어 포지션
 	Vec2 _posIdx;							// 현재 플레이어가 있는 타일 인덱스
 	Vec2 _nextPosIdx;						// 플레이어의 다음 행동 타일 인덱스
-
-	float _jumpPower;						// 점프 강도
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
@@ -61,14 +58,15 @@ private:
 	bool _isHit;							// 플레이어가 피격 상태인지
 
 	float _count;							// 프레임 이미지 카운트
+	float _jumpPower;						// 점프 강도
 
 public:
+	HRESULT init();
+	HRESULT init(int startIdxX, int startIxY);
 	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
-
-	void moveAction();
 
 	// 플레이어 포지션
 	Vec2_F	getPos() { return _pos; }
@@ -127,6 +125,12 @@ public:
 	// 플레이어 소지 장비
 	Shovel* getCurShovel() { return _curShovel; }
 	Weapon* getCurWeapon() { return _curWeapon; }
+
+	void setTile(vector<vector<Tile*>> vTiles) { _vTiles = vTiles; }
+	void setTerrainTile(vector<Tile*> vTerrainTile) { _vTerrainTile = vTerrainTile; }
+	void setWallTile(vector<Tile*> vWallTile) { _vWallTile = vWallTile; }
+
+	void setTileMaxCol(int tileMaxCol) { _tileMaxCol = tileMaxCol; }
 
 	Player() {}
 	~Player() {}

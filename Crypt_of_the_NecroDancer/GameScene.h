@@ -1,6 +1,15 @@
 #pragma once
 #include "GameNode.h"
 
+enum class GAME_SCENE_TYPE
+{
+	STAGE1_1,
+	STAGE1_2,
+	STAGE1_BOSS,
+
+	END
+};
+
 class GameScene : public GameNode
 {
 protected:
@@ -10,14 +19,15 @@ protected:
 
 	vector<Enemy*> _vEnemy;
 
+	GAME_SCENE_TYPE _curGameScene;
+
 	int _tileMaxCol;
 	int _tileMaxRow;
-
+	
 	bool _isLobby;
 
 public:
 	HRESULT init(void);
-	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(void);

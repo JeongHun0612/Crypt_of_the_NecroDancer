@@ -23,6 +23,7 @@ public:
 	void update();
 
 	ARMOR_TYPE getArmorType() { return _type; }
+	void setArmorType(ARMOR_TYPE type) { _type = type; }
 
 	Armor() {}
 	~Armor() {}

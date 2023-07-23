@@ -67,11 +67,11 @@ HRESULT SceneManager::changeScene(string sceneName)
 	// 바꾸려는 씬이 현재 씬이랑 같을 때
 	if (find->second == _currentScene) return S_OK;
 
+	// 기존씬이 존재하면 릴리즈 함수를 실행
+	if (_currentScene) _currentScene->release();
+
 	if (SUCCEEDED(find->second->init()))
 	{
-		// 기존씬이 존재하면 릴리즈 함수를 실행
-		if (_currentScene) _currentScene->release();
-
 		//바꾸려는 씬을 현재씬으로 변경
 		_currentScene = find->second;
 

@@ -5,12 +5,35 @@ HRESULT GameScene::init(void)
 {
 	_isLobby = false;
 
-	return S_OK;
-}
+	_curGameScene = GAME_SCENE_TYPE::STAGE1_1;
 
-HRESULT GameScene::init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol)
-{
-	return E_NOTIMPL;
+	// 타일 초기화
+	_vTiles = TILEMAP->getStage1Tiles();
+	_vTerrainTile = TILEMAP->getStage1Terrain();
+	_vWallTile = TILEMAP->getStage1Wall();
+
+	_tileMaxCol = MAX_STAGE1_COL;
+	_tileMaxRow = MAX_STAGE1_ROW;
+
+	// 플레이어 초기화
+	PLAYER->init();
+	PLAYER->setTile(TILEMAP->getStage1Tiles());
+	PLAYER->setTerrainTile(TILEMAP->getStage1Terrain());
+	PLAYER->setWallTile(TILEMAP->getStage1Wall());
+	PLAYER->setTileMaxCol(MAX_STAGE1_COL);
+	PLAYER->setIsMove(false);
+
+
+	// 비트 초기화
+	BEAT->init();
+
+	// UI 초기화
+	UIMANAGER->init();
+
+	// 사운드 출력
+	SOUNDMANAGER->play("stage1-1", 0.5f);
+
+	return S_OK;
 }
 
 void GameScene::release(void)
@@ -20,13 +43,42 @@ void GameScene::release(void)
 
 void GameScene::update(void)
 {
+	// 카메라 업데이트
 	CAMERA->update();
 
-	PLAYER->update();
+	// 비트 업데이트
+	BEAT->update();
 
+	// 애너미 업데이트
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 	{
 		(*iter)->update();
+	}
+
+	// 플레이어 업데이트
+	PLAYER->update();
+
+
+	// 바닥 타일 타입이 계단일 시 씬 변경
+	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
+
+	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
+	{
+		switch (_curGameScene)
+		{
+		case GAME_SCENE_TYPE::STAGE1_1:
+			SOUNDMANAGER->stop("stage1-1");
+			break;
+		case GAME_SCENE_TYPE::STAGE1_2:
+
+			break;
+		case GAME_SCENE_TYPE::STAGE1_BOSS:
+			break;
+		case GAME_SCENE_TYPE::END:
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -44,6 +96,9 @@ void GameScene::render(void)
 	{
 		(*iter)->render(getMemDC());
 	}
+
+	// 비트 출력
+	BEAT->render(getMemDC());
 
 	// UI 출력
 	UIMANAGER->render(getMemDC());

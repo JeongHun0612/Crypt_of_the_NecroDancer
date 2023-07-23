@@ -2,6 +2,60 @@
 #include "Player.h"
 #include "TileMap.h"
 
+HRESULT Player::init()
+{
+	cout << "플레이어 초기화" << endl;
+
+	return S_OK;
+}
+
+HRESULT Player::init(int startIdxX, int startIxY)
+{
+	_vTiles = TILEMAP->getLoobyTiles();
+	_vTerrainTile = _vTiles[(int)TILE_TYPE::TERRAIN];
+	_vWallTile = _vTiles[(int)TILE_TYPE::WALL];
+
+	_tileMaxCol = MAX_LOBBY_COL;
+
+	_headImg = IMAGEMANAGER->findImage("player_head");
+	_bodyImg = IMAGEMANAGER->findImage("player_body");
+	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
+
+	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
+	_posIdx = { startIdxX , startIxY };
+	_nextPosIdx = { startIdxX , startIxY };
+
+	_curDirection = PLAYER_DIRECTION::NONE;
+	_nextDirection = PLAYER_DIRECTION::NONE;
+
+	_maxHP = 6;
+	_curHP = _maxHP;
+
+	_jumpPower = 8.0f;
+	_lightPower = 5;
+	_effectAlpha = 50;
+	_shadowAlpha = 130;
+
+	_coin = 0;
+	_diamond = 0;
+
+	_isLeft = false;
+	_isMove = false;
+	_isAttack = false;
+	_isHit = false;
+
+	_curShovel = new Shovel;
+	_curShovel->init();
+
+	_curWeapon = new Weapon;
+	_curWeapon->init(WEAPON_TYPE::DAGGER);
+
+	_curArmor = new Armor;
+	_curArmor->init();
+
+	return S_OK;
+}
+
 HRESULT Player::init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol)
 {
 	_vTiles = tiles;
@@ -12,13 +66,8 @@ HRESULT Player::init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, i
 
 	_tileMaxCol = tileMaxCol;
 
-	_headImg = IMAGEMANAGER->findImage("player_head");
-	_bodyImg = IMAGEMANAGER->findImage("player_body");
-	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
-
-	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
-	_posIdx = { 5 , 5 };
-	_nextPosIdx = { _posIdx.x , _posIdx.y };
+	_posIdx = { startIdxX , startIxY };
+	_nextPosIdx = { startIdxX , startIxY };
 
 	_curDirection = PLAYER_DIRECTION::NONE;
 	_nextDirection = PLAYER_DIRECTION::NONE;
@@ -26,24 +75,7 @@ HRESULT Player::init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, i
 	_maxHP = 6;
 	_curHP = _maxHP;
 
-	_jumpPower = 8.f;
-	_lightPower = 5;
-	_effectAlpha = 50;
-	_shadowAlpha = 130;
-
-	_coin = 0;
-	_diamond = 0;
-
 	_isMove = false;
-	_isLeft = false;
-
-	_curShovel = new Shovel;
-	_curShovel->init();
-
-	_curWeapon = new Weapon;
-	_curWeapon->init(WEAPON_TYPE::DAGGER);
-
-	_curArmor.init();
 
 	return S_OK;
 }
@@ -59,21 +91,10 @@ void Player::update(void)
 
 	if (_count >= 0.15f)
 	{
-		if (_isLeft)
+		if (_headImg->getFrameX() == _headImg->getMaxFrameX())
 		{
-			if (_headImg->getFrameX() == _headImg->getMaxFrameX())
-			{
-				_bodyImg->setFrameX(4);
-				_headImg->setFrameX(4);
-			}
-		}
-		else
-		{
-			if (_headImg->getFrameX() == _headImg->getMaxFrameX() / 2)
-			{
-				_bodyImg->setFrameX(0);
-				_headImg->setFrameX(0);
-			}
+			_bodyImg->setFrameX(0);
+			_headImg->setFrameX(0);
 		}
 
 		_headImg->setFrameX(_headImg->getFrameX() + 1);
@@ -88,13 +109,11 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
 			_nextDirection = PLAYER_DIRECTION::LEFT;
-			_isLeft = true;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
 			_nextDirection = PLAYER_DIRECTION::RIGHT;
-			_isLeft = false;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -105,6 +124,11 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_nextDirection = PLAYER_DIRECTION::DOWN;
+		}
+
+		if (KEYMANAGER->isOnceKeyDown('W'))
+		{
+			_curArmor->setArmorType((ARMOR_TYPE)((int)_curArmor->getArmorType() + 1));
 		}
 	}
 
@@ -124,7 +148,13 @@ void Player::update(void)
 		if (BEAT->getIsBeat())
 		{
 			_isMove = true;
+			_jumpPower = 8.0f;
 			_curDirection = _nextDirection;
+			BEAT->setIsSuccess(true);
+
+			if (_curDirection == PLAYER_DIRECTION::LEFT) _isLeft = true;
+
+			if (_curDirection == PLAYER_DIRECTION::RIGHT) _isLeft = false;
 
 			_nextPosIdx.x = _posIdx.x + _fourDirection[(int)_curDirection].x;
 			_nextPosIdx.y = _posIdx.y + _fourDirection[(int)_curDirection].y;
@@ -135,11 +165,11 @@ void Player::update(void)
 			if (_vWallTile[_nextTileIdx]->_isCollider)
 			{
 				_isMove = false;
+				_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 
 				// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
 				if (_vWallTile[_nextTileIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
 				{
-					_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 					SOUNDMANAGER->play("dig_fail");
 				}
 				else
@@ -208,12 +238,9 @@ void Player::update(void)
 	// 움직임 상태일때
 	if (_isMove)
 	{
-		moveAction();
-	}
-	else
-	{
-		_pos.y = (float)WINSIZE_Y_HALF;
-		_jumpPower = 8.f;
+		_pos.y -= _jumpPower;
+
+		_jumpPower -= 1.5f;
 	}
 
 	// 공격 상태일때
@@ -281,40 +308,17 @@ void Player::render(HDC hdc)
 	_bodyImg->frameRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
 		_pos.y - _bodyImg->getFrameHeight() / 2 - 20,
-		_bodyImg->getFrameX(), _bodyImg->getFrameY());
+		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft);
 
 	// 머리 이미지
 	_headImg->frameRender(hdc,
-		_pos.x - _headImg->getFrameWidth() / 2,
-		_pos.y - _headImg->getFrameHeight() / 2 - 45,
-		_headImg->getFrameX(), _headImg->getFrameY());
+		_pos.x - _headImg->getFrameWidth() / 2 - 1,
+		_pos.y - _headImg->getFrameHeight() / 2 - 44,
+		_headImg->getFrameX(), _isLeft);
 
 
 	// 플레이어 현재 인덱스 좌표
 	char currentIdx[40];
 	sprintf_s(currentIdx, "Current Index : [%d, %d]", _posIdx.y, _posIdx.x);
 	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, currentIdx, strlen(currentIdx));
-}
-
-void Player::moveAction()
-{
-	if (_isLeft)
-	{
-		_headImg->setFrameX(4);
-		_bodyImg->setFrameX(4);
-	}
-	else
-	{
-		_headImg->setFrameX(0);
-		_bodyImg->setFrameX(0);
-	}
-
-	_pos.y -= _jumpPower;
-
-	_jumpPower -= 2.0f;
-
-	if (_pos.y >= (float)WINSIZE_Y_HALF)
-	{
-		_isMove = false;
-	}
 }

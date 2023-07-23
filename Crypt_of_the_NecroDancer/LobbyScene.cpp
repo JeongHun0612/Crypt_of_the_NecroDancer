@@ -3,6 +3,8 @@
 
 HRESULT LobbyScene::init()
 {
+	_isLobby = true;
+
 	// 타일 초기화
 	_vTiles = TILEMAP->getLoobyTiles();
 	_vTerrainTile = TILEMAP->getLoobyTerrain();
@@ -11,10 +13,8 @@ HRESULT LobbyScene::init()
 	_tileMaxCol = MAX_LOBBY_COL;
 	_tileMaxRow = MAX_LOBBY_ROW;
 
-	_isLobby = true;
-
 	// 플레이어 초기화
-	PLAYER->init(5, 5, _vTiles, MAX_LOBBY_COL);
+	PLAYER->init(5, 5);
 
 	// 비트 초기화
 	BEAT->setIsBeat(true);
@@ -35,10 +35,13 @@ void LobbyScene::release()
 
 void LobbyScene::update()
 {
-	GameScene::update();
+	CAMERA->update();
+
+	PLAYER->update();
+
 
 	// 바닥 타일 타입이 계단일 시 씬 변경
-	int _nextTileIdx = (_tileMaxCol * _nextPosIdx.y) + _nextPosIdx.x;
+	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
 	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
 	{
@@ -48,5 +51,23 @@ void LobbyScene::update()
 
 void LobbyScene::render()
 {
-	GameScene::render();
+	// 타일 출력
+	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
+	tileSet(_vWallTile, TILE_TYPE::WALL);
+
+	// 플레이어 출력
+	PLAYER->render(getMemDC());
+
+	// UI 출력
+	UIMANAGER->render(getMemDC());
+
+	// 디버그 모드
+	if (KEYMANAGER->isToggleKey(VK_F1))
+	{
+		showTileNum(_vTerrainTile);
+	}
+	if (KEYMANAGER->isToggleKey(VK_F2))
+	{
+		showTileDist(_vTerrainTile);
+	}
 }
