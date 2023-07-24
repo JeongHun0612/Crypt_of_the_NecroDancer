@@ -59,7 +59,7 @@ private:
 	int _noteFrameX;					// 노트 이미지 프레임X
 
 	bool _isBeat;						// 박자가 맞는지
-	bool _isStep;						// 
+	bool _isStep;						// 한 스탭이 지났는지
 	bool _isMusic;						// 현재 음악이 재생되고 있는지
 	bool _isMissed;						// 박자에 맞춰 키 입력에 실패했는지
 	bool _isSuccess;					// 박자에 맞춰 키 입력에 성공했는지
@@ -83,6 +83,9 @@ public:
 
 	bool getIsSuccess() { return _isSuccess; }
 	void setIsSuccess(bool isSuccess) { _isSuccess = isSuccess; }
+
+	bool getIsStep() { return _isStep; }
+	void setIsStep(bool isStep) { _isStep = isStep; }
 
 	int getBeatCount() { return _beatCount; }
 

@@ -2,13 +2,6 @@
 #include "Player.h"
 #include "TileMap.h"
 
-HRESULT Player::init()
-{
-	cout << "플레이어 초기화" << endl;
-
-	return S_OK;
-}
-
 HRESULT Player::init(int startIdxX, int startIxY)
 {
 	_vTiles = TILEMAP->getLoobyTiles();
@@ -56,30 +49,6 @@ HRESULT Player::init(int startIdxX, int startIxY)
 	return S_OK;
 }
 
-HRESULT Player::init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol)
-{
-	_vTiles = tiles;
-	_vTerrainTile = _vTiles[(int)TILE_TYPE::TERRAIN];
-	_vWallTile = _vTiles[(int)TILE_TYPE::WALL];
-
-	_vEnemy = ENEMYMANAGER->getEnemyList();
-
-	_tileMaxCol = tileMaxCol;
-
-	_posIdx = { startIdxX , startIxY };
-	_nextPosIdx = { startIdxX , startIxY };
-
-	_curDirection = PLAYER_DIRECTION::NONE;
-	_nextDirection = PLAYER_DIRECTION::NONE;
-
-	_maxHP = 6;
-	_curHP = _maxHP;
-
-	_isMove = false;
-
-	return S_OK;
-}
-
 void Player::release(void)
 {
 }
@@ -89,16 +58,18 @@ void Player::update(void)
 	// 플레이어 프레임 이미지 변경
 	_count += TIMEMANAGER->getDeltaTime();
 
-	if (_count >= 0.15f)
+	if (_count >= 0.13f)
 	{
 		if (_headImg->getFrameX() == _headImg->getMaxFrameX())
 		{
 			_bodyImg->setFrameX(0);
 			_headImg->setFrameX(0);
 		}
-
-		_headImg->setFrameX(_headImg->getFrameX() + 1);
-		_bodyImg->setFrameX(_bodyImg->getFrameX() + 1);
+		else
+		{
+			_headImg->setFrameX(_headImg->getFrameX() + 1);
+			_bodyImg->setFrameX(_bodyImg->getFrameX() + 1);
+		}
 
 		_count = 0.0f;
 	}
@@ -141,6 +112,7 @@ void Player::update(void)
 	{
 		_shadowAlpha = 0;
 	}
+
 
 	// 키 입력을 받고 다음 행동에 대한 방향이 정해졌을 때
 	if (_nextDirection != PLAYER_DIRECTION::NONE)
@@ -197,7 +169,7 @@ void Player::update(void)
 			}
 
 			// 적 객체 검사
-			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
+			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
 				if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
 				{
@@ -208,18 +180,7 @@ void Player::update(void)
 
 					// 적 HP를 현재 무기의 세기만큼 감소
 					(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
-
-					// 적 HP가 0 이하로 내려갔을 때 객체 삭제 및 벡터 삭제
-					if ((*iter)->getCurHP() <= 0)
-					{
-						(*iter)->release();
-						delete(*iter);
-						iter = _vEnemy.erase(iter);
-					}
-					else ++iter;
-					break;
 				}
-				else ++iter;
 			}
 
 			if (!_isMove)

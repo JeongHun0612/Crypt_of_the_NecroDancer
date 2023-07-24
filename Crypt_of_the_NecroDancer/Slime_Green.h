@@ -4,7 +4,6 @@
 class Slime_Green : public Enemy
 {
 private:
-	float _jumpPower;
 
 public:
 	HRESULT init(int idxY, int idxX);

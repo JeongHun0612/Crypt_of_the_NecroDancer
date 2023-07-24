@@ -20,7 +20,6 @@ HRESULT Slime_Green::init(int idxY, int idxX)
 
 	_coinCount = 4;
 
-	_jumpPower = 5.0f;
 
 	return S_OK;
 }
@@ -36,13 +35,19 @@ void Slime_Green::update()
 {
 	Enemy::update();
 
+	if (_stepCount == 1)
+	{
+		_isMove = true;
+		_stepCount = 0;
+	}
+
 	if (_isMove)
 	{
 		_pos.y -= _jumpPower;
 
 		_jumpPower -= 1.0f;
 
-		if (_pos.y <= 0.0f)
+		if (_pos.y >= 0.0f)
 		{
 			_pos.y = 0.0f;
 			_jumpPower = 5.0f;

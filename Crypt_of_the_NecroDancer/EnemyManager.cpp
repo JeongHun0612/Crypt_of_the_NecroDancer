@@ -2,11 +2,6 @@
 #include "EnemyManager.h"
 #include "FileManager.h"
 
-#include "Slime_Green.h"
-#include "Slime_Blue.h"
-#include "Skeleton_Normal.h"
-#include "Skeleton_Black.h"
-
 HRESULT EnemyManager::init(void)
 {
 	FileManager::loadEnemyFile("Stage1-1_Enemy.txt", _vEnemy);

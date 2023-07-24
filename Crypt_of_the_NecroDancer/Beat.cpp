@@ -29,6 +29,7 @@ HRESULT Beat::init(void)
 	_qNoteData.pop();
 
 	_isBeat = false;
+	_isStep = false;
 	_isMusic = true;
 	_isMissed = false;
 	_isSuccess = false;
@@ -112,11 +113,10 @@ void Beat::update(void)
 
 			if (_isSuccess)
 			{
-				_beatCount++;
-
 				_vNoteLeft[i].isDestory = true;
 				_vNoteRight[i].isDestory = true;
 
+				_beatCount++;
 				_isBeat = false;
 				_isSuccess = false;
 			}
@@ -142,7 +142,6 @@ void Beat::update(void)
 		{
 			_beatCount++;
 			_isBeat = false;
-			_isMissed = true;
 			_vNoteLeft.erase(_vNoteLeft.begin() + i);
 			_vNoteRight.erase(_vNoteRight.begin() + i);
 		}

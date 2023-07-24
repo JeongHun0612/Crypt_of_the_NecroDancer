@@ -15,6 +15,9 @@ HRESULT LobbyScene::init()
 
 	// 플레이어 초기화
 	PLAYER->init(5, 5);
+	
+	// 애너미 초기화
+	ENEMYMANAGER->init();
 
 	// 비트 초기화
 	BEAT->setIsBeat(true);
@@ -43,9 +46,9 @@ void LobbyScene::update()
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
+	if (_vTiles[(int)TILE_TYPE::TERRAIN][_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
 	{
-		SCENEMANAGER->changeScene("game");
+		SCENEMANAGER->changeScene("stage1_1");
 	}
 }
 

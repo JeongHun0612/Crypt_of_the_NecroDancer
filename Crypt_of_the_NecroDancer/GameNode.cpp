@@ -26,6 +26,7 @@ HRESULT GameNode::init(bool managerInit)
 		TIMEMANAGER->init();
 		SCENEMANAGER->init();
 		SOUNDMANAGER->init();
+		//ENEMYMANAGER->init();
 
 		// ½Ì±ÛÅæ Å¬·¡½º ÃÊ±âÈ­
 		RND->init();

@@ -3,8 +3,8 @@
 enum ENEMY_DIRECTION
 {
 	LEFT,
-	UP,
 	RIGHT,
+	UP,
 	DOWN,
 	NONE
 };
@@ -12,9 +12,9 @@ enum ENEMY_DIRECTION
 class Enemy
 {
 protected:
-	// Left - Up - Right - Down
+	// Left - Right - Up - Down
 	Vec2 _fourDirection[4] =
-	{ {-1, 0}, {0, -1}, {1, 0}, {0, 1} };
+	{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
 	GImage* _img;
 	GImage* _shadowImg;
@@ -23,12 +23,11 @@ protected:
 
 	vector<Tile*> _vStage1Wall;
 
-	int _attackDirection;
-	int _distance;
-
 	Vec2_F _pos;
 	Vec2 _posIdx;
 	Vec2 _nextPosIdx;
+
+	int _distance;
 
 	int _maxFramX;
 	int _prevFrameY;
@@ -38,15 +37,18 @@ protected:
 	int _power;
 	int _coinCount;
 
+	int _stepCount;
 	int _beatCount;
 	int _prevBeatCount;
 
 	float _count;
 	float _effectCount;
+	float _jumpPower;
 
 	bool _isLeft;
 	bool _isMove;
 	bool _isAttack;
+	bool _isDie;
 
 public:
 	virtual HRESULT init(int idxY, int idxX);
@@ -64,6 +66,8 @@ public:
 	void setCurHP(int curHP) { _curHP = curHP; }
 
 	int getCoinCount() { return _coinCount; }
+
+	bool getIsDie() { return _isDie; }
 
 	Enemy() {}
 	virtual ~Enemy() {}

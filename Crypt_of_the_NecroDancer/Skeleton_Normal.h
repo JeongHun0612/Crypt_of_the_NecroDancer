@@ -11,6 +11,7 @@ class Skeleton_Normal : public Enemy
 {
 private:
 	MoveInfo _moveInfo[4];
+	int _moveDirection;
 
 public:
 	HRESULT init(int idxY, int idxX);

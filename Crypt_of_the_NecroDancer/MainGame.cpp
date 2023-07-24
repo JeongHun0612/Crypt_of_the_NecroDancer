@@ -4,7 +4,7 @@
 #include "IntroScene.h"
 #include "TitleScene.h"
 #include "LobbyScene.h"
-#include "GameScene.h"
+#include "Stage1_1Scene.h"
 
 #include "TestScene.h"
 #include "TestCameraScene.h"
@@ -23,7 +23,7 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
-	SCENEMANAGER->addScene("game", new GameScene);				// 인게임
+	SCENEMANAGER->addScene("stage1_1", new Stage1_1Scene);		// 스테이지1-1
 
 	SCENEMANAGER->addScene("test", new TestScene);							// 테스트 씬
 	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// 테스트 씬

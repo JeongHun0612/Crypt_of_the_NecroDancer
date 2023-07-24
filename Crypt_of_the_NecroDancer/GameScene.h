@@ -1,15 +1,6 @@
 #pragma once
 #include "GameNode.h"
 
-enum class GAME_SCENE_TYPE
-{
-	STAGE1_1,
-	STAGE1_2,
-	STAGE1_BOSS,
-
-	END
-};
-
 class GameScene : public GameNode
 {
 protected:
@@ -18,8 +9,6 @@ protected:
 	vector<Tile*> _vWallTile;
 
 	vector<Enemy*> _vEnemy;
-
-	GAME_SCENE_TYPE _curGameScene;
 
 	int _tileMaxCol;
 	int _tileMaxRow;

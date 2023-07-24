@@ -1,7 +1,7 @@
 #pragma once
 #include "GameScene.h"
 
-class StageScene : public GameScene
+class Stage1_1Scene : public GameScene
 {
 private:
 
@@ -11,6 +11,6 @@ public:
 	void update(void);
 	void render(void);
 
-	StageScene() {}
-	~StageScene() {}
+	Stage1_1Scene() {}
+	~Stage1_1Scene() {}
 };

@@ -61,12 +61,18 @@ private:
 	float _jumpPower;						// 점프 강도
 
 public:
-	HRESULT init();
 	HRESULT init(int startIdxX, int startIxY);
-	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> tiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
+
+
+	// 맵 타일 / 적 정보
+	void setTile(vector<vector<Tile*>> vTiles) { _vTiles = vTiles; }
+	void setTerrainTile(vector<Tile*> vTerrainTile) { _vTerrainTile = vTerrainTile; }
+	void setWallTile(vector<Tile*> vWallTile) { _vWallTile = vWallTile; }
+	void setTileMaxCol(int tileMaxCol) { _tileMaxCol = tileMaxCol; }
+	void setEnemyList(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	// 플레이어 포지션
 	Vec2_F	getPos() { return _pos; }
@@ -126,11 +132,6 @@ public:
 	Shovel* getCurShovel() { return _curShovel; }
 	Weapon* getCurWeapon() { return _curWeapon; }
 
-	void setTile(vector<vector<Tile*>> vTiles) { _vTiles = vTiles; }
-	void setTerrainTile(vector<Tile*> vTerrainTile) { _vTerrainTile = vTerrainTile; }
-	void setWallTile(vector<Tile*> vWallTile) { _vWallTile = vWallTile; }
-
-	void setTileMaxCol(int tileMaxCol) { _tileMaxCol = tileMaxCol; }
 
 	Player() {}
 	~Player() {}

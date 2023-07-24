@@ -20,6 +20,7 @@ HRESULT Slime_Blue::init(int idxY, int idxX)
 
 	_coinCount = 5;
 
+	_isMove = false;
 	_isUp = false;
 
 	return S_OK;
@@ -36,8 +37,10 @@ void Slime_Blue::update()
 {
 	Enemy::update();
 
-	if (_isMove)
+	if (_stepCount == 2)
 	{
+		_isMove = true;
+
 		if (_isUp)
 		{
 			_nextPosIdx = { _posIdx.x + _fourDirection[UP].x, _posIdx.y + _fourDirection[UP].y };
@@ -50,19 +53,26 @@ void Slime_Blue::update()
 		if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 		{
 			_isAttack = true;
+			_isMove = false;
 			SOUNDMANAGER->play("slime_attack");
 			PLAYER->setIsHit(true);
 			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
 
-		if (!_isAttack)
-		{
-			_posIdx.x = _nextPosIdx.x;
-			_posIdx.y = _nextPosIdx.y;
-		}
+		_stepCount = 0;
+	}
 
-		_isUp = !_isUp;
-		_isMove = false;
+	if (_isMove)
+	{
+		_pos.y += (_isUp) ? -8.f : 8.f;
+
+		if (_pos.y >= 64.f || _pos.y <= -64.f)
+		{
+			_pos.y = 0.0f;
+			_posIdx = _nextPosIdx;
+			_isUp = !_isUp;
+			_isMove = false;
+		}
 	}
 }
 

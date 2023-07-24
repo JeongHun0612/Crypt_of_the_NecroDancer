@@ -76,9 +76,6 @@
     <Filter Include="MainGame\Scene\TestScene">
       <UniqueIdentifier>{1ec34570-aa5e-4ee6-9981-29a57f6fead4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Scene\Stage">
-      <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\UI">
       <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="MainGame\Object\Enemy\Skeleton">
       <UniqueIdentifier>{e1dc1c88-9624-40eb-a3d9-548484e9b70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene\Stage">
+      <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,16 +189,18 @@
     <ClCompile Include="Skeleton_Normal.cpp">
       <Filter>MainGame\Object\Enemy\Skeleton</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Skeleton_Black.cpp">
       <Filter>MainGame\Object\Enemy\Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>MainGame\Object\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="Stage1_1Scene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -306,9 +308,11 @@
     <ClInclude Include="TileMap.h">
       <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="StageScene.h" />
     <ClInclude Include="CoordinateVector.h">
       <Filter>2D FrameWork\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_1Scene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
