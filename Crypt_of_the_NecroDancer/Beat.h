@@ -24,17 +24,6 @@ private:
 		bool isDestory;
 	};
 
-	struct FrameImage
-	{
-		GImage* img;
-		RECT rc;
-
-		float x, y;
-		int frameX;
-		int frameY;
-		float frameCount;
-	};
-
 	struct Missed
 	{
 		GImage* img;
@@ -73,7 +62,6 @@ public:
 
 	void createMissed();
 	void moveMissed();
-
 
 	bool getIsBeat() { return _isBeat; }
 	void setIsBeat(bool isBeat) { _isBeat = isBeat; }

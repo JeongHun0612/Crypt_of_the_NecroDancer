@@ -9,6 +9,12 @@ enum ENEMY_DIRECTION
 	NONE
 };
 
+struct MoveInfo
+{
+	int direction;
+	int distance;
+};
+
 class Enemy
 {
 protected:
@@ -16,21 +22,25 @@ protected:
 	Vec2 _fourDirection[4] =
 	{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
-	GImage* _img;
+	FrameImage _img;
+	FrameImage _effectImg;
 	GImage* _shadowImg;
 	GImage* _heartImg;
-	GImage* _effectImg;
 
+	vector<Tile*> _vStage1Terrain;
 	vector<Tile*> _vStage1Wall;
+	int _maxTileCol;
+	int _curTileIdx;
+	int _nextTileIdx;
 
 	Vec2_F _pos;
 	Vec2 _posIdx;
 	Vec2 _nextPosIdx;
 
-	int _distance;
+	MoveInfo _moveInfo[4];
 
-	int _maxFramX;
-	int _prevFrameY;
+	int _distance;
+	int _colliderIdx;
 
 	int _curHP;
 	int _maxHP;
@@ -41,17 +51,14 @@ protected:
 	int _beatCount;
 	int _prevBeatCount;
 
-	float _count;
-	float _effectCount;
 	float _jumpPower;
 
 	bool _isLeft;
 	bool _isMove;
 	bool _isAttack;
-	bool _isDie;
 
 public:
-	virtual HRESULT init(int idxY, int idxX);
+	virtual HRESULT init(int idxX, int idxY);
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
@@ -66,8 +73,6 @@ public:
 	void setCurHP(int curHP) { _curHP = curHP; }
 
 	int getCoinCount() { return _coinCount; }
-
-	bool getIsDie() { return _isDie; }
 
 	Enemy() {}
 	virtual ~Enemy() {}

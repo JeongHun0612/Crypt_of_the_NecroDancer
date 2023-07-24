@@ -1,17 +1,31 @@
 #include "Stdafx.h"
 #include "Enemy.h"
 
-HRESULT Enemy::init(int idxY, int idxX)
+HRESULT Enemy::init(int idxX, int idxY)
 {
+	_img.frameCount = 0.0f;
+	_img.frameX = 0;
+
+	_effectImg.img = IMAGEMANAGER->findImage("enemy_effect");
+	_effectImg.frameCount = 0.0f;
+	_effectImg.frameX = 0;
+	_effectImg.frameY = 0;
+	_effectImg.maxFrameX = _effectImg.img->getMaxFrameX();
+
 	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
-	_effectImg = IMAGEMANAGER->findImage("enemy_effect");
 
+	_vStage1Terrain = TILEMAP->getStage1Terrain();
 	_vStage1Wall = TILEMAP->getStage1Wall();
+	_maxTileCol = MAX_STAGE1_COL;
 
 	_pos = { 0.f, 0.f };
 	_posIdx = { idxX, idxY };
 	_nextPosIdx = { idxX, idxY };
+
+	_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
+	_nextTileIdx = 0;
+	_vStage1Terrain[_curTileIdx]->_isCollider = true;
 
 	_distance = 0;
 
@@ -20,19 +34,18 @@ HRESULT Enemy::init(int idxY, int idxX)
 	_prevBeatCount = 0;
 
 	_jumpPower = 5.0f;
-	_count = 0.0f;
-	_effectCount = 0.0f;
 
 	_isLeft = true;
 	_isMove = false;
 	_isAttack = false;
-	_isDie = false;
 
 	return S_OK;
 }
 
 void Enemy::release()
 {
+	_vStage1Terrain[_curTileIdx]->_isCollider = false;
+
 	UIMANAGER->addCoin(_posIdx.x, _posIdx.y, _coinCount);
 }
 
@@ -51,43 +64,44 @@ void Enemy::update()
 	}
 
 	// 프레임 이미지 변경
-	_count += TIMEMANAGER->getDeltaTime();
+	_img.frameCount += TIMEMANAGER->getDeltaTime();
 
-	if (_count >= 0.13f)
+	if (_img.frameCount >= 0.13f)
 	{
-		if (_img->getFrameX() == _maxFramX)
+		_img.img->setFrameX(_img.frameX);
+
+		if (_img.frameX == _img.maxFrameX)
 		{
-			_img->setFrameX(0);
+			_img.frameX = 0;
 		}
-		else
+		
+		if (_img.frameX < _img.maxFrameX)
 		{
-			_img->setFrameX(_img->getFrameX() + 1);
+			_img.frameX++;
 		}
 
-		_count = 0.f;
+		_img.frameCount = 0.f;
 	}
-
 
 	// 공격 모션 프레임 변경
 	if (_isAttack)
 	{
-		_effectCount += TIMEMANAGER->getDeltaTime();
-		if (_effectCount >= 0.13f)
-		{
-			if (_effectImg->getFrameX() == _effectImg->getMaxFrameX())
-			{
-				_effectImg->setFrameX(0);
+		_effectImg.frameCount += TIMEMANAGER->getDeltaTime();
 
+		if (_effectImg.frameCount >= 0.13f)
+		{
+			_effectImg.img->setFrameX(_effectImg.frameX);
+
+			if (_effectImg.frameX == _effectImg.maxFrameX)
+			{
+				_effectImg.frameX = 0;
 				_isAttack = false;
 			}
-
-			_effectImg->setFrameX(_effectImg->getFrameX() + 1);
+			else
+			{
+				_effectImg.frameX++;
+			}
 		}
-	}
-
-	if (_curHP <= 0)
-	{
-		_isDie = true;
 	}
 }
 
@@ -96,11 +110,11 @@ void Enemy::render(HDC hdc)
 	// 거리에 따른 모습 변화
 	if (_distance > PLAYER->getLightPower())
 	{
-		_img->setFrameY(_prevFrameY - 1);
+		_img.img->setFrameY(_img.frameY - 1);
 	}
 	else
 	{
-		_img->setFrameY(_prevFrameY);
+		_img.img->setFrameY(_img.frameY);
 	}
 
 
@@ -108,16 +122,16 @@ void Enemy::render(HDC hdc)
 	{
 		// 그림자 출력
 		_shadowImg->alphaRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 13,
+			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 13 + _pos.y,
 			180);
 
 		// 이미지 출력
-		_img->frameRender(hdc,
+		_img.img->frameRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
 			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 +  _pos.y,
-			_img->getFrameX(),
-			_img->getFrameY());
+			_img.img->getFrameX(),
+			_img.img->getFrameY());
 
 
 		// HP 출력
@@ -145,11 +159,11 @@ void Enemy::render(HDC hdc)
 		// 공격 모션
 		if (_isAttack)
 		{
-			_effectImg->frameRender(hdc,
+			_effectImg.img->frameRender(hdc,
 				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _nextPosIdx.x) * 64 + 10,
 				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _nextPosIdx.y) * 64 - 8,
-				_effectImg->getFrameX(),
-				_effectImg->getFrameY());
+				_effectImg.img->getFrameX(),
+				_effectImg.img->getFrameY());
 		}
 	}
 }

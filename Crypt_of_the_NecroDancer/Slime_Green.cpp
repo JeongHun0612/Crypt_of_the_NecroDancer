@@ -1,25 +1,20 @@
 #include "Stdafx.h"
 #include "Slime_Green.h"
 
-HRESULT Slime_Green::init(int idxY, int idxX)
+HRESULT Slime_Green::init(int idxX, int idxY)
 {
-	Enemy::init(idxY, idxX);
+	Enemy::init(idxX, idxY);
 
-	_img = IMAGEMANAGER->findImage("slime_green");
-
-	_img->setFrameY(1);
-	_prevFrameY = _img->getFrameY();
-	_maxFramX = _img->getMaxFrameX();
-
-	_nextPosIdx = { idxX , idxY };
+	_img.img = IMAGEMANAGER->findImage("slime_green");
+	_img.maxFrameX = _img.img->getMaxFrameX();
+	_img.frameY = 1;
 
 	_maxHP = 1;
 	_curHP = _maxHP;
 
 	_power = 0;
 
-	_coinCount = 4;
-
+	_coinCount = RND->getFromIntTo(3, 5);
 
 	return S_OK;
 }
@@ -27,6 +22,7 @@ HRESULT Slime_Green::init(int idxY, int idxX)
 void Slime_Green::release()
 {
 	Enemy::release();
+
 
 	SOUNDMANAGER->play("slime_death");
 }
@@ -38,8 +34,10 @@ void Slime_Green::update()
 	if (_stepCount == 1)
 	{
 		_isMove = true;
+		_img.frameX = 0;
 		_stepCount = 0;
 	}
+
 
 	if (_isMove)
 	{

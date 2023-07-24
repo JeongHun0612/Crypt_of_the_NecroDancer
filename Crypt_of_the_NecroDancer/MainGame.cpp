@@ -6,9 +6,6 @@
 #include "LobbyScene.h"
 #include "Stage1_1Scene.h"
 
-#include "TestScene.h"
-#include "TestCameraScene.h"
-
 HRESULT MainGame::init(void)
 {
 	GameNode::init(true);
@@ -24,9 +21,6 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 	SCENEMANAGER->addScene("stage1_1", new Stage1_1Scene);		// 스테이지1-1
-
-	SCENEMANAGER->addScene("test", new TestScene);							// 테스트 씬
-	SCENEMANAGER->addScene("testCamera", new TestCameraScene);				// 테스트 씬
 
 	SCENEMANAGER->changeScene("lobby");
 
@@ -151,7 +145,7 @@ void MainGame::initImage()
 	// 몬스터 - 슬라임
 	IMAGEMANAGER->addFrameImage("slime_green", "Resources/Images/Enemy/Slime/Slime_Green.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("slime_blue", "Resources/Images/Enemy/Slime/Slime_Blue.bmp", 416, 208, 8, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("slime_yellow", "Resources/Images/Enemy/Slime/Slime_Yellow.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("slime_orange", "Resources/Images/Enemy/Slime/Slime_Orange.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
 
 	// 몬스터 - 스켈레톤
 	IMAGEMANAGER->addFrameImage("skeleton_normal", "Resources/Images/Enemy/Skeleton/Skeleton_normal.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));

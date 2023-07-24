@@ -97,7 +97,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "UIManager.h"
 
 #include "CommonMacroFunction.h"
-#include "CoordinateVector.h"
+#include "Struct.h"
 #include "RandomFunction.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -121,6 +121,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define CAMERA Camera::getSingleton()
 
 // # 매크로 #  ==============================================================================================================
+
 
 // ! 타이틀
 #define WINNAME				(LPTSTR)(TEXT("Crypt of the NecroDancer"))

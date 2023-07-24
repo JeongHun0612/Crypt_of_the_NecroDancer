@@ -153,12 +153,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>2D FrameWork\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCameraScene.cpp">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClCompile>
@@ -200,6 +194,12 @@
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime_Orange.cpp">
+      <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,12 +263,6 @@
     <ClInclude Include="Camera.h">
       <Filter>2D FrameWork\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCameraScene.h">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
@@ -308,11 +302,17 @@
     <ClInclude Include="TileMap.h">
       <Filter>MainGame\Object\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="CoordinateVector.h">
+    <ClInclude Include="Struct.h">
       <Filter>2D FrameWork\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Stage1_1Scene.h">
       <Filter>MainGame\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime_Orange.h">
+      <Filter>MainGame\Object\Enemy\Slime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

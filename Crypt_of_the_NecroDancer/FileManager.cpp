@@ -162,19 +162,19 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 				{
 				case ENEMY_TYPE::SLIME_GREE:
 					_enemy = new Slime_Green;
-					_enemy->init(idxY, idxX);
+					_enemy->init(idxX, idxY);
 					break;
 				case ENEMY_TYPE::SLIME_BLUE:
 					_enemy = new Slime_Blue;
-					_enemy->init(idxY, idxX);
+					_enemy->init(idxX, idxY);
 					break;
 				case ENEMY_TYPE::SKELETON_NORMAL:
 					_enemy = new Skeleton_Normal;
-					_enemy->init(idxY, idxX);
+					_enemy->init(idxX, idxY);
 					break;
 				case ENEMY_TYPE::SKELETON_BLACK:
 					_enemy = new Skeleton_Black;
-					_enemy->init(idxY, idxX);
+					_enemy->init(idxX, idxY);
 					break;
 				}
 

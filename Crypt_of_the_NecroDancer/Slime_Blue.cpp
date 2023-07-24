@@ -1,24 +1,20 @@
 #include "Stdafx.h"
 #include "Slime_Blue.h"
 
-HRESULT Slime_Blue::init(int idxY, int idxX)
+HRESULT Slime_Blue::init(int idxX, int idxY)
 {
-	Enemy::init(idxY, idxX);
+	Enemy::init(idxX, idxY);
 
-	_img = IMAGEMANAGER->findImage("slime_blue");
-
-	_img->setFrameY(1);
-	_prevFrameY = _img->getFrameY();
-	_maxFramX = _img->getMaxFrameX();
-
-	_nextPosIdx = { idxX , idxY };
+	_img.img = IMAGEMANAGER->findImage("slime_blue");
+	_img.maxFrameX = _img.img->getMaxFrameX();
+	_img.frameY = 1;
 
 	_maxHP = 2;
 	_curHP = _maxHP;
 
 	_power = 1;
 
-	_coinCount = 5;
+	_coinCount = RND->getFromIntTo(3, 5);
 
 	_isMove = false;
 	_isUp = false;
@@ -40,6 +36,7 @@ void Slime_Blue::update()
 	if (_stepCount == 2)
 	{
 		_isMove = true;
+		_img.frameX = 0;
 
 		if (_isUp)
 		{
@@ -52,11 +49,23 @@ void Slime_Blue::update()
 
 		if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 		{
-			_isAttack = true;
 			_isMove = false;
+			_isAttack = true;
 			SOUNDMANAGER->play("slime_attack");
 			PLAYER->setIsHit(true);
 			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+		}
+
+		_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+
+		if (_vStage1Terrain[_nextTileIdx]->_isCollider)
+		{
+			_isMove = false;
+		}
+		else
+		{
+			_vStage1Terrain[_curTileIdx]->_isCollider = false;
+			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
 		}
 
 		_stepCount = 0;
@@ -71,6 +80,7 @@ void Slime_Blue::update()
 			_pos.y = 0.0f;
 			_posIdx = _nextPosIdx;
 			_isUp = !_isUp;
+			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
 		}
 	}

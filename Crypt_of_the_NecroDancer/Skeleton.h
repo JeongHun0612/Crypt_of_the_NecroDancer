@@ -1,7 +1,7 @@
 #pragma once
-#include "Skeleton.h"
+#include "Enemy.h"
 
-class Skeleton_Normal : public Skeleton
+class Skeleton : public Enemy
 {
 private:
 	int _moveDirection;
@@ -12,7 +12,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	Skeleton_Normal() {}
-	~Skeleton_Normal() {}
+	Skeleton() {}
+	~Skeleton() {}
 };
 

@@ -1,12 +1,12 @@
 #pragma once
-#include "Enemy.h"
+#include "Skeleton.h"
 
-class Skeleton_Black : public Enemy
+class Skeleton_Black : public Skeleton
 {
 private:
 
 public:
-	HRESULT init(int idxY, int idxX);
+	HRESULT init(int idxX, int idxY);
 	void release();
 	void update();
 	void render(HDC hdc);

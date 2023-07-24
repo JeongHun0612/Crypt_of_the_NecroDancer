@@ -22,16 +22,18 @@ void GameScene::update(void)
 	BEAT->update();
 
 	// 애너미 업데이트
-	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
 	{
 		(*iter)->update();
 
-		if ((*iter)->getIsDie())
+		// 애너미 삭제
+		if ((*iter)->getCurHP() <= 0)
 		{
 			(*iter)->release();
 			delete((*iter));
 			iter = _vEnemy.erase(iter);
 		}
+		else ++iter;
 	}
 
 	// 플레이어 업데이트
