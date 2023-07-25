@@ -3,8 +3,12 @@
 
 #include "Slime_Green.h"
 #include "Slime_Blue.h"
+#include "Slime_Orange.h"
 #include "Skeleton_Normal.h"
+#include "Skeleton_Yellow.h"
 #include "Skeleton_Black.h"
+#include "Zombie.h"
+#include "Bat_Blue.h"
 
 void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 {
@@ -160,7 +164,7 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 
 				switch (stoi(line))
 				{
-				case ENEMY_TYPE::SLIME_GREE:
+				case ENEMY_TYPE::SLIME_GREEN:
 					_enemy = new Slime_Green;
 					_enemy->init(idxX, idxY);
 					break;
@@ -168,12 +172,28 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 					_enemy = new Slime_Blue;
 					_enemy->init(idxX, idxY);
 					break;
+				case ENEMY_TYPE::SLIME_ORANGE:
+					_enemy = new Slime_Orange;
+					_enemy->init(idxX, idxY);
+					break;
 				case ENEMY_TYPE::SKELETON_NORMAL:
 					_enemy = new Skeleton_Normal;
 					_enemy->init(idxX, idxY);
 					break;
+				case ENEMY_TYPE::SKELETON_YELLOW:
+					_enemy = new Skeleton_Yellow;
+					_enemy->init(idxX, idxY);
+					break;
 				case ENEMY_TYPE::SKELETON_BLACK:
 					_enemy = new Skeleton_Black;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::ZOMBIE:
+					_enemy = new Zombie;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::BAT_BLUE:
+					_enemy = new Bat_Blue;
 					_enemy->init(idxX, idxY);
 					break;
 				}

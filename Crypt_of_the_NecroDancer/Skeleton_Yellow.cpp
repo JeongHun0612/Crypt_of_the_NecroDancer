@@ -1,34 +1,34 @@
 #include "Stdafx.h"
-#include "Skeleton_Black.h"
+#include "Skeleton_Yellow.h"
 
-HRESULT Skeleton_Black::init(int idxX, int idxY)
+HRESULT Skeleton_Yellow::init(int idxX, int idxY)
 {
 	Skeleton::init(idxX, idxY);
 
-	_headImg.img = IMAGEMANAGER->findImage("skeleton_black_head");
+	_headImg.img = IMAGEMANAGER->findImage("skeleton_yellow_head");
 	_headImg.pos = { 0.0f, 0.0f };
 	_headImg.alpha = 255;
 
-	_img.img = IMAGEMANAGER->findImage("skeleton_black");
+	_img.img = IMAGEMANAGER->findImage("skeleton_yellow");
 	_img.maxFrameX = _img.img->getMaxFrameX() - 1;
 	_img.frameY = 5;
 
-	_maxHP = 3;
+	_maxHP = 2;
 	_curHP = _maxHP;
 
-	_power = 4;
+	_power = 3;
 
-	_coinCount = RND->getFromIntTo(5, 6);
+	_coinCount = RND->getFromIntTo(4, 5);
 
 	return S_OK;
 }
 
-void Skeleton_Black::release()
+void Skeleton_Yellow::release()
 {
 	Skeleton::release();
 }
 
-void Skeleton_Black::update()
+void Skeleton_Yellow::update()
 {
 	Skeleton::update();
 
@@ -44,7 +44,7 @@ void Skeleton_Black::update()
 	}
 }
 
-void Skeleton_Black::render(HDC hdc)
+void Skeleton_Yellow::render(HDC hdc)
 {
 	Skeleton::render(hdc);
 }

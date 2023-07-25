@@ -3,8 +3,15 @@
 
 class Skeleton : public Enemy
 {
-private:
+protected:
+	AlphaImage _headImg;
+
 	int _moveDirection;
+	int _headMoveDirection;
+
+	bool _isCollider;
+	bool _isNoHead;
+	bool _isHeadMove;
 
 public:
 	HRESULT init(int idxX, int idxY);

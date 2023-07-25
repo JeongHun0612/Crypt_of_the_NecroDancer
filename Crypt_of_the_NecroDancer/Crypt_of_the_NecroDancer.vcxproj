@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
+    <ClCompile Include="Bat_Blue.cpp" />
     <ClCompile Include="Beat.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Skeleton_Black.cpp" />
     <ClCompile Include="Skeleton_Normal.cpp" />
+    <ClCompile Include="Skeleton_Yellow.cpp" />
     <ClCompile Include="Slime_Blue.cpp" />
     <ClCompile Include="Slime_Green.cpp" />
     <ClCompile Include="Slime_Orange.cpp" />
@@ -177,13 +179,16 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
+    <ClInclude Include="Bat_Blue.h" />
     <ClInclude Include="Beat.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="Skeleton_Yellow.h" />
     <ClInclude Include="Slime_Orange.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Enemy.h" />
@@ -216,6 +221,7 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

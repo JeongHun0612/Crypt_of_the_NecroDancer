@@ -51,14 +51,14 @@ void GameScene::render(void)
 	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
 	tileSet(_vWallTile, TILE_TYPE::WALL);
 
-	// 플레이어 출력
-	PLAYER->render(getMemDC());
-
 	// 몬스터 출력
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 	{
 		(*iter)->render(getMemDC());
 	}
+
+	// 플레이어 출력
+	PLAYER->render(getMemDC());
 
 	// 비트 출력
 	BEAT->render(getMemDC());

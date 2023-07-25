@@ -28,12 +28,13 @@ HRESULT Enemy::init(int idxX, int idxY)
 	_vStage1Terrain[_curTileIdx]->_isCollider = true;
 
 	_distance = 0;
+	_curMoveDirection = 0;
 
 	_stepCount = 0;
 	_beatCount = 0;
 	_prevBeatCount = 0;
 
-	_jumpPower = 5.0f;
+	_jumpPower = 4.0f;
 
 	_isLeft = true;
 	_isMove = false;
@@ -68,13 +69,11 @@ void Enemy::update()
 
 	if (_img.frameCount >= 0.13f)
 	{
-		_img.img->setFrameX(_img.frameX);
-
 		if (_img.frameX == _img.maxFrameX)
 		{
 			_img.frameX = 0;
 		}
-		
+
 		if (_img.frameX < _img.maxFrameX)
 		{
 			_img.frameX++;
@@ -123,14 +122,14 @@ void Enemy::render(HDC hdc)
 		// 그림자 출력
 		_shadowImg->alphaRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 13 + _pos.y,
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 + _pos.y,
 			180);
 
 		// 이미지 출력
 		_img.img->frameRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 +  _pos.y,
-			_img.img->getFrameX(),
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 23 + _pos.y,
+			_img.frameX,
 			_img.img->getFrameY());
 
 

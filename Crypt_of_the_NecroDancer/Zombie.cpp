@@ -1,40 +1,36 @@
 #include "Stdafx.h"
-#include "Slime_Orange.h"
+#include "Zombie.h"
 
-HRESULT Slime_Orange::init(int idxX, int idxY)
+HRESULT Zombie::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
-	_img.img = IMAGEMANAGER->findImage("slime_orange");
+	_img.img = IMAGEMANAGER->findImage("zombie");
 	_img.maxFrameX = _img.img->getMaxFrameX();
-	_img.frameY = 1;
+	_img.frameY = 3;
 
 	_maxHP = 1;
 	_curHP = _maxHP;
 
 	_power = 1;
 
-	_coinCount = RND->getFromIntTo(3, 5);
+	_coinCount = RND->getFromIntTo(2, 4);
 
 	_curMoveDirection = 0;
-
-	_isMove = false;
 
 	return S_OK;
 }
 
-void Slime_Orange::release()
+void Zombie::release()
 {
 	Enemy::release();
-
-	SOUNDMANAGER->play("slime_death");
 }
 
-void Slime_Orange::update()
+void Zombie::update()
 {
 	Enemy::update();
 
-	if (_stepCount == 1)
+	if (_stepCount == 2)
 	{
 		_isMove = true;
 		_img.frameX = 0;
@@ -45,7 +41,6 @@ void Slime_Orange::update()
 		{
 			_isMove = false;
 			_isAttack = true;
-			SOUNDMANAGER->play("slime_attack");
 			PLAYER->setIsHit(true);
 			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
@@ -56,6 +51,17 @@ void Slime_Orange::update()
 
 			if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
 			{
+				if (_curMoveDirection == 0)
+				{
+					_curMoveDirection = 1;
+					_img.frameY = 1;
+				}
+				else
+				{
+					_curMoveDirection = 0;
+					_img.frameY = 3;
+				}
+				
 				_isMove = false;
 			}
 			else
@@ -73,15 +79,9 @@ void Slime_Orange::update()
 		switch (_curMoveDirection)
 		{
 		case 0:
-			_pos.y -= 8.0f;
-			break;
-		case 1:
 			_pos.x += 8.0f;
 			break;
-		case 2:
-			_pos.y += 8.0f;
-			break;
-		case 3:
+		case 1:
 			_pos.x -= 8.0f;
 			break;
 		}
@@ -89,18 +89,11 @@ void Slime_Orange::update()
 		_pos.y -= _jumpPower;
 		_jumpPower -= 1.0f;
 
-		if (_pos.x >= 64.0f || _pos.x <= -64.0f || _pos.y >= 64.0f || _pos.y <= -64.0f)
+		if (_pos.x >= 64.f || _pos.x <= -64.f)
 		{
 			_pos = { 0.0f, 0.0f };
 			_jumpPower = 5.0f;
 			_posIdx = _nextPosIdx;
-
-			_curMoveDirection++;
-
-			if (_curMoveDirection == 4)
-			{
-				_curMoveDirection = 0;
-			}
 
 			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
@@ -108,7 +101,7 @@ void Slime_Orange::update()
 	}
 }
 
-void Slime_Orange::render(HDC hdc)
+void Zombie::render(HDC hdc)
 {
 	Enemy::render(hdc);
 }

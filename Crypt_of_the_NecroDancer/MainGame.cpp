@@ -151,8 +151,15 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("skeleton_normal", "Resources/Images/Enemy/Skeleton/Skeleton_normal.bmp", 416, 416, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skeleton_black", "Resources/Images/Enemy/Skeleton/Skeleton_black.bmp", 468, 416, 9, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("skeleton_yellow", "Resources/Images/Enemy/Skeleton/Skeleton_yellow.bmp", 468, 416, 9, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("skeleton_black_head", "Resources/Images/Enemy/Skeleton/Skeleton_black_head.bmp", 18, 18, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("skeleton_yellow_head", "Resources/Images/Enemy/Skeleton/Skeleton_yellow_head.bmp", 18, 18, true, RGB(255, 0, 255));
 
-	
+	// 몬스터 - 좀비
+	IMAGEMANAGER->addFrameImage("zombie", "Resources/Images/Enemy/Zombie/Zombie.bmp", 320, 200, 8, 4, true, RGB(255, 0, 255));
+
+	// 몬스터 - 박쥐
+	IMAGEMANAGER->addFrameImage("bat_blue", "Resources/Images/Enemy/Bat/Bat_Blue.bmp", 192, 192, 4, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bat_red", "Resources/Images/Enemy/Bat/Bat_Red.bmp", 192, 192, 4, 4, true, RGB(255, 0, 255));
 }
 
 void MainGame::initSound()

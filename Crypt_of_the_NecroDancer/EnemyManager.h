@@ -5,11 +5,14 @@ class Enemy;
 
 enum ENEMY_TYPE
 {
-	SLIME_GREE,
+	SLIME_GREEN,
 	SLIME_BLUE,
-	SLIME_YELLOW,
+	SLIME_ORANGE,
 	SKELETON_NORMAL,
-	SKELETON_BLACK
+	SKELETON_YELLOW,
+	SKELETON_BLACK,
+	ZOMBIE,
+	BAT_BLUE
 };
 
 class EnemyManager : public SingletonBase<EnemyManager>

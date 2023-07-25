@@ -97,6 +97,12 @@
     <Filter Include="MainGame\Scene\Stage">
       <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\Zombie">
+      <UniqueIdentifier>{694aa955-05bd-4349-bff1-0d2cf90227c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\Bat">
+      <UniqueIdentifier>{0e83cce8-cdc5-46d8-a83b-d4a9ba674881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -200,6 +206,15 @@
     </ClCompile>
     <ClCompile Include="Slime_Orange.cpp">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton_Yellow.cpp">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>MainGame\Object\Enemy\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat_Blue.cpp">
+      <Filter>MainGame\Object\Enemy\Bat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +328,15 @@
     </ClInclude>
     <ClInclude Include="Slime_Orange.h">
       <Filter>MainGame\Object\Enemy\Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton_Yellow.h">
+      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>MainGame\Object\Enemy\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat_Blue.h">
+      <Filter>MainGame\Object\Enemy\Bat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

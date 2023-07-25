@@ -40,7 +40,7 @@ protected:
 	MoveInfo _moveInfo[4];
 
 	int _distance;
-	int _colliderIdx;
+	int _curMoveDirection;
 
 	int _curHP;
 	int _maxHP;

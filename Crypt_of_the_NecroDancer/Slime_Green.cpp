@@ -23,7 +23,6 @@ void Slime_Green::release()
 {
 	Enemy::release();
 
-
 	SOUNDMANAGER->play("slime_death");
 }
 	

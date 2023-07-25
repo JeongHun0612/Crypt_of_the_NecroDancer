@@ -108,7 +108,7 @@ void UIManager::render(HDC hdc)
 	{
 		iter->img->frameRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdx().x - iter->x) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->y) * 64 + 8);
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->y) * 64 - 5);
 
 		if (iter->x == PLAYER->getPosIdx().x && iter->y == PLAYER->getPosIdx().y)
 		{

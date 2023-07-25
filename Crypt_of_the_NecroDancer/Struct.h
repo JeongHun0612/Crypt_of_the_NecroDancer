@@ -24,3 +24,11 @@ struct FrameImage
 	float frameCount;
 };
 
+struct AlphaImage
+{
+	GImage* img;
+	Vec2 posIdx;
+	Vec2_F pos;
+	int alpha;
+};
+

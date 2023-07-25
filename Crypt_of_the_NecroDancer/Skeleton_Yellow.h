@@ -1,7 +1,7 @@
 #pragma once
 #include "Skeleton.h"
 
-class Skeleton_Normal : public Skeleton
+class Skeleton_Yellow : public Skeleton
 {
 private:
 
@@ -11,7 +11,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	Skeleton_Normal() {}
-	~Skeleton_Normal() {}
+	Skeleton_Yellow() {}
+	~Skeleton_Yellow() {}
 };
 

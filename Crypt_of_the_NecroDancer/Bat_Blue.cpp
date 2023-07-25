@@ -1,11 +1,11 @@
 #include "Stdafx.h"
-#include "Slime_Orange.h"
+#include "Bat_Blue.h"
 
-HRESULT Slime_Orange::init(int idxX, int idxY)
+HRESULT Bat_Blue::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
-	_img.img = IMAGEMANAGER->findImage("slime_orange");
+	_img.img = IMAGEMANAGER->findImage("bat_blue");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;
 
@@ -14,38 +14,35 @@ HRESULT Slime_Orange::init(int idxX, int idxY)
 
 	_power = 1;
 
-	_coinCount = RND->getFromIntTo(3, 5);
+	_coinCount = RND->getFromIntTo(2, 4);
 
 	_curMoveDirection = 0;
-
-	_isMove = false;
 
 	return S_OK;
 }
 
-void Slime_Orange::release()
+void Bat_Blue::release()
 {
 	Enemy::release();
-
-	SOUNDMANAGER->play("slime_death");
 }
 
-void Slime_Orange::update()
+void Bat_Blue::update()
 {
 	Enemy::update();
 
-	if (_stepCount == 1)
+	if (_stepCount == 2)
 	{
 		_isMove = true;
 		_img.frameX = 0;
 
-		_nextPosIdx = { _posIdx.x + _movePattern[_curMoveDirection].x, _posIdx.y + _movePattern[_curMoveDirection].y };
+		_curMoveDirection = RND->getInt(4);
+
+		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x, _posIdx.y + _fourDirection[_curMoveDirection].y };
 
 		if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 		{
 			_isMove = false;
 			_isAttack = true;
-			SOUNDMANAGER->play("slime_attack");
 			PLAYER->setIsHit(true);
 			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
@@ -72,43 +69,32 @@ void Slime_Orange::update()
 	{
 		switch (_curMoveDirection)
 		{
-		case 0:
-			_pos.y -= 8.0f;
-			break;
-		case 1:
-			_pos.x += 8.0f;
-			break;
-		case 2:
-			_pos.y += 8.0f;
-			break;
-		case 3:
+		case LEFT:
 			_pos.x -= 8.0f;
 			break;
+		case RIGHT:
+			_pos.x += 8.0f;
+			break;
+		case UP:
+			_pos.y -= 8.0f;
+			break;
+		case DOWN:
+			_pos.y += 8.0f;
+			break;
 		}
-
-		_pos.y -= _jumpPower;
-		_jumpPower -= 1.0f;
 
 		if (_pos.x >= 64.0f || _pos.x <= -64.0f || _pos.y >= 64.0f || _pos.y <= -64.0f)
 		{
 			_pos = { 0.0f, 0.0f };
-			_jumpPower = 5.0f;
 			_posIdx = _nextPosIdx;
-
-			_curMoveDirection++;
-
-			if (_curMoveDirection == 4)
-			{
-				_curMoveDirection = 0;
-			}
-
 			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
+			_curMoveDirection = 0;
 			_isMove = false;
 		}
 	}
 }
 
-void Slime_Orange::render(HDC hdc)
+void Bat_Blue::render(HDC hdc)
 {
 	Enemy::render(hdc);
 }
