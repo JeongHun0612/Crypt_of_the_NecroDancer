@@ -46,8 +46,13 @@ void Slime_Orange::update()
 			_isMove = false;
 			_isAttack = true;
 			SOUNDMANAGER->play("slime_attack");
-			PLAYER->setIsHit(true);
-			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+
+			if (!PLAYER->getIsInvincible())
+			{
+				PLAYER->setIsHit(true);
+				PLAYER->setIsInvincible(true);
+				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+			}
 		}
 
 		if (!_isAttack)
@@ -105,6 +110,12 @@ void Slime_Orange::update()
 			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
 		}
+	}
+
+	if (_isHit)
+	{
+		SOUNDMANAGER->play("slime_hit");
+		_isHit = false;
 	}
 }
 

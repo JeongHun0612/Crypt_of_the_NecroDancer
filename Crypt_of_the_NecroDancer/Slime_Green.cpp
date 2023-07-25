@@ -51,6 +51,12 @@ void Slime_Green::update()
 			_isMove = false;
 		}
 	}
+
+	if (_isHit)
+	{
+		SOUNDMANAGER->play("slime_hit");
+		_isHit = false;
+	}
 }
 
 void Slime_Green::render(HDC hdc)

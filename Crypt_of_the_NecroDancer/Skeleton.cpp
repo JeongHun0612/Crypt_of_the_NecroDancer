@@ -7,18 +7,23 @@ HRESULT Skeleton::init(int idxX, int idxY)
 
 	_isNoHead = false;
 
+	_curMoveDirection = 0;
+
 	return S_OK;
 }
 
 void Skeleton::release()
 {
 	Enemy::release();
+
+	SOUNDMANAGER->play("skeleton_death");
 }
 
 void Skeleton::update()
 {
 	Enemy::update();
 
+	// 머리가 있을 때 행동 패턴
 	if (_stepCount == 2 && !_isNoHead)
 	{
 		_isMove = true;
@@ -36,8 +41,14 @@ void Skeleton::update()
 			{
 				_isMove = false;
 				_isAttack = true;
+				SOUNDMANAGER->play("skeleton_attack");
 				PLAYER->setIsHit(true);
-				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+
+				if (!PLAYER->getIsInvincible())
+				{
+					PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+				}
+
 				_stepCount = 0;
 				break;
 			}
@@ -61,96 +72,79 @@ void Skeleton::update()
 				}
 			}
 
-			// 최소 거리가 5이하이고 이동 방향에 충돌체가 없을 경우 움직인다.
-			_nextPosIdx = { _posIdx.x + _fourDirection[_moveInfo[0].direction].x , _posIdx.y + _fourDirection[_moveInfo[0].direction].y };
-			_moveDirection = _moveInfo[0].direction;
-			_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+			// 추적 최소 거리 5보다 크면 움직이지 않는다.
+			_curMoveDirection = _moveInfo[0].direction;
 
 			if (_moveInfo[0].distance > 5)
 			{
 				_isMove = false;
 			}
+			else
+			{
+				_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
+				_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-			//if (_moveInfo[0].distance > 5 || _vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
-			//{
-			//	_isMove = false;
-			//}
-			//else
-			//{
-			//	_vStage1Terrain[_curTileIdx]->_isCollider = false;
-			//	_vStage1Terrain[_nextTileIdx]->_isCollider = true;
-			//}
+				if (_curMoveDirection == LEFT)
+				{
+					_img.frameY = 5;
+				}
+
+				if (_curMoveDirection == RIGHT)
+				{
+					_img.frameY = 7;
+				}
+			}
 		}
 
 		_stepCount = 0;
 	}
 
-	// 머리가 없을 때 (HP가 1이 남았을 때)
+	// 머리가 없을 때 행동 패턴 (HP가 1이 남았을 때)
 	if (_stepCount == 1 && _isNoHead)
 	{
 		_isMove = true;
-		_nextPosIdx = { _posIdx.x + _fourDirection[_moveDirection].x , _posIdx.y + _fourDirection[_moveDirection].y };
+		_curMoveDirection = _prevMoveDirection;
+		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 		_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
-
-		if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
-		{
-			_isCollider = true;
-		}
-		else
-		{
-			_vStage1Terrain[_curTileIdx]->_isCollider = false;
-			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
-		}
-
 		_stepCount = 0;
 	}
 
 	if (_isMove)
 	{
 		static int moveCount = 0;
+		moveCount++;
 
-		switch (_moveDirection)
+		switch (_curMoveDirection)
 		{
 		case LEFT:
 			_pos.x -= 8.0f;
-			_img.frameY = 5;
 			break;
 		case RIGHT:
 			_pos.x += 8.0f;
-			_img.frameY = 7;
 			break;
 		case UP:
-			_pos.y -= 8.0f;
+			_pos.y -= 3.0f;
 			break;
 		case DOWN:
-			_pos.y += 8.0f;
+			_pos.y += 10.0f;
 			break;
 		}
 
+		// 점프
+		_pos.y += (moveCount < 5) ? -4 : 4;
 
-		_pos.y += (moveCount < 4) ? -10 : 10;
-
-		//_pos.y -= _jumpPower;
-		//_jumpPower -= 1.0f;
-
-		if (moveCount == 3)
+		if (moveCount == 4)
 		{
 			if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
 			{
-				switch (_moveDirection)
+				_isCollider = true;
+				if (_curMoveDirection % 2 == 0)
 				{
-				case LEFT:
-					_moveDirection = RIGHT;
-					break;
-				case RIGHT:
-					_moveDirection = LEFT;
-					break;
-				case UP:
-					_moveDirection = UP;
-					break;
-				case DOWN:
-					_moveDirection = DOWN;
-					break;
+					_curMoveDirection++;
+				}
+				else
+				{
+					_curMoveDirection--;
 				}
 			}
 			else
@@ -160,17 +154,19 @@ void Skeleton::update()
 			}
 		}
 
-		if (moveCount == 7)
+		if (moveCount == 8)
 		{
-			_pos = { 0.0f, 0.0f };
-			_posIdx = _nextPosIdx;
-			_jumpPower = 4.0f;
-			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
-			moveCount = 0;
-			_isMove = false;
-		}
+			if (!_isCollider)
+			{
+				_posIdx = _nextPosIdx;
+			}
 
-		moveCount++;
+			_pos = { 0.0f, 0.0f };
+			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
+			_isMove = false;
+			_isCollider = false;
+			moveCount = 0;
+		}
 	}
 
 	if (_isHeadMove)
@@ -206,6 +202,12 @@ void Skeleton::update()
 			_headImg.alpha = 0;
 			_isHeadMove = false;
 		}
+	}
+
+	if (_isHit)
+	{
+		SOUNDMANAGER->play("skeleton_hit");
+		_isHit = false;
 	}
 }
 

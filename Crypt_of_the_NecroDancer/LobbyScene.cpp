@@ -10,11 +10,20 @@ HRESULT LobbyScene::init()
 	_vTerrainTile = TILEMAP->getLoobyTerrain();
 	_vWallTile = TILEMAP->getLoobyWall();
 
+	for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+	{
+		(*iter)->_isLight = true;
+	}
+	for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
+	{
+		(*iter)->_isLight = true;
+	}
+
 	_tileMaxCol = MAX_LOBBY_COL;
 	_tileMaxRow = MAX_LOBBY_ROW;
 
 	// 플레이어 초기화
-	PLAYER->init(5, 5);
+	PLAYER->init(6, 3);
 	
 	// 애너미 초기화
 	ENEMYMANAGER->init();
@@ -41,7 +50,6 @@ void LobbyScene::update()
 	CAMERA->update();
 
 	PLAYER->update();
-
 
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;

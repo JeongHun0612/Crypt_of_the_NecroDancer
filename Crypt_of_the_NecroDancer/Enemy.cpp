@@ -34,10 +34,11 @@ HRESULT Enemy::init(int idxX, int idxY)
 	_beatCount = 0;
 	_prevBeatCount = 0;
 
-	_jumpPower = 4.0f;
+	_jumpPower = 5.0f;
 
 	_isLeft = true;
 	_isMove = false;
+	_isHit = false;
 	_isAttack = false;
 
 	return S_OK;
@@ -106,63 +107,65 @@ void Enemy::update()
 
 void Enemy::render(HDC hdc)
 {
-	// 거리에 따른 모습 변화
-	if (_distance > PLAYER->getLightPower())
+	if (_vStage1Terrain[_curTileIdx]->_isLight)
 	{
-		_img.img->setFrameY(_img.frameY - 1);
-	}
-	else
-	{
-		_img.img->setFrameY(_img.frameY);
-	}
-
-
-	if (_distance < PLAYER->getLightPower() + 2)
-	{
-		// 그림자 출력
-		_shadowImg->alphaRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 + _pos.y,
-			180);
-
-		// 이미지 출력
-		_img.img->frameRender(hdc,
-			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 8 + _pos.x,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 23 + _pos.y,
-			_img.frameX,
-			_img.img->getFrameY());
-
-
-		// HP 출력
-		if (_maxHP > _curHP && _curHP != 0)
+		// 거리에 따른 모습 변화
+		if (_distance > PLAYER->getLightPower())
 		{
-			for (int i = 0; i < _maxHP; i++)
-			{
-				if (i < _maxHP - _curHP)
-				{
-					_heartImg->setFrameX(1);
-				}
-				else
-				{
-					_heartImg->setFrameX(0);
-				}
-
-				_heartImg->frameRender(hdc,
-					CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + (i * 25) + _pos.x,
-					CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 43 + _pos.y,
-					_heartImg->getFrameX(),
-					_heartImg->getFrameY());
-			}
+			_img.img->setFrameY(_img.frameY - 1);
+		}
+		else
+		{
+			_img.img->setFrameY(_img.frameY);
 		}
 
-		// 공격 모션
-		if (_isAttack)
+		if (_distance < PLAYER->getLightPower() + 5)
 		{
-			_effectImg.img->frameRender(hdc,
-				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _nextPosIdx.x) * 64 + 10,
-				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _nextPosIdx.y) * 64 - 8,
-				_effectImg.img->getFrameX(),
-				_effectImg.img->getFrameY());
+			// 그림자 출력
+			_shadowImg->alphaRender(hdc,
+				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 5 + _pos.x,
+				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 + _pos.y,
+				180);
+
+			// 이미지 출력
+			_img.img->frameRender(hdc,
+				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 5 + _pos.x,
+				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 23 + _pos.y,
+				_img.frameX,
+				_img.img->getFrameY());
+
+
+			// HP 출력
+			if (_maxHP > _curHP && _curHP != 0)
+			{
+				for (int i = 0; i < _maxHP; i++)
+				{
+					if (i < _maxHP - _curHP)
+					{
+						_heartImg->setFrameX(1);
+					}
+					else
+					{
+						_heartImg->setFrameX(0);
+					}
+
+					_heartImg->frameRender(hdc,
+						CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + (i * 25) + _pos.x,
+						CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 43 + _pos.y,
+						_heartImg->getFrameX(),
+						_heartImg->getFrameY());
+				}
+			}
+
+			// 공격 모션
+			if (_isAttack)
+			{
+				_effectImg.img->frameRender(hdc,
+					CAMERA->getPos().x - (PLAYER->getPosIdx().x - _nextPosIdx.x) * 64 + 10,
+					CAMERA->getPos().y - (PLAYER->getPosIdx().y - _nextPosIdx.y) * 64 - 8,
+					_effectImg.img->getFrameX(),
+					_effectImg.img->getFrameY());
+			}
 		}
 	}
 }

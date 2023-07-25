@@ -32,15 +32,14 @@ void Skeleton_Black::update()
 {
 	Skeleton::update();
 
-	if (_curHP == 1 && !_isNoHead)
+	// 머리가 없을 때 (HP가 1이 남았을 때)
+	if (_stepCount == 1 && _isNoHead)
 	{
-		_isNoHead = true;
-		_isHeadMove = true;
-
-		_img.frameX = 8;
-		_headImg.posIdx = _posIdx;
-		_moveDirection = (int)PLAYER->getCurDirection();
-		_headMoveDirection = (int)PLAYER->getCurDirection();
+		_isMove = true;
+		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
+		_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+		_curMoveDirection = _prevMoveDirection;
+		_stepCount = 0;
 	}
 }
 

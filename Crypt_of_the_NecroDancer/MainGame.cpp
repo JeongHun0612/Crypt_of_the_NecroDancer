@@ -6,6 +6,8 @@
 #include "LobbyScene.h"
 #include "Stage1_1Scene.h"
 
+#include "TestScene.h"
+
 HRESULT MainGame::init(void)
 {
 	GameNode::init(true);
@@ -22,7 +24,9 @@ HRESULT MainGame::init(void)
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// ·Îºñ
 	SCENEMANAGER->addScene("stage1_1", new Stage1_1Scene);		// ½ºÅ×ÀÌÁö1-1
 
-	SCENEMANAGER->changeScene("lobby");
+	SCENEMANAGER->addScene("test", new TestScene);		// ½ºÅ×ÀÌÁö1-1
+
+	SCENEMANAGER->changeScene("title");
 
 	return S_OK;
 }
@@ -73,8 +77,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1107, 5, 9, true, RGB(255, 0, 255));
-
+	//IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile2.bmp", 1024, 512, 16, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1152, 5, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("tile_torch", "Resources/Images/Tile/Tile_Torch.bmp", 96, 52, 4, 1, true, RGB(255, 0, 255));
 
 	// ===================
@@ -155,11 +159,16 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("skeleton_yellow_head", "Resources/Images/Enemy/Skeleton/Skeleton_yellow_head.bmp", 18, 18, true, RGB(255, 0, 255));
 
 	// ¸ó½ºÅÍ - Á»ºñ
-	IMAGEMANAGER->addFrameImage("zombie", "Resources/Images/Enemy/Zombie/Zombie.bmp", 320, 200, 8, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("zombie", "Resources/Images/Enemy/Zombie/Zombie.bmp", 384, 200, 8, 4, true, RGB(255, 0, 255));
 
 	// ¸ó½ºÅÍ - ¹ÚÁã
 	IMAGEMANAGER->addFrameImage("bat_blue", "Resources/Images/Enemy/Bat/Bat_Blue.bmp", 192, 192, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("bat_red", "Resources/Images/Enemy/Bat/Bat_Red.bmp", 192, 192, 4, 4, true, RGB(255, 0, 255));
+
+	// ¸ó½ºÅÍ - ¿ø¼þÀÌ
+	IMAGEMANAGER->addFrameImage("monkey", "Resources/Images/Enemy/Monkey/Monkey.bmp", 200, 192, 4, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("monkey_grab", "Resources/Images/Enemy/Monkey/Monkey_Grab.bmp", 80, 96, 2, 2, true, RGB(255, 0, 255));
+
 }
 
 void MainGame::initSound()
@@ -206,6 +215,20 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("slime_hit", "Resources/Sounds/Enemy/Slime/en_slime_hit.mp3", false, false);
 	SOUNDMANAGER->addSound("slime_death", "Resources/Sounds/Enemy/Slime/en_slime_death_01.mp3", false, false);
 
+	// ½ºÄÌ·¹Åæ
+	SOUNDMANAGER->addSound("skeleton_attack", "Resources/Sounds/Enemy/Skeleton/en_skel_attack_melee.mp3", false, false);
+	SOUNDMANAGER->addSound("skeleton_hit", "Resources/Sounds/Enemy/Skeleton/en_skel_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("skeleton_death", "Resources/Sounds/Enemy/Skeleton/en_skel_death.mp3", false, false);
+
+	// ¹ÚÁã
+	SOUNDMANAGER->addSound("bat_attack", "Resources/Sounds/Enemy/Bat/en_bat_attack.mp3", false, false);
+	SOUNDMANAGER->addSound("bat_hit", "Resources/Sounds/Enemy/Bat/en_bat_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("bat_death", "Resources/Sounds/Enemy/Bat/en_bat_death.mp3", false, false);
+
+	// ¿ø¼þÀÌ
+	SOUNDMANAGER->addSound("monkey_hit", "Resources/Sounds/Enemy/Monkey/en_monkey_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("monkey_grab", "Resources/Sounds/Enemy/Monkey/en_monkey_grab.mp3", false, false);
+
 
 	// ===================
 	// ¿ÀºêÁ§Æ®
@@ -214,6 +237,8 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
 	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
+	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.mp3", false, false);
+	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.mp3", false, false);
 
 
 	// ===================
@@ -221,8 +246,7 @@ void MainGame::initSound()
 	// ===================
 
 	// °ñµå È¹µæ
-	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.mp3", false, false);
-	SOUNDMANAGER->addSound("cauldron_hit", "Resources/Sounds/SFX/sfx_cauldron_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.mp3", false, false);
 	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.mp3", false, false);
+	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.mp3", false, false);
+	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.mp3", false, false);
 }

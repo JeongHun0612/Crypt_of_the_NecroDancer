@@ -26,8 +26,10 @@ HRESULT Player::init(int startIdxX, int startIxY)
 
 	_jumpPower = 8.0f;
 	_lightPower = 5;
-	_effectAlpha = 50;
+
+	_playerAlpha = 255;
 	_shadowAlpha = 130;
+	_effectAlpha = 50;
 
 	_coin = 0;
 	_diamond = 0;
@@ -133,37 +135,40 @@ void Player::update(void)
 
 			int _nextTileIdx = (_tileMaxCol * _nextPosIdx.y) + _nextPosIdx.x;
 
-			// 벽 충돌체 발견 시
-			if (_vWallTile[_nextTileIdx]->_isCollider)
+			if (!_isGrab)
 			{
-				_isMove = false;
-				_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
-
-				// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-				if (_vWallTile[_nextTileIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
+				// 벽 충돌체 발견 시
+				if (_vWallTile[_nextTileIdx]->_isCollider)
 				{
-					SOUNDMANAGER->play("dig_fail");
-				}
-				else
-				{
-					// 벽 부수기
-					_vWallTile[_nextTileIdx]->_isExist = false;
-					_vWallTile[_nextTileIdx]->_isCollider = false;
+					_isMove = false;
+					_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 
-					CAMERA->setShakeCount(15);
-					SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
-
-					switch (_vWallTile[_nextTileIdx]->_wallType)
+					// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
+					if (_vWallTile[_nextTileIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
 					{
-					case WALL_TYPE::DIRT:
-						SOUNDMANAGER->play("dig_dirt");
-						break;
-					case WALL_TYPE::BRICK:
-						SOUNDMANAGER->play("dig_brick");
-						break;
-					case WALL_TYPE::STONE:
-						SOUNDMANAGER->play("dig_stone");
-						break;
+						SOUNDMANAGER->play("dig_fail");
+					}
+					else
+					{
+						// 벽 부수기
+						_vWallTile[_nextTileIdx]->_isExist = false;
+						_vWallTile[_nextTileIdx]->_isCollider = false;
+
+						CAMERA->setShakeCount(15);
+						SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
+
+						switch (_vWallTile[_nextTileIdx]->_wallType)
+						{
+						case WALL_TYPE::DIRT:
+							SOUNDMANAGER->play("dig_dirt");
+							break;
+						case WALL_TYPE::BRICK:
+							SOUNDMANAGER->play("dig_brick");
+							break;
+						case WALL_TYPE::STONE:
+							SOUNDMANAGER->play("dig_stone");
+							break;
+						}
 					}
 				}
 			}
@@ -171,17 +176,34 @@ void Player::update(void)
 			// 적 객체 검사
 			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
-				if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
+				if (_isGrab)
+				{
+					if ((*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y)
+					{
+						_isMove = false;
+						CAMERA->setShakeCount(30);
+						SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
+						SOUNDMANAGER->play("create_hit");
+
+						// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
+						(*iter)->setIsHit(true);
+						(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
+					}
+				}
+				else if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
 				{
 					_isMove = false;
 					_isAttack = true;
-					CAMERA->setShakeCount(15);
+					CAMERA->setShakeCount(30);
 					SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
+					SOUNDMANAGER->play("create_hit");
 
-					// 적 HP를 현재 무기의 세기만큼 감소
+					// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
+					(*iter)->setIsHit(true);
 					(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
 				}
 			}
+
 
 			if (!_isMove)
 			{
@@ -218,6 +240,8 @@ void Player::update(void)
 		if (_effectAlpha == 50)
 		{
 			SOUNDMANAGER->play("hurt" + to_string(RND->getFromIntTo(1, 6)));
+			_beatCount = BEAT->getBeatCount();
+			_isInvincible = true;
 		}
 
 		_effectAlpha -= 10;
@@ -226,11 +250,32 @@ void Player::update(void)
 		{
 			_effectAlpha = 50;
 			_isHit = false;
+		}
 
-			if (_curHP <= 0)
-			{
-				cout << "사망" << endl;
-			}
+		if (_curHP <= 0)
+		{
+			cout << "사망" << endl;
+			_isHit = false;
+		}
+	}
+
+	// 무적 상태일 때
+	if (_isInvincible)
+	{
+		if (_playerAlpha == 255)
+		{
+			_playerAlpha = 0;
+		}
+		else
+		{
+			_playerAlpha = 255;
+		}
+
+		if (_beatCount < BEAT->getBeatCount())
+		{
+			_beatCount = 0;
+			_playerAlpha = 255;
+			_isInvincible = false;
 		}
 	}
 }
@@ -266,16 +311,18 @@ void Player::render(HDC hdc)
 		_shadowAlpha);
 
 	// 몸통 이미지
-	_bodyImg->frameRender(hdc,
+	_bodyImg->frameAlphaRender(hdc,
 		_pos.x - _bodyImg->getFrameWidth() / 2,
 		_pos.y - _bodyImg->getFrameHeight() / 2 - 20,
-		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft);
+		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
+		_playerAlpha);
 
 	// 머리 이미지
-	_headImg->frameRender(hdc,
+	_headImg->frameAlphaRender(hdc,
 		_pos.x - _headImg->getFrameWidth() / 2 - 1,
 		_pos.y - _headImg->getFrameHeight() / 2 - 44,
-		_headImg->getFrameX(), _isLeft);
+		_headImg->getFrameX(), _isLeft,
+		_playerAlpha);
 
 
 	// 플레이어 현재 인덱스 좌표

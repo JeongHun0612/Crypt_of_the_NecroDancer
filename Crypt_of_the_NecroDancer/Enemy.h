@@ -55,6 +55,7 @@ protected:
 
 	bool _isLeft;
 	bool _isMove;
+	bool _isHit;
 	bool _isAttack;
 
 public:
@@ -73,6 +74,8 @@ public:
 	void setCurHP(int curHP) { _curHP = curHP; }
 
 	int getCoinCount() { return _coinCount; }
+
+	void setIsHit(bool isHit) { _isHit = isHit; }
 
 	Enemy() {}
 	virtual ~Enemy() {}

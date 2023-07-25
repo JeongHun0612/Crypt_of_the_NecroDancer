@@ -1,7 +1,7 @@
 #pragma once
 #include "SingletonBase.h"
 
-#define MAX_LOBBY_COL		11
+#define MAX_LOBBY_COL		13
 #define MAX_LOBBY_ROW		15
 
 #define MAX_STAGE1_COL		31
@@ -28,7 +28,8 @@ enum class WALL_TYPE
 	DIRT,
 	BRICK,
 	STONE,
-	STEEL
+	STEEL,
+	DOOR
 };
 
 struct Tile
@@ -48,7 +49,6 @@ struct Tile
 	bool _isCollider;
 	bool _isLight;
 };
-
 
 class TileMap : public SingletonBase<TileMap>
 {

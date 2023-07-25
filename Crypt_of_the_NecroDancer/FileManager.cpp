@@ -9,6 +9,10 @@
 #include "Skeleton_Black.h"
 #include "Zombie.h"
 #include "Bat_Blue.h"
+#include "Bat_Red.h"
+#include "Monkey.h"
+#include "Ghost.h"
+#include "Wraith.h"
 
 void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 {
@@ -70,6 +74,7 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 		int count = 0;
 
 		Tile* tile = new Tile;
+		tile->_isLight = false;
 
 		while (true)
 		{
@@ -108,10 +113,10 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 				tile->_idxX = tileData;
 				break;
 			case 2:
-				tile->_frameX = tileData;
+				tile->_frameY = tileData;
 				break;
 			case 3:
-				tile->_frameY = tileData;
+				tile->_frameX = tileData;
 				break;
 			case 4:
 				tile->_isCollider = tileData;
@@ -194,6 +199,22 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 					break;
 				case ENEMY_TYPE::BAT_BLUE:
 					_enemy = new Bat_Blue;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::BAT_RED:
+					_enemy = new Bat_Red;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::MONKEY:
+					_enemy = new Monkey;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::GHOST:
+					_enemy = new Ghost;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::WRAITH:
+					_enemy = new Wraith;
 					_enemy->init(idxX, idxY);
 					break;
 				}

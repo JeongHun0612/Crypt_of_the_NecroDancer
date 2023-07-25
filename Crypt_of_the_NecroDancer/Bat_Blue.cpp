@@ -24,6 +24,8 @@ HRESULT Bat_Blue::init(int idxX, int idxY)
 void Bat_Blue::release()
 {
 	Enemy::release();
+
+	SOUNDMANAGER->play("bat_death");
 }
 
 void Bat_Blue::update()
@@ -43,6 +45,7 @@ void Bat_Blue::update()
 		{
 			_isMove = false;
 			_isAttack = true;
+			SOUNDMANAGER->play("bat_attack");
 			PLAYER->setIsHit(true);
 			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
@@ -91,6 +94,12 @@ void Bat_Blue::update()
 			_curMoveDirection = 0;
 			_isMove = false;
 		}
+	}
+
+	if (_isHit)
+	{
+		SOUNDMANAGER->play("bat_hit");
+		_isHit = false;
 	}
 }
 

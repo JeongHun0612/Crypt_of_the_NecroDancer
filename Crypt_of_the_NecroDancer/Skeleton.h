@@ -6,7 +6,7 @@ class Skeleton : public Enemy
 protected:
 	AlphaImage _headImg;
 
-	int _moveDirection;
+	int _prevMoveDirection;
 	int _headMoveDirection;
 
 	bool _isCollider;

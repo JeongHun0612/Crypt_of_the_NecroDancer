@@ -39,8 +39,9 @@ void Skeleton_Yellow::update()
 
 		_img.frameX = 8;
 		_headImg.posIdx = _posIdx;
-		_moveDirection = (int)PLAYER->getCurDirection();
-		_headMoveDirection = (int)PLAYER->getCurDirection();
+		_prevMoveDirection = (int)PLAYER->getCurDirection();
+		_curMoveDirection = _prevMoveDirection;
+		_headMoveDirection = _prevMoveDirection;
 	}
 }
 

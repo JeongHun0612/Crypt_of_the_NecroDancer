@@ -45,9 +45,12 @@ private:
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
+	int _beatCount;							// 비트 카운트
+	int _prevBeatCount;						// 이전 비트 카운트
 	int _lightPower;						// 불빛의 세기
-	int _effectAlpha;						// 피격 이펙트 알파값
+	int _playerAlpha;						// 플레이어 알파값
 	int _shadowAlpha;						// 그림자 알파값
+	int _effectAlpha;						// 피격 이펙트 알파값
 
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드
@@ -56,6 +59,9 @@ private:
 	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
 	bool _isAttack;							// 플레이어가 공격 상태인지
 	bool _isHit;							// 플레이어가 피격 상태인지
+	bool _isInvincible;						// 플레이어가 무적 상태인지
+	bool _isGrab;							// 원숭이가 매달린 상태인지
+
 
 	float _count;							// 프레임 이미지 카운트
 	float _jumpPower;						// 점프 강도
@@ -124,8 +130,14 @@ public:
 
 	void setIsHit(bool isHit) { _isHit = isHit; }
 
+	void setIsInvincible(bool isInvincible) { _isInvincible = isInvincible; }
+	bool getIsInvincible() { return _isInvincible; }
+
 	bool getIsAttack() { return _isAttack; }
 	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
+
+
+	void setIsGrab(bool isGrab) { _isGrab = isGrab; }
 
 
 	// 플레이어 소지 장비

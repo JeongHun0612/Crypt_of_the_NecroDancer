@@ -26,7 +26,7 @@ HRESULT Stage1_1Scene::init(void)
 	BEAT->init();
 
 	// 사운드 출력
-	SOUNDMANAGER->play("stage1-1", 0.5f);
+	//SOUNDMANAGER->play("stage1-1", 0.5f);
 
 	return S_OK;
 }

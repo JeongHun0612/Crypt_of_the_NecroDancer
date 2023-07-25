@@ -42,7 +42,11 @@ void Zombie::update()
 			_isMove = false;
 			_isAttack = true;
 			PLAYER->setIsHit(true);
-			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+
+			if (!PLAYER->getIsInvincible())
+			{
+				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+			}
 		}
 
 		if (!_isAttack)

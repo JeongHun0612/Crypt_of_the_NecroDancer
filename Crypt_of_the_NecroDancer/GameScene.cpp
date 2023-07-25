@@ -21,6 +21,9 @@ void GameScene::update(void)
 	// 비트 업데이트
 	BEAT->update();
 
+	// 플레이어 업데이트
+	PLAYER->update();
+
 	// 애너미 업데이트
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
 	{
@@ -36,9 +39,6 @@ void GameScene::update(void)
 		else ++iter;
 	}
 
-	// 플레이어 업데이트
-	PLAYER->update();
-
 	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
 		SCENEMANAGER->changeScene("lobby");
@@ -51,14 +51,14 @@ void GameScene::render(void)
 	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
 	tileSet(_vWallTile, TILE_TYPE::WALL);
 
+	// 플레이어 출력
+	PLAYER->render(getMemDC());
+
 	// 몬스터 출력
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 	{
 		(*iter)->render(getMemDC());
 	}
-
-	// 플레이어 출력
-	PLAYER->render(getMemDC());
 
 	// 비트 출력
 	BEAT->render(getMemDC());
@@ -171,6 +171,8 @@ void GameScene::showTileDist(vector<Tile*> _vTile)
 			int vIndex = curIdxY * _tileMaxCol + curIdxX;
 
 			int distance = sqrt(pow(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x, 2) + pow(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y, 2));
+			//int distance = abs(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x) + abs(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y);
+
 
 			char strDist[15];
 			sprintf_s(strDist, "%d", distance);

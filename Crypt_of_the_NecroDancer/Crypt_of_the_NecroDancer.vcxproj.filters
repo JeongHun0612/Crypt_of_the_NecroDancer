@@ -103,6 +103,15 @@
     <Filter Include="MainGame\Object\Enemy\Bat">
       <UniqueIdentifier>{0e83cce8-cdc5-46d8-a83b-d4a9ba674881}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\Monkey">
+      <UniqueIdentifier>{a86f8c33-1e11-4c4b-82a2-797657e36981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\Ghost">
+      <UniqueIdentifier>{63a44c21-bece-47b0-a769-b04e8474d3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\Wraith">
+      <UniqueIdentifier>{c71d5b52-6b92-401d-8f1e-06fa1287e13e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -215,6 +224,21 @@
     </ClCompile>
     <ClCompile Include="Bat_Blue.cpp">
       <Filter>MainGame\Object\Enemy\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>MainGame\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat_Red.cpp">
+      <Filter>MainGame\Object\Enemy\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="Monkey.cpp">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>MainGame\Object\Enemy\Ghost</Filter>
+    </ClCompile>
+    <ClCompile Include="Wraith.cpp">
+      <Filter>MainGame\Object\Enemy\Wraith</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +361,21 @@
     </ClInclude>
     <ClInclude Include="Bat_Blue.h">
       <Filter>MainGame\Object\Enemy\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>MainGame\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat_Red.h">
+      <Filter>MainGame\Object\Enemy\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="Monkey.h">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>MainGame\Object\Enemy\Ghost</Filter>
+    </ClInclude>
+    <ClInclude Include="Wraith.h">
+      <Filter>MainGame\Object\Enemy\Wraith</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

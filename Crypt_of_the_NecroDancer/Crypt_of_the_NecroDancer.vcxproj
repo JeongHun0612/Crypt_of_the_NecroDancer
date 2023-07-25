@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Bat_Blue.cpp" />
+    <ClCompile Include="Bat_Red.cpp" />
     <ClCompile Include="Beat.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="GImage.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="IntroScene.cpp" />
@@ -160,6 +162,7 @@
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="Monkey.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shovel.cpp" />
@@ -173,20 +176,25 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stage1_1Scene.cpp" />
     <ClCompile Include="Stdafx.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Wraith.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Armor.h" />
     <ClInclude Include="Bat_Blue.h" />
+    <ClInclude Include="Bat_Red.h" />
     <ClInclude Include="Beat.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="Ghost.h" />
+    <ClInclude Include="Monkey.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Skeleton_Yellow.h" />
     <ClInclude Include="Slime_Orange.h" />
@@ -216,11 +224,13 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Stage1_1Scene.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Wraith.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,7 +12,11 @@ enum ENEMY_TYPE
 	SKELETON_YELLOW,
 	SKELETON_BLACK,
 	ZOMBIE,
-	BAT_BLUE
+	BAT_BLUE,
+	BAT_RED,
+	MONKEY,
+	GHOST,
+	WRAITH
 };
 
 class EnemyManager : public SingletonBase<EnemyManager>

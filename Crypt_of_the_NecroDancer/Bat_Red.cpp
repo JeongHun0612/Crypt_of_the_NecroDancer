@@ -1,15 +1,15 @@
 #include "Stdafx.h"
-#include "Slime_Blue.h"
+#include "Bat_Red.h"
 
-HRESULT Slime_Blue::init(int idxX, int idxY)
+HRESULT Bat_Red::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
-	_img.img = IMAGEMANAGER->findImage("slime_blue");
+	_img.img = IMAGEMANAGER->findImage("bat_red");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;
 
-	_maxHP = 2;
+	_maxHP = 1;
 	_curHP = _maxHP;
 
 	_power = 2;
@@ -18,40 +18,36 @@ HRESULT Slime_Blue::init(int idxX, int idxY)
 
 	_curMoveDirection = 0;
 
-	_isMove = false;
-
 	return S_OK;
 }
 
-void Slime_Blue::release()
+void Bat_Red::release()
 {
 	Enemy::release();
 
-	SOUNDMANAGER->play("slime_death");
+	SOUNDMANAGER->play("bat_death");
 }
 
-void Slime_Blue::update()
+void Bat_Red::update()
 {
 	Enemy::update();
 
-	if (_stepCount == 2)
+	if (_stepCount == 1)
 	{
 		_isMove = true;
 		_img.frameX = 0;
 
-		_nextPosIdx = { _posIdx.x + _movePattern[_curMoveDirection].x, _posIdx.y + _movePattern[_curMoveDirection].y };
+		_curMoveDirection = RND->getInt(4);
+
+		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x, _posIdx.y + _fourDirection[_curMoveDirection].y };
 
 		if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 		{
 			_isMove = false;
 			_isAttack = true;
-			SOUNDMANAGER->play("slime_attack");
+			SOUNDMANAGER->play("bat_attack");
 			PLAYER->setIsHit(true);
-
-			if (!PLAYER->getIsInvincible())
-			{
-				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
-			}
+			PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 		}
 
 		if (!_isAttack)
@@ -76,43 +72,38 @@ void Slime_Blue::update()
 	{
 		switch (_curMoveDirection)
 		{
-		case 0:
+		case LEFT:
+			_pos.x -= 8.0f;
+			break;
+		case RIGHT:
+			_pos.x += 8.0f;
+			break;
+		case UP:
 			_pos.y -= 8.0f;
 			break;
-		case 1:
+		case DOWN:
 			_pos.y += 8.0f;
 			break;
 		}
 
-		_pos.y -= _jumpPower;
-		_jumpPower -= 1.0f;
-
-		if (_pos.y >= 64.f || _pos.y <= -64.f)
+		if (_pos.x >= 64.0f || _pos.x <= -64.0f || _pos.y >= 64.0f || _pos.y <= -64.0f)
 		{
-			_pos.y = 0.0f;
-			_jumpPower = 5.0f;
+			_pos = { 0.0f, 0.0f };
 			_posIdx = _nextPosIdx;
-
-			_curMoveDirection++;
-
-			if (_curMoveDirection == 2)
-			{
-				_curMoveDirection = 0;
-			}
-
 			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
+			_curMoveDirection = 0;
 			_isMove = false;
 		}
 	}
 
 	if (_isHit)
 	{
-		SOUNDMANAGER->play("slime_hit");
+		SOUNDMANAGER->play("bat_hit");
 		_isHit = false;
 	}
 }
 
-void Slime_Blue::render(HDC hdc)
+void Bat_Red::render(HDC hdc)
 {
 	Enemy::render(hdc);
 }
