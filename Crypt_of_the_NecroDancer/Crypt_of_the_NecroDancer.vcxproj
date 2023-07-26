@@ -163,6 +163,8 @@
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Monkey.cpp" />
+    <ClCompile Include="Monkey_Normal.cpp" />
+    <ClCompile Include="Monkey_White.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shovel.cpp" />
@@ -195,6 +197,8 @@
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Monkey.h" />
+    <ClInclude Include="Monkey_Normal.h" />
+    <ClInclude Include="Monkey_White.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Skeleton_Yellow.h" />
     <ClInclude Include="Slime_Orange.h" />

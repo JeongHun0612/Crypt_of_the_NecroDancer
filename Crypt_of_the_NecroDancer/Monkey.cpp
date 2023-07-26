@@ -5,21 +5,6 @@ HRESULT Monkey::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
-	_img.img = IMAGEMANAGER->findImage("monkey");
-	_img.maxFrameX = _img.img->getMaxFrameX();
-	_img.frameY = 1;
-
-	_grabImg = IMAGEMANAGER->findImage("monkey_grab");
-
-	_maxHP = 1;
-	_curHP = _maxHP;
-
-	_power = 0;
-
-	_coinCount = RND->getFromIntTo(2, 4);
-
-	_curMoveDirection = 0;
-
 	_isGrab = false;
 
 	return S_OK;
@@ -28,6 +13,7 @@ HRESULT Monkey::init(int idxX, int idxY)
 void Monkey::release()
 {
 	PLAYER->setIsGrab(false);
+
 	Enemy::release();
 }
 
@@ -58,7 +44,7 @@ void Monkey::update()
 				_posIdx = _nextPosIdx;
 				_img.img = _grabImg;
 				_img.maxFrameX = _grabImg->getMaxFrameX();
-				cout << _img.frameX << endl;
+				_frameCycle = 0.226f;
 				SOUNDMANAGER->play("monkey_grab");
 				PLAYER->setIsGrab(true);
 				_stepCount = 0;

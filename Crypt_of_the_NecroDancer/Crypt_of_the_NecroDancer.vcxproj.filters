@@ -240,6 +240,12 @@
     <ClCompile Include="Wraith.cpp">
       <Filter>MainGame\Object\Enemy\Wraith</Filter>
     </ClCompile>
+    <ClCompile Include="Monkey_White.cpp">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="Monkey_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -376,6 +382,12 @@
     </ClInclude>
     <ClInclude Include="Wraith.h">
       <Filter>MainGame\Object\Enemy\Wraith</Filter>
+    </ClInclude>
+    <ClInclude Include="Monkey_White.h">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="Monkey_Normal.h">
+      <Filter>MainGame\Object\Enemy\Monkey</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

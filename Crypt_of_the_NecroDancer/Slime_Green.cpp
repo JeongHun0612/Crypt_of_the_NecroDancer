@@ -42,12 +42,12 @@ void Slime_Green::update()
 	{
 		_pos.y -= _jumpPower;
 
-		_jumpPower -= 1.0f;
+		_jumpPower -= 1.5f;
 
 		if (_pos.y >= 0.0f)
 		{
 			_pos.y = 0.0f;
-			_jumpPower = 5.0f;
+			_jumpPower = 8.0f;
 			_isMove = false;
 		}
 	}

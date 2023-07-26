@@ -92,13 +92,14 @@ void Slime_Orange::update()
 		}
 
 		_pos.y -= _jumpPower;
-		_jumpPower -= 1.0f;
+		_jumpPower -= 1.5f;
 
 		if (_pos.x >= 64.0f || _pos.x <= -64.0f || _pos.y >= 64.0f || _pos.y <= -64.0f)
 		{
 			_pos = { 0.0f, 0.0f };
-			_jumpPower = 5.0f;
+			_jumpPower = 8.0f;
 			_posIdx = _nextPosIdx;
+			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 
 			_curMoveDirection++;
 
@@ -107,7 +108,6 @@ void Slime_Orange::update()
 				_curMoveDirection = 0;
 			}
 
-			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
 		}
 	}

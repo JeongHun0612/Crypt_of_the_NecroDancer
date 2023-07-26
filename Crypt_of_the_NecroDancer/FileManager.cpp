@@ -10,7 +10,8 @@
 #include "Zombie.h"
 #include "Bat_Blue.h"
 #include "Bat_Red.h"
-#include "Monkey.h"
+#include "Monkey_Normal.h"
+#include "Monkey_White.h"
 #include "Ghost.h"
 #include "Wraith.h"
 
@@ -205,8 +206,12 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 					_enemy = new Bat_Red;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::MONKEY:
-					_enemy = new Monkey;
+				case ENEMY_TYPE::MONKEY_NORMAL:
+					_enemy = new Monkey_Normal;
+					_enemy->init(idxX, idxY);
+					break;
+				case ENEMY_TYPE::MONKEY_WHITE:
+					_enemy = new Monkey_White;
 					_enemy->init(idxX, idxY);
 					break;
 				case ENEMY_TYPE::GHOST:

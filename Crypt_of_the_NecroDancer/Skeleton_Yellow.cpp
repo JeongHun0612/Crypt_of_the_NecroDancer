@@ -36,12 +36,12 @@ void Skeleton_Yellow::update()
 	{
 		_isNoHead = true;
 		_isHeadMove = true;
-
+		_stepCount = 0;
 		_img.frameX = 8;
+		_pos = { 0.0f, 0.0f };
 		_headImg.posIdx = _posIdx;
 		_prevMoveDirection = (int)PLAYER->getCurDirection();
-		_curMoveDirection = _prevMoveDirection;
-		_headMoveDirection = _prevMoveDirection;
+		_headMoveDirection = (int)PLAYER->getCurDirection();
 	}
 }
 

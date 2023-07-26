@@ -235,7 +235,7 @@ void Player::update(void)
 	// 피격 상태일때
 	if (_isHit)
 	{
-		CAMERA->setShakeCount(20);
+		CAMERA->setShakeCount(25);
 
 		if (_effectAlpha == 50)
 		{
@@ -271,7 +271,7 @@ void Player::update(void)
 			_playerAlpha = 255;
 		}
 
-		if (_beatCount < BEAT->getBeatCount())
+		if (_beatCount + 1 < BEAT->getBeatCount())
 		{
 			_beatCount = 0;
 			_playerAlpha = 255;

@@ -5,9 +5,13 @@ HRESULT Skeleton::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
-	_isNoHead = false;
+	_moveCount = 0;
 
 	_curMoveDirection = 0;
+
+	_isCollider = false;
+	_isNoHead = false;
+	_isHeadMove = false;
 
 	return S_OK;
 }
@@ -73,16 +77,30 @@ void Skeleton::update()
 			}
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
-			_curMoveDirection = _moveInfo[0].direction;
+			if (_moveInfo[0].distance <= 5)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					_curMoveDirection = _moveInfo[i].direction;
+					_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
+					_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-			if (_moveInfo[0].distance > 5)
-			{
-				_isMove = false;
-			}
-			else
-			{
-				_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
-				_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+					if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+					{
+						if (_moveInfo[i].distance == _moveInfo[i + 1].distance) continue;
+						else
+						{
+							_isCollider = true;
+							break;
+						}
+					}
+					else
+					{
+						_vStage1Terrain[_curTileIdx]->_isCollider = false;
+						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						break;
+					}
+				}
 
 				if (_curMoveDirection == LEFT)
 				{
@@ -94,6 +112,10 @@ void Skeleton::update()
 					_img.frameY = 7;
 				}
 			}
+			else
+			{
+				_isMove = false;
+			}
 		}
 
 		_stepCount = 0;
@@ -103,69 +125,77 @@ void Skeleton::update()
 	if (_stepCount == 1 && _isNoHead)
 	{
 		_isMove = true;
+		_img.frameX = 8;
 		_curMoveDirection = _prevMoveDirection;
 		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 		_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+
+		if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+		{
+			_isCollider = true;
+		}
+		else
+		{
+			_vStage1Terrain[_curTileIdx]->_isCollider = false;
+			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+		}
+
 		_stepCount = 0;
 	}
 
 	if (_isMove)
 	{
-		static int moveCount = 0;
-		moveCount++;
+		_moveCount++;
 
 		switch (_curMoveDirection)
 		{
 		case LEFT:
-			_pos.x -= 8.0f;
+			_pos.x -= (_isCollider) ? 4.0f : 8.0f;
 			break;
 		case RIGHT:
-			_pos.x += 8.0f;
+			_pos.x += (_isCollider) ? 4.0f : 8.0f;
 			break;
 		case UP:
-			_pos.y -= 3.0f;
+			_pos.y -= (_isCollider) ? 4.0f : 8.0f;
 			break;
 		case DOWN:
-			_pos.y += 10.0f;
+			_pos.y += (_isCollider) ? 4.0f : 8.0f;
 			break;
 		}
 
 		// 점프
-		_pos.y += (moveCount < 5) ? -4 : 4;
+		_pos.y -= _jumpPower;
+		_jumpPower -= 1.5f;
 
-		if (moveCount == 4)
+		if (_moveCount == 4 && _isCollider)
 		{
-			if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+			if (_curMoveDirection % 2 == 0)
 			{
-				_isCollider = true;
-				if (_curMoveDirection % 2 == 0)
-				{
-					_curMoveDirection++;
-				}
-				else
-				{
-					_curMoveDirection--;
-				}
+				_curMoveDirection++;
 			}
 			else
 			{
-				_vStage1Terrain[_curTileIdx]->_isCollider = false;
-				_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+				_curMoveDirection--;
 			}
 		}
 
-		if (moveCount == 8)
+		if (_moveCount == 8)
 		{
-			if (!_isCollider)
+			_pos = { 0.0f, 0.0f };
+			_jumpPower = 8.0f;
+			_moveCount = 0;
+
+			if (_isCollider)
+			{
+				_isCollider = false;
+			}
+			else
 			{
 				_posIdx = _nextPosIdx;
+				_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			}
 
-			_pos = { 0.0f, 0.0f };
-			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
-			_isCollider = false;
-			moveCount = 0;
 		}
 	}
 
@@ -175,11 +205,11 @@ void Skeleton::update()
 		{
 		case LEFT:
 			_headImg.pos.x -= 16.0f;
-			_headImg.pos.y += 4.0f;
+			_headImg.pos.y += 6.0f;
 			break;
 		case RIGHT:
 			_headImg.pos.x += 16.0f;
-			_headImg.pos.y += 4.0f;
+			_headImg.pos.y += 6.0f;
 			break;
 		case UP:
 			_headImg.pos.y -= 8.0f;

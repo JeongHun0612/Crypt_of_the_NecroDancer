@@ -1,9 +1,16 @@
 #pragma once
 #include "GameScene.h"
 
+struct Node
+{
+	int depth;
+};
+
 class TestScene : public GameScene
 {
 private:
+	//vector<int> _drawTileIdx;
+	unordered_set<int> _drawTileIdx;
 
 public:
 	HRESULT init();
@@ -11,7 +18,7 @@ public:
 	void update();
 	void render();
 
-	void tileSet(vector<Tile*> vTile, TILE_TYPE tileType);
+	unordered_set<int> tileSet(vector<Tile*> vTile, TILE_TYPE tileType);
 
 	TestScene() {}
 	~TestScene() {}

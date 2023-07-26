@@ -56,6 +56,8 @@ unordered_map : Hash 자료구조
 // bitset : 비트 연산을 좀 더 쉽게 관리해 주는 함수를 지원하는 STL
 #include <bitset>
 
+#include <unordered_set>
+
 using namespace std;
 
 using std::vector;
@@ -63,6 +65,7 @@ using std::queue;
 using std::stack;
 using std::map;
 using std::unordered_map;
+using std::unordered_set;
 using std::bitset;
 using std::string;
 

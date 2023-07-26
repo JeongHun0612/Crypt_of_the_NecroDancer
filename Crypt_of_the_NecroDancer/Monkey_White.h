@@ -1,11 +1,9 @@
 #pragma once
-#include "Enemy.h"
+#include "Monkey.h"
 
-class Monkey : public Enemy
+class Monkey_White : public Monkey
 {
-protected:
-	GImage* _grabImg;
-	bool _isGrab;
+private:
 
 public:
 	HRESULT init(int idxX, int idxY);
@@ -13,7 +11,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	Monkey() {}
-	~Monkey() {}
+	Monkey_White() {}
+	~Monkey_White() {}
 };
 

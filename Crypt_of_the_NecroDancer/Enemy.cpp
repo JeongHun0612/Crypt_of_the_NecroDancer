@@ -34,7 +34,8 @@ HRESULT Enemy::init(int idxX, int idxY)
 	_beatCount = 0;
 	_prevBeatCount = 0;
 
-	_jumpPower = 5.0f;
+	_jumpPower = 8.0f;
+	_frameCycle = 0.13f;
 
 	_isLeft = true;
 	_isMove = false;
@@ -68,14 +69,13 @@ void Enemy::update()
 	// 프레임 이미지 변경
 	_img.frameCount += TIMEMANAGER->getDeltaTime();
 
-	if (_img.frameCount >= 0.13f)
+	if (_img.frameCount >= _frameCycle)
 	{
 		if (_img.frameX == _img.maxFrameX)
 		{
 			_img.frameX = 0;
 		}
-
-		if (_img.frameX < _img.maxFrameX)
+		else
 		{
 			_img.frameX++;
 		}
@@ -124,7 +124,7 @@ void Enemy::render(HDC hdc)
 			// 그림자 출력
 			_shadowImg->alphaRender(hdc,
 				CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64 + 5 + _pos.x,
-				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18 + _pos.y,
+				CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 18,
 				180);
 
 			// 이미지 출력

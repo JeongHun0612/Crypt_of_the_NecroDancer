@@ -2,8 +2,8 @@
 #include "SoundManager.h"
 
 SoundManager::SoundManager() : _system(nullptr)
-							,  _channel(nullptr)
-							,  _sound(nullptr)
+, _channel(nullptr)
+, _sound(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ void SoundManager::release()
 			if (_channel != nullptr)
 			{
 				if (_channel[i]) _channel[i]->stop();
- 			}
+			}
 
 			if (_sound != nullptr)
 			{
@@ -48,7 +48,7 @@ void SoundManager::release()
 
 	SAFE_DELETE_ARRAY(_channel);
 	SAFE_DELETE_ARRAY(_sound);
-	
+
 	// 시스템 해제
 	if (_system != nullptr)
 	{
@@ -89,6 +89,8 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 
 void SoundManager::play(string strKey, float volume)
 {
+	return;
+
 	mapSoundIter iter = _mSoundList.begin();
 	int count = 0;
 
@@ -98,7 +100,6 @@ void SoundManager::play(string strKey, float volume)
 		{
 			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
 			_channel[count]->setVolume(volume);
-
 			break;
 		}
 	}

@@ -6,6 +6,8 @@ class Skeleton : public Enemy
 protected:
 	AlphaImage _headImg;
 
+	int _moveCount;
+
 	int _prevMoveDirection;
 	int _headMoveDirection;
 

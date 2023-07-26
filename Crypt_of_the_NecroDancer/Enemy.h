@@ -52,6 +52,7 @@ protected:
 	int _prevBeatCount;
 
 	float _jumpPower;
+	float _frameCycle;
 
 	bool _isLeft;
 	bool _isMove;
