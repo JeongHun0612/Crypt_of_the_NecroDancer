@@ -41,18 +41,18 @@ void TestScene::update()
 void TestScene::render()
 {
 	// 타일 출력
-	_drawTileIdx = tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
+	//_drawTileIdx = tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
 	//tileSet(_vWallTile, TILE_TYPE::WALL);
 
-	for (auto iter = _drawTileIdx.begin(); iter != _drawTileIdx.end(); ++iter) {
+	//for (auto iter = _drawTileIdx.begin(); iter != _drawTileIdx.end(); ++iter) {
 
-		IMAGEMANAGER->findImage("terrain1")->frameAlphaRender(getMemDC(),
-			CAMERA->getPos().x - (PLAYER->getPosIdx().x - _vTerrainTile[*iter]->_idxX) * 64,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - _vTerrainTile[*iter]->_idxY) * 64,
-			_vTerrainTile[*iter]->_frameX,
-			_vTerrainTile[*iter]->_frameY,
-			255);
-	}
+	//	IMAGEMANAGER->findImage("terrain1")->frameAlphaRender(getMemDC(),
+	//		CAMERA->getPos().x - (PLAYER->getPosIdx().x - _vTerrainTile[*iter]->_idxX) * 64,
+	//		CAMERA->getPos().y - (PLAYER->getPosIdx().y - _vTerrainTile[*iter]->_idxY) * 64,
+	//		_vTerrainTile[*iter]->_frameX,
+	//		_vTerrainTile[*iter]->_frameY,
+	//		255);
+	//}
 
 
 	// 플레이어 출력
@@ -85,19 +85,12 @@ unordered_set<int> TestScene::tileSet(vector<Tile*> vTile, TILE_TYPE tileType)
 	int curIdxY = PLAYER->getPosIdx().y;
 
 	int curTileIdx = (curIdxY * _tileMaxCol) + curIdxX;
-
-	//int count = 1 + pow(4.0f, 4.0f);
-	int count = 2;
-
-	for (int i = 1; i < 4; i++)
-	{
-		count += (4 * i);
-	}
 	
 	tileIdxQueue.push(curTileIdx);
-	vTileIdx.insert(curTileIdx);
 
-	while (count > 0)
+	_drawTileIdx.push(curTileIdx);
+
+	while (tileIdxQueue.empty())
 	{
 		int curTileIdx = tileIdxQueue.front();
 		tileIdxQueue.pop();

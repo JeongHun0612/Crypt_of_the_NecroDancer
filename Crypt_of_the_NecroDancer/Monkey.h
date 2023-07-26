@@ -5,7 +5,11 @@ class Monkey : public Enemy
 {
 protected:
 	GImage* _grabImg;
+
+	int _grabMaxHP;
+
 	bool _isGrab;
+	bool _isKnockBack;
 
 public:
 	HRESULT init(int idxX, int idxY);

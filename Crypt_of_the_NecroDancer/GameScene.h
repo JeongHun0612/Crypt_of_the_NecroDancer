@@ -10,6 +10,7 @@ protected:
 
 	vector<Enemy*> _vEnemy;
 
+	int _beatCountFrameX;
 	int _tileMaxCol;
 	int _tileMaxRow;
 	

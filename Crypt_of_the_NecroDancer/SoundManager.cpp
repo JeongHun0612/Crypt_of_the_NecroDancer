@@ -89,7 +89,7 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 
 void SoundManager::play(string strKey, float volume)
 {
-	return;
+	//return;
 
 	mapSoundIter iter = _mSoundList.begin();
 	int count = 0;

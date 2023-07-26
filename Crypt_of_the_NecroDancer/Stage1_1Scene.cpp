@@ -16,6 +16,7 @@ HRESULT Stage1_1Scene::init(void)
 	_tileMaxRow = MAX_STAGE1_ROW;
 
 	// 플레이어 초기화
+	PLAYER->setPosIdx(13, 10);
 	PLAYER->setTile(_vTiles);
 	PLAYER->setTerrainTile(_vTerrainTile);
 	PLAYER->setWallTile(_vWallTile);
@@ -23,10 +24,12 @@ HRESULT Stage1_1Scene::init(void)
 	PLAYER->setTileMaxCol(_tileMaxCol);
 
 	// 비트 초기화
-	BEAT->init();
+	BEAT->setIsBeat(true);
+
+	//BEAT->init();
 
 	// 사운드 출력
-	//SOUNDMANAGER->play("stage1-1", 0.5f);
+	SOUNDMANAGER->play("stage1-1", 0.5f);
 
 	return S_OK;
 }

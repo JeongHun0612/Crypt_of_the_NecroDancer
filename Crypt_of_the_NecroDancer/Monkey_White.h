@@ -5,6 +5,7 @@ class Monkey_White : public Monkey
 {
 private:
 
+
 public:
 	HRESULT init(int idxX, int idxY);
 	void release();

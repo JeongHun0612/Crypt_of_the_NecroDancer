@@ -5,6 +5,7 @@ HRESULT GameScene::init(void)
 {
 	_isLobby = false;
 
+
 	return S_OK;
 }
 
@@ -19,25 +20,25 @@ void GameScene::update(void)
 	CAMERA->update();
 
 	// 비트 업데이트
-	BEAT->update();
+	//BEAT->update();
 
 	// 플레이어 업데이트
 	PLAYER->update();
 
 	// 애너미 업데이트
-	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
-	{
-		(*iter)->update();
+	//for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
+	//{
+	//	(*iter)->update();
 
-		// 애너미 삭제
-		if ((*iter)->getCurHP() <= 0)
-		{
-			(*iter)->release();
-			delete((*iter));
-			iter = _vEnemy.erase(iter);
-		}
-		else ++iter;
-	}
+	//	// 애너미 삭제
+	//	if ((*iter)->getCurHP() <= 0)
+	//	{
+	//		(*iter)->release();
+	//		delete((*iter));
+	//		iter = _vEnemy.erase(iter);
+	//	}
+	//	else ++iter;
+	//}
 
 	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
@@ -55,13 +56,13 @@ void GameScene::render(void)
 	PLAYER->render(getMemDC());
 
 	// 몬스터 출력
-	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
-	{
-		(*iter)->render(getMemDC());
-	}
+	//for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
+	//{
+	//	(*iter)->render(getMemDC());
+	//}
 
 	// 비트 출력
-	BEAT->render(getMemDC());
+	//BEAT->render(getMemDC());
 
 	// UI 출력
 	UIMANAGER->render(getMemDC());

@@ -12,6 +12,7 @@ HRESULT Monkey_Normal::init(int idxX, int idxY)
 	_grabImg = IMAGEMANAGER->findImage("monkey_normal_grab");
 
 	_maxHP = 1;
+	_grabMaxHP = 4;
 	_curHP = _maxHP;
 
 	_power = 0;
@@ -31,6 +32,12 @@ void Monkey_Normal::release()
 void Monkey_Normal::update()
 {
 	Monkey::update();
+
+	if (_isHit)
+	{
+		SOUNDMANAGER->play("monkey_hit");
+		_isHit = false;
+	}
 }
 
 void Monkey_Normal::render(HDC hdc)

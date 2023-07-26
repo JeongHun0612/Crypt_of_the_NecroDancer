@@ -4,8 +4,8 @@
 #define MAX_LOBBY_COL		13
 #define MAX_LOBBY_ROW		15
 
-#define MAX_STAGE1_COL		31
-#define MAX_STAGE1_ROW		25
+#define MAX_STAGE1_COL		27
+#define MAX_STAGE1_ROW		28
 
 enum class TILE_TYPE
 {
@@ -29,6 +29,7 @@ enum class WALL_TYPE
 	BRICK,
 	STONE,
 	STEEL,
+	BORDER,
 	DOOR
 };
 

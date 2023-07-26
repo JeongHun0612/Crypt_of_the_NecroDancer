@@ -6,6 +6,7 @@ HRESULT Monkey::init(int idxX, int idxY)
 	Enemy::init(idxX, idxY);
 
 	_isGrab = false;
+	_isKnockBack = false;
 
 	return S_OK;
 }
@@ -21,8 +22,7 @@ void Monkey::update()
 {
 	Enemy::update();
 
-	// 머리가 있을 때 행동 패턴
-	if (_stepCount == 1 && !_isGrab)
+	if (_stepCount == 1 && !_isGrab && !_isKnockBack)
 	{
 		_isMove = true;
 		_img.frameX = 0;
@@ -39,8 +39,8 @@ void Monkey::update()
 			{
 				_isMove = false;
 				_isGrab = true;
-				_maxHP = 4;
-				_curHP = 4;
+				_curHP = _grabMaxHP - (_maxHP - _curHP) * 3;
+				_maxHP = _grabMaxHP;
 				_posIdx = _nextPosIdx;
 				_img.img = _grabImg;
 				_img.maxFrameX = _grabImg->getMaxFrameX();
@@ -100,7 +100,7 @@ void Monkey::update()
 		_stepCount = 0;
 	}
 
-	if (_isMove)
+	if (_isMove || _isKnockBack)
 	{
 		switch (_curMoveDirection)
 		{
@@ -128,13 +128,8 @@ void Monkey::update()
 			_posIdx = _nextPosIdx;
 			_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 			_isMove = false;
+			_isKnockBack = false;
 		}
-	}
-
-	if (_isHit)
-	{
-		SOUNDMANAGER->play("monkey_hit");
-		_isHit = false;
 	}
 }
 

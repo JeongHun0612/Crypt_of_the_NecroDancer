@@ -52,10 +52,10 @@ void Weapon::render(HDC hdc)
 	switch (PLAYER->getCurDirection())
 	{
 	case PLAYER_DIRECTION::LEFT:
-		_effectImg->frameRender(hdc, CAMERA->getPos().x - 64, CAMERA->getPos().y, _effectImg->getFrameX(), 2);
+		_effectImg->frameRender(hdc, CAMERA->getPos().x - 64, CAMERA->getPos().y - 20, _effectImg->getFrameX(), 2);
 		break;
 	case PLAYER_DIRECTION::RIGHT:
-		_effectImg->frameRender(hdc, CAMERA->getPos().x + 64, CAMERA->getPos().y, _effectImg->getFrameX(), 3);
+		_effectImg->frameRender(hdc, CAMERA->getPos().x + 64, CAMERA->getPos().y - 20, _effectImg->getFrameX(), 3);
 		break;
 	case PLAYER_DIRECTION::UP:
 		_effectImg->frameRender(hdc, CAMERA->getPos().x, CAMERA->getPos().y - 64, _effectImg->getFrameX(), 0);
