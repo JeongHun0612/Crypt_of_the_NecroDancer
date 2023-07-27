@@ -112,6 +112,9 @@
     <Filter Include="MainGame\Object\Enemy\Wraith">
       <UniqueIdentifier>{c71d5b52-6b92-401d-8f1e-06fa1287e13e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\ShopKeeper">
+      <UniqueIdentifier>{865126ec-a351-4b75-831a-feeb84fe4578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="Monkey_Normal.cpp">
       <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopKeeper.cpp">
+      <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="Monkey_Normal.h">
       <Filter>MainGame\Object\Enemy\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopKeeper.h">
+      <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,5 +18,7 @@ public:
 	void setPos(float x, float y) { _pos.x = x, _pos.y = y; }
 	Vec2_F getPos() { return _pos; }
 
+	Vec2_F getPrevPos() { return _prevPos; }
+
 	void setShakeCount(int shakeCount) { _shakeCount = shakeCount; }
 };

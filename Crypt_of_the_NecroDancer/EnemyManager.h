@@ -3,7 +3,7 @@
 
 class Enemy;
 
-enum ENEMY_TYPE
+enum class ENEMY_TYPE
 {
 	SLIME_GREEN,
 	SLIME_BLUE,
@@ -17,7 +17,10 @@ enum ENEMY_TYPE
 	MONKEY_NORMAL,
 	MONKEY_WHITE,
 	GHOST,
-	WRAITH
+	WRAITH,
+
+
+	SHOPKEEPER = 16
 };
 
 class EnemyManager : public SingletonBase<EnemyManager>

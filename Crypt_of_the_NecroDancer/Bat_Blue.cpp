@@ -5,6 +5,8 @@ HRESULT Bat_Blue::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::BAT_BLUE;
+
 	_img.img = IMAGEMANAGER->findImage("bat_blue");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;

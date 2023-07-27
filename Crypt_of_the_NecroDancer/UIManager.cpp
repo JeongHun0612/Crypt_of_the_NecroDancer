@@ -129,6 +129,8 @@ void UIManager::addCoin(int idxX, int idxY, int coinCount)
 
 	if (coinCount <= 10)
 	{
+		if (coinCount == 0) return;
+
 		coin.img = IMAGEMANAGER->findImage("coin" + to_string(coinCount));
 	}
 	else

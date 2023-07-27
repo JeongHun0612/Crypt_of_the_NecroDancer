@@ -5,6 +5,8 @@ HRESULT Slime_Blue::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::SLIME_BLUE;
+
 	_img.img = IMAGEMANAGER->findImage("slime_blue");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;

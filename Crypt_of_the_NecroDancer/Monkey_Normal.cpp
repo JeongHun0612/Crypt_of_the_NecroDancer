@@ -5,6 +5,8 @@ HRESULT Monkey_Normal::init(int idxX, int idxY)
 {
 	Monkey::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::MONKEY_NORMAL;
+
 	_img.img = IMAGEMANAGER->findImage("monkey_normal");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;

@@ -4,6 +4,8 @@
 HRESULT Zombie::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
+	
+	_type = ENEMY_TYPE::ZOMBIE;
 
 	_img.img = IMAGEMANAGER->findImage("zombie");
 	_img.maxFrameX = _img.img->getMaxFrameX();

@@ -61,20 +61,7 @@ void Skeleton::update()
 		if (!_isAttack)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = 0; j < 3 - i; ++j)
-				{
-					if (_moveInfo[j].distance > _moveInfo[j + 1].distance)
-					{
-						MoveInfo tempMoveInfo;
-						tempMoveInfo = _moveInfo[j];
-						_moveInfo[j] = _moveInfo[j + 1];
-						_moveInfo[j + 1] = tempMoveInfo;
-
-					}
-				}
-			}
+			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
 			if (_moveInfo[0].distance <= 5)

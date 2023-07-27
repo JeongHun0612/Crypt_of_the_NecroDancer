@@ -5,6 +5,8 @@ HRESULT Slime_Green::init(int idxX, int idxY)
 {
 	Enemy::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::SLIME_GREEN;
+
 	_img.img = IMAGEMANAGER->findImage("slime_green");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;
@@ -55,6 +57,7 @@ void Slime_Green::update()
 	if (_isHit)
 	{
 		SOUNDMANAGER->play("slime_hit");
+
 		_isHit = false;
 	}
 }

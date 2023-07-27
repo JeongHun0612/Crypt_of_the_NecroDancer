@@ -3,6 +3,8 @@
 
 HRESULT Wraith::init(int idxX, int idxY)
 {
+	_type = ENEMY_TYPE::WRAITH;
+
     return S_OK;
 }
 

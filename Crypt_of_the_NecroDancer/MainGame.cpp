@@ -16,8 +16,8 @@ HRESULT MainGame::init(void)
 	initImage();
 
 	// 사운드 추가
-	initSound();
-	
+	//initSound();
+
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
@@ -140,6 +140,11 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("enemy_effect", "Resources/Images/Effect/enemy_effect.bmp", 240, 44, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("hit_effect", "Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
 
+
+
+
+
+
 	// ===================
 	// 몬스터
 	// ===================
@@ -168,6 +173,14 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("monkey_white", "Resources/Images/Enemy/Monkey/Monkey_White.bmp", 200, 192, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("monkey_white_grab", "Resources/Images/Enemy/Monkey/Monkey_White_Grab.bmp", 80, 96, 2, 2, true, RGB(255, 0, 255));
 
+	// 몬스터 - 유령
+	IMAGEMANAGER->addFrameImage("ghost", "Resources/Images/Enemy/Ghost/Ghost.bmp", 96, 192, 2, 4, true, RGB(255, 0, 255));
+
+
+	// ===================
+	// 몬스터 - NPC 
+	// ===================
+	IMAGEMANAGER->addFrameImage("shopkeeper", "Resources/Images/Enemy/NPC/ShopKeeper.bmp", 752, 152, 8, 2, true, RGB(255, 0, 255));
 }
 
 void MainGame::initSound()
@@ -208,7 +221,7 @@ void MainGame::initSound()
 	// ===================
 	// 애너미
 	// ===================
-	 
+
 	// 슬라임
 	SOUNDMANAGER->addSound("slime_attack", "Resources/Sounds/Enemy/Slime/en_slime_attack.mp3", false, false);
 	SOUNDMANAGER->addSound("slime_hit", "Resources/Sounds/Enemy/Slime/en_slime_hit.mp3", false, false);
@@ -228,6 +241,10 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("monkey_hit", "Resources/Sounds/Enemy/Monkey/en_monkey_hit.mp3", false, false);
 	SOUNDMANAGER->addSound("monkey_grab", "Resources/Sounds/Enemy/Monkey/en_monkey_grab.mp3", false, false);
 
+	// 고스트
+	SOUNDMANAGER->addSound("ghost_attack", "Resources/Sounds/Enemy/Ghost/en_ghost_attack.mp3", false, false);
+	SOUNDMANAGER->addSound("ghost_death", "Resources/Sounds/Enemy/Ghost/en_ghost_death.mp3", false, false);
+
 
 	// ===================
 	// 오브젝트
@@ -238,6 +255,7 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
 	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.mp3", false, false);
 	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("door_open", "Resources/Sounds/Object/obj_door_open.mp3", false, false);
 
 
 	// ===================

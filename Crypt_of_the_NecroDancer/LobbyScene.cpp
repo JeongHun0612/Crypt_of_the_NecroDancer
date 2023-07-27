@@ -8,13 +8,13 @@ HRESULT LobbyScene::init()
 	_vTerrainTile = TILEMAP->getLoobyTerrain();
 	_vWallTile = TILEMAP->getLoobyWall();
 
-	for (auto iter = _vTerrainTile.begin(); iter != _vTerrainTile.end(); ++iter)
+	for (int i = 0; i < _vTerrainTile.size(); i++)
 	{
-		(*iter)->_isLight = true;
-	}
-	for (auto iter = _vWallTile.begin(); iter != _vWallTile.end(); ++iter)
-	{
-		(*iter)->_isLight = true;
+		_vTerrainTile[i]->_isLight = true;
+		_vTerrainTile[i]->_alpha = 255;
+
+		_vWallTile[i]->_isLight = true;
+		_vWallTile[i]->_alpha = 255;
 	}
 
 	_tileMaxCol = MAX_LOBBY_COL;

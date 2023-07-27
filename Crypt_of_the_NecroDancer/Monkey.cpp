@@ -47,6 +47,11 @@ void Monkey::update()
 				_frameCycle = 0.226f;
 				SOUNDMANAGER->play("monkey_grab");
 				PLAYER->setIsGrab(true);
+
+				_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
+				_vStage1Terrain[_curTileIdx]->_isCollider = false;
+				_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+
 				_stepCount = 0;
 				break;
 			}
@@ -55,20 +60,7 @@ void Monkey::update()
 		if (!_isGrab)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = 0; j < 3 - i; ++j)
-				{
-					if (_moveInfo[j].distance > _moveInfo[j + 1].distance)
-					{
-						MoveInfo tempMoveInfo;
-						tempMoveInfo = _moveInfo[j];
-						_moveInfo[j] = _moveInfo[j + 1];
-						_moveInfo[j + 1] = tempMoveInfo;
-
-					}
-				}
-			}
+			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
 			if (_moveInfo[0].distance <= 5)

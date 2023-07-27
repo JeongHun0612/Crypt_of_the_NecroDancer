@@ -46,6 +46,12 @@ void GameScene::render(void)
 
 	getShowTileBFS(_vTiles, _vShowNode);
 
+	for (int i = 0; i < _vTerrainTile.size(); i++)
+	{
+		_vTerrainTile[i]->_alpha = 80;
+		_vWallTile[i]->_alpha = 80;
+	}
+
 	for (auto iter = _vShowNode.begin(); iter != _vShowNode.end(); ++iter)
 	{
 		_vTerrainTile[(*iter).tileIdx]->_alpha = (*iter).alpha;
@@ -159,7 +165,8 @@ void GameScene::getShowTileBFS(vector<vector<Tile*>> vTiles, vector<Node>& vShow
 
 			Node nextNode;
 			nextNode.posIdx = { nextIdx.x, nextIdx.y };
-			nextNode.alpha = 255 - (30 * depth);
+			nextNode.alpha = 255 - (10 * depth);
+			///nextNode.alpha = 255;
 			nextNode.isCollider = vTiles[1][nextTileIdx]->_isCollider;
 			nextNode.tileIdx = nextTileIdx;
 

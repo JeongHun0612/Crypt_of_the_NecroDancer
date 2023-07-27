@@ -15,6 +15,8 @@
 #include "Ghost.h"
 #include "Wraith.h"
 
+#include "ShopKeeper.h"
+
 void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 {
 	char filePath[MAX_PATH] = "Resources/Beat/";
@@ -75,7 +77,7 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 		int count = 0;
 
 		Tile* tile = new Tile;
-		tile->_alpha = 255;
+		tile->_alpha = 80;
 		tile->_isLight = false;
 		tile->_isSearch = false;
 
@@ -172,56 +174,60 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 
 				switch (stoi(line))
 				{
-				case ENEMY_TYPE::SLIME_GREEN:
+				case (int)ENEMY_TYPE::SLIME_GREEN:
 					_enemy = new Slime_Green;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::SLIME_BLUE:
+				case (int)ENEMY_TYPE::SLIME_BLUE:
 					_enemy = new Slime_Blue;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::SLIME_ORANGE:
+				case (int)ENEMY_TYPE::SLIME_ORANGE:
 					_enemy = new Slime_Orange;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::SKELETON_NORMAL:
+				case (int)ENEMY_TYPE::SKELETON_NORMAL:
 					_enemy = new Skeleton_Normal;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::SKELETON_YELLOW:
+				case (int)ENEMY_TYPE::SKELETON_YELLOW:
 					_enemy = new Skeleton_Yellow;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::SKELETON_BLACK:
+				case (int)ENEMY_TYPE::SKELETON_BLACK:
 					_enemy = new Skeleton_Black;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::ZOMBIE:
+				case (int)ENEMY_TYPE::ZOMBIE:
 					_enemy = new Zombie;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::BAT_BLUE:
+				case (int)ENEMY_TYPE::BAT_BLUE:
 					_enemy = new Bat_Blue;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::BAT_RED:
+				case (int)ENEMY_TYPE::BAT_RED:
 					_enemy = new Bat_Red;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::MONKEY_NORMAL:
+				case (int)ENEMY_TYPE::MONKEY_NORMAL:
 					_enemy = new Monkey_Normal;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::MONKEY_WHITE:
+				case (int)ENEMY_TYPE::MONKEY_WHITE:
 					_enemy = new Monkey_White;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::GHOST:
+				case (int)ENEMY_TYPE::GHOST:
 					_enemy = new Ghost;
 					_enemy->init(idxX, idxY);
 					break;
-				case ENEMY_TYPE::WRAITH:
+				case (int)ENEMY_TYPE::WRAITH:
 					_enemy = new Wraith;
+					_enemy->init(idxX, idxY);
+					break;
+				case (int)ENEMY_TYPE::SHOPKEEPER:
+					_enemy = new ShopKeeper;
 					_enemy->init(idxX, idxY);
 					break;
 				}

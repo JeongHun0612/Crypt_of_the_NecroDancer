@@ -5,6 +5,8 @@ HRESULT Monkey_White::init(int idxX, int idxY)
 {
 	Monkey::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::MONKEY_WHITE;
+
 	_img.img = IMAGEMANAGER->findImage("monkey_white");
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;
@@ -44,11 +46,14 @@ void Monkey_White::update()
 			_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 			_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-			_vStage1Terrain[_curTileIdx]->_isCollider = false;
-			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+			if (!_vStage1Wall[_nextTileIdx]->_isCollider && !_vStage1Terrain[_nextTileIdx]->_isCollider)
+			{
+				_vStage1Terrain[_curTileIdx]->_isCollider = false;
+				_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+				_isKnockBack = true;
+			}
 
 			_stepCount = -1;
-			_isKnockBack = true;
 		}
 
 		_isHit = false;

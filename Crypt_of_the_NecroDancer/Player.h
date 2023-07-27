@@ -107,10 +107,6 @@ public:
 	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
 
-	// 플레이어 점프력
-	//void setJumpPower(float)
-
-
 	// 플레이어 그림자 알파값
 	void setShadowAlpha(int alpha) { _shadowAlpha = alpha; }
 

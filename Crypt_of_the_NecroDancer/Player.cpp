@@ -25,7 +25,7 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 	_curHP = _maxHP;
 
 	_speed = 6.5f;
-	_jumpPower = 8.0f;
+	_jumpPower = 10.0f;
 	_lightPower = 5;
 
 	_playerAlpha = 255;
@@ -123,7 +123,7 @@ void Player::update(void)
 		if (BEAT->getIsBeat())
 		{
 			_isMove = true;
-			_jumpPower = 8.0f;
+			_jumpPower = 10.0f;
 			_curDirection = _nextDirection;
 			BEAT->setIsSuccess(true);
 
@@ -141,33 +141,41 @@ void Player::update(void)
 				if (_vWallTile[_nextTileIdx]->_isCollider)
 				{
 					_isMove = false;
-					_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 
 					// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
 					if (_vWallTile[_nextTileIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
 					{
 						SOUNDMANAGER->play("dig_fail");
+						_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 					}
 					else
 					{
 						// 벽 부수기
 						_vWallTile[_nextTileIdx]->_isExist = false;
 						_vWallTile[_nextTileIdx]->_isCollider = false;
-
 						CAMERA->setShakeCount(15);
-						SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
 
-						switch (_vWallTile[_nextTileIdx]->_wallType)
+						if (_vWallTile[_nextTileIdx]->_wallType == WALL_TYPE::DOOR)
 						{
-						case WALL_TYPE::DIRT:
-							SOUNDMANAGER->play("dig_dirt");
-							break;
-						case WALL_TYPE::BRICK:
-							SOUNDMANAGER->play("dig_brick");
-							break;
-						case WALL_TYPE::STONE:
-							SOUNDMANAGER->play("dig_stone");
-							break;
+							SOUNDMANAGER->play("door_open");
+						}
+						else
+						{
+							SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
+							_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
+
+							switch (_vWallTile[_nextTileIdx]->_wallType)
+							{
+							case WALL_TYPE::DIRT:
+								SOUNDMANAGER->play("dig_dirt");
+								break;
+							case WALL_TYPE::BRICK:
+								SOUNDMANAGER->play("dig_brick");
+								break;
+							case WALL_TYPE::STONE:
+								SOUNDMANAGER->play("dig_stone");
+								break;
+							}
 						}
 					}
 				}
@@ -176,32 +184,60 @@ void Player::update(void)
 			// 적 객체 검사
 			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
-				if (_isGrab)
+				if ((_isGrab && (*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y) ||
+					!_isGrab && (*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
 				{
-					if ((*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y)
-					{
-						_isMove = false;
-						CAMERA->setShakeCount(30);
-						SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
-						SOUNDMANAGER->play("create_hit");
+					if ((*iter)->getIsInvincible()) continue;
 
-						// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
-						(*iter)->setIsHit(true);
-						(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
+					if (_isGrab)
+					{
+						_isAttack = false;
 					}
-				}
-				else if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
-				{
+					else
+					{
+						_isAttack = true;
+					}
+
 					_isMove = false;
-					_isAttack = true;
-					CAMERA->setShakeCount(30);
+					CAMERA->setShakeCount(25);
 					SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
 					SOUNDMANAGER->play("create_hit");
 
-					// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
+					// 적을 Hit 상태로 만든다
 					(*iter)->setIsHit(true);
-					(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
+					break;
 				}
+
+				//if (_isGrab)
+				//{
+				//	if ((*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y)
+				//	{
+				//		_isMove = false;
+				//		CAMERA->setShakeCount(30);
+				//		SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
+				//		SOUNDMANAGER->play("create_hit");
+
+				//		// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
+				//		(*iter)->setIsHit(true);
+				//		(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
+				//		break;
+				//	}
+				//}
+				//else if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
+				//{
+				//	_isMove = false;
+
+				//	if ((*iter)->getEnemyType() == ENEMY_TYPE::SHOPKEEPER) continue;
+
+				//	_isAttack = true;
+				//	CAMERA->setShakeCount(30);
+				//	SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
+				//	SOUNDMANAGER->play("create_hit");
+
+				//	// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
+				//	(*iter)->setIsHit(true);
+				//	(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
+				//}
 			}
 
 			if (!_isMove)
@@ -236,12 +272,15 @@ void Player::update(void)
 			break;
 		}
 
+
 		_pos.y -= _jumpPower;
 
-		_jumpPower -= 1.9f;
+		_jumpPower -= 2.223f;
 
-		//cout << _jumpPower << endl;
-		cout << _pos.y << endl;
+		if (_pos.x >= 70.0f || _pos.x <= -70.0f || _pos.y >= 70.0f)
+		{
+			_pos = { 0.0f, 0.0f };
+		}
 	}
 
 	// 공격 상태일때
@@ -337,7 +376,7 @@ void Player::render(HDC hdc)
 
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,
-		CAMERA->getPos().x + 15 +_pos.x,
+		CAMERA->getPos().x + 15 + _pos.x,
 		CAMERA->getPos().y - 18 + _pos.y,
 		_headImg->getFrameX(), _isLeft,
 		_playerAlpha);

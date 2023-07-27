@@ -25,10 +25,11 @@ void Camera::update(void)
 		_pos.x -= RND->getFromFloatTo(-2.0f, 2.0f);
 		_pos.y -= RND->getFromFloatTo(-2.0f, 2.0f);
 
-		if (_shakeCount == 0)
+		if (_shakeCount == 0 || PLAYER->getIsMove())
 		{
 			_pos.x = _prevPos.x;
 			_pos.y = _prevPos.y;
+			_shakeCount = 0;
 		}
 	}
 
@@ -37,19 +38,15 @@ void Camera::update(void)
 		switch (PLAYER->getCurDirection())
 		{
 		case PLAYER_DIRECTION::LEFT:
-			//_pos.x += 8.0f;
 			_pos.x += 64 * TIMEMANAGER->getDeltaTime() * _cameraSpeed;
 			break;
 		case PLAYER_DIRECTION::RIGHT:
-			//_pos.x -= 8.0f;
 			_pos.x -= 64 * TIMEMANAGER->getDeltaTime() * _cameraSpeed;
 			break;
 		case PLAYER_DIRECTION::UP:
-			//_pos.y += 8.0f;
 			_pos.y += 64 * TIMEMANAGER->getDeltaTime() * _cameraSpeed;
 			break;
 		case PLAYER_DIRECTION::DOWN:
-			//_pos.y -= 8.0f;
 			_pos.y -= 64 * TIMEMANAGER->getDeltaTime() * _cameraSpeed;
 			break;
 		}

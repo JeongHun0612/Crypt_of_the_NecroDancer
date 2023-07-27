@@ -5,6 +5,8 @@ HRESULT Skeleton_Black::init(int idxX, int idxY)
 {
 	Skeleton::init(idxX, idxY);
 
+	_type = ENEMY_TYPE::SKELETON_BLACK;
+
 	_headImg.img = IMAGEMANAGER->findImage("skeleton_black_head");
 	_headImg.pos = { 0.0f, 0.0f };
 	_headImg.alpha = 255;
