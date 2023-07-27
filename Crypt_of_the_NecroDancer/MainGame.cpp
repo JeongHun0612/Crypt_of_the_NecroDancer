@@ -26,7 +26,7 @@ HRESULT MainGame::init(void)
 
 	SCENEMANAGER->addScene("test", new TestScene);		// 스테이지1-1
 
-	SCENEMANAGER->changeScene("test");
+	SCENEMANAGER->changeScene("lobby");
 
 	return S_OK;
 }
@@ -74,11 +74,8 @@ void MainGame::initImage()
 	// ===================
 	// 타일
 	// ===================
-	IMAGEMANAGER->addImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 512, 128, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("terrain1", "Resources/Images/Tile/Terrain_1.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile2.bmp", 1024, 512, 16, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("wall1", "Resources/Images/Tile/WallTile.bmp", 320, 1152, 5, 9, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("tile_wall", "Resources/Images/Tile/Tile_Wall.bmp", 320, 1152, 5, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("tile_torch", "Resources/Images/Tile/Tile_Torch.bmp", 96, 52, 4, 1, true, RGB(255, 0, 255));
 
 	// ===================

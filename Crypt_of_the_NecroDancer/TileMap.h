@@ -44,10 +44,12 @@ struct Tile
 	int _frameX;
 	int _frameY;
 
+	int _alpha;
 	int _hardNess;
 
 	bool _isExist;
 	bool _isCollider;
+	bool _isSearch;
 	bool _isLight;
 };
 

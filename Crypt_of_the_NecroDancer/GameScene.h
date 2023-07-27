@@ -1,6 +1,15 @@
 #pragma once
 #include "GameNode.h"
 
+struct Node
+{
+	Vec2 posIdx;
+	int tileIdx;
+	int alpha;
+	bool isCollider;
+};
+
+
 class GameScene : public GameNode
 {
 protected:
@@ -8,13 +17,13 @@ protected:
 	vector<Tile*> _vTerrainTile;
 	vector<Tile*> _vWallTile;
 
+	vector<Node> _vShowNode;
+
 	vector<Enemy*> _vEnemy;
 
 	int _beatCountFrameX;
 	int _tileMaxCol;
 	int _tileMaxRow;
-	
-	bool _isLobby;
 
 public:
 	HRESULT init(void);
@@ -27,9 +36,8 @@ public:
 
 protected:
 	void tileSet(vector<Tile*> vTile, TILE_TYPE tileType);
+	void getShowTileBFS(vector<vector<Tile*>> vTiles, vector<Node>& vShowNode);
 
 	void showTileNum(vector<Tile*> _vTile);
 	void showTileDist(vector<Tile*> _vTile);
-
-	int getAlphaSet(int distance, int rightPower);
 };

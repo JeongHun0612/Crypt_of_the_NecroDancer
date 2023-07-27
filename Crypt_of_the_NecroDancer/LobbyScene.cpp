@@ -3,8 +3,6 @@
 
 HRESULT LobbyScene::init()
 {
-	_isLobby = true;
-
 	// 타일 초기화
 	_vTiles = TILEMAP->getLoobyTiles();
 	_vTerrainTile = TILEMAP->getLoobyTerrain();

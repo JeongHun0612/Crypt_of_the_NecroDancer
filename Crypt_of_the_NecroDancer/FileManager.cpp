@@ -75,7 +75,9 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 		int count = 0;
 
 		Tile* tile = new Tile;
+		tile->_alpha = 255;
 		tile->_isLight = false;
+		tile->_isSearch = false;
 
 		while (true)
 		{

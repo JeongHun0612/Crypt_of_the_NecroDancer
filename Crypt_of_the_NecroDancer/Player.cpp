@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "TileMap.h"
 
-HRESULT Player::init(int startIdxX, int startIxY)
+HRESULT Player::init(int startIdxX, int startIdxY)
 {
 	_vTiles = TILEMAP->getLoobyTiles();
 	_vTerrainTile = _vTiles[(int)TILE_TYPE::TERRAIN];
@@ -14,9 +14,9 @@ HRESULT Player::init(int startIdxX, int startIxY)
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 
-	_pos = { WINSIZE_X_HALF, WINSIZE_Y_HALF };
-	_posIdx = { startIdxX , startIxY };
-	_nextPosIdx = { startIdxX , startIxY };
+	_pos = { 0.0f, 0.0f };
+	_posIdx = { startIdxX , startIdxY };
+	_nextPosIdx = { startIdxX , startIdxY };
 
 	_curDirection = PLAYER_DIRECTION::NONE;
 	_nextDirection = PLAYER_DIRECTION::NONE;
@@ -24,6 +24,7 @@ HRESULT Player::init(int startIdxX, int startIxY)
 	_maxHP = 6;
 	_curHP = _maxHP;
 
+	_speed = 6.5f;
 	_jumpPower = 8.0f;
 	_lightPower = 5;
 
@@ -127,7 +128,6 @@ void Player::update(void)
 			BEAT->setIsSuccess(true);
 
 			if (_curDirection == PLAYER_DIRECTION::LEFT) _isLeft = true;
-
 			if (_curDirection == PLAYER_DIRECTION::RIGHT) _isLeft = false;
 
 			_nextPosIdx.x = _posIdx.x + _fourDirection[(int)_curDirection].x;
@@ -204,7 +204,6 @@ void Player::update(void)
 				}
 			}
 
-
 			if (!_isMove)
 			{
 				_nextPosIdx = _posIdx;
@@ -221,9 +220,28 @@ void Player::update(void)
 	// 움직임 상태일때
 	if (_isMove)
 	{
+		switch (_curDirection)
+		{
+		case PLAYER_DIRECTION::LEFT:
+			_pos.x -= 64 * TIMEMANAGER->getDeltaTime() * _speed;
+			break;
+		case PLAYER_DIRECTION::RIGHT:
+			_pos.x += 64 * TIMEMANAGER->getDeltaTime() * _speed;
+			break;
+		case PLAYER_DIRECTION::UP:
+			_pos.y -= 64 * TIMEMANAGER->getDeltaTime() * _speed;
+			break;
+		case PLAYER_DIRECTION::DOWN:
+			_pos.y += 64 * TIMEMANAGER->getDeltaTime() * _speed;
+			break;
+		}
+
 		_pos.y -= _jumpPower;
 
-		_jumpPower -= 1.5f;
+		_jumpPower -= 1.9f;
+
+		//cout << _jumpPower << endl;
+		cout << _pos.y << endl;
 	}
 
 	// 공격 상태일때
@@ -306,21 +324,21 @@ void Player::render(HDC hdc)
 
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
-		_pos.x - _shadowImg->getWidth() / 2,
-		WINSIZE_Y_HALF - 45,
+		CAMERA->getPos().x + 8 + _pos.x,
+		CAMERA->getPos().y - 11,
 		_shadowAlpha);
 
 	// 몸통 이미지
 	_bodyImg->frameAlphaRender(hdc,
-		_pos.x - _bodyImg->getFrameWidth() / 2,
-		_pos.y - _bodyImg->getFrameHeight() / 2 - 20,
+		CAMERA->getPos().x + 12 + _pos.x,
+		CAMERA->getPos().y + _pos.y,
 		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
 		_playerAlpha);
 
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,
-		_pos.x - _headImg->getFrameWidth() / 2 - 1,
-		_pos.y - _headImg->getFrameHeight() / 2 - 44,
+		CAMERA->getPos().x + 15 +_pos.x,
+		CAMERA->getPos().y - 18 + _pos.y,
 		_headImg->getFrameX(), _isLeft,
 		_playerAlpha);
 

@@ -16,8 +16,8 @@ HRESULT TileMap::init(void)
 	FileManager::loadTileMapFile("Stage1-1_Terrain.txt", _vStage1Terrain, TILE_TYPE::TERRAIN);
 	FileManager::loadTileMapFile("Stage1-1_Wall.txt", _vStage1Wall, TILE_TYPE::WALL);
 
-	_vStage1Tiles.push_back(_vLobbyTerrain);
-	_vStage1Tiles.push_back(_vLobbyWall);
+	_vStage1Tiles.push_back(_vStage1Terrain);
+	_vStage1Tiles.push_back(_vStage1Wall);
 
 	return S_OK;
 }

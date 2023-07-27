@@ -65,6 +65,7 @@ private:
 
 	float _count;							// 프레임 이미지 카운트
 	float _jumpPower;						// 점프 강도
+	float _speed;							// 플레이어 속도
 
 public:
 	HRESULT init(int startIdxX, int startIxY);
@@ -106,6 +107,9 @@ public:
 	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
 
+	// 플레이어 점프력
+	//void setJumpPower(float)
+
 
 	// 플레이어 그림자 알파값
 	void setShadowAlpha(int alpha) { _shadowAlpha = alpha; }
@@ -135,7 +139,6 @@ public:
 
 	bool getIsAttack() { return _isAttack; }
 	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
-
 
 	void setIsGrab(bool isGrab) { _isGrab = isGrab; }
 

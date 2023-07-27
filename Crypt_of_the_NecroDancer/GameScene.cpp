@@ -3,9 +3,6 @@
 
 HRESULT GameScene::init(void)
 {
-	_isLobby = false;
-
-
 	return S_OK;
 }
 
@@ -20,29 +17,24 @@ void GameScene::update(void)
 	CAMERA->update();
 
 	// 비트 업데이트
-	//BEAT->update();
+	BEAT->update();
 
 	// 플레이어 업데이트
 	PLAYER->update();
 
 	// 애너미 업데이트
-	//for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
-	//{
-	//	(*iter)->update();
-
-	//	// 애너미 삭제
-	//	if ((*iter)->getCurHP() <= 0)
-	//	{
-	//		(*iter)->release();
-	//		delete((*iter));
-	//		iter = _vEnemy.erase(iter);
-	//	}
-	//	else ++iter;
-	//}
-
-	if (KEYMANAGER->isOnceKeyDown('W'))
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
 	{
-		SCENEMANAGER->changeScene("lobby");
+		(*iter)->update();
+
+		// 애너미 삭제
+		if ((*iter)->getCurHP() <= 0)
+		{
+			(*iter)->release();
+			delete((*iter));
+			iter = _vEnemy.erase(iter);
+		}
+		else ++iter;
 	}
 }
 
@@ -52,17 +44,25 @@ void GameScene::render(void)
 	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
 	tileSet(_vWallTile, TILE_TYPE::WALL);
 
+	getShowTileBFS(_vTiles, _vShowNode);
+
+	for (auto iter = _vShowNode.begin(); iter != _vShowNode.end(); ++iter)
+	{
+		_vTerrainTile[(*iter).tileIdx]->_alpha = (*iter).alpha;
+		_vWallTile[(*iter).tileIdx]->_alpha = (*iter).alpha;
+	}
+
 	// 플레이어 출력
 	PLAYER->render(getMemDC());
 
 	// 몬스터 출력
-	//for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
-	//{
-	//	(*iter)->render(getMemDC());
-	//}
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
+	{
+		(*iter)->render(getMemDC());
+	}
 
 	// 비트 출력
-	//BEAT->render(getMemDC());
+	BEAT->render(getMemDC());
 
 	// UI 출력
 	UIMANAGER->render(getMemDC());
@@ -90,48 +90,95 @@ void GameScene::tileSet(vector<Tile*> vTile, TILE_TYPE tileType)
 			if (curIdxX < 0 || curIdxX > _tileMaxCol - 1) continue;
 			if (curIdxY < 0 || curIdxY > _tileMaxRow - 1) continue;
 
-			int vIndex = (curIdxY * _tileMaxCol) + curIdxX;
+			int tileIdx = (curIdxY * _tileMaxCol) + curIdxX;
 
-			// 타일을 그리지 않겠다면 continue
-			if (!vTile[vIndex]->_isExist) continue;
+			// 타일을 그리지 않거나 밝혀지지 않은 부분으면 continue;
+			if (!vTile[tileIdx]->_isExist || !vTile[tileIdx]->_isLight) continue;
 
-			// 플레이어와 타일간의 거리
-			int distance = sqrt(pow(vTile[vIndex]->_idxX - PLAYER->getPosIdx().x, 2) + pow(vTile[vIndex]->_idxY - PLAYER->getPosIdx().y, 2));
-
-			// 플레이어와 타일간의 거리에 따른 알파값
-			int _alpha;
-			_alpha = (_isLobby) ? 255 : getAlphaSet(distance, PLAYER->getLightPower());
-
-			if (distance < PLAYER->getLightPower() || vTile[vIndex]->_isLight)
+			switch (tileType)
 			{
-				switch (tileType)
-				{
-				case TILE_TYPE::TERRAIN:
-					IMAGEMANAGER->findImage("terrain1")->frameAlphaRender(getMemDC(),
-						CAMERA->getPos().x + (j * TILESIZE),
-						CAMERA->getPos().y + (i * TILESIZE),
-						vTile[vIndex]->_frameX,
-						vTile[vIndex]->_frameY,
-						_alpha);
-					break;
-				case TILE_TYPE::WALL:
-					IMAGEMANAGER->findImage("wall1")->frameAlphaRender(getMemDC(),
-						CAMERA->getPos().x + (j * TILESIZE),
-						CAMERA->getPos().y + (i * TILESIZE) - 32,
-						vTile[vIndex]->_frameX,
-						vTile[vIndex]->_frameY,
-						_alpha);
-					break;
-				case TILE_TYPE::DECO:
-					break;
-				}
-
-				if (!vTile[vIndex]->_isLight)
-				{
-					vTile[vIndex]->_isLight = true;
-				}
+			case TILE_TYPE::TERRAIN:
+				IMAGEMANAGER->findImage("tile_terrain")->frameAlphaRender(getMemDC(),
+					CAMERA->getPos().x + (j * TILESIZE),
+					CAMERA->getPos().y + (i * TILESIZE),
+					vTile[tileIdx]->_frameX,
+					vTile[tileIdx]->_frameY,
+					vTile[tileIdx]->_alpha);
+				break;
+			case TILE_TYPE::WALL:
+				IMAGEMANAGER->findImage("tile_wall")->frameAlphaRender(getMemDC(),
+					CAMERA->getPos().x + (j * TILESIZE),
+					CAMERA->getPos().y + (i * TILESIZE) - 32,
+					vTile[tileIdx]->_frameX,
+					vTile[tileIdx]->_frameY,
+					vTile[tileIdx]->_alpha);
+				break;
+			case TILE_TYPE::DECO:
+				break;
 			}
 		}
+	}
+}
+
+void GameScene::getShowTileBFS(vector<vector<Tile*>> vTiles, vector<Node>& vShowNode)
+{
+	vShowNode.clear();
+
+	Vec2 direction[4] = { {-1,0}, {0, -1}, {1, 0}, {0, 1} };
+
+	queue<Node> tileNodeQueue;
+
+	Node curNode;
+	curNode.posIdx = { PLAYER->getPosIdx().x, PLAYER->getPosIdx().y };
+	curNode.alpha = 255;
+	curNode.isCollider = false;
+	curNode.tileIdx = (curNode.posIdx.y * _tileMaxCol) + curNode.posIdx.x;
+
+	tileNodeQueue.push(curNode);
+	vShowNode.push_back(curNode);
+
+	while (!tileNodeQueue.empty())
+	{
+		Node curNode = tileNodeQueue.front();
+		tileNodeQueue.pop();
+
+		if (curNode.isCollider) continue;
+
+		for (int i = 0; i < 4; i++)
+		{
+			Vec2 nextIdx = { curNode.posIdx.x + direction[i].x, curNode.posIdx.y + direction[i].y };
+			int nextTileIdx = (nextIdx.y * _tileMaxCol) + nextIdx.x;
+
+			if (nextTileIdx < 0 || nextTileIdx > vTiles[0].size()) continue;
+			if (nextIdx.x < 0 || nextIdx.y < 0 || nextIdx.x > _tileMaxCol - 1 || nextIdx.y > _tileMaxRow - 1) continue;
+			if (vTiles[0][nextTileIdx]->_isSearch) continue;
+
+			int depth = abs(nextIdx.x - PLAYER->getPosIdx().x) + abs(nextIdx.y - PLAYER->getPosIdx().y);
+
+			if (depth > PLAYER->getLightPower()) break;
+
+			Node nextNode;
+			nextNode.posIdx = { nextIdx.x, nextIdx.y };
+			nextNode.alpha = 255 - (30 * depth);
+			nextNode.isCollider = vTiles[1][nextTileIdx]->_isCollider;
+			nextNode.tileIdx = nextTileIdx;
+
+			tileNodeQueue.push(nextNode);
+			vShowNode.push_back(nextNode);
+
+			vTiles[0][nextTileIdx]->_isSearch = true;
+
+			if (!vTiles[0][nextTileIdx]->_isLight)
+			{
+				vTiles[0][nextTileIdx]->_isLight = true;
+				vTiles[1][nextTileIdx]->_isLight = true;
+			}
+		}
+	}
+
+	for (auto iter = vTiles[0].begin(); iter != vTiles[0].end(); ++iter)
+	{
+		(*iter)->_isSearch = false;
 	}
 }
 
@@ -147,10 +194,10 @@ void GameScene::showTileNum(vector<Tile*> _vTile)
 			if (curIdxX < 0 || curIdxX > _tileMaxCol - 1) continue;
 			if (curIdxY < 0 || curIdxY > _tileMaxRow - 1) continue;
 
-			int vIndex = curIdxY * _tileMaxCol + curIdxX;
+			int tileIdx = curIdxY * _tileMaxCol + curIdxX;
 
 			char strIdx[15];
-			sprintf_s(strIdx, "[%d, %d]", _vTile[vIndex]->_idxY, _vTile[vIndex]->_idxX);
+			sprintf_s(strIdx, "[%d, %d]", _vTile[tileIdx]->_idxY, _vTile[tileIdx]->_idxX);
 
 			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE) - 32, strIdx, strlen(strIdx));
 		}
@@ -171,29 +218,12 @@ void GameScene::showTileDist(vector<Tile*> _vTile)
 
 			int vIndex = curIdxY * _tileMaxCol + curIdxX;
 
-			int distance = sqrt(pow(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x, 2) + pow(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y, 2));
-			//int distance = abs(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x) + abs(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y);
-
+			//int distance = sqrt(pow(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x, 2) + pow(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y, 2));
+			int distance = abs(_vTile[vIndex]->_idxX - PLAYER->getPosIdx().x) + abs(_vTile[vIndex]->_idxY - PLAYER->getPosIdx().y);
 
 			char strDist[15];
 			sprintf_s(strDist, "%d", distance);
 			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE) - 32, strDist, strlen(strDist));
 		}
-	}
-}
-
-int GameScene::getAlphaSet(int distance, int rightPower)
-{
-	int minAlpha = 80;
-
-	int alphaAmount = (255 - minAlpha) / rightPower;
-
-	if (distance < rightPower)
-	{
-		return 255 - alphaAmount * distance;
-	}
-	else
-	{
-		return minAlpha;
 	}
 }

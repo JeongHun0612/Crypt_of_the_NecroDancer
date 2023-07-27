@@ -10,6 +10,7 @@ HRESULT Stage1_1Scene::init(void)
 	_vTerrainTile = TILEMAP->getStage1Terrain();
 	_vWallTile = TILEMAP->getStage1Wall();
 
+
 	_vEnemy = ENEMYMANAGER->getEnemyList();
 
 	_tileMaxCol = MAX_STAGE1_COL;
@@ -24,9 +25,7 @@ HRESULT Stage1_1Scene::init(void)
 	PLAYER->setTileMaxCol(_tileMaxCol);
 
 	// 비트 초기화
-	BEAT->setIsBeat(true);
-
-	//BEAT->init();
+	BEAT->init();
 
 	// 사운드 출력
 	SOUNDMANAGER->play("stage1-1", 0.5f);
