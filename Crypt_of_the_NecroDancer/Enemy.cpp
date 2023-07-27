@@ -56,11 +56,11 @@ void Enemy::release()
 
 void Enemy::update()
 {
-	if (_vStage1Terrain[_curTileIdx]->_isLight)
-	{
-		// 플레이어와의 거리
-		_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
+	// 플레이어와의 거리
+	_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
 
+	if (_vStage1Terrain[_curTileIdx]->_isLight && _distance < 11)
+	{
 		// 움직임 타이밍
 		_beatCount = BEAT->getBeatCount();
 
@@ -121,7 +121,7 @@ void Enemy::update()
 
 void Enemy::render(HDC hdc)
 {
-	if (_vStage1Terrain[_curTileIdx]->_isLight)
+	if (_vStage1Terrain[_curTileIdx]->_isLight && _distance < 11)
 	{
 		// 거리에 따른 모습 변화
 		if (_distance > PLAYER->getLightPower() - 1)
@@ -132,7 +132,6 @@ void Enemy::render(HDC hdc)
 		{
 			_img.img->setFrameY(_img.frameY);
 		}
-
 
 		// 그림자 출력
 		_shadowImg->alphaRender(hdc,
@@ -178,7 +177,7 @@ void Enemy::render(HDC hdc)
 
 				_heartImg->frameRender(hdc,
 					(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 + (i * _heartImg->getFrameWidth()) - renderPosX + _pos.x,
-					CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 - 43 + _pos.y,
+					CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64 + 32 - _img.img->getFrameHeight() - 20 + _pos.y,
 					_heartImg->getFrameX(),
 					_heartImg->getFrameY());
 			}

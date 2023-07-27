@@ -29,14 +29,16 @@ HRESULT Stage1_1Scene::init(void)
 	//BEAT->setIsBeat(true);
 
 	// 사운드 출력
-	SOUNDMANAGER->play("stage1-1", 0.5f);
+	SOUNDMANAGER->play("stage1_1", 0.5f);
+	SOUNDMANAGER->play("stage1_1_shopkeeper", 0.5f);
 
 	return S_OK;
 }
 
 void Stage1_1Scene::release(void)
 {
-	SOUNDMANAGER->stop("stage1-1");
+	SOUNDMANAGER->stop("stage1_1");
+	SOUNDMANAGER->stop("stage1_1_shopkeeper");
 }
 
 void Stage1_1Scene::update(void)

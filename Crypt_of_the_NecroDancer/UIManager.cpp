@@ -135,7 +135,18 @@ void UIManager::addCoin(int idxX, int idxY, int coinCount)
 	}
 	else
 	{
-		coin.img = IMAGEMANAGER->findImage("coin_hoard");
+		if (coinCount > 10 && coinCount <= 25)
+		{
+			coin.img = IMAGEMANAGER->findImage("coin_hoard_small");
+		}
+		else if (coinCount > 25 && coinCount <= 40)
+		{
+			coin.img = IMAGEMANAGER->findImage("coin_hoard_middle");
+		}
+		else
+		{
+			coin.img = IMAGEMANAGER->findImage("coin_hoard");
+		}
 	}
 
 	coin.x = idxX;

@@ -16,7 +16,7 @@ HRESULT MainGame::init(void)
 	initImage();
 
 	// 사운드 추가
-	//initSound();
+	initSound();
 
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
@@ -132,6 +132,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("coin9", "Resources/Images/Item/Coin/coin9.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("coin10", "Resources/Images/Item/Coin/coin10.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("coin_hoard", "Resources/Images/Item/Coin/coin_hoard.bmp", 68, 76, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin_hoard_middle", "Resources/Images/Item/Coin/coin_hoard_middle.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("coin_hoard_small", "Resources/Images/Item/Coin/coin_hoard_small.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 
 	// ===================
 	// Effect
@@ -141,12 +143,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("hit_effect", "Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
 
 
-
-
-
-
 	// ===================
-	// 몬스터
+	// 몬스터 - 일반 몬스터
 	// ===================
 	// 몬스터 - 슬라임
 	IMAGEMANAGER->addFrameImage("slime_green", "Resources/Images/Enemy/Slime/Slime_Green.bmp", 208, 208, 4, 4, true, RGB(255, 0, 255));
@@ -178,6 +176,13 @@ void MainGame::initImage()
 
 
 	// ===================
+	// 몬스터 - 미니 보스 
+	// ===================
+	IMAGEMANAGER->addFrameImage("minotaur", "Resources/Images/Enemy/Minotaur/Minotaur.bmp", 500, 392, 5, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("minotaur_groggy", "Resources/Images/Enemy/Minotaur/Minotaur_Groggy.bmp", 400, 392, 4, 4, true, RGB(255, 0, 255));
+
+
+	// ===================
 	// 몬스터 - NPC 
 	// ===================
 	IMAGEMANAGER->addFrameImage("shopkeeper", "Resources/Images/Enemy/NPC/ShopKeeper.bmp", 752, 152, 8, 2, true, RGB(255, 0, 255));
@@ -190,7 +195,8 @@ void MainGame::initSound()
 	// ===================
 	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, true);
 	SOUNDMANAGER->addSound("lobby", "Resources/Sounds/BGM/lobby.mp3", true, true);
-	SOUNDMANAGER->addSound("stage1-1", "Resources/Sounds/BGM/stage1-1.mp3", true, false);
+	SOUNDMANAGER->addSound("stage1_1", "Resources/Sounds/BGM/stage1_1.mp3", true, false);
+	SOUNDMANAGER->addSound("stage1_1_shopkeeper", "Resources/Sounds/BGM/stage1_1_shopkeeper.mp3", true, false);
 
 	// ===================
 	// 플레이어
@@ -244,6 +250,14 @@ void MainGame::initSound()
 	// 고스트
 	SOUNDMANAGER->addSound("ghost_attack", "Resources/Sounds/Enemy/Ghost/en_ghost_attack.mp3", false, false);
 	SOUNDMANAGER->addSound("ghost_death", "Resources/Sounds/Enemy/Ghost/en_ghost_death.mp3", false, false);
+
+	// 미노타우로스
+	SOUNDMANAGER->addSound("minotaur_attack", "Resources/Sounds/Enemy/Minotaur/en_minotaur_attack.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_cry", "Resources/Sounds/Enemy/Minotaur/en_minotaur_cry.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_charge", "Resources/Sounds/Enemy/Minotaur/en_minotaur_charge.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_hit", "Resources/Sounds/Enemy/Minotaur/en_minotaur_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_death", "Resources/Sounds/Enemy/Minotaur/en_minotaur_death.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_wallimpact", "Resources/Sounds/Enemy/Minotaur/en_minotaur_wallimpact.mp3", false, false);
 
 
 	// ===================

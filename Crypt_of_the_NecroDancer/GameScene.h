@@ -9,7 +9,6 @@ struct Node
 	bool isCollider;
 };
 
-
 class GameScene : public GameNode
 {
 protected:

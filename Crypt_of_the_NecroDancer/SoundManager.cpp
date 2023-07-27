@@ -89,7 +89,7 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 
 void SoundManager::play(string strKey, float volume)
 {
-	return;
+	//return;
 
 	mapSoundIter iter = _mSoundList.begin();
 	int count = 0;
@@ -177,6 +177,38 @@ void SoundManager::setPosition(string strKey, float pos)
 		if (strKey == iter->first)
 		{
 			_channel[count]->setPosition(pos, FMOD_TIMEUNIT_MS);
+			break;
+		}
+	}
+}
+
+float SoundManager::getVolume(string strKey)
+{
+	mapSoundIter iter = _mSoundList.begin();
+	int count = 0;
+
+	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	{
+		if (strKey == iter->first)
+		{
+			float volume;
+			_channel[count]->getVolume(&volume);
+
+			return volume;
+		}
+	}
+}
+
+void SoundManager::setVolume(string strKey, float volume)
+{
+	mapSoundIter iter = _mSoundList.begin();
+	int count = 0;
+
+	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	{
+		if (strKey == iter->first)
+		{
+			_channel[count]->setVolume(volume);
 			break;
 		}
 	}

@@ -58,9 +58,6 @@
     <Filter Include="MainGame\Object\Enemy">
       <UniqueIdentifier>{42de1f58-0a54-4d05-8f9c-eddb7f8e49c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Enemy\Slime">
-      <UniqueIdentifier>{ebe4da18-c6eb-4f78-837b-647710c46f09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\Player">
       <UniqueIdentifier>{8c64a784-651e-4190-a1e0-63e351c2f53a}</UniqueIdentifier>
     </Filter>
@@ -91,29 +88,44 @@
     <Filter Include="MainGame\Scene\Title">
       <UniqueIdentifier>{1b2ebc12-44cb-450c-a9a5-34d77ed87894}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Enemy\Skeleton">
-      <UniqueIdentifier>{e1dc1c88-9624-40eb-a3d9-548484e9b70b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Scene\Stage">
       <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Enemy\Zombie">
-      <UniqueIdentifier>{694aa955-05bd-4349-bff1-0d2cf90227c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Object\Enemy\Bat">
-      <UniqueIdentifier>{0e83cce8-cdc5-46d8-a83b-d4a9ba674881}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Object\Enemy\Monkey">
-      <UniqueIdentifier>{a86f8c33-1e11-4c4b-82a2-797657e36981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Object\Enemy\Ghost">
-      <UniqueIdentifier>{63a44c21-bece-47b0-a769-b04e8474d3cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Object\Enemy\Wraith">
-      <UniqueIdentifier>{c71d5b52-6b92-401d-8f1e-06fa1287e13e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\Enemy\ShopKeeper">
       <UniqueIdentifier>{865126ec-a351-4b75-831a-feeb84fe4578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster">
+      <UniqueIdentifier>{461219e3-4beb-4d5e-b336-cc273c7ec069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Bat">
+      <UniqueIdentifier>{0e83cce8-cdc5-46d8-a83b-d4a9ba674881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Ghost">
+      <UniqueIdentifier>{63a44c21-bece-47b0-a769-b04e8474d3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Monkey">
+      <UniqueIdentifier>{a86f8c33-1e11-4c4b-82a2-797657e36981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Skeleton">
+      <UniqueIdentifier>{e1dc1c88-9624-40eb-a3d9-548484e9b70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Slime">
+      <UniqueIdentifier>{ebe4da18-c6eb-4f78-837b-647710c46f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Wraith">
+      <UniqueIdentifier>{c71d5b52-6b92-401d-8f1e-06fa1287e13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\NormalMonster\Zombie">
+      <UniqueIdentifier>{694aa955-05bd-4349-bff1-0d2cf90227c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\MiniBoss">
+      <UniqueIdentifier>{1ccd45cc-03a0-4c89-b300-9ca25593726a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\MiniBoss\Minotaur">
+      <UniqueIdentifier>{b66c8666-441e-44a2-aab5-d2705adc0d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\MiniBoss\Dragon">
+      <UniqueIdentifier>{e26d1bc6-74ab-4646-b61b-a43319c2bf74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +169,7 @@
       <Filter>MainGame\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Slime_Green.cpp">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClCompile>
     <ClCompile Include="Beat.cpp">
       <Filter>MainGame\Object\Beat</Filter>
@@ -193,16 +205,16 @@
       <Filter>MainGame\Scene\Intro</Filter>
     </ClCompile>
     <ClCompile Include="Slime_Blue.cpp">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton_Normal.cpp">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton_Black.cpp">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>MainGame\Object\Tile</Filter>
@@ -214,43 +226,49 @@
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="Slime_Orange.cpp">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton_Yellow.cpp">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
-      <Filter>MainGame\Object\Enemy\Zombie</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="Bat_Blue.cpp">
-      <Filter>MainGame\Object\Enemy\Bat</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>MainGame\Scene\TestScene</Filter>
     </ClCompile>
     <ClCompile Include="Bat_Red.cpp">
-      <Filter>MainGame\Object\Enemy\Bat</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="Monkey.cpp">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClCompile>
     <ClCompile Include="Ghost.cpp">
-      <Filter>MainGame\Object\Enemy\Ghost</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
     </ClCompile>
     <ClCompile Include="Wraith.cpp">
-      <Filter>MainGame\Object\Enemy\Wraith</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
     </ClCompile>
     <ClCompile Include="Monkey_White.cpp">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClCompile>
     <ClCompile Include="Monkey_Normal.cpp">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClCompile>
     <ClCompile Include="ShopKeeper.cpp">
       <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
+    </ClCompile>
+    <ClCompile Include="Minotaur_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Dragon_Red.cpp">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,7 +318,7 @@
       <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="Slime_Green.h">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
     <ClInclude Include="Beat.h">
       <Filter>MainGame\Object\Beat</Filter>
@@ -336,19 +354,19 @@
       <Filter>MainGame\Scene\Intro</Filter>
     </ClInclude>
     <ClInclude Include="Slime_Blue.h">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton_Normal.h">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton_Black.h">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>MainGame\Object\Tile</Filter>
@@ -360,43 +378,49 @@
       <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
     <ClInclude Include="Slime_Orange.h">
-      <Filter>MainGame\Object\Enemy\Slime</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton_Yellow.h">
-      <Filter>MainGame\Object\Enemy\Skeleton</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
-      <Filter>MainGame\Object\Enemy\Zombie</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
     </ClInclude>
     <ClInclude Include="Bat_Blue.h">
-      <Filter>MainGame\Object\Enemy\Bat</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>MainGame\Scene\TestScene</Filter>
     </ClInclude>
     <ClInclude Include="Bat_Red.h">
-      <Filter>MainGame\Object\Enemy\Bat</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="Monkey.h">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClInclude>
     <ClInclude Include="Ghost.h">
-      <Filter>MainGame\Object\Enemy\Ghost</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
     </ClInclude>
     <ClInclude Include="Wraith.h">
-      <Filter>MainGame\Object\Enemy\Wraith</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
     </ClInclude>
     <ClInclude Include="Monkey_White.h">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClInclude>
     <ClInclude Include="Monkey_Normal.h">
-      <Filter>MainGame\Object\Enemy\Monkey</Filter>
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
     </ClInclude>
     <ClInclude Include="ShopKeeper.h">
       <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
+    </ClInclude>
+    <ClInclude Include="Minotaur_Normal.h">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Dragon_Red.h">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

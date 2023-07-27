@@ -166,7 +166,7 @@ void GameScene::getShowTileBFS(vector<vector<Tile*>> vTiles, vector<Node>& vShow
 			Node nextNode;
 			nextNode.posIdx = { nextIdx.x, nextIdx.y };
 			nextNode.alpha = 255 - (10 * depth);
-			///nextNode.alpha = 255;
+			//nextNode.alpha = 255;
 			nextNode.isCollider = vTiles[1][nextTileIdx]->_isCollider;
 			nextNode.tileIdx = nextTileIdx;
 

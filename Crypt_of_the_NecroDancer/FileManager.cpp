@@ -14,6 +14,8 @@
 #include "Monkey_White.h"
 #include "Ghost.h"
 #include "Wraith.h"
+#include "Minotaur_Normal.h"
+#include "Dragon_Red.h"
 
 #include "ShopKeeper.h"
 
@@ -224,6 +226,14 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 					break;
 				case (int)ENEMY_TYPE::WRAITH:
 					_enemy = new Wraith;
+					_enemy->init(idxX, idxY);
+					break;
+				case (int)ENEMY_TYPE::MINOTAUR_NORMAL:
+					_enemy = new Minotaur_Normal;
+					_enemy->init(idxX, idxY);
+					break;
+				case (int)ENEMY_TYPE::DRAGON_RED:
+					_enemy = new Dragon_Red;
 					_enemy->init(idxX, idxY);
 					break;
 				case (int)ENEMY_TYPE::SHOPKEEPER:

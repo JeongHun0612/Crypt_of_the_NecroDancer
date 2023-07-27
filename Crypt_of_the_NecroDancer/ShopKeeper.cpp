@@ -18,6 +18,8 @@ HRESULT ShopKeeper::init(int idxX, int idxY)
 
 	_coinCount = 0;
 
+	_isInvincible = true;
+
 	return S_OK;
 }
 
@@ -29,6 +31,15 @@ void ShopKeeper::release()
 void ShopKeeper::update()
 {
 	Enemy::update();
+
+	if (_distance < 15)
+	{
+		SOUNDMANAGER->setVolume("stage1_1_shopkeeper", 1.0f - (_distance * 0.06f));
+	}
+	else
+	{
+		SOUNDMANAGER->setVolume("stage1_1_shopkeeper", 0.0f);
+	}
 }
 
 void ShopKeeper::render(HDC hdc)

@@ -60,9 +60,10 @@ void Beat::update(void)
 
 
 	// 노트 생성
-	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1-1");
-	static int soundPos = 0;
-	soundPos += 1044 * TIMEMANAGER->getDeltaTime();
+	unsigned int soundPos = SOUNDMANAGER->getPosition("stage1_1");
+	//static int soundPos = 0;
+	//soundPos += 1044 * TIMEMANAGER->getDeltaTime();
+
 
 	if (_noteCycle <= soundPos && _isMusic)
 	{
@@ -151,6 +152,7 @@ void Beat::update(void)
 	if (_isMissed)
 	{
 		createMissed();
+		SOUNDMANAGER->play("missed_beat");
 		_isMissed = false;
 	}
 
