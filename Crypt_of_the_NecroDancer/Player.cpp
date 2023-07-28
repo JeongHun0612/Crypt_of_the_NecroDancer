@@ -14,7 +14,7 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 
-	_pos = { 0.0f, 0.0f };
+	_pos = { (float)WINSIZE_X_HALF - 32.0f, (float)WINSIZE_Y_HALF - 32.0f };
 	_posIdx = { startIdxX , startIdxY };
 	_nextPosIdx = { startIdxX , startIdxY };
 
@@ -26,10 +26,10 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 
 	_speed = 6.5f;
 	_jumpPower = 10.0f;
-	_lightPower = 5;
+	_lightPower = 6;
 
 	_playerAlpha = 255;
-	_shadowAlpha = 130;
+	_shadowAlpha = 150;
 	_effectAlpha = 50;
 
 	_coin = 0;
@@ -115,7 +115,6 @@ void Player::update(void)
 	{
 		_shadowAlpha = 0;
 	}
-
 
 	// 키 입력을 받고 다음 행동에 대한 방향이 정해졌을 때
 	if (_nextDirection != PLAYER_DIRECTION::NONE)
@@ -207,37 +206,6 @@ void Player::update(void)
 					(*iter)->setIsHit(true);
 					break;
 				}
-
-				//if (_isGrab)
-				//{
-				//	if ((*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y)
-				//	{
-				//		_isMove = false;
-				//		CAMERA->setShakeCount(30);
-				//		SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
-				//		SOUNDMANAGER->play("create_hit");
-
-				//		// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
-				//		(*iter)->setIsHit(true);
-				//		(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
-				//		break;
-				//	}
-				//}
-				//else if ((*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
-				//{
-				//	_isMove = false;
-
-				//	if ((*iter)->getEnemyType() == ENEMY_TYPE::SHOPKEEPER) continue;
-
-				//	_isAttack = true;
-				//	CAMERA->setShakeCount(30);
-				//	SOUNDMANAGER->play("melee1_" + to_string(RND->getFromIntTo(1, 4)));
-				//	SOUNDMANAGER->play("create_hit");
-
-				//	// 적을 Hit 상태로 만들고 HP를 현재 무기의 세기만큼 감소
-				//	(*iter)->setIsHit(true);
-				//	(*iter)->setCurHP((*iter)->getCurHP() - _curWeapon->getPower());
-				//}
 			}
 
 			if (!_isMove)
@@ -256,30 +224,13 @@ void Player::update(void)
 	// 움직임 상태일때
 	if (_isMove)
 	{
-		switch (_curDirection)
-		{
-		case PLAYER_DIRECTION::LEFT:
-			_pos.x -= 64 * TIMEMANAGER->getDeltaTime() * _speed;
-			break;
-		case PLAYER_DIRECTION::RIGHT:
-			_pos.x += 64 * TIMEMANAGER->getDeltaTime() * _speed;
-			break;
-		case PLAYER_DIRECTION::UP:
-			_pos.y -= 64 * TIMEMANAGER->getDeltaTime() * _speed;
-			break;
-		case PLAYER_DIRECTION::DOWN:
-			_pos.y += 64 * TIMEMANAGER->getDeltaTime() * _speed;
-			break;
-		}
-
-
 		_pos.y -= _jumpPower;
 
 		_jumpPower -= 2.223f;
 
-		if (_pos.x >= 70.0f || _pos.x <= -70.0f || _pos.y >= 70.0f)
+		if (_pos.y <= 338.0f || _pos.y >= 370.0f)
 		{
-			_pos = { 0.0f, 0.0f };
+			_pos.y = (float)WINSIZE_Y_HALF - 32.0f;
 		}
 	}
 
@@ -363,21 +314,21 @@ void Player::render(HDC hdc)
 
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
-		CAMERA->getPos().x + 8 + _pos.x,
-		CAMERA->getPos().y - 11,
+		_pos.x + 8,
+		_pos.y -11,
 		_shadowAlpha);
 
 	// 몸통 이미지
 	_bodyImg->frameAlphaRender(hdc,
-		CAMERA->getPos().x + 12 + _pos.x,
-		CAMERA->getPos().y + _pos.y,
+		_pos.x + 12,
+		_pos.y,
 		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
 		_playerAlpha);
 
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,
-		CAMERA->getPos().x + 15 + _pos.x,
-		CAMERA->getPos().y - 18 + _pos.y,
+		_pos.x + 15,
+		_pos.y - 18,
 		_headImg->getFrameX(), _isLeft,
 		_playerAlpha);
 

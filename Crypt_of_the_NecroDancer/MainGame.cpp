@@ -16,7 +16,7 @@ HRESULT MainGame::init(void)
 	initImage();
 
 	// 사운드 추가
-	initSound();
+	//initSound();
 
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
@@ -110,7 +110,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("player_head", "Resources/Images/Player/Head.bmp", 132, 52, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("player_body", "Resources/Images/Player/Body.bmp", 160, 720, 4, 20, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadow_standard", "Resources/Images/Player/shadow_standard.bmp", 48, 54, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("shadow_large", "Resources/Images/Player/shadow_large.bmp", 48, 56, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("shadow_large", "Resources/Images/Player/shadow_standard.bmp", 72, 81, true, RGB(255, 0, 255));
 
 
 	// ===================
@@ -166,10 +166,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("bat_red", "Resources/Images/Enemy/Bat/Bat_Red.bmp", 192, 192, 4, 4, true, RGB(255, 0, 255));
 
 	// 몬스터 - 원숭이
-	IMAGEMANAGER->addFrameImage("monkey_normal", "Resources/Images/Enemy/Monkey/Monkey_Normal.bmp", 200, 192, 4, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("monkey_normal_grab", "Resources/Images/Enemy/Monkey/Monkey_Normal_Grab.bmp", 80, 96, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("monkey_white", "Resources/Images/Enemy/Monkey/Monkey_White.bmp", 200, 192, 4, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("monkey_white_grab", "Resources/Images/Enemy/Monkey/Monkey_White_Grab.bmp", 80, 96, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("monkey_normal", "Resources/Images/Enemy/Monkey/Monkey_Normal.bmp", 300, 192, 6, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("monkey_white", "Resources/Images/Enemy/Monkey/Monkey_White.bmp", 300, 192, 6, 4, true, RGB(255, 0, 255));
 
 	// 몬스터 - 유령
 	IMAGEMANAGER->addFrameImage("ghost", "Resources/Images/Enemy/Ghost/Ghost.bmp", 96, 192, 2, 4, true, RGB(255, 0, 255));
@@ -178,13 +176,20 @@ void MainGame::initImage()
 	// ===================
 	// 몬스터 - 미니 보스 
 	// ===================
-	IMAGEMANAGER->addFrameImage("minotaur", "Resources/Images/Enemy/Minotaur/Minotaur.bmp", 500, 392, 5, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("minotaur_groggy", "Resources/Images/Enemy/Minotaur/Minotaur_Groggy.bmp", 400, 392, 4, 4, true, RGB(255, 0, 255));
+
+	// 미니보스 - 미노타우로스
+	IMAGEMANAGER->addFrameImage("minotaur", "Resources/Images/Enemy/Minotaur/Minotaur.bmp", 900, 392, 9, 4, true, RGB(255, 0, 255));
+
+	// 미니보스 - 드래곤
+	IMAGEMANAGER->addFrameImage("dragon_red", "Resources/Images/Enemy/Dragon/Dragon_Red2.bmp", 1098, 408, 9, 4, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("dragon_red", "Resources/Images/Enemy/Dragon/Dragon_Red.bmp", 854, 408, 7, 4, true, RGB(255, 0, 255));
 
 
 	// ===================
 	// 몬스터 - NPC 
 	// ===================
+
+	// 상점 주인
 	IMAGEMANAGER->addFrameImage("shopkeeper", "Resources/Images/Enemy/NPC/ShopKeeper.bmp", 752, 152, 8, 2, true, RGB(255, 0, 255));
 }
 

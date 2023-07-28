@@ -14,7 +14,7 @@ HRESULT Zombie::init(int idxX, int idxY)
 	_maxHP = 1;
 	_curHP = _maxHP;
 
-	_power = 1;
+	_power = 2;
 
 	_coinCount = RND->getFromIntTo(2, 4);
 

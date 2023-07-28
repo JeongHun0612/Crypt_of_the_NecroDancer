@@ -8,19 +8,16 @@ HRESULT Minotaur_Normal::init(int idxX, int idxY)
 	_type = ENEMY_TYPE::MINOTAUR_NORMAL;
 
 	_img.img = IMAGEMANAGER->findImage("minotaur");
-	_img.maxFrameX = _img.img->getMaxFrameX() - 1;
+	_img.maxFrameX = 3;
 	_img.frameY = 1;
 
-	_tempImg.img = IMAGEMANAGER->findImage("minotaur");
-	_tempImg.maxFrameX = _tempImg.img->getMaxFrameX() - 1;
-
-	_groggyImg.img = IMAGEMANAGER->findImage("minotaur_groggy");
-	_groggyImg.maxFrameX = _groggyImg.img->getMaxFrameX();
+	_shadowImg.img = IMAGEMANAGER->findImage("shadow_large");
+	_shadowImg.alpha = 150;
 
 	_maxHP = 3;
 	_curHP = _maxHP;
 
-	_power = 2;
+	_power = 4;
 
 	_coinCount = RND->getFromIntTo(25, 35);
 
@@ -86,7 +83,7 @@ void Minotaur_Normal::update()
 			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5
-			if (_moveInfo[0].distance <= 5)
+			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)
 			{
 				// 플레이어와 같은 선상에 있으면 차지 상태로 변환
 				if (_posIdx.x == PLAYER->getPosIdx().x || _posIdx.y == PLAYER->getPosIdx().y)
@@ -110,7 +107,10 @@ void Minotaur_Normal::update()
 
 					_isCharge = true;
 					_isMove = false;
-					_img.frameX = _img.img->getMaxFrameX();
+
+					_img.frameX = 4;
+					_img.startFrameX = 4;
+					_img.maxFrameX = 4;
 				}
 
 				if (!_isCharge)
@@ -138,18 +138,11 @@ void Minotaur_Normal::update()
 						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
 						break;
 					}
-
-					// 좌우 이미지 변경
-					if (_curMoveDirection == LEFT)
-					{
-						_img.frameY = 1;
-					}
-
-					if (_curMoveDirection == RIGHT)
-					{
-						_img.frameY = 3;
-					}
 				}
+
+				// 좌우 이미지 변경
+				if (_curMoveDirection == LEFT) _img.frameY = 1;
+				if (_curMoveDirection == RIGHT) _img.frameY = 3;
 			}
 			else
 			{
@@ -172,8 +165,29 @@ void Minotaur_Normal::update()
 		{
 			// 벽 부수기
 			SOUNDMANAGER->play("minotaur_wallimpact");
-			_vStage1Wall[_nextTileIdx]->_isCollider = false;
-			_vStage1Wall[_nextTileIdx]->_isExist = false;
+			_isMove = false;
+			_isCharge = false;
+			_isGroggy = true;
+
+			// 돌진 시 벽 강도가 3이하로만 부술 수 있다.
+			if (_vStage1Wall[_nextTileIdx]->_hardNess <= 3)
+			{
+				_vStage1Wall[_nextTileIdx]->_isCollider = false;
+				_vStage1Wall[_nextTileIdx]->_isExist = false;
+			}
+		}
+
+		if (_nextPosIdx.x == PLAYER->getPosIdx().x && _nextPosIdx.y == PLAYER->getPosIdx().y || 
+			_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
+		{
+			SOUNDMANAGER->play("minotaur_attack");
+			PLAYER->setIsHit(true);
+
+			if (!PLAYER->getIsInvincible())
+			{
+				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
+			}
+
 			_isMove = false;
 			_isCharge = false;
 			_isGroggy = true;
@@ -185,19 +199,19 @@ void Minotaur_Normal::update()
 	// 그로기 상태일 때
 	if (_stepCount == 1 && _isGroggy)
 	{
-		_img.img = _groggyImg.img;
-		_img.frameX = 0;
-		_img.maxFrameX = _groggyImg.maxFrameX;
+		_img.frameX = 5;
+		_img.startFrameX = 5;
+		_img.maxFrameX = 8;
 	}
 
 	// 그로기 상태 해제
 	if (_stepCount == 3 && _isGroggy)
 	{
-		_img.img = _tempImg.img;
 		_img.frameX = 0;
-		_img.maxFrameX = _tempImg.maxFrameX;
-		_isGroggy = false;
+		_img.startFrameX = 0;
+		_img.maxFrameX = 3;
 
+		_isGroggy = false;
 		_stepCount = 0;
 	}
 

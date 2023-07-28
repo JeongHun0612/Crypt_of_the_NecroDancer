@@ -54,10 +54,10 @@ void Camera::update(void)
 		if (_pos.x >= _prevPos.x + 64.f || _pos.x <= _prevPos.x - 64.f || _pos.y >= _prevPos.y + 64.f || _pos.y <= _prevPos.y - 64.f)
 		{
 			// 플레이어 위치 좌표 설정
-			PLAYER->setPos(0.0f, 0.0f);
+			PLAYER->setPos((float)WINSIZE_X_HALF - 32.0f, (float)WINSIZE_Y_HALF - 32.0f);
 			PLAYER->setPosIdx(PLAYER->getNextPosIdx().x, PLAYER->getNextPosIdx().y);
 			PLAYER->setNextPosIdx(PLAYER->getPosIdx().x, PLAYER->getPosIdx().y);
-			PLAYER->setShadowAlpha(130);
+			PLAYER->setShadowAlpha(150);
 
 			_pos.x = _prevPos.x;
 			_pos.y = _prevPos.y;

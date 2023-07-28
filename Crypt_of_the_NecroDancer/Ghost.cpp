@@ -88,7 +88,7 @@ void Ghost::update()
 			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5
-			if (_moveInfo[0].distance <= 5)
+			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)
 			{
 				for (int i = 0; i < 4; i++)
 				{

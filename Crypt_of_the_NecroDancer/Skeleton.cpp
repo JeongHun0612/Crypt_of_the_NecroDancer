@@ -64,7 +64,7 @@ void Skeleton::update()
 			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
-			if (_moveInfo[0].distance <= 5)
+			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)
 			{
 				for (int i = 0; i < 3; i++)
 				{

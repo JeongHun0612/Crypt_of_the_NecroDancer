@@ -4,11 +4,6 @@
 class Minotaur_Normal : public Enemy
 {
 private:
-	FrameImage _groggyImg;
-	FrameImage _tempImg;
-
-	int _chargeDirection;
-	
 	bool _isCharge;
 	bool _isGroggy;
 

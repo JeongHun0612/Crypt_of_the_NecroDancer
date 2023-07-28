@@ -18,6 +18,8 @@ struct FrameImage
 	RECT rc;
 
 	float x, y;
+	int startFrameX;
+	int startFrameY;
 	int frameX;
 	int frameY;
 	int maxFrameX;

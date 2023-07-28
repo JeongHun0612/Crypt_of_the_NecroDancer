@@ -5,14 +5,20 @@ HRESULT Enemy::init(int idxX, int idxY)
 {
 	_img.frameCount = 0.0f;
 	_img.frameX = 0;
+	_img.startFrameX = 0;
+	_img.startFrameY = 0;
 
 	_effectImg.img = IMAGEMANAGER->findImage("enemy_effect");
 	_effectImg.frameCount = 0.0f;
+	_effectImg.startFrameX = 0;
+	_effectImg.startFrameY = 0;
 	_effectImg.frameX = 0;
 	_effectImg.frameY = 0;
 	_effectImg.maxFrameX = _effectImg.img->getMaxFrameX();
 
-	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
+	_shadowImg.img = IMAGEMANAGER->findImage("shadow_standard");
+	_shadowImg.alpha = 150;
+
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
 
 	_vStage1Terrain = TILEMAP->getStage1Terrain();
@@ -58,6 +64,7 @@ void Enemy::update()
 {
 	// 플레이어와의 거리
 	_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
+	_shadowImg.alpha = 150;
 
 	if (_vStage1Terrain[_curTileIdx]->_isLight && _distance < 11)
 	{
@@ -70,6 +77,13 @@ void Enemy::update()
 			_prevBeatCount = _beatCount;
 		}
 
+		// 캐릭터 아래 쪽에 타일이 있을 시 그림자 숨기기
+		int curBottomTileIdx = _curTileIdx + _maxTileCol;
+		if (_vStage1Wall[curBottomTileIdx]->_idxX == _posIdx.x && _vStage1Wall[curBottomTileIdx]->_idxY == _posIdx.y + 1 && _vStage1Wall[curBottomTileIdx]->_isExist)
+		{
+			_shadowImg.alpha = 0;
+		}
+
 		// 프레임 이미지 변경
 		_img.frameCount += TIMEMANAGER->getDeltaTime();
 
@@ -77,7 +91,7 @@ void Enemy::update()
 		{
 			if (_img.frameX == _img.maxFrameX)
 			{
-				_img.frameX = 0;
+				_img.frameX = _img.startFrameX;
 			}
 			else
 			{
@@ -134,10 +148,10 @@ void Enemy::render(HDC hdc)
 		}
 
 		// 그림자 출력
-		_shadowImg->alphaRender(hdc,
-			(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 - _shadowImg->getWidth() / 2 + _pos.x,
-			(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _shadowImg->getHeight() + 8,
-			180);
+		_shadowImg.img->alphaRender(hdc,
+			(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 - _shadowImg.img->getWidth() / 2 + _pos.x,
+			(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _shadowImg.img->getHeight() + 8,
+			_shadowImg.alpha);
 
 		// 이미지 출력
 		if (_type == ENEMY_TYPE::GHOST)

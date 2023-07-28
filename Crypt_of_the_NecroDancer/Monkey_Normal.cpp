@@ -8,10 +8,8 @@ HRESULT Monkey_Normal::init(int idxX, int idxY)
 	_type = ENEMY_TYPE::MONKEY_NORMAL;
 
 	_img.img = IMAGEMANAGER->findImage("monkey_normal");
-	_img.maxFrameX = _img.img->getMaxFrameX();
+	_img.maxFrameX = 3;
 	_img.frameY = 1;
-
-	_grabImg = IMAGEMANAGER->findImage("monkey_normal_grab");
 
 	_maxHP = 1;
 	_grabMaxHP = 4;

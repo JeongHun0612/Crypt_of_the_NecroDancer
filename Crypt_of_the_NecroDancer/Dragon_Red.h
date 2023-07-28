@@ -4,6 +4,7 @@
 class Dragon_Red : public Enemy
 {
 private:
+	int _firePower;
 
 public:
 	HRESULT init(int idxX, int idxY);

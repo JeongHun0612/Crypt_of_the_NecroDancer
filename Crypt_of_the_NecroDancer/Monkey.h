@@ -4,8 +4,6 @@
 class Monkey : public Enemy
 {
 protected:
-	GImage* _grabImg;
-
 	int _grabMaxHP;
 
 	bool _isGrab;

@@ -11,8 +11,6 @@ HRESULT Monkey_White::init(int idxX, int idxY)
 	_img.maxFrameX = _img.img->getMaxFrameX();
 	_img.frameY = 1;
 
-	_grabImg = IMAGEMANAGER->findImage("monkey_white_grab");
-
 	_maxHP = 2;
 	_grabMaxHP = 6;
 	_curHP = _maxHP;

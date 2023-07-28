@@ -42,8 +42,9 @@ void Monkey::update()
 				_curHP = _grabMaxHP - (_maxHP - _curHP) * 3;
 				_maxHP = _grabMaxHP;
 				_posIdx = _nextPosIdx;
-				_img.img = _grabImg;
-				_img.maxFrameX = _grabImg->getMaxFrameX();
+				_img.frameX = 4;
+				_img.startFrameX = 4;
+				_img.maxFrameX = 5;
 				_frameCycle = 0.226f;
 				SOUNDMANAGER->play("monkey_grab");
 				PLAYER->setIsGrab(true);
@@ -63,7 +64,7 @@ void Monkey::update()
 			sortDistance(_moveInfo);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
-			if (_moveInfo[0].distance <= 5)
+			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)
 			{
 				for (int i = 0; i < 4; i++)
 				{

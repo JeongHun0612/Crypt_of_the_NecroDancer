@@ -52,9 +52,6 @@
     <Filter Include="2D FrameWork\ManagerClass\FontManager">
       <UniqueIdentifier>{91649f45-c8bb-4074-9b35-e10e135a0c04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Beat">
-      <UniqueIdentifier>{e10c5776-0b7b-4275-959d-3b5a15c2a09e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\Enemy">
       <UniqueIdentifier>{42de1f58-0a54-4d05-8f9c-eddb7f8e49c1}</UniqueIdentifier>
     </Filter>
@@ -127,6 +124,9 @@
     <Filter Include="MainGame\Object\Enemy\MiniBoss\Dragon">
       <UniqueIdentifier>{e26d1bc6-74ab-4646-b61b-a43319c2bf74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Beat">
+      <UniqueIdentifier>{e10c5776-0b7b-4275-959d-3b5a15c2a09e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -172,7 +172,7 @@
       <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClCompile>
     <ClCompile Include="Beat.cpp">
-      <Filter>MainGame\Object\Beat</Filter>
+      <Filter>MainGame\Beat</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>2D FrameWork\ManagerClass\SoundManager</Filter>
@@ -321,7 +321,7 @@
       <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
     <ClInclude Include="Beat.h">
-      <Filter>MainGame\Object\Beat</Filter>
+      <Filter>MainGame\Beat</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>2D FrameWork\ManagerClass\SoundManager</Filter>

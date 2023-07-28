@@ -26,7 +26,7 @@ protected:
 
 	FrameImage _img;
 	FrameImage _effectImg;
-	GImage* _shadowImg;
+	AlphaImage _shadowImg;
 	GImage* _heartImg;
 
 	vector<Tile*> _vStage1Terrain;
