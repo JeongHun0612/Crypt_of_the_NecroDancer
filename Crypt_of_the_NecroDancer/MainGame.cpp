@@ -26,7 +26,7 @@ HRESULT MainGame::init(void)
 
 	SCENEMANAGER->addScene("test", new TestScene);		// 스테이지1-1
 
-	SCENEMANAGER->changeScene("lobby");
+	SCENEMANAGER->changeScene("title");
 
 	return S_OK;
 }
@@ -38,6 +38,7 @@ void MainGame::release(void)
 
 void MainGame::update(void)
 {
+	SOUNDMANAGER->update();
 	SCENEMANAGER->update();
 }
 
@@ -141,6 +142,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("effect_dagger", "Resources/Images/Effect/effect_dagger.bmp", 144, 192, 3, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("enemy_effect", "Resources/Images/Effect/enemy_effect.bmp", 240, 44, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("hit_effect", "Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
+	IMAGEMANAGER->addFrameImage("dragon_fire", "Resources/Images/Effect/dragon_fire.bmp", 448, 48, 7, 1, true, RGB(255, 0, 255));
 
 
 	// ===================
@@ -181,8 +183,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("minotaur", "Resources/Images/Enemy/Minotaur/Minotaur.bmp", 900, 392, 9, 4, true, RGB(255, 0, 255));
 
 	// 미니보스 - 드래곤
-	IMAGEMANAGER->addFrameImage("dragon_red", "Resources/Images/Enemy/Dragon/Dragon_Red2.bmp", 1098, 408, 9, 4, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addFrameImage("dragon_red", "Resources/Images/Enemy/Dragon/Dragon_Red.bmp", 854, 408, 7, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dragon_red", "Resources/Images/Enemy/Dragon/Dragon_Red.bmp", 1098, 408, 9, 4, true, RGB(255, 0, 255));
 
 
 	// ===================
@@ -260,9 +261,18 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("minotaur_attack", "Resources/Sounds/Enemy/Minotaur/en_minotaur_attack.mp3", false, false);
 	SOUNDMANAGER->addSound("minotaur_cry", "Resources/Sounds/Enemy/Minotaur/en_minotaur_cry.mp3", false, false);
 	SOUNDMANAGER->addSound("minotaur_charge", "Resources/Sounds/Enemy/Minotaur/en_minotaur_charge.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_hit", "Resources/Sounds/Enemy/Minotaur/en_minotaur_hit.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_hit", "Resources/Sounds/Enemy/Minotaur/en_minotaur_hit_01.mp3", false, false);
 	SOUNDMANAGER->addSound("minotaur_death", "Resources/Sounds/Enemy/Minotaur/en_minotaur_death.mp3", false, false);
 	SOUNDMANAGER->addSound("minotaur_wallimpact", "Resources/Sounds/Enemy/Minotaur/en_minotaur_wallimpact.mp3", false, false);
+
+	// 드래곤
+	SOUNDMANAGER->addSound("dargon_attack", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_melee.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_prefire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_prefire.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_fire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_fire.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_cry", "Resources/Sounds/Enemy/Dragon/en_dragon_cry.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_hit", "Resources/Sounds/Enemy/Dragon/en_dragon_hit_01.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_death", "Resources/Sounds/Enemy/Dragon/en_dragon_death.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_walk", "Resources/Sounds/Enemy/Dragon/en_dragon_walk_01.mp3", false, false);
 
 
 	// ===================

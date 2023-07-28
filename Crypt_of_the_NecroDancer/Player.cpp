@@ -39,6 +39,9 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 	_isMove = false;
 	_isAttack = false;
 	_isHit = false;
+	_isInvincible = false;
+	_isGrab = false;
+	_isNextStage = false;
 
 	_curShovel = new Shovel;
 	_curShovel->init();

@@ -1,9 +1,7 @@
 #include "Stdafx.h"
 #include "SoundManager.h"
 
-SoundManager::SoundManager() : _system(nullptr)
-, _channel(nullptr)
-, _sound(nullptr)
+SoundManager::SoundManager() : _system(nullptr), _channel(nullptr), _sound(nullptr)
 {
 }
 
@@ -14,7 +12,7 @@ HRESULT SoundManager::init()
 	System_Create(&_system);
 
 	// 시스템 초기화
-	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, 0);
+	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
 
 	// 채널 수 만큼 메모리 버퍼 및 사운드 생성
 	_sound = new Sound * [TOTALSOUNDBUFFER];
@@ -55,6 +53,8 @@ void SoundManager::release()
 		_system->release();
 		_system->close();
 	}
+
+	_mSoundList.clear();
 }
 
 void SoundManager::update()
@@ -84,7 +84,8 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 		_system->createStream(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
 	}
 
-	_mSoundList[strKey] = &_sound[_mSoundList.size()];
+	_mSoundList.insert(make_pair(strKey, &_sound[_mSoundList.size()]));
+	//_mSoundList[strKey] = &_sound[_mSoundList.size()];
 }
 
 void SoundManager::play(string strKey, float volume)
@@ -98,7 +99,8 @@ void SoundManager::play(string strKey, float volume)
 	{
 		if (strKey == iter->first)
 		{
-			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
+			//_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
+			_system->playSound(*iter->second, 0, false, &_channel[count]);
 			_channel[count]->setVolume(volume);
 			break;
 		}

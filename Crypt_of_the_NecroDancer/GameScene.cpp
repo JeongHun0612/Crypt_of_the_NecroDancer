@@ -8,7 +8,6 @@ HRESULT GameScene::init(void)
 
 void GameScene::release(void)
 {
-
 }
 
 void GameScene::update(void)
@@ -81,6 +80,24 @@ void GameScene::render(void)
 	if (KEYMANAGER->isToggleKey(VK_F2))
 	{
 		showTileDist(_vTerrainTile);
+	}
+	if (KEYMANAGER->isToggleKey(VK_F3))
+	{
+		HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		HBRUSH oldBrush = (HBRUSH)SelectObject(getMemDC(), myBrush);
+
+		HPEN myPen = (HPEN)CreatePen(PS_SOLID, 5, RGB(255, 0, 0));
+		HPEN oldPen = (HPEN)SelectObject(getMemDC(), myPen);
+
+		// 그릴 것 (애너미 충돌 영역, 비트 성공 영역)
+		showEnemyCollider(_vTerrainTile);
+		DrawRectMake(getMemDC(), BEAT->getBeatRate());
+
+		SelectObject(getMemDC(), oldBrush);
+		DeleteObject(myBrush);
+
+		SelectObject(getMemDC(), oldPen);
+		DeleteObject(myPen);
 	}
 }
 
@@ -231,6 +248,21 @@ void GameScene::showTileDist(vector<Tile*> _vTile)
 			char strDist[15];
 			sprintf_s(strDist, "%d", distance);
 			TextOut(getMemDC(), CAMERA->getPos().x + (j * TILESIZE), CAMERA->getPos().y + (i * TILESIZE) - 32, strDist, strlen(strDist));
+		}
+	}
+}
+
+void GameScene::showEnemyCollider(vector<Tile*> _vTile)
+{
+	for (auto iter = _vTile.begin(); iter != _vTile.end(); ++iter)
+	{
+		if ((*iter)->_isCollider)
+		{
+			// 몬스터 충돌체 영역
+			RectangleMake(getMemDC(),
+				CAMERA->getPos().x - (PLAYER->getPosIdx().x - (*iter)->_idxX) * 64,
+				CAMERA->getPos().y - (PLAYER->getPosIdx().y - (*iter)->_idxY) * 64,
+				64, 64);
 		}
 	}
 }

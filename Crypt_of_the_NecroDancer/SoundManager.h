@@ -1,14 +1,16 @@
 #pragma once
 #include "SingletonBase.h"
 
-//#pragma comment(lib,"../03_Libraries/lib/fmodex64_vc")
-#pragma comment(lib, "Library/lib/FMOD/fmodex64_vc")
-#include "Library/inc/FMOD/fmod.hpp"
+//#pragma comment(lib, "Library/lib/FMOD/fmodex64_vc")
+//#include "Library/inc/FMOD/fmod.hpp"
+
+//#pragma comment(lib, "core/lib/x64/fmod_vc.lib")
+#include "fmod.hpp"
 
 using namespace FMOD;
 
-// 사운드 버퍼를 총 20개 + 5개의 여유분으로 준비
-#define SOUNDBUFFER 20
+// 사운드 버퍼를 총 30개 + 5개의 여유분으로 준비
+#define SOUNDBUFFER 30
 #define EXTRACHANNELBUFFER 5
 
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER

@@ -33,6 +33,8 @@ void Minotaur_Normal::release()
 {
 	SOUNDMANAGER->play("minotaur_death");
 
+	PLAYER->setIsNextStage(true);
+
 	Enemy::release();
 }
 
@@ -76,9 +78,6 @@ void Minotaur_Normal::update()
 
 		if (!_isAttack)
 		{
-			_isMove = true;
-			_img.frameX = 0;
-
 			// 거리 오름차순 정렬 (가까운 순)
 			sortDistance(_moveInfo);
 
@@ -111,6 +110,8 @@ void Minotaur_Normal::update()
 					_img.frameX = 4;
 					_img.startFrameX = 4;
 					_img.maxFrameX = 4;
+
+					SOUNDMANAGER->play("minotaur_charge");
 				}
 
 				if (!_isCharge)
@@ -161,7 +162,7 @@ void Minotaur_Normal::update()
 		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 		_nextTileIdx = _nextPosIdx.y * _maxTileCol + _nextPosIdx.x;
 
-		if (_vStage1Wall[_nextTileIdx]->_isCollider)
+		if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
 		{
 			// 벽 부수기
 			SOUNDMANAGER->play("minotaur_wallimpact");
@@ -176,8 +177,8 @@ void Minotaur_Normal::update()
 				_vStage1Wall[_nextTileIdx]->_isExist = false;
 			}
 		}
-
-		if (_nextPosIdx.x == PLAYER->getPosIdx().x && _nextPosIdx.y == PLAYER->getPosIdx().y || 
+		// 플레이어 공격
+		else if (_nextPosIdx.x == PLAYER->getPosIdx().x && _nextPosIdx.y == PLAYER->getPosIdx().y ||
 			_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y)
 		{
 			SOUNDMANAGER->play("minotaur_attack");
@@ -188,9 +189,16 @@ void Minotaur_Normal::update()
 				PLAYER->setCurHP(PLAYER->getCurHP() - _power);
 			}
 
+			_isAttack = true;
 			_isMove = false;
 			_isCharge = false;
 			_isGroggy = true;
+		}
+		else
+		{
+			// 이동
+			_vStage1Terrain[_curTileIdx]->_isCollider = false;
+			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
 		}
 
 		_stepCount = 0;

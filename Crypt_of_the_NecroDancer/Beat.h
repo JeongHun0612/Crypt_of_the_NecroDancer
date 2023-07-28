@@ -38,8 +38,10 @@ private:
 	queue<int> _qNoteData;				// 박자 정보가 담긴 데이터
 	unsigned int _noteCycle;			// 노트가 생성되는 주기
 
-	FrameImage _heartRate;				// 심장박동 이미지
+	FrameImage _heartImg;				// 심장박동 이미지
 	POINT _eraseLine;					// 심장박동 이미지 가운데는 노트 삭제 라인
+
+	RECT _beatRate;						// 비트 성공 범위 렉트
 
 	vector<Missed> _vMissed;			// 빗나감 이미지 벡터
 	GImage* _missedImg;					// 빗나감 이미지
@@ -63,6 +65,9 @@ public:
 	void createMissed();
 	void moveMissed();
 
+
+	// Get / Set
+
 	bool getIsBeat() { return _isBeat; }
 	void setIsBeat(bool isBeat) { _isBeat = isBeat; }
 
@@ -76,6 +81,8 @@ public:
 	void setIsStep(bool isStep) { _isStep = isStep; }
 
 	int getBeatCount() { return _beatCount; }
+
+	RECT getBeatRate() { return _beatRate; }
 
 
 	Beat() {}

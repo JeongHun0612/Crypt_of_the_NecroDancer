@@ -15,6 +15,9 @@ HRESULT Stage1_1Scene::init(void)
 	_tileMaxCol = MAX_STAGE1_COL;
 	_tileMaxRow = MAX_STAGE1_ROW;
 
+	// 다음 스테이지 계단
+	_stairTileIdx = 22 * _tileMaxCol + 4;
+
 	// 플레이어 초기화
 	PLAYER->setPosIdx(13, 10);
 	PLAYER->setNextPosIdx(13, 10);
@@ -45,11 +48,17 @@ void Stage1_1Scene::update(void)
 {
 	GameScene::update();
 
+	if (PLAYER->getIsNextStage())
+	{
+		_vTerrainTile[_stairTileIdx]->_frameY = 0;
+	}
+
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
+	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR && PLAYER->getIsNextStage())
 	{
+		cout << "다음 씬 전환" << endl;
 		//SCENEMANAGER->changeScene("game");
 	}
 }

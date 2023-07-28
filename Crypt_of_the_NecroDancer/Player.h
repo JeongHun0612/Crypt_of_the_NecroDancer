@@ -61,6 +61,7 @@ private:
 	bool _isHit;							// 플레이어가 피격 상태인지
 	bool _isInvincible;						// 플레이어가 무적 상태인지
 	bool _isGrab;							// 원숭이가 매달린 상태인지
+	bool _isNextStage;						// 다음 스테이지로 넘어갈 수 있는 조건이 갖춰줬는지
 
 
 	float _count;							// 프레임 이미지 카운트
@@ -137,6 +138,9 @@ public:
 	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
 
 	void setIsGrab(bool isGrab) { _isGrab = isGrab; }
+
+	bool getIsNextStage() { return _isNextStage; }
+	void setIsNextStage(bool isNextStage) { _isNextStage = isNextStage; }
 
 
 	// 플레이어 소지 장비

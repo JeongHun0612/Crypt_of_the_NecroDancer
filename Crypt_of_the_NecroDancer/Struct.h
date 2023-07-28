@@ -15,7 +15,6 @@ struct Vec2_F
 struct FrameImage
 {
 	GImage* img;
-	RECT rc;
 
 	float x, y;
 	int startFrameX;

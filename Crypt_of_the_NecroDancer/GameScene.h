@@ -20,9 +20,10 @@ protected:
 
 	vector<Enemy*> _vEnemy;
 
-	int _beatCountFrameX;
 	int _tileMaxCol;
 	int _tileMaxRow;
+
+	int _stairTileIdx;
 
 public:
 	HRESULT init(void);
@@ -39,4 +40,5 @@ protected:
 
 	void showTileNum(vector<Tile*> _vTile);
 	void showTileDist(vector<Tile*> _vTile);
+	void showEnemyCollider(vector<Tile*> _vTile);
 };

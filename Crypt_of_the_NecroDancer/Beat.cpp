@@ -8,15 +8,18 @@ HRESULT Beat::init(void)
 	FileManager::loadBeatFile("stage1-1.txt", _qNoteData);
 
 	// 심장 박동 초기화
-	_heartRate.img = IMAGEMANAGER->findImage("beat_heart");
-	_heartRate.x = WINSIZE_X_HALF - _heartRate.img->getFrameWidth() / 2;
-	_heartRate.y = WINSIZE_Y - 130;
-	_heartRate.rc = RectMakeCenter(_heartRate.x + _heartRate.img->getFrameWidth() / 2, _heartRate.y + _heartRate.img->getFrameHeight() / 2, 180, 100);
-	_heartRate.frameX = 0;
-	_heartRate.frameY = 0;
-	_heartRate.frameCount = 0.0f;
+	_heartImg.img = IMAGEMANAGER->findImage("beat_heart");
+	_heartImg.x = WINSIZE_X_HALF - _heartImg.img->getFrameWidth() / 2;
+	_heartImg.y = WINSIZE_Y - 130;
+	_heartImg.frameX = 0;
+	_heartImg.frameY = 0;
+	_heartImg.frameCount = 0.0f;
 
+	// 비트 삭제 지점
 	_eraseLine = { WINSIZE_X_HALF, WINSIZE_Y - 80 };
+
+	// 비트 성공 범위
+	_beatRate = RectMakeCenter(_heartImg.x + _heartImg.img->getFrameWidth() / 2, _heartImg.y + _heartImg.img->getFrameHeight() / 2, 180, 100);
 
 	// 빗나감 이미지 초기화
 	_missedImg = IMAGEMANAGER->findImage("missed");
@@ -40,22 +43,22 @@ HRESULT Beat::init(void)
 void Beat::update(void)
 {
 	// 심장 박동 애니메이션
-	_heartRate.frameCount += TIMEMANAGER->getDeltaTime();
+	_heartImg.frameCount += TIMEMANAGER->getDeltaTime();
 
-	if (_heartRate.frameCount >= 0.276f)
+	if (_heartImg.frameCount >= 0.276f)
 	{
-		if (_heartRate.frameX == _heartRate.img->getMaxFrameX())
+		if (_heartImg.frameX == _heartImg.img->getMaxFrameX())
 		{
-			_heartRate.frameX = 0;
+			_heartImg.frameX = 0;
 		}
 		else
 		{
-			_heartRate.frameX++;
+			_heartImg.frameX++;
 		}
 
-		_heartRate.img->setFrameX(_heartRate.frameX);
+		_heartImg.img->setFrameX(_heartImg.frameX);
 
-		_heartRate.frameCount = 0;
+		_heartImg.frameCount = 0;
 	}
 
 
@@ -107,7 +110,7 @@ void Beat::update(void)
 
 		// 노트 키입력 감지 범위 In
 		RECT rt;
-		if (IntersectRect(&rt, &_vNoteLeft[i].rc, &_heartRate.rc) && !_vNoteLeft[i].isDestory)
+		if (IntersectRect(&rt, &_vNoteLeft[i].rc, &_beatRate) && !_vNoteLeft[i].isDestory)
 		{
 			_isBeat = true;
 
@@ -169,12 +172,7 @@ void Beat::render(HDC hdc)
 	}
 
 	// 심장 박동 출력
-	_heartRate.img->frameRender(hdc, _heartRate.x, _heartRate.y);
-
-	if (KEYMANAGER->isToggleKey(VK_F3))
-	{
-		DrawRectMake(hdc, _heartRate.rc);
-	}
+	_heartImg.img->frameRender(hdc, _heartImg.x, _heartImg.y);
 
 	// 빗나감 출력
 	for (auto iter = _vMissed.begin(); iter != _vMissed.end(); ++iter)

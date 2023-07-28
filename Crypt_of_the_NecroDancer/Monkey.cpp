@@ -51,7 +51,6 @@ void Monkey::update()
 
 				_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 				_vStage1Terrain[_curTileIdx]->_isCollider = false;
-				_vStage1Terrain[_nextTileIdx]->_isCollider = true;
 
 				_stepCount = 0;
 				break;
