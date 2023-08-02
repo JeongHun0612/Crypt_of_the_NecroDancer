@@ -1,14 +1,21 @@
 #pragma once
 #include "SingletonBase.h"
 
-enum class INVENTORY_TYPE
-{
-	SHOVEL,
-	ATTACK,
-	BODY,
-
-	END
-};
+//enum class INVENTORY_TYPE
+//{
+//	SHOVEL,
+//	ATTACK,
+//	BODY,
+//
+//	END
+//};
+//
+//struct Inventory
+//{
+//	GImage* img;
+//	INVENTORY_TYPE type;
+//	int x, y;
+//};
 
 enum class HEART_TYPE
 {
@@ -17,12 +24,6 @@ enum class HEART_TYPE
 	FULL
 };
 
-struct Inventory
-{
-	GImage* img;
-	INVENTORY_TYPE type;
-	int x, y;
-};
 
 struct Coin
 {
@@ -40,7 +41,6 @@ struct Heart
 class UIManager : public SingletonBase<UIManager>
 {
 private:
-	vector<Inventory> _vInventory;
 	vector<Heart> _vHeart;
 	vector<Coin> _vCoin;
 
@@ -53,7 +53,5 @@ public:
 	void render(HDC hdc);
 
 	void addCoin(int idxX, int idxY, int coinCount);
-
-	vector<Inventory>& getInventory() { return _vInventory; }
 };
 

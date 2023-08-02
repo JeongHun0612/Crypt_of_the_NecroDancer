@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Slime_Green.h"
 
-HRESULT Slime_Green::init(int idxX, int idxY)
+HRESULT Slime_Green::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::SLIME_GREEN;
 

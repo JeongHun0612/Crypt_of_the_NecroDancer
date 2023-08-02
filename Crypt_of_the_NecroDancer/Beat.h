@@ -32,6 +32,8 @@ private:
 	};
 
 private:
+	const char* _soundName;				// 현재 사운드 이름
+
 	vector<Note> _vNoteLeft;			// 왼쪽 노트 벡터
 	vector<Note> _vNoteRight;			// 오른쪽 노트 벡터
 
@@ -56,7 +58,8 @@ private:
 	bool _isSuccess;					// 박자에 맞춰 키 입력에 성공했는지
 
 public:
-	HRESULT init(void);
+	HRESULT init();
+	HRESULT init(const char* fileName, const char* soundName);
 	void update(void);
 	void render(HDC hdc);
 
@@ -67,7 +70,6 @@ public:
 
 
 	// Get / Set
-
 	bool getIsBeat() { return _isBeat; }
 	void setIsBeat(bool isBeat) { _isBeat = isBeat; }
 

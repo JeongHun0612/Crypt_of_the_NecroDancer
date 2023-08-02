@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Dragon_Red.h"
 
-HRESULT Dragon_Red::init(int idxX, int idxY)
+HRESULT Dragon_Red::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::DRAGON_RED;
 
@@ -38,6 +38,8 @@ void Dragon_Red::release()
 {
 	SOUNDMANAGER->play("dargon_death");
 
+	PLAYER->setIsNextStage(true);
+
 	Enemy::release();
 }
 
@@ -46,7 +48,7 @@ void Dragon_Red::update()
 	Enemy::update();
 
 	// 첫 등장 시 사운드 출력
-	if (!_vStage1Terrain[_curTileIdx]->_isLight)
+	if (!_vTerrainTile[_curTileIdx]->_isLight)
 	{
 		SOUNDMANAGER->play("dargon_cry");
 	}
@@ -84,7 +86,7 @@ void Dragon_Red::update()
 			// 거리 오름차순 정렬 (가까운 순)
 			sortDistance(_moveInfo);
 
-			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 3)
+			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 2)
 			{
 				if (!_isPreFire)
 				{
@@ -94,20 +96,20 @@ void Dragon_Red::update()
 						_nextPosIdx = { _posIdx.x + _movePattern[_curMoveDirection].x , _posIdx.y + _movePattern[_curMoveDirection].y };
 						_nextTileIdx = _nextPosIdx.y * _maxTileCol + _nextPosIdx.x;
 
-						if (_vStage1Terrain[_nextTileIdx]->_isCollider || _vStage1Wall[_nextTileIdx]->_hardNess > 2) continue;
+						if (_vTerrainTile[_nextTileIdx]->_isCollider || _vWallTile[_nextTileIdx]->_hardNess > 2) continue;
 
-						if (_vStage1Wall[_nextTileIdx]->_isCollider)
+						if (_vWallTile[_nextTileIdx]->_isCollider)
 						{
 							// 벽 부수기
-							_vStage1Wall[_nextTileIdx]->_isCollider = false;
-							_vStage1Wall[_nextTileIdx]->_isExist = false;
+							_vWallTile[_nextTileIdx]->_isCollider = false;
+							_vWallTile[_nextTileIdx]->_isExist = false;
 							_isMove = false;
 							break;
 						}
 
 						// 이동
-						_vStage1Terrain[_curTileIdx]->_isCollider = false;
-						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						_vTerrainTile[_curTileIdx]->_isCollider = false;
+						_vTerrainTile[_nextTileIdx]->_isCollider = true;
 						break;
 					}
 
@@ -133,7 +135,7 @@ void Dragon_Red::update()
 								tempNextTileIdx--;
 							}
 
-							if (_vStage1Wall[tempNextTileIdx]->_isCollider)
+							if (_vWallTile[tempNextTileIdx]->_isCollider)
 							{
 								break;
 							}

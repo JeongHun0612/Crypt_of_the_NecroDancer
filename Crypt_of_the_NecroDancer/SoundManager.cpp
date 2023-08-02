@@ -54,7 +54,7 @@ void SoundManager::release()
 		_system->close();
 	}
 
-	_mSoundList.clear();
+	//_mSoundList.clear();
 }
 
 void SoundManager::update()
@@ -81,7 +81,14 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 	}
 	else
 	{
-		_system->createStream(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
+		if (bgm)
+		{
+			_system->createStream(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
+		}
+		else
+		{
+			_system->createSound(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
+		}
 	}
 
 	_mSoundList.insert(make_pair(strKey, &_sound[_mSoundList.size()]));
@@ -99,8 +106,8 @@ void SoundManager::play(string strKey, float volume)
 	{
 		if (strKey == iter->first)
 		{
-			//_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
-			_system->playSound(*iter->second, 0, false, &_channel[count]);
+			//_system->playSound(*iter->second, 0, false, &_channel[count]);
+			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
 			_channel[count]->setVolume(volume);
 			break;
 		}

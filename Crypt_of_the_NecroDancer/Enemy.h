@@ -29,8 +29,8 @@ protected:
 	AlphaImage _shadowImg;
 	GImage* _heartImg;
 
-	vector<Tile*> _vStage1Terrain;
-	vector<Tile*> _vStage1Wall;
+	vector<Tile*> _vTerrainTile;
+	vector<Tile*> _vWallTile;
 	int _maxTileCol;
 	int _curTileIdx;
 	int _nextTileIdx;
@@ -64,7 +64,7 @@ protected:
 	bool _isInvincible;
 
 public:
-	virtual HRESULT init(int idxX, int idxY);
+	virtual HRESULT init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol);
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);

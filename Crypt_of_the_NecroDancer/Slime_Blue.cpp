@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Slime_Blue.h"
 
-HRESULT Slime_Blue::init(int idxX, int idxY)
+HRESULT Slime_Blue::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::SLIME_BLUE;
 
@@ -60,14 +60,14 @@ void Slime_Blue::update()
 		{
 			_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-			if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+			if (_vWallTile[_nextTileIdx]->_isCollider || _vTerrainTile[_nextTileIdx]->_isCollider)
 			{
 				_isMove = false;
 			}
 			else
 			{
-				_vStage1Terrain[_curTileIdx]->_isCollider = false;
-				_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+				_vTerrainTile[_curTileIdx]->_isCollider = false;
+				_vTerrainTile[_nextTileIdx]->_isCollider = true;
 			}
 		}
 

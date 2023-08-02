@@ -26,6 +26,9 @@ private:
 	vector<Tile*> _vWallTile;				// 벽 타일 정보
 	vector<Enemy*> _vEnemy;					// 적 정보
 
+	vector<Item*> _vEquipment;				// 소지 장비
+	vector<Item*> _vExpendable;				// 소지 소모품
+
 	int _tileMaxCol;						// 타일 최대 가로 길이
 
 	GImage* _headImg;						// 플레이어 머리 이미지
@@ -69,18 +72,11 @@ private:
 	float _speed;							// 플레이어 속도
 
 public:
-	HRESULT init(int startIdxX, int startIxY);
+	HRESULT init(int startIdxX, int startIxY, vector<vector<Tile*>> vTiles);
+	HRESULT init(int startIdxX, int startIxY, vector<Enemy*> vEnemy, vector<vector<Tile*>> vTiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
-
-
-	// 맵 타일 / 적 정보
-	void setTile(vector<vector<Tile*>> vTiles) { _vTiles = vTiles; }
-	void setTerrainTile(vector<Tile*> vTerrainTile) { _vTerrainTile = vTerrainTile; }
-	void setWallTile(vector<Tile*> vWallTile) { _vWallTile = vWallTile; }
-	void setTileMaxCol(int tileMaxCol) { _tileMaxCol = tileMaxCol; }
-	void setEnemyList(vector<Enemy*> vEnemy) { _vEnemy = vEnemy; }
 
 	// 플레이어 포지션
 	Vec2_F	getPos() { return _pos; }
@@ -144,6 +140,9 @@ public:
 
 
 	// 플레이어 소지 장비
+	vector<Item*> getEquipment() { return _vEquipment; }
+	vector<Item*> getExpendable() { return _vExpendable; }
+
 	Shovel* getCurShovel() { return _curShovel; }
 	Weapon* getCurWeapon() { return _curWeapon; }
 

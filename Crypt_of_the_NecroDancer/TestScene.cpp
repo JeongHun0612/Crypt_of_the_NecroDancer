@@ -1,6 +1,7 @@
 #include "Stdafx.h"
 #include "TestScene.h"
 
+
 HRESULT TestScene::init()
 {
 	// 타일 초기화
@@ -11,23 +12,9 @@ HRESULT TestScene::init()
 	//_tileMaxCol = MAX_LOBBY_COL;
 	//_tileMaxRow = MAX_LOBBY_ROW;
 
-	_vTiles = TILEMAP->getStage1Tiles();
-	_vTerrainTile = TILEMAP->getStage1Terrain();
-	_vWallTile = TILEMAP->getStage1Wall();
+	_tileMaxCol = MAX_STAGE1_1_COL;
+	_tileMaxRow = MAX_STAGE1_1_ROW;
 
-	_tileMaxCol = MAX_STAGE1_COL;
-	_tileMaxRow = MAX_STAGE1_ROW;
-
-
-	// 플레이어 초기화
-	//PLAYER->init(5, 5);
-
-	PLAYER->init(13, 10);
-	PLAYER->setTile(_vTiles);
-	PLAYER->setTerrainTile(_vTerrainTile);
-	PLAYER->setWallTile(_vWallTile);
-	PLAYER->setEnemyList(_vEnemy);
-	PLAYER->setTileMaxCol(_tileMaxCol);
 
 	// 비트 초기화
 	BEAT->setIsBeat(true);

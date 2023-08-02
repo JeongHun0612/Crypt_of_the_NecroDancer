@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "ShopKeeper.h"
 
-HRESULT ShopKeeper::init(int idxX, int idxY)
+HRESULT ShopKeeper::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::SHOPKEEPER;
 

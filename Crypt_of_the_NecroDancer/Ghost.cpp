@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Ghost.h"
 
-HRESULT Ghost::init(int idxX, int idxY)
+HRESULT Ghost::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::GHOST;
 
@@ -108,13 +108,13 @@ void Ghost::update()
 						break;
 					}
 
-					if (!_vStage1Wall[_nextTileIdx]->_isCollider && !_vStage1Terrain[_nextTileIdx]->_isCollider)
+					if (!_vWallTile[_nextTileIdx]->_isCollider && !_vTerrainTile[_nextTileIdx]->_isCollider)
 					{
 						if (_curMoveDirection == LEFT) _img.frameY = 1;
 						if (_curMoveDirection == RIGHT) _img.frameY = 3;
 
-						_vStage1Terrain[_curTileIdx]->_isCollider = false;
-						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						_vTerrainTile[_curTileIdx]->_isCollider = false;
+						_vTerrainTile[_nextTileIdx]->_isCollider = true;
 
 						_alpha = 255;
 						break;

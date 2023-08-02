@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Minotaur_Normal.h"
 
-HRESULT Minotaur_Normal::init(int idxX, int idxY)
+HRESULT Minotaur_Normal::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::MINOTAUR_NORMAL;
 
@@ -43,7 +43,7 @@ void Minotaur_Normal::update()
 	Enemy::update();
 
 	// 첫 등장 시 사운드 출력
-	if (!_vStage1Terrain[_curTileIdx]->_isLight)
+	if (!_vTerrainTile[_curTileIdx]->_isLight)
 	{
 		SOUNDMANAGER->play("minotaur_cry");
 	}
@@ -122,21 +122,21 @@ void Minotaur_Normal::update()
 						_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 						_nextTileIdx = _nextPosIdx.y * _maxTileCol + _nextPosIdx.x;
 
-						if (_vStage1Terrain[_nextTileIdx]->_isCollider || _vStage1Wall[_nextTileIdx]->_hardNess > 2) continue;
+						if (_vTerrainTile[_nextTileIdx]->_isCollider || _vWallTile[_nextTileIdx]->_hardNess > 2) continue;
 
-						if (_vStage1Wall[_nextTileIdx]->_isCollider)
+						if (_vWallTile[_nextTileIdx]->_isCollider)
 						{
 							// 벽 부수기
 							SOUNDMANAGER->play("minotaur_wallimpact");
-							_vStage1Wall[_nextTileIdx]->_isCollider = false;
-							_vStage1Wall[_nextTileIdx]->_isExist = false;
+							_vWallTile[_nextTileIdx]->_isCollider = false;
+							_vWallTile[_nextTileIdx]->_isExist = false;
 							_isMove = false;
 							break;
 						}
 
 						// 이동
-						_vStage1Terrain[_curTileIdx]->_isCollider = false;
-						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						_vTerrainTile[_curTileIdx]->_isCollider = false;
+						_vTerrainTile[_nextTileIdx]->_isCollider = true;
 						break;
 					}
 				}
@@ -162,7 +162,7 @@ void Minotaur_Normal::update()
 		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 		_nextTileIdx = _nextPosIdx.y * _maxTileCol + _nextPosIdx.x;
 
-		if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+		if (_vWallTile[_nextTileIdx]->_isCollider || _vTerrainTile[_nextTileIdx]->_isCollider)
 		{
 			// 벽 부수기
 			SOUNDMANAGER->play("minotaur_wallimpact");
@@ -171,10 +171,10 @@ void Minotaur_Normal::update()
 			_isGroggy = true;
 
 			// 돌진 시 벽 강도가 3이하로만 부술 수 있다.
-			if (_vStage1Wall[_nextTileIdx]->_hardNess <= 3)
+			if (_vWallTile[_nextTileIdx]->_hardNess <= 3)
 			{
-				_vStage1Wall[_nextTileIdx]->_isCollider = false;
-				_vStage1Wall[_nextTileIdx]->_isExist = false;
+				_vWallTile[_nextTileIdx]->_isCollider = false;
+				_vWallTile[_nextTileIdx]->_isExist = false;
 			}
 		}
 		// 플레이어 공격
@@ -197,8 +197,8 @@ void Minotaur_Normal::update()
 		else
 		{
 			// 이동
-			_vStage1Terrain[_curTileIdx]->_isCollider = false;
-			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+			_vTerrainTile[_curTileIdx]->_isCollider = false;
+			_vTerrainTile[_nextTileIdx]->_isCollider = true;
 		}
 
 		_stepCount = 0;

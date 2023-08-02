@@ -2,11 +2,8 @@
 #include "Beat.h"
 #include "FileManager.h"
 
-HRESULT Beat::init(void)
+HRESULT Beat::init()
 {
-	// 노트 정보 불러오기 (stage 1-1)
-	FileManager::loadBeatFile("stage1-1.txt", _qNoteData);
-
 	// 심장 박동 초기화
 	_heartImg.img = IMAGEMANAGER->findImage("beat_heart");
 	_heartImg.x = WINSIZE_X_HALF - _heartImg.img->getFrameWidth() / 2;
@@ -27,6 +24,15 @@ HRESULT Beat::init(void)
 	_missedImg->setY(WINSIZE_Y - 130);
 	_missedAlpha = 255;
 
+	return S_OK;
+}
+
+HRESULT Beat::init(const char* fileName, const char* soundName)
+{
+	// 노트 정보 불러오기
+	FileManager::loadBeatFile(fileName, _qNoteData);
+	_soundName = soundName;
+
 	_noteFrameX = 0;
 	_noteCycle = _qNoteData.front();
 	_qNoteData.pop();
@@ -39,6 +45,7 @@ HRESULT Beat::init(void)
 
 	return S_OK;
 }
+
 
 void Beat::update(void)
 {
@@ -64,6 +71,7 @@ void Beat::update(void)
 
 	// 노트 생성
 	//unsigned int soundPos = SOUNDMANAGER->getPosition("stage1_1");
+
 	static int soundPos = 0;
 	soundPos += 1044 * TIMEMANAGER->getDeltaTime();
 

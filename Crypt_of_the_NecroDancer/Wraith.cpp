@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "Wraith.h"
 
-HRESULT Wraith::init(int idxX, int idxY)
+HRESULT Wraith::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
 	_type = ENEMY_TYPE::WRAITH;
 

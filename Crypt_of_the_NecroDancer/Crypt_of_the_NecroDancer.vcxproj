@@ -78,8 +78,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\sjh96\source\repos\Crypt_of_the_NecroDancer\Crypt_of_the_NecroDancer\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\sjh96\source\repos\Crypt_of_the_NecroDancer\Crypt_of_the_NecroDancer\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -126,7 +124,6 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,7 +150,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Dragon_Red.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
@@ -183,9 +179,9 @@
     <ClCompile Include="Slime_Orange.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stage1_1Scene.cpp" />
+    <ClCompile Include="Stage1_2Scene.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
@@ -211,9 +207,9 @@
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Skeleton_Yellow.h" />
     <ClInclude Include="Slime_Orange.h" />
-    <ClInclude Include="Struct.h" />
+    <ClInclude Include="Stage1_2Scene.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameNode.h" />

@@ -4,7 +4,6 @@
 class Shovel : public Item
 {
 private:
-	GImage* _img;
 	int _idxX;
 	int _idxY;
 	int _hardNess;
@@ -19,7 +18,6 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	GImage* getImg() { return _img; }
 	int getHardNess() { return _hardNess; }
 
 	void addShowShovel(int idxX, int idxY);

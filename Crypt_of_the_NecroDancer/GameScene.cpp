@@ -8,6 +8,12 @@ HRESULT GameScene::init(void)
 
 void GameScene::release(void)
 {
+	_vTiles.clear();
+
+	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
+	{
+		delete(*iter);
+	}
 }
 
 void GameScene::update(void)
@@ -55,6 +61,12 @@ void GameScene::render(void)
 	{
 		_vTerrainTile[(*iter).tileIdx]->_alpha = (*iter).alpha;
 		_vWallTile[(*iter).tileIdx]->_alpha = (*iter).alpha;
+	}
+
+	// 아이템 출력
+	for (auto iter = _vItem.begin(); iter != _vItem.end(); ++iter)
+	{
+		(*iter)->render(getMemDC());
 	}
 
 	// 플레이어 출력

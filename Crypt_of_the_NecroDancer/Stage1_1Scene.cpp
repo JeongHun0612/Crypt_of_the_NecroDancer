@@ -1,35 +1,33 @@
 #include "Stdafx.h"
 #include "Stage1_1Scene.h"
+#include "FileManager.h"
 
 HRESULT Stage1_1Scene::init(void)
 {
-	GameScene::init();
-
 	// 타일 초기화
-	_vTiles = TILEMAP->getStage1Tiles();
-	_vTerrainTile = TILEMAP->getStage1Terrain();
-	_vWallTile = TILEMAP->getStage1Wall();
+	FileManager::loadTileMapFile("Stage1_1_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
+	FileManager::loadTileMapFile("Stage1_1_Wall.txt", _vWallTile, TILE_TYPE::WALL);
 
-	_vEnemy = ENEMYMANAGER->getEnemyList();
+	_vTiles.push_back(_vTerrainTile);
+	_vTiles.push_back(_vWallTile);
 
-	_tileMaxCol = MAX_STAGE1_COL;
-	_tileMaxRow = MAX_STAGE1_ROW;
+	_tileMaxCol = MAX_STAGE1_1_COL;
+	_tileMaxRow = MAX_STAGE1_1_ROW;
+
+	// 애너미 초기화
+	FileManager::loadEnemyFile("Stage1_1_Enemy.txt", _vEnemy, _vTiles, _tileMaxCol);
+
+	// 아이템 초기화
+	FileManager::loadItemFile("Stage1_1_Enemy.txt", _vItem);
 
 	// 다음 스테이지 계단
 	_stairTileIdx = 22 * _tileMaxCol + 4;
 
 	// 플레이어 초기화
-	PLAYER->setPosIdx(13, 10);
-	PLAYER->setNextPosIdx(13, 10);
-	PLAYER->setTile(_vTiles);
-	PLAYER->setTerrainTile(_vTerrainTile);
-	PLAYER->setWallTile(_vWallTile);
-	PLAYER->setEnemyList(_vEnemy);
-	PLAYER->setTileMaxCol(_tileMaxCol);
+	PLAYER->init(13, 10, _vEnemy, _vTiles, _tileMaxCol);
 
 	// 비트 초기화
-	BEAT->init();
-	//BEAT->setIsBeat(true);
+	BEAT->init("stage1_1.txt", "stage1_1");
 
 	// 사운드 출력
 	SOUNDMANAGER->play("stage1_1", 0.5f);
@@ -40,6 +38,8 @@ HRESULT Stage1_1Scene::init(void)
 
 void Stage1_1Scene::release(void)
 {
+	GameScene::release();
+
 	SOUNDMANAGER->stop("stage1_1");
 	SOUNDMANAGER->stop("stage1_1_shopkeeper");
 }
@@ -58,8 +58,7 @@ void Stage1_1Scene::update(void)
 
 	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR && PLAYER->getIsNextStage())
 	{
-		cout << "다음 씬 전환" << endl;
-		//SCENEMANAGER->changeScene("game");
+		SCENEMANAGER->changeScene("stage1_2");
 	}
 }
 

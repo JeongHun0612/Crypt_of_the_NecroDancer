@@ -96,13 +96,12 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
-#include "EnemyManager.h"
 #include "UIManager.h"
 
 #include "CommonMacroFunction.h"
-#include "Struct.h"
-#include "RandomFunction.h"
+#include "Header.h"
 #include "TileMap.h"
+#include "RandomFunction.h"
 #include "Player.h"
 #include "Beat.h"
 #include "Camera.h"
@@ -114,14 +113,12 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define TIMEMANAGER TimeManager::getSingleton()
 #define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
-#define ENEMYMANAGER EnemyManager::getSingleton()
 #define UIMANAGER UIManager::getSingleton()
 
 #define RND RandomFunction::getSingleton()
-#define TILEMAP TileMap::getSingleton()
 #define PLAYER Player::getSingleton()
-#define BEAT Beat::getSingleton()
 #define CAMERA Camera::getSingleton()
+#define BEAT Beat::getSingleton()
 
 // # ∏≈≈©∑Œ #  ==============================================================================================================
 

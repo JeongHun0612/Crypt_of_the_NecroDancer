@@ -26,12 +26,10 @@ HRESULT GameNode::init(bool managerInit)
 		TIMEMANAGER->init();
 		SCENEMANAGER->init();
 		SOUNDMANAGER->init();
-		//ENEMYMANAGER->init();
 
 		// 싱글톤 클래스 초기화
 		RND->init();
-		CAMERA->init();
-		TILEMAP->init();
+
 	}
 
 	return S_OK;
@@ -55,11 +53,7 @@ void GameNode::release(void)
 		SOUNDMANAGER->release();
 		SOUNDMANAGER->releaseSingleton();
 
-		ENEMYMANAGER->release();
-		ENEMYMANAGER->releaseSingleton();
-
 		UIMANAGER->releaseSingleton();
-
 
 		// 싱글톤 클래스 해제
 		RND->releaseSingleton();
@@ -68,8 +62,6 @@ void GameNode::release(void)
 		BEAT->releaseSingleton();
 		CAMERA->release();
 		CAMERA->releaseSingleton();
-		TILEMAP->release();
-		TILEMAP->releaseSingleton();
 	}
 
 	ReleaseDC(_hWnd, _hdc);
@@ -89,22 +81,22 @@ void GameNode::render(void)
 // 메인 프로시저
 LRESULT GameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	HDC hdc;
-	PAINTSTRUCT ps;
+	//HDC hdc;
+	//PAINTSTRUCT ps;
 
 	switch (iMessage)
 	{
-	case WM_TIMER:
-		this->update();
-		break;
+	//case WM_TIMER:
+	//	this->update();
+	//	break;
 
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
+	//case WM_PAINT:
+	//	hdc = BeginPaint(hWnd, &ps);
 
-		this->render();
+	//	this->render();
 
-		EndPaint(hWnd, &ps);
-		break;
+	//	EndPaint(hWnd, &ps);
+	//	break;
 	case WM_MOUSEMOVE:
 		_ptMouse.x = LOWORD(lParam);
 		_ptMouse.y = HIWORD(lParam);

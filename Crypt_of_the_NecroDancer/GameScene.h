@@ -19,6 +19,7 @@ protected:
 	vector<Node> _vShowNode;
 
 	vector<Enemy*> _vEnemy;
+	vector<Item*> _vItem;
 
 	int _tileMaxCol;
 	int _tileMaxRow;

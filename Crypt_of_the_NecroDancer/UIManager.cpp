@@ -3,32 +3,6 @@
 
 HRESULT UIManager::init(void)
 {
-	// 인벤토리 초기화
-	Inventory shovelSlot;
-
-	shovelSlot.img = IMAGEMANAGER->findImage("slot_shovel");
-	shovelSlot.type = INVENTORY_TYPE::SHOVEL;
-	shovelSlot.x = 10;
-	shovelSlot.y = 10;
-
-	_vInventory.push_back(shovelSlot);
-
-	Inventory attackSlot;
-	attackSlot.img = IMAGEMANAGER->findImage("slot_attack");
-	attackSlot.type = INVENTORY_TYPE::ATTACK;
-	attackSlot.x = 80;
-	attackSlot.y = 10;
-
-	_vInventory.push_back(attackSlot);
-
-	Inventory bodySlot;
-	bodySlot.img = IMAGEMANAGER->findImage("slot_body");
-	bodySlot.type = INVENTORY_TYPE::BODY;
-	bodySlot.x = 10;
-	bodySlot.y = 80;
-
-	_vInventory.push_back(bodySlot);
-
 	_prevHP = 0;
 
 	// 하트 초기화
@@ -58,9 +32,13 @@ void UIManager::update(void)
 void UIManager::render(HDC hdc)
 {
 	// 인벤토리 출력
-	for (auto iter = _vInventory.begin(); iter != _vInventory.end(); ++iter)
+	for (int i = 0; i < PLAYER->getEquipment().size(); i++)
 	{
-		iter->img->render(hdc, iter->x, iter->y);
+		PLAYER->getEquipment()[i]->render(hdc, { 10.0f + (i * 70.0f), 10.0f });
+	}
+	for (int i = 0; i < PLAYER->getExpendable().size(); i++)
+	{
+		PLAYER->getExpendable()[i]->render(hdc, { 80.0f, 10.0f + (i * 70.0f) });
 	}
 
 	// 삽 모션

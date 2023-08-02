@@ -5,6 +5,7 @@
 #include "TitleScene.h"
 #include "LobbyScene.h"
 #include "Stage1_1Scene.h"
+#include "Stage1_2Scene.h"
 
 #include "TestScene.h"
 
@@ -18,15 +19,20 @@ HRESULT MainGame::init(void)
 	// 사운드 추가
 	//initSound();
 
+	// 싱글톤 클래스 초기화
+	BEAT->init();
+	CAMERA->init();
+
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 	SCENEMANAGER->addScene("stage1_1", new Stage1_1Scene);		// 스테이지1-1
+	SCENEMANAGER->addScene("stage1_2", new Stage1_2Scene);		// 스테이지1-2
 
-	SCENEMANAGER->addScene("test", new TestScene);		// 스테이지1-1
+	SCENEMANAGER->addScene("test", new TestScene);		// 테스트
 
-	SCENEMANAGER->changeScene("title");
+	SCENEMANAGER->changeScene("lobby");
 
 	return S_OK;
 }
@@ -38,7 +44,6 @@ void MainGame::release(void)
 
 void MainGame::update(void)
 {
-	SOUNDMANAGER->update();
 	SCENEMANAGER->update();
 }
 
@@ -120,7 +125,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dagger", "Resources/Images/Item/Dagger.bmp", 26, 52, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 240, 90, 5, 2, true, RGB(255, 0, 255));
 
 	// 아이템 - 코인
 	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
@@ -199,92 +204,94 @@ void MainGame::initSound()
 	// ===================
 	// BGM
 	// ===================
-	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.mp3", true, true);
-	SOUNDMANAGER->addSound("lobby", "Resources/Sounds/BGM/lobby.mp3", true, true);
-	SOUNDMANAGER->addSound("stage1_1", "Resources/Sounds/BGM/stage1_1.mp3", true, false);
-	SOUNDMANAGER->addSound("stage1_1_shopkeeper", "Resources/Sounds/BGM/stage1_1_shopkeeper.mp3", true, false);
+	SOUNDMANAGER->addSound("title", "Resources/Sounds/BGM/title.ogg", true, true);
+	SOUNDMANAGER->addSound("lobby", "Resources/Sounds/BGM/lobby.ogg", true, true);
+	SOUNDMANAGER->addSound("stage1_1", "Resources/Sounds/BGM/stage1_1.ogg", true, false);
+	SOUNDMANAGER->addSound("stage1_1_shopkeeper", "Resources/Sounds/BGM/stage1_1_shopkeeper.ogg", true, false);
+	SOUNDMANAGER->addSound("stage1_2", "Resources/Sounds/BGM/stage1_2.ogg", true, false);
+	SOUNDMANAGER->addSound("stage1_2_shopkeeper", "Resources/Sounds/BGM/stage1_2_shopkeeper.ogg", true, false);
 
 	// ===================
 	// 플레이어
 	// ===================
 
 	// 플레이어 - 삽질
-	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/Dig/vo_cad_dig_01.mp3", false, false);
-	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/Dig/vo_cad_dig_02.mp3", false, false);
-	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/Dig/vo_cad_dig_03.mp3", false, false);
-	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/Dig/vo_cad_dig_04.mp3", false, false);
-	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/Dig/vo_cad_dig_05.mp3", false, false);
-	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/Dig/vo_cad_dig_06.mp3", false, false);
+	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/Dig/vo_cad_dig_01.ogg", false, false);
+	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/Dig/vo_cad_dig_02.ogg", false, false);
+	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/Dig/vo_cad_dig_03.ogg", false, false);
+	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/Dig/vo_cad_dig_04.ogg", false, false);
+	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/Dig/vo_cad_dig_05.ogg", false, false);
+	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/Dig/vo_cad_dig_06.ogg", false, false);
 
 	// 플레이어 - 난투
-	SOUNDMANAGER->addSound("melee1_1", "Resources/Sounds/Player/Melee/vo_cad_melee_1_01.mp3", false, false);
-	SOUNDMANAGER->addSound("melee1_2", "Resources/Sounds/Player/Melee/vo_cad_melee_1_02.mp3", false, false);
-	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.mp3", false, false);
-	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.mp3", false, false);
+	SOUNDMANAGER->addSound("melee1_1", "Resources/Sounds/Player/Melee/vo_cad_melee_1_01.ogg", false, false);
+	SOUNDMANAGER->addSound("melee1_2", "Resources/Sounds/Player/Melee/vo_cad_melee_1_02.ogg", false, false);
+	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.ogg", false, false);
+	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.ogg", false, false);
 
 	// 플레이어 - 피격
-	SOUNDMANAGER->addSound("hurt1", "Resources/Sounds/Player/Hurt/vo_cad_hurt_01.mp3", false, false);
-	SOUNDMANAGER->addSound("hurt2", "Resources/Sounds/Player/Hurt/vo_cad_hurt_02.mp3", false, false);
-	SOUNDMANAGER->addSound("hurt3", "Resources/Sounds/Player/Hurt/vo_cad_hurt_03.mp3", false, false);
-	SOUNDMANAGER->addSound("hurt4", "Resources/Sounds/Player/Hurt/vo_cad_hurt_04.mp3", false, false);
-	SOUNDMANAGER->addSound("hurt5", "Resources/Sounds/Player/Hurt/vo_cad_hurt_05.mp3", false, false);
-	SOUNDMANAGER->addSound("hurt6", "Resources/Sounds/Player/Hurt/vo_cad_hurt_06.mp3", false, false);
+	SOUNDMANAGER->addSound("hurt1", "Resources/Sounds/Player/Hurt/vo_cad_hurt_01.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt2", "Resources/Sounds/Player/Hurt/vo_cad_hurt_02.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt3", "Resources/Sounds/Player/Hurt/vo_cad_hurt_03.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt4", "Resources/Sounds/Player/Hurt/vo_cad_hurt_04.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt5", "Resources/Sounds/Player/Hurt/vo_cad_hurt_05.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt6", "Resources/Sounds/Player/Hurt/vo_cad_hurt_06.ogg", false, false);
 
 	// ===================
 	// 애너미
 	// ===================
 
 	// 슬라임
-	SOUNDMANAGER->addSound("slime_attack", "Resources/Sounds/Enemy/Slime/en_slime_attack.mp3", false, false);
-	SOUNDMANAGER->addSound("slime_hit", "Resources/Sounds/Enemy/Slime/en_slime_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("slime_death", "Resources/Sounds/Enemy/Slime/en_slime_death_01.mp3", false, false);
+	SOUNDMANAGER->addSound("slime_attack", "Resources/Sounds/Enemy/Slime/en_slime_attack.ogg", false, false);
+	SOUNDMANAGER->addSound("slime_hit", "Resources/Sounds/Enemy/Slime/en_slime_hit.ogg", false, false);
+	SOUNDMANAGER->addSound("slime_death", "Resources/Sounds/Enemy/Slime/en_slime_death_01.ogg", false, false);
 
 	// 스켈레톤
-	SOUNDMANAGER->addSound("skeleton_attack", "Resources/Sounds/Enemy/Skeleton/en_skel_attack_melee.mp3", false, false);
-	SOUNDMANAGER->addSound("skeleton_hit", "Resources/Sounds/Enemy/Skeleton/en_skel_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("skeleton_death", "Resources/Sounds/Enemy/Skeleton/en_skel_death.mp3", false, false);
+	SOUNDMANAGER->addSound("skeleton_attack", "Resources/Sounds/Enemy/Skeleton/en_skel_attack_melee.ogg", false, false);
+	SOUNDMANAGER->addSound("skeleton_hit", "Resources/Sounds/Enemy/Skeleton/en_skel_hit.ogg", false, false);
+	SOUNDMANAGER->addSound("skeleton_death", "Resources/Sounds/Enemy/Skeleton/en_skel_death.ogg", false, false);
 
 	// 박쥐
-	SOUNDMANAGER->addSound("bat_attack", "Resources/Sounds/Enemy/Bat/en_bat_attack.mp3", false, false);
-	SOUNDMANAGER->addSound("bat_hit", "Resources/Sounds/Enemy/Bat/en_bat_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("bat_death", "Resources/Sounds/Enemy/Bat/en_bat_death.mp3", false, false);
+	SOUNDMANAGER->addSound("bat_attack", "Resources/Sounds/Enemy/Bat/en_bat_attack.ogg", false, false);
+	SOUNDMANAGER->addSound("bat_hit", "Resources/Sounds/Enemy/Bat/en_bat_hit.ogg", false, false);
+	SOUNDMANAGER->addSound("bat_death", "Resources/Sounds/Enemy/Bat/en_bat_death.ogg", false, false);
 
 	// 원숭이
-	SOUNDMANAGER->addSound("monkey_hit", "Resources/Sounds/Enemy/Monkey/en_monkey_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("monkey_grab", "Resources/Sounds/Enemy/Monkey/en_monkey_grab.mp3", false, false);
+	SOUNDMANAGER->addSound("monkey_hit", "Resources/Sounds/Enemy/Monkey/en_monkey_hit_01.ogg", false, false);
+	SOUNDMANAGER->addSound("monkey_grab", "Resources/Sounds/Enemy/Monkey/en_monkey_grab.ogg", false, false);
 
 	// 고스트
-	SOUNDMANAGER->addSound("ghost_attack", "Resources/Sounds/Enemy/Ghost/en_ghost_attack.mp3", false, false);
-	SOUNDMANAGER->addSound("ghost_death", "Resources/Sounds/Enemy/Ghost/en_ghost_death.mp3", false, false);
+	SOUNDMANAGER->addSound("ghost_attack", "Resources/Sounds/Enemy/Ghost/en_ghost_attack.ogg", false, false);
+	SOUNDMANAGER->addSound("ghost_death", "Resources/Sounds/Enemy/Ghost/en_ghost_death.ogg", false, false);
 
 	// 미노타우로스
-	SOUNDMANAGER->addSound("minotaur_attack", "Resources/Sounds/Enemy/Minotaur/en_minotaur_attack.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_cry", "Resources/Sounds/Enemy/Minotaur/en_minotaur_cry.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_charge", "Resources/Sounds/Enemy/Minotaur/en_minotaur_charge.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_hit", "Resources/Sounds/Enemy/Minotaur/en_minotaur_hit_01.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_death", "Resources/Sounds/Enemy/Minotaur/en_minotaur_death.mp3", false, false);
-	SOUNDMANAGER->addSound("minotaur_wallimpact", "Resources/Sounds/Enemy/Minotaur/en_minotaur_wallimpact.mp3", false, false);
+	SOUNDMANAGER->addSound("minotaur_attack", "Resources/Sounds/Enemy/Minotaur/en_minotaur_attack.ogg", false, false);
+	SOUNDMANAGER->addSound("minotaur_cry", "Resources/Sounds/Enemy/Minotaur/en_minotaur_cry.ogg", false, false);
+	SOUNDMANAGER->addSound("minotaur_charge", "Resources/Sounds/Enemy/Minotaur/en_minotaur_charge.ogg", false, false);
+	SOUNDMANAGER->addSound("minotaur_hit", "Resources/Sounds/Enemy/Minotaur/en_minotaur_hit_02.ogg", false, false);
+	SOUNDMANAGER->addSound("minotaur_death", "Resources/Sounds/Enemy/Minotaur/en_minotaur_death.ogg", false, false);
+	SOUNDMANAGER->addSound("minotaur_wallimpact", "Resources/Sounds/Enemy/Minotaur/en_minotaur_wallimpact.ogg", false, false);
 
 	// 드래곤
-	SOUNDMANAGER->addSound("dargon_attack", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_melee.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_prefire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_prefire.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_fire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_fire.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_cry", "Resources/Sounds/Enemy/Dragon/en_dragon_cry.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_hit", "Resources/Sounds/Enemy/Dragon/en_dragon_hit_01.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_death", "Resources/Sounds/Enemy/Dragon/en_dragon_death.mp3", false, false);
-	SOUNDMANAGER->addSound("dargon_walk", "Resources/Sounds/Enemy/Dragon/en_dragon_walk_01.mp3", false, false);
+	SOUNDMANAGER->addSound("dargon_attack", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_melee.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_prefire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_prefire.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_fire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_fire.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_cry", "Resources/Sounds/Enemy/Dragon/en_dragon_cry.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_hit", "Resources/Sounds/Enemy/Dragon/en_dragon_hit_01.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_death", "Resources/Sounds/Enemy/Dragon/en_dragon_death.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_walk", "Resources/Sounds/Enemy/Dragon/en_dragon_walk_01.ogg", false, false);
 
 
 	// ===================
 	// 오브젝트
 	// ===================
-	SOUNDMANAGER->addSound("dig_brick", "Resources/Sounds/Object/mov_dig_brick.mp3", false, false);
-	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.mp3", false, false);
-	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.mp3", false, false);
-	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.mp3", false, false);
-	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.mp3", false, false);
-	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.mp3", false, false);
-	SOUNDMANAGER->addSound("door_open", "Resources/Sounds/Object/obj_door_open.mp3", false, false);
+	SOUNDMANAGER->addSound("dig_brick", "Resources/Sounds/Object/mov_dig_brick.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.ogg", false, false);
+	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.ogg", false, false);
+	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.ogg", false, false);
+	SOUNDMANAGER->addSound("door_open", "Resources/Sounds/Object/obj_door_open.ogg", false, false);
 
 
 	// ===================
@@ -292,7 +299,7 @@ void MainGame::initSound()
 	// ===================
 
 	// 골드 획득
-	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.mp3", false, false);
-	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.mp3", false, false);
-	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.mp3", false, false);
+	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.ogg", false, false);
+	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.ogg", false, false);
 }

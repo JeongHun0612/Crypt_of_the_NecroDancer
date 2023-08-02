@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Skeleton_Normal.h"
 
-HRESULT Skeleton_Normal::init(int idxX, int idxY)
+HRESULT Skeleton_Normal::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Skeleton::init(idxX, idxY);
+	Skeleton::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::SKELETON_NORMAL;
 

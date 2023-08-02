@@ -2,9 +2,9 @@
 #include "Player.h"
 #include "TileMap.h"
 
-HRESULT Player::init(int startIdxX, int startIdxY)
+HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles)
 {
-	_vTiles = TILEMAP->getLoobyTiles();
+	_vTiles = vTiles;
 	_vTerrainTile = _vTiles[(int)TILE_TYPE::TERRAIN];
 	_vWallTile = _vTiles[(int)TILE_TYPE::WALL];
 
@@ -35,6 +35,39 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 	_coin = 0;
 	_diamond = 0;
 
+	// 아이템 초기화
+	_curShovel = new Shovel;
+	_curShovel->init();
+	_vEquipment.push_back(_curShovel);
+
+	_curWeapon = new Weapon;
+	_curWeapon->init();
+	_vEquipment.push_back(_curWeapon);
+
+	//_curArmor = new Armor;
+	//_curArmor->init();
+	//_vInventory.push_back(_curArmor);
+
+	return S_OK;
+}
+
+HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector<vector<Tile*>> vTiles, int tileMaxCol)
+{
+	_vEnemy = vEnemy;
+
+	_vTiles = vTiles;
+	_vTerrainTile = vTiles[(int)TILE_TYPE::TERRAIN];
+	_vWallTile = vTiles[(int)TILE_TYPE::WALL];
+
+	_tileMaxCol = tileMaxCol;
+
+	_pos = { (float)WINSIZE_X_HALF - 32.0f, (float)WINSIZE_Y_HALF - 32.0f };
+	_posIdx = { startIdxX , startIdxY };
+	_nextPosIdx = { startIdxX , startIdxY };
+
+	_curDirection = PLAYER_DIRECTION::NONE;
+	_nextDirection = PLAYER_DIRECTION::NONE;
+
 	_isLeft = false;
 	_isMove = false;
 	_isAttack = false;
@@ -42,15 +75,6 @@ HRESULT Player::init(int startIdxX, int startIdxY)
 	_isInvincible = false;
 	_isGrab = false;
 	_isNextStage = false;
-
-	_curShovel = new Shovel;
-	_curShovel->init();
-
-	_curWeapon = new Weapon;
-	_curWeapon->init(WEAPON_TYPE::DAGGER);
-
-	_curArmor = new Armor;
-	_curArmor->init();
 
 	return S_OK;
 }
@@ -103,10 +127,10 @@ void Player::update(void)
 			_nextDirection = PLAYER_DIRECTION::DOWN;
 		}
 
-		if (KEYMANAGER->isOnceKeyDown('W'))
-		{
-			_curArmor->setArmorType((ARMOR_TYPE)((int)_curArmor->getArmorType() + 1));
-		}
+		//if (KEYMANAGER->isOnceKeyDown('W'))
+		//{
+		//	_curArmor->setArmorType((ARMOR_TYPE)((int)_curArmor->getArmorType() + 1));
+		//}
 	}
 
 	int _curTileIdx = (_tileMaxCol * _posIdx.y) + _posIdx.x;
@@ -145,7 +169,7 @@ void Player::update(void)
 					_isMove = false;
 
 					// 충돌체가 현재 플레이어가 가진 삽의 강도보다 단단할 시
-					if (_vWallTile[_nextTileIdx]->_hardNess > PLAYER->getCurShovel()->getHardNess())
+					if (_vWallTile[_nextTileIdx]->_hardNess > _curShovel->getHardNess())
 					{
 						SOUNDMANAGER->play("dig_fail");
 						_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
@@ -296,7 +320,7 @@ void Player::render(HDC hdc)
 	// 공격 모션
 	if (_isAttack)
 	{
-		_curWeapon->render(hdc);
+		_curWeapon->effectRender(hdc);
 	}
 
 	// 피격 모션
@@ -306,14 +330,14 @@ void Player::render(HDC hdc)
 	}
 
 	// 현재 착용 삽
-	_curShovel->getImg()->frameRender(hdc,
-		40 - _curShovel->getImg()->getFrameWidth() / 2,
-		45 - _curShovel->getImg()->getFrameHeight() / 2);
+	//_curShovel->getImg()->frameRender(hdc,
+	//	40 - _curShovel->getImg()->getFrameWidth() / 2,
+	//	45 - _curShovel->getImg()->getFrameHeight() / 2);
 
 	// 현재 착용 무기
-	_curWeapon->getImg()->frameRender(hdc,
-		110 - _curWeapon->getImg()->getFrameWidth() / 2,
-		45 - _curWeapon->getImg()->getFrameHeight() / 2);
+	//_curWeapon->getImg()->frameRender(hdc,
+	//	110 - _curWeapon->getImg()->getFrameWidth() / 2,
+	//	45 - _curWeapon->getImg()->getFrameHeight() / 2);
 
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
@@ -322,11 +346,23 @@ void Player::render(HDC hdc)
 		_shadowAlpha);
 
 	// 몸통 이미지
-	_bodyImg->frameAlphaRender(hdc,
-		_pos.x + 12,
-		_pos.y,
-		_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
-		_playerAlpha);
+	if (_curArmor != nullptr)
+	{
+		_bodyImg->frameAlphaRender(hdc,
+			_pos.x + 12,
+			_pos.y,
+			_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
+			_playerAlpha);
+	}
+	else
+	{
+		_bodyImg->frameAlphaRender(hdc,
+			_pos.x + 12,
+			_pos.y,
+			_bodyImg->getFrameX(), _isLeft,
+			_playerAlpha);
+	}
+
 
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,

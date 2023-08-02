@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Skeleton_Black.h"
 
-HRESULT Skeleton_Black::init(int idxX, int idxY)
+HRESULT Skeleton_Black::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Skeleton::init(idxX, idxY);
+	Skeleton::init(idxX, idxY, vTiles, maxTileCol);
 
 	_type = ENEMY_TYPE::SKELETON_BLACK;
 

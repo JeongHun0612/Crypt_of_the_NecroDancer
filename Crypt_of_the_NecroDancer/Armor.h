@@ -13,14 +13,14 @@ enum class ARMOR_TYPE
 class Armor : public Item
 {
 private:
-	GImage* _img;
 	ARMOR_TYPE _type;
 	int _defense;
 
 public:
-	HRESULT init();
+	HRESULT init(int idxX, int idxY, int type);
 	void release();
 	void update();
+	void render(HDC hdc);
 
 	ARMOR_TYPE getArmorType() { return _type; }
 	void setArmorType(ARMOR_TYPE type) { _type = type; }

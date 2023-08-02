@@ -1,12 +1,15 @@
 #include "Stdafx.h"
 #include "LobbyScene.h"
+#include "FileManager.h"
 
 HRESULT LobbyScene::init()
 {
 	// 타일 초기화
-	_vTiles = TILEMAP->getLoobyTiles();
-	_vTerrainTile = TILEMAP->getLoobyTerrain();
-	_vWallTile = TILEMAP->getLoobyWall();
+	FileManager::loadTileMapFile("Lobby_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
+	FileManager::loadTileMapFile("Lobby_Wall.txt", _vWallTile, TILE_TYPE::WALL);
+
+	_vTiles.push_back(_vTerrainTile);
+	_vTiles.push_back(_vWallTile);
 
 	for (int i = 0; i < _vTerrainTile.size(); i++)
 	{
@@ -21,10 +24,7 @@ HRESULT LobbyScene::init()
 	_tileMaxRow = MAX_LOBBY_ROW;
 
 	// 플레이어 초기화
-	PLAYER->init(6, 3);
-	
-	// 애너미 초기화
-	ENEMYMANAGER->init();
+	PLAYER->init(6, 3, _vTiles);
 
 	// 비트 초기화
 	BEAT->setIsBeat(true);
@@ -40,6 +40,8 @@ HRESULT LobbyScene::init()
 
 void LobbyScene::release()
 {
+	GameScene::release();
+
 	SOUNDMANAGER->stop("lobby");
 }
 
@@ -52,7 +54,7 @@ void LobbyScene::update()
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
-	if (_vTiles[(int)TILE_TYPE::TERRAIN][_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
+	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
 	{
 		SCENEMANAGER->changeScene("stage1_1");
 	}

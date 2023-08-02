@@ -1,11 +1,11 @@
 #pragma once
 #include "SingletonBase.h"
 
-//#pragma comment(lib, "Library/lib/FMOD/fmodex64_vc")
-//#include "Library/inc/FMOD/fmod.hpp"
-
 //#pragma comment(lib, "core/lib/x64/fmod_vc.lib")
-#include "fmod.hpp"
+//#include "fmod.hpp"
+
+#include "inc/fmod.hpp"
+#pragma comment(lib, "lib/fmodex64_vc.lib")
 
 using namespace FMOD;
 

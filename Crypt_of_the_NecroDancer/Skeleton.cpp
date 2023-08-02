@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Skeleton.h"
 
-HRESULT Skeleton::init(int idxX, int idxY)
+HRESULT Skeleton::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_moveCount = 0;
 
@@ -72,7 +72,7 @@ void Skeleton::update()
 					_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 					_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-					if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+					if (_vWallTile[_nextTileIdx]->_isCollider || _vTerrainTile[_nextTileIdx]->_isCollider)
 					{
 						if (_moveInfo[i].distance == _moveInfo[i + 1].distance) continue;
 						else
@@ -83,8 +83,8 @@ void Skeleton::update()
 					}
 					else
 					{
-						_vStage1Terrain[_curTileIdx]->_isCollider = false;
-						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						_vTerrainTile[_curTileIdx]->_isCollider = false;
+						_vTerrainTile[_nextTileIdx]->_isCollider = true;
 						break;
 					}
 				}
@@ -117,14 +117,14 @@ void Skeleton::update()
 		_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 		_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-		if (_vStage1Wall[_nextTileIdx]->_isCollider || _vStage1Terrain[_nextTileIdx]->_isCollider)
+		if (_vWallTile[_nextTileIdx]->_isCollider || _vTerrainTile[_nextTileIdx]->_isCollider)
 		{
 			_isCollider = true;
 		}
 		else
 		{
-			_vStage1Terrain[_curTileIdx]->_isCollider = false;
-			_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+			_vTerrainTile[_curTileIdx]->_isCollider = false;
+			_vTerrainTile[_nextTileIdx]->_isCollider = true;
 		}
 
 		_stepCount = 0;

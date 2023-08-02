@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "Enemy.h"
 
-HRESULT Enemy::init(int idxX, int idxY)
+HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
 	_img.frameCount = 0.0f;
 	_img.frameX = 0;
@@ -21,9 +21,9 @@ HRESULT Enemy::init(int idxX, int idxY)
 
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
 
-	_vStage1Terrain = TILEMAP->getStage1Terrain();
-	_vStage1Wall = TILEMAP->getStage1Wall();
-	_maxTileCol = MAX_STAGE1_COL;
+	_vTerrainTile = vTiles[(int)TILE_TYPE::TERRAIN];
+	_vWallTile = vTiles[(int)TILE_TYPE::WALL];
+	_maxTileCol = maxTileCol;
 
 	_pos = { 0.f, 0.f };
 	_posIdx = { idxX, idxY };
@@ -31,7 +31,7 @@ HRESULT Enemy::init(int idxX, int idxY)
 
 	_curTileIdx = _maxTileCol * _posIdx.y + _posIdx.x;
 	_nextTileIdx = 0;
-	_vStage1Terrain[_curTileIdx]->_isCollider = true;
+	_vTerrainTile[_curTileIdx]->_isCollider = true;
 
 	_alpha = 255;
 	_distance = 0;
@@ -55,7 +55,7 @@ HRESULT Enemy::init(int idxX, int idxY)
 
 void Enemy::release()
 {
-	_vStage1Terrain[_curTileIdx]->_isCollider = false;
+	_vTerrainTile[_curTileIdx]->_isCollider = false;
 
 	UIMANAGER->addCoin(_posIdx.x, _posIdx.y, _coinCount);
 }
@@ -66,7 +66,7 @@ void Enemy::update()
 	_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
 	_shadowImg.alpha = 150;
 
-	if (_vStage1Terrain[_curTileIdx]->_isLight && _distance < 11)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 11)
 	{
 		// 움직임 타이밍
 		_beatCount = BEAT->getBeatCount();
@@ -79,7 +79,7 @@ void Enemy::update()
 
 		// 캐릭터 아래 쪽에 타일이 있을 시 그림자 숨기기
 		int curBottomTileIdx = _curTileIdx + _maxTileCol;
-		if (_vStage1Wall[curBottomTileIdx]->_idxX == _posIdx.x && _vStage1Wall[curBottomTileIdx]->_idxY == _posIdx.y + 1 && _vStage1Wall[curBottomTileIdx]->_isExist)
+		if (_vWallTile[curBottomTileIdx]->_idxX == _posIdx.x && _vWallTile[curBottomTileIdx]->_idxY == _posIdx.y + 1 && _vWallTile[curBottomTileIdx]->_isExist)
 		{
 			_shadowImg.alpha = 0;
 		}
@@ -135,7 +135,7 @@ void Enemy::update()
 
 void Enemy::render(HDC hdc)
 {
-	if (_vStage1Terrain[_curTileIdx]->_isLight && _distance < 11)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 11)
 	{
 		// 거리에 따른 모습 변화
 		if (_distance > PLAYER->getLightPower() - 1)

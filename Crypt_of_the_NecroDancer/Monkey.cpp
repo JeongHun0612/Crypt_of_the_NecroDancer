@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 #include "Monkey.h"
 
-HRESULT Monkey::init(int idxX, int idxY)
+HRESULT Monkey::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
 {
-	Enemy::init(idxX, idxY);
+	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
 	_isGrab = false;
 	_isKnockBack = false;
@@ -50,7 +50,7 @@ void Monkey::update()
 				PLAYER->setIsGrab(true);
 
 				_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
-				_vStage1Terrain[_curTileIdx]->_isCollider = false;
+				_vTerrainTile[_curTileIdx]->_isCollider = false;
 
 				_stepCount = 0;
 				break;
@@ -71,13 +71,13 @@ void Monkey::update()
 					_nextPosIdx = { _posIdx.x + _fourDirection[_curMoveDirection].x , _posIdx.y + _fourDirection[_curMoveDirection].y };
 					_nextTileIdx = _maxTileCol * _nextPosIdx.y + _nextPosIdx.x;
 
-					if (!_vStage1Wall[_nextTileIdx]->_isCollider && !_vStage1Terrain[_nextTileIdx]->_isCollider)
+					if (!_vWallTile[_nextTileIdx]->_isCollider && !_vTerrainTile[_nextTileIdx]->_isCollider)
 					{
 						if (_curMoveDirection == LEFT) _img.frameY = 1;
 						if (_curMoveDirection == RIGHT) _img.frameY = 3;
 
-						_vStage1Terrain[_curTileIdx]->_isCollider = false;
-						_vStage1Terrain[_nextTileIdx]->_isCollider = true;
+						_vTerrainTile[_curTileIdx]->_isCollider = false;
+						_vTerrainTile[_nextTileIdx]->_isCollider = true;
 
 						break;
 					}

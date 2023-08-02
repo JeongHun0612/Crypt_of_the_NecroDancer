@@ -1,17 +1,40 @@
 #pragma once
-#include "SingletonBase.h"
 
 #define MAX_LOBBY_COL		13
 #define MAX_LOBBY_ROW		15
 
-#define MAX_STAGE1_COL		27
-#define MAX_STAGE1_ROW		28
+#define MAX_STAGE1_1_COL		27
+#define MAX_STAGE1_1_ROW		28
+
+#define MAX_STAGE1_2_COL		34
+#define MAX_STAGE1_2_ROW		26
 
 enum class TILE_TYPE
 {
 	TERRAIN,
 	WALL,
 	DECO
+};
+
+enum class ENEMY_TYPE
+{
+	SLIME_GREEN,
+	SLIME_BLUE,
+	SLIME_ORANGE,
+	SKELETON_NORMAL,
+	SKELETON_YELLOW,
+	SKELETON_BLACK,
+	ZOMBIE,
+	BAT_BLUE,
+	BAT_RED,
+	MONKEY_NORMAL,
+	MONKEY_WHITE,
+	GHOST,
+	WRAITH,
+	MINOTAUR_NORMAL,
+	DRAGON_RED,
+
+	SHOPKEEPER = 16
 };
 
 enum class TERRAIN_TYPE
@@ -52,31 +75,3 @@ struct Tile
 	bool _isSearch;
 	bool _isLight;
 };
-
-class TileMap : public SingletonBase<TileMap>
-{
-private:
-	vector<vector<Tile*>> _vLobbyTiles;
-	vector<Tile*> _vLobbyTerrain;
-	vector<Tile*> _vLobbyWall;
-
-	vector<vector<Tile*>> _vStage1Tiles;
-	vector<Tile*> _vStage1Terrain;
-	vector<Tile*> _vStage1Wall;
-
-public:
-	HRESULT init(void);
-	void release(void);
-
-	TileMap() {}
-	~TileMap() {}
-
-	vector<vector<Tile*>> getLoobyTiles() { return _vLobbyTiles; }
-	vector<Tile*> getLoobyTerrain() { return _vLobbyTerrain; }
-	vector<Tile*> getLoobyWall() { return _vLobbyWall; }
-
-	vector<vector<Tile*>> getStage1Tiles() { return _vStage1Tiles; }
-	vector<Tile*> getStage1Terrain() { return _vStage1Terrain; }
-	vector<Tile*> getStage1Wall() { return _vStage1Wall; }
-};
-

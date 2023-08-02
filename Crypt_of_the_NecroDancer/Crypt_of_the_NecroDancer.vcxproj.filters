@@ -73,9 +73,6 @@
     <Filter Include="MainGame\Object\UI">
       <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Tile">
-      <UniqueIdentifier>{188ac8df-4e1f-450f-ace6-924a23a95b63}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\Item">
       <UniqueIdentifier>{950ee595-a546-4953-adb9-839c05335572}</UniqueIdentifier>
     </Filter>
@@ -216,14 +213,8 @@
     <ClCompile Include="Skeleton_Black.cpp">
       <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>MainGame\Object\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="Stage1_1Scene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
       <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
@@ -269,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="Dragon_Red.cpp">
       <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1_2Scene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -362,16 +356,10 @@
     <ClInclude Include="Skeleton_Normal.h">
       <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Skeleton_Black.h">
       <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>MainGame\Object\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="Struct.h">
+    <ClInclude Include="Header.h">
       <Filter>2D FrameWork\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Stage1_1Scene.h">
@@ -421,6 +409,12 @@
     </ClInclude>
     <ClInclude Include="Dragon_Red.h">
       <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_2Scene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>2D FrameWork\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
