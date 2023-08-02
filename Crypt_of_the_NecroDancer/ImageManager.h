@@ -37,6 +37,7 @@ public:
 	// ÇÁ·¹ÀÓ ·»´õ
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
 	// ¾ËÆÄ ·»´õ
 	void alphaRender(string strKey, HDC hdc, BYTE alpha);
