@@ -33,14 +33,19 @@ protected:
 	FrameImage _img;
 
 	ITEM_TYPE _itemType;
-	WEAPON_TYPE _weaponType;
-	ARMOR_TYPE _armorType;
+	int _type;
 
 	Vec2 _posIdx;
+	float _posY;
+
+	float _speed;
+
 	int _price;
 	int _distance;
 
 	bool _isSale;
+	bool _isCollider;
+	bool _isChange;
 
 public:
 	virtual HRESULT init();
@@ -53,11 +58,15 @@ public:
 	Vec2 getPosIdx() { return _posIdx; }
 	void setPosIdx(int idxX, int idxY) { _posIdx = { idxX, idxY }; }
 
+	int getPrice() { return _price; }
+
 	bool getIsSale() { return _isSale; }
+	bool getIsCollider() { return _isCollider; }
 
 	ITEM_TYPE getItemType() { return _itemType; }
-	WEAPON_TYPE getWeaponType() { return _weaponType; }
-	ARMOR_TYPE getArmorType() { return _armorType; }
+	int getType() { return _type; }
+	//WEAPON_TYPE getWeaponType() { return _weaponType; }
+	//ARMOR_TYPE getArmorType() { return _armorType; }
 
 	Item() {}
 	~Item() {}

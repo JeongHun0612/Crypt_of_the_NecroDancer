@@ -9,32 +9,38 @@
 
 using namespace FMOD;
 
-// 사운드 버퍼를 총 30개 + 5개의 여유분으로 준비
+// 사운드 버퍼를 총 30개 + 10개의 여유분으로 준비
 #define SOUNDBUFFER 30
-#define EXTRACHANNELBUFFER 5
+#define EXTRACHANNELBUFFER 10
 
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
 class SoundManager : public SingletonBase<SoundManager>
 {
 private:
-	typedef map<string, Sound**>				mapSoundList;
-	typedef map<string, Sound**>::iterator		mapSoundIter;
-	typedef map<string, Channel**>				mapChannelList;
-	typedef map<string, Channel**>::iterator	mapChannelIter;
+	//typedef map<string, Sound**>				mapSoundList;
+	//typedef map<string, Sound**>::iterator		mapSoundIter;
+	//typedef map<string, Channel**>				mapChannelList;
+	//typedef map<string, Channel**>::iterator	mapChannelIter;
+
+	struct ChannelInfo
+	{
+		string soundName;
+		Channel* chaneel;
+	};
+
+	typedef map<string, Sound*>					mapSoundList;
+	typedef map<string, Sound*>::iterator		mapSoundIter;
 
 private:
 	// FMOD를 사용하기 위한 시작지점, 끝지점
 	System* _system;
 
-	// 더블 포인터인 이유
-	// 프로젝트->FMOD(hpp)의 가상함수 -> 코어로 두 번 건너뛰기 때문이다.
-	Sound** _sound;
-	Channel** _channel;
-
 	// 사운드 리스트
 	mapSoundList _mSoundList;
 
+	// 현재 활성화된 채널
+	vector<ChannelInfo> _mActiveChannels;
 
 public:
 	HRESULT init();
@@ -46,7 +52,6 @@ public:
 	void play(string strKey, float volume = 1.0f);
 	void stop(string strKey);
 	void pause(string strKey);
-	void resume(string strKey);
 
 	unsigned int getPosition(string strKey);
 	void setPosition(string strKey, float pos);

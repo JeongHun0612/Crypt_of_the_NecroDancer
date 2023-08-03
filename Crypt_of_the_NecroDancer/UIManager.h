@@ -62,6 +62,10 @@ public:
 	void addEquipment(Item* equipment);
 	void deleteEquiment(Item* equipment);
 
+	void addExpendable(Item* expendable);
+	void deleteExpendable(Item* expendable);
+
 	vector<Item*> getEquipment() { return _vEquipment; }
+	vector<Item*> getExpendable() { return _vExpendable; }
 };
 

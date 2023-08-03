@@ -18,18 +18,7 @@ HRESULT Stage1_1Scene::init(void)
 	FileManager::loadEnemyFile("Stage1_1_Enemy.txt", _vEnemy, _vTiles, _tileMaxCol);
 
 	// 아이템 초기화
-	//FileManager::loadItemFile("Stage1_1_Enemy.txt", _vItem);
-	Item* _item1 = new Armor;
-	_item1->init(12, 9, ITEM_TYPE::ARMOR, 2, 25);
-	_vItem.push_back(_item1);
-
-	Item* _item2 = new Weapon;
-	_item2->init(13, 9, ITEM_TYPE::WEAPON, 2, 35);
-	_vItem.push_back(_item2);
-
-	Item* _item3 = new Armor;
-	_item3->init(14, 9, ITEM_TYPE::ARMOR, 4, 45);
-	_vItem.push_back(_item3);
+	FileManager::loadItemFile("Stage1_1_Item.txt", _vItem);
 
 	// 다음 스테이지 계단
 	_stairTileIdx = 22 * _tileMaxCol + 4;

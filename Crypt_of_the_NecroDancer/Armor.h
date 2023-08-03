@@ -13,6 +13,8 @@ public:
 	void render(HDC hdc);
 	void slotRender(HDC hdc, Vec2_F pos);
 
+	int getDefense() { return _defense; }
+
 	Armor() {}
 	~Armor() {}
 };

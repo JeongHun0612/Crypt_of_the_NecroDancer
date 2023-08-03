@@ -46,17 +46,16 @@ void GameScene::update(void)
 	}
 
 	// 아이템 업데이트
-	for (auto iter = _vItem.begin(); iter != _vItem.end(); ++iter)
+	for (auto iter = _vItem.begin(); iter != _vItem.end();)
 	{
 		(*iter)->update();
 
-		// 아이템 삭제
-		//if ((*iter)->getIsSale())
-		//{
-		//	(*iter)->release();
-		//	iter = _vItem.erase(iter);
-		//}
-		//else ++iter;
+		if ((*iter)->getIsSale())
+		{
+			(*iter)->release();
+			iter = _vItem.erase(iter);
+		}
+		else ++iter;
 	}
 }
 

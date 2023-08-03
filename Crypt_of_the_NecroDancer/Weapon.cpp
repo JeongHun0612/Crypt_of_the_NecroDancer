@@ -15,7 +15,7 @@ HRESULT Weapon::init()
 	_effectImg.maxFrameX = _effectImg.img->getMaxFrameX();
 
 	_itemType = ITEM_TYPE::WEAPON;
-	_weaponType = WEAPON_TYPE::DAGGER;
+	_type = (int)WEAPON_TYPE::DAGGER;
 
 	_power = 1;
 
@@ -31,9 +31,7 @@ HRESULT Weapon::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price
 	_img.frameX = type;
 	_img.frameY = 0;
 
-	_weaponType = (WEAPON_TYPE)type;
-
-	switch (_weaponType)
+	switch ((WEAPON_TYPE)_type)
 	{
 	case WEAPON_TYPE::DAGGER:
 		_power = 1;
@@ -59,14 +57,31 @@ void Weapon::update()
 {
 	Item::update();
 
-	if (_posIdx.x == PLAYER->getPosIdx().x && _posIdx.y == PLAYER->getPosIdx().y)
+	if (_isCollider && !_isChange)
 	{
 		// 플레이어의 소지금이 아이템의 가격보다 높을 때 
 		if (PLAYER->getCoin() >= _price)
 		{
+			if (_price == 0)
+			{
+				SOUNDMANAGER->play("pickup_weapon");
+			}
+			else
+			{
+				SOUNDMANAGER->play("pickup_purchase");
+			}
+
 			PLAYER->setCoin(PLAYER->getCoin() - _price);
-			PLAYER->setCurWeapon(this);
-			_isSale = true;
+			Weapon* tempWeapon = new Weapon;
+			tempWeapon->init(_posIdx.x, _posIdx.y, _itemType, _type, 0);
+
+			_type = PLAYER->getCurWeapon()->getType();
+			_img.frameX = _type;
+			_power = PLAYER->getCurWeapon()->getPower();
+			_price = 0;
+
+			PLAYER->setCurWeapon(tempWeapon);
+			_isChange = true;
 		}
 	}
 }

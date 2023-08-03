@@ -292,9 +292,9 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList)
 
 		int idxX = 0;
 		int idxY = 0;
-
 		ITEM_TYPE itemType;
-		int type;
+		int type = 0;
+		int price = 0;
 
 		while (true)
 		{
@@ -306,16 +306,26 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList)
 
 				switch (stoi(line))
 				{
-				//case (int)ITEM_TYPE::SHOVEL:
-				//	_item = new Shovel;
-				//	break;
-				//case (int)ITEM_TYPE::WEAPON:
-				//	_item = new Weapon;
-				//	break;
-				//case (int)ITEM_TYPE::ARMOR:
-				//	_item = new Armor;
-				//	_item->init(idxX, idxY, stats, (ARMOR_TYPE)type);
-				//	break;
+				case (int)ITEM_TYPE::SHOVEL:
+					_item = new Shovel;
+					_item->init(idxX, idxY, (ITEM_TYPE)stoi(line), type, price);
+					break;
+				case (int)ITEM_TYPE::WEAPON:
+					_item = new Weapon;
+					_item->init(idxX, idxY, (ITEM_TYPE)stoi(line), type, price);
+					break;
+				case (int)ITEM_TYPE::ARMOR:
+					_item = new Armor;
+					_item->init(idxX, idxY, (ITEM_TYPE)stoi(line), type, price);
+					break;
+				case (int)ITEM_TYPE::BOMB:
+					//_item = new Bomb;
+					//_item->init(idxX, idxY, (ITEM_TYPE)stoi(line), type, price);
+					break;
+				case (int)ITEM_TYPE::POTION:
+					_item = new Potion;
+					_item->init(idxX, idxY, (ITEM_TYPE)stoi(line), type, price);
+					break;
 				}
 
 				vItemList.push_back(_item);
@@ -331,6 +341,12 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList)
 				break;
 			case 1:
 				idxX = tileData;
+				break;
+			case 2:
+				type = tileData;
+				break;
+			case 3:
+				price = tileData;
 				break;
 			}
 

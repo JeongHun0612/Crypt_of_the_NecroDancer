@@ -17,7 +17,7 @@ HRESULT MainGame::init(void)
 	initImage();
 
 	// 사운드 추가
-	//initSound();
+	initSound();
 
 	// 싱글톤 클래스 초기화
 	BEAT->init();
@@ -80,7 +80,7 @@ void MainGame::initImage()
 	// ===================
 	// 타일
 	// ===================
-	IMAGEMANAGER->addFrameImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 192, 128, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("tile_terrain", "Resources/Images/Tile/Tile_Terrain.bmp", 256, 128, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("tile_wall", "Resources/Images/Tile/Tile_Wall.bmp", 320, 1152, 5, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("tile_torch", "Resources/Images/Tile/Tile_Torch.bmp", 96, 52, 4, 1, true, RGB(255, 0, 255));
 
@@ -96,6 +96,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("slot_shovel", "Resources/Images/HUD/Slot_Shovel.bmp", 60, 66, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot_attack", "Resources/Images/HUD/Slot_Attack.bmp", 60, 66, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("slot_body", "Resources/Images/HUD/Slot_Body.bmp", 60, 66, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("slot_item", "Resources/Images/HUD/Slot_Item.bmp", 60, 66, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("slot_bomb", "Resources/Images/HUD/Slot_Bomb.bmp", 60, 66, true, RGB(255, 0, 255));
 
 	// HUD - HP
 	IMAGEMANAGER->addFrameImage("small_heart", "Resources/Images/HUD/small_heart.bmp", 48, 22, 2, 1, true, RGB(255, 0, 255));
@@ -109,7 +111,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("diamond", "Resources/Images/HUD/diamond.bmp", 50, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("x_button", "Resources/Images/HUD/x_button.bmp", 15, 15, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("number", "Resources/Images/HUD/number.bmp", 120, 18, 10, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("small_number", "Resources/Images/HUD/number.bmp", 60, 9, 10, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("small_number", "Resources/Images/HUD/number.bmp", 80, 12, 10, 1, true, RGB(255, 0, 255));
 
 	// ===================
 	// 플레이어
@@ -123,12 +125,11 @@ void MainGame::initImage()
 	// ===================
 	// 아이템
 	// ===================
-	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dagger", "Resources/Images/Item/Dagger.bmp", 26, 52, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
-
 	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 240, 90, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("weapon", "Resources/Images/Item/Weapon.bmp", 144, 100, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("potion", "Resources/Images/Item/Food.bmp", 120, 80, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bomb", "Resources/Images/Item/Bomb.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
 
 	// 아이템 - 코인
 	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
@@ -149,6 +150,7 @@ void MainGame::initImage()
 	// ===================
 	IMAGEMANAGER->addFrameImage("effect_dagger", "Resources/Images/Effect/effect_dagger.bmp", 144, 192, 3, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("enemy_effect", "Resources/Images/Effect/enemy_effect.bmp", 240, 44, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("effect_explosion", "Resources/Images/Effect/effect_explosion.bmp", 1152, 144, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("hit_effect", "Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
 	IMAGEMANAGER->addFrameImage("dragon_fire", "Resources/Images/Effect/dragon_fire.bmp", 448, 48, 7, 1, true, RGB(255, 0, 255));
 
@@ -219,26 +221,24 @@ void MainGame::initSound()
 	// ===================
 
 	// 플레이어 - 삽질
-	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/Dig/vo_cad_dig_01.ogg", false, false);
-	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/Dig/vo_cad_dig_02.ogg", false, false);
-	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/Dig/vo_cad_dig_03.ogg", false, false);
-	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/Dig/vo_cad_dig_04.ogg", false, false);
-	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/Dig/vo_cad_dig_05.ogg", false, false);
-	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/Dig/vo_cad_dig_06.ogg", false, false);
+	SOUNDMANAGER->addSound("dig1", "Resources/Sounds/Player/Dig/vo_cad_dig_01.wav", false, false);
+	SOUNDMANAGER->addSound("dig2", "Resources/Sounds/Player/Dig/vo_cad_dig_02.wav", false, false);
+	SOUNDMANAGER->addSound("dig3", "Resources/Sounds/Player/Dig/vo_cad_dig_03.wav", false, false);
+	SOUNDMANAGER->addSound("dig4", "Resources/Sounds/Player/Dig/vo_cad_dig_04.wav", false, false);
+	SOUNDMANAGER->addSound("dig5", "Resources/Sounds/Player/Dig/vo_cad_dig_05.wav", false, false);
+	SOUNDMANAGER->addSound("dig6", "Resources/Sounds/Player/Dig/vo_cad_dig_06.wav", false, false);
 
 	// 플레이어 - 난투
-	SOUNDMANAGER->addSound("melee1_1", "Resources/Sounds/Player/Melee/vo_cad_melee_1_01.ogg", false, false);
-	SOUNDMANAGER->addSound("melee1_2", "Resources/Sounds/Player/Melee/vo_cad_melee_1_02.ogg", false, false);
-	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.ogg", false, false);
-	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.ogg", false, false);
+	SOUNDMANAGER->addSound("melee1_1", "Resources/Sounds/Player/Melee/vo_cad_melee_1_01.wav", false, false);
+	SOUNDMANAGER->addSound("melee1_2", "Resources/Sounds/Player/Melee/vo_cad_melee_1_02.wav", false, false);
+	SOUNDMANAGER->addSound("melee1_3", "Resources/Sounds/Player/Melee/vo_cad_melee_1_03.wav", false, false);
+	SOUNDMANAGER->addSound("melee1_4", "Resources/Sounds/Player/Melee/vo_cad_melee_1_04.wav", false, false);
 
 	// 플레이어 - 피격
-	SOUNDMANAGER->addSound("hurt1", "Resources/Sounds/Player/Hurt/vo_cad_hurt_01.ogg", false, false);
-	SOUNDMANAGER->addSound("hurt2", "Resources/Sounds/Player/Hurt/vo_cad_hurt_02.ogg", false, false);
-	SOUNDMANAGER->addSound("hurt3", "Resources/Sounds/Player/Hurt/vo_cad_hurt_03.ogg", false, false);
-	SOUNDMANAGER->addSound("hurt4", "Resources/Sounds/Player/Hurt/vo_cad_hurt_04.ogg", false, false);
-	SOUNDMANAGER->addSound("hurt5", "Resources/Sounds/Player/Hurt/vo_cad_hurt_05.ogg", false, false);
-	SOUNDMANAGER->addSound("hurt6", "Resources/Sounds/Player/Hurt/vo_cad_hurt_06.ogg", false, false);
+	SOUNDMANAGER->addSound("hurt1", "Resources/Sounds/Player/Hurt/vo_cad_hurt_01.wav", false, false);
+	SOUNDMANAGER->addSound("hurt2", "Resources/Sounds/Player/Hurt/vo_cad_hurt_02.wav", false, false);
+	SOUNDMANAGER->addSound("hurt3", "Resources/Sounds/Player/Hurt/vo_cad_hurt_03.wav", false, false);
+	SOUNDMANAGER->addSound("hurt4", "Resources/Sounds/Player/Hurt/vo_cad_hurt_04.wav", false, false);
 
 	// ===================
 	// 애너미
@@ -255,9 +255,9 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("skeleton_death", "Resources/Sounds/Enemy/Skeleton/en_skel_death.ogg", false, false);
 
 	// 박쥐
-	SOUNDMANAGER->addSound("bat_attack", "Resources/Sounds/Enemy/Bat/en_bat_attack.ogg", false, false);
-	SOUNDMANAGER->addSound("bat_hit", "Resources/Sounds/Enemy/Bat/en_bat_hit.ogg", false, false);
-	SOUNDMANAGER->addSound("bat_death", "Resources/Sounds/Enemy/Bat/en_bat_death.ogg", false, false);
+	SOUNDMANAGER->addSound("bat_attack", "Resources/Sounds/Enemy/Bat/en_bat_attack.wav", false, false);
+	SOUNDMANAGER->addSound("bat_hit", "Resources/Sounds/Enemy/Bat/en_bat_hit.wav", false, false);
+	SOUNDMANAGER->addSound("bat_death", "Resources/Sounds/Enemy/Bat/en_bat_death.wav", false, false);
 
 	// 원숭이
 	SOUNDMANAGER->addSound("monkey_hit", "Resources/Sounds/Enemy/Monkey/en_monkey_hit_01.ogg", false, false);
@@ -276,33 +276,34 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("minotaur_wallimpact", "Resources/Sounds/Enemy/Minotaur/en_minotaur_wallimpact.ogg", false, false);
 
 	// 드래곤
-	SOUNDMANAGER->addSound("dargon_attack", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_melee.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_prefire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_prefire.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_fire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_fire.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_cry", "Resources/Sounds/Enemy/Dragon/en_dragon_cry.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_hit", "Resources/Sounds/Enemy/Dragon/en_dragon_hit_01.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_death", "Resources/Sounds/Enemy/Dragon/en_dragon_death.ogg", false, false);
-	SOUNDMANAGER->addSound("dargon_walk", "Resources/Sounds/Enemy/Dragon/en_dragon_walk_01.ogg", false, false);
+	SOUNDMANAGER->addSound("dargon_attack", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_melee.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_prefire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_prefire.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_fire", "Resources/Sounds/Enemy/Dragon/en_dragon_attack_fire.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_cry", "Resources/Sounds/Enemy/Dragon/en_dragon_cry.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_hit", "Resources/Sounds/Enemy/Dragon/en_dragon_hit_01.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_death", "Resources/Sounds/Enemy/Dragon/en_dragon_death.wav", false, false);
+	SOUNDMANAGER->addSound("dargon_walk", "Resources/Sounds/Enemy/Dragon/en_dragon_walk_01.wav", false, false);
 
 
 	// ===================
 	// 오브젝트
 	// ===================
-	SOUNDMANAGER->addSound("dig_brick", "Resources/Sounds/Object/mov_dig_brick.ogg", false, false);
-	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.ogg", false, false);
-	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.ogg", false, false);
-	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.ogg", false, false);
-	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.ogg", false, false);
-	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.ogg", false, false);
-	SOUNDMANAGER->addSound("door_open", "Resources/Sounds/Object/obj_door_open.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_brick", "Resources/Sounds/Object/mov_dig_brick.wav", false, false);
+	SOUNDMANAGER->addSound("dig_dirt", "Resources/Sounds/Object/mov_dig_dirt.wav", false, false);
+	SOUNDMANAGER->addSound("dig_fail", "Resources/Sounds/Object/mov_dig_fail.wav", false, false);
+	SOUNDMANAGER->addSound("dig_stone", "Resources/Sounds/Object/mov_dig_stone.wav", false, false);
+	SOUNDMANAGER->addSound("create_break", "Resources/Sounds/Object/obj_crate_break.wav", false, false);
+	SOUNDMANAGER->addSound("create_hit", "Resources/Sounds/Object/obj_crate_hit.wav", false, false);
+	SOUNDMANAGER->addSound("door_open", "Resources/Sounds/Object/obj_door_open.wav", false, false);
 
 
 	// ===================
 	// SFX
 	// ===================
-
-	// 골드 획득
-	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.ogg", false, false);
-	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.ogg", false, false);
-	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.ogg", false, false);
+	SOUNDMANAGER->addSound("player_hit_ST", "Resources/Sounds/SFX/sfx_player_hit_ST.wav", false, false);
+	SOUNDMANAGER->addSound("missed_beat", "Resources/Sounds/SFX/sfx_missedbeat.wav", false, false);
+	SOUNDMANAGER->addSound("pickup_gold", "Resources/Sounds/SFX/sfx_pickup_gold_01.wav", false, false);
+	SOUNDMANAGER->addSound("pickup_purchase", "Resources/Sounds/SFX/sfx_pickup_purchase.wav", false, false);
+	SOUNDMANAGER->addSound("pickup_armor", "Resources/Sounds/SFX/sfx_pickup_armor.wav", false, false);
+	SOUNDMANAGER->addSound("pickup_weapon", "Resources/Sounds/SFX/sfx_pickup_weapon.wav", false, false);
 }

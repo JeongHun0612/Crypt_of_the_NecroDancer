@@ -3,16 +3,20 @@
 
 HRESULT Item::init()
 {
-
 	return S_OK;
 }
 
 HRESULT Item::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price)
 {
-	_itemType = itemType;
 	_posIdx = { idxX, idxY };
+	_posY = 0.0f;
+	_speed = 0.1f;
+
+	_itemType = itemType;
+	_type = type;
 	_price = price;
 	_isSale = false;
+	_isCollider = false;
 
 	return S_OK;
 }
@@ -24,8 +28,31 @@ void Item::release()
 
 void Item::update()
 {
+	// 이미지 위 아래 움직이기
+	_posY -= _speed;
+
+	if (_posY <= -5.0f)
+	{
+		_speed = -0.1f;
+	}
+
+	if (_posY >= 0.0f)
+	{
+		_speed = 0.1f;
+	}
+
 	// 플레이어와의 거리
 	_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
+
+	if (_posIdx.x == PLAYER->getPosIdx().x && _posIdx.y == PLAYER->getPosIdx().y)
+	{
+		_isCollider = true;
+	}
+	else
+	{
+		_isCollider = false;
+		_isChange = false;
+	}
 }
 
 void Item::render(HDC hdc)
@@ -57,7 +84,7 @@ void Item::render(HDC hdc)
 		// 아이템 출력
 		_img.img->frameRender(hdc,
 			(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 - _img.img->getFrameWidth() / 2,
-			(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _img.img->getFrameHeight(),
+			(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _img.img->getFrameHeight() + _posY,
 			_img.frameX,
 			_img.img->getFrameY());
 	}

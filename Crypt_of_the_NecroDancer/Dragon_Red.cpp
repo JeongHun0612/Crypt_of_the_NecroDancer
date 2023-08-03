@@ -48,9 +48,10 @@ void Dragon_Red::update()
 	Enemy::update();
 
 	// 첫 등장 시 사운드 출력
-	if (!_vTerrainTile[_curTileIdx]->_isLight)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < PLAYER->getLightPower() + 2 && !_isCry)
 	{
 		SOUNDMANAGER->play("dargon_cry");
+		_isCry = true;
 	}
 
 	if (_stepCount == 2 && !_isFire && !_isPreFire)

@@ -4,6 +4,8 @@
 #include "Shovel.h"
 #include "Weapon.h"
 #include "Armor.h"
+#include "Potion.h"
+#include "Bomb.h"
 
 enum class PLAYER_DIRECTION
 {
@@ -40,6 +42,8 @@ private:
 	Shovel* _curShovel;						// 플레이어가 착용 중인 삽
 	Weapon* _curWeapon;						// 플레이어가 착용 중인 무기
 	Armor* _curArmor;						// 플레이어가 착용 중인 갑옷
+	Potion* _curPotion;						// 플레이어가 소지 중인 포션
+	Bomb* _curBomb;							// 플레이어가 소지 중인 폭탄
 
 	Vec2_F _pos;							// 현재 플레이어 포지션
 	Vec2 _posIdx;							// 현재 플레이어가 있는 타일 인덱스
@@ -61,6 +65,7 @@ private:
 	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
 	bool _isAttack;							// 플레이어가 공격 상태인지
 	bool _isHit;							// 플레이어가 피격 상태인지
+	bool _isBomb;							// 플레이어가 폭탄을 사용했는지
 	bool _isInvincible;						// 플레이어가 무적 상태인지
 	bool _isGrab;							// 원숭이가 매달린 상태인지
 	bool _isNextStage;						// 다음 스테이지로 넘어갈 수 있는 조건이 갖춰줬는지
@@ -134,6 +139,8 @@ public:
 	bool getIsAttack() { return _isAttack; }
 	void setIsAttack(bool isAttack) { _isAttack = isAttack; }
 
+	bool getIsBomb() { return _isBomb; }
+
 	void setIsGrab(bool isGrab) { _isGrab = isGrab; }
 
 	bool getIsNextStage() { return _isNextStage; }
@@ -149,6 +156,12 @@ public:
 
 	Armor* getCurArmor() { return _curArmor; }
 	void setCurArmor(Armor* curArmor) { _curArmor = curArmor; }
+
+	Potion* getCurPotion() { return _curPotion; }
+	void setCurPotion(Potion* curPotion) { _curPotion = curPotion; }
+
+	Bomb* getCurBomb() { return _curBomb; }
+	void setCurBomb(Bomb* curBomb) { _curBomb = curBomb; }
 
 	Player() {}
 	~Player() {}

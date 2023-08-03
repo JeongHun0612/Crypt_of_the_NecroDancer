@@ -136,6 +136,9 @@
     <Filter Include="MainGame\Object\Item\Potion">
       <UniqueIdentifier>{ceedd54d-93d7-4c22-addd-0394ed23a012}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Item\Bomb">
+      <UniqueIdentifier>{acff219a-7ca1-4a46-ab24-0676fc45e4ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="Potion.cpp">
       <Filter>MainGame\Object\Item\Potion</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>MainGame\Object\Item\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="Potion.h">
       <Filter>MainGame\Object\Item\Potion</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>MainGame\Object\Item\Bomb</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

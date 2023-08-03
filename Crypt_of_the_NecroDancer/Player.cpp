@@ -44,6 +44,10 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles)
 	_curWeapon->init();
 	UIMANAGER->addEquipment(_curWeapon);
 
+	_curBomb = new Bomb;
+	_curBomb->init();
+	UIMANAGER->addExpendable(_curBomb);
+
 	return S_OK;
 }
 
@@ -69,6 +73,7 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector
 	_isMove = false;
 	_isAttack = false;
 	_isHit = false;
+	_isBomb = false;
 	_isInvincible = false;
 	_isGrab = false;
 	_isNextStage = false;
@@ -122,6 +127,39 @@ void Player::update(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 			_nextDirection = PLAYER_DIRECTION::DOWN;
+		}
+
+		// ÆøÅº »ç¿ë
+		if (KEYMANAGER->isOnceKeyDown('Z'))
+		{
+			if (_curBomb->getCount() != 0)
+			{
+				_isBomb = true;
+
+				_curBomb->setPosIdx(_posIdx.x, _posIdx.y);
+				_curBomb->setCount(_curBomb->getCount() - 1);
+
+				if (_curBomb->getCount() == 0)
+				{
+					UIMANAGER->deleteExpendable(_curBomb);
+				}
+			}
+		}
+
+		// ¾ÆÀÌÅÛ »ç¿ë
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			if (_curPotion != nullptr)
+			{
+				_curHP += _curPotion->getRecoveryAmount();
+				if (_curHP > _maxHP)
+				{
+					_curHP = _maxHP;
+				}
+
+				UIMANAGER->deleteExpendable(_curPotion);
+				_curPotion = nullptr;
+			}
 		}
 	}
 
@@ -202,7 +240,6 @@ void Player::update(void)
 			// Àû °´Ã¼ °Ë»ç
 			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
-
 				if ((_isGrab && (*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y) ||
 					!_isGrab && (*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
 				{
@@ -276,7 +313,7 @@ void Player::update(void)
 
 		if (_effectAlpha == 50)
 		{
-			SOUNDMANAGER->play("hurt" + to_string(RND->getFromIntTo(1, 6)));
+			SOUNDMANAGER->play("hurt" + to_string(RND->getFromIntTo(1, 4)));
 			_beatCount = BEAT->getBeatCount();
 			_isInvincible = true;
 		}
@@ -337,6 +374,12 @@ void Player::render(HDC hdc)
 		iter->render(hdc);
 	}
 
+	// ÆøÅº ¼³Ä¡
+	if (_isBomb)
+	{
+		_curBomb->render(hdc, _beatCount);
+	}
+
 	// ±×¸²ÀÚ ÀÌ¹ÌÁö
 	_shadowImg->alphaRender(hdc,
 		_pos.x + 8,
@@ -349,7 +392,7 @@ void Player::render(HDC hdc)
 		_bodyImg->frameAlphaRender(hdc,
 			_pos.x + 12,
 			_pos.y,
-			_bodyImg->getFrameX(), ((int)_curArmor->getArmorType() * 2) + _isLeft,
+			_bodyImg->getFrameX(), (_curArmor->getType() * 2) + _isLeft,
 			_playerAlpha);
 	}
 	else

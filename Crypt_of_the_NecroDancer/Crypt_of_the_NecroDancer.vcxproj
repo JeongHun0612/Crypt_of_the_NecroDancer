@@ -147,6 +147,7 @@
     <ClCompile Include="Bat_Blue.cpp" />
     <ClCompile Include="Bat_Red.cpp" />
     <ClCompile Include="Beat.cpp" />
+    <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Dragon_Red.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Bat_Blue.h" />
     <ClInclude Include="Bat_Red.h" />
     <ClInclude Include="Beat.h" />
+    <ClInclude Include="Bomb.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="Dragon_Red.h" />

@@ -25,6 +25,7 @@ HRESULT Minotaur_Normal::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, 
 
 	_isCharge = false;
 	_isGroggy = false;
+	_isCry = false;
 
 	return S_OK;
 }
@@ -43,9 +44,10 @@ void Minotaur_Normal::update()
 	Enemy::update();
 
 	// 첫 등장 시 사운드 출력
-	if (!_vTerrainTile[_curTileIdx]->_isLight)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < PLAYER->getLightPower() + 1 && !_isCry)
 	{
 		SOUNDMANAGER->play("minotaur_cry");
+		_isCry = true;
 	}
 
 	if (_stepCount == 1 && !_isCharge && !_isGroggy)

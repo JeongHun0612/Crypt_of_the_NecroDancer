@@ -60,6 +60,7 @@ protected:
 	bool _isLeft;
 	bool _isMove;
 	bool _isHit;
+	bool _isCry;
 	bool _isAttack;
 	bool _isInvincible;
 

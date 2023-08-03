@@ -33,15 +33,28 @@ void UIManager::update(void)
 		case ITEM_TYPE::SHOVEL:
 			break;
 		case ITEM_TYPE::WEAPON:
-			if (PLAYER->getCurWeapon()->getWeaponType() != (*iter)->getWeaponType())
+			if (PLAYER->getCurWeapon()->getType() != (*iter)->getType())
 			{
 				(*iter) = PLAYER->getCurWeapon();
 			}
 			break;
 		case ITEM_TYPE::ARMOR:
-			if (PLAYER->getCurArmor()->getArmorType() != (*iter)->getArmorType())
+			if (PLAYER->getCurArmor()->getType() != (*iter)->getType())
 			{
 				(*iter) = PLAYER->getCurArmor();
+			}
+			break;
+		}
+	}
+
+	for (auto iter = _vExpendable.begin(); iter != _vExpendable.end(); ++iter)
+	{
+		switch ((*iter)->getItemType())
+		{
+		case ITEM_TYPE::POTION:
+			if (PLAYER->getCurPotion()->getType() != (*iter)->getType())
+			{
+				(*iter) = PLAYER->getCurPotion();
 			}
 			break;
 		}
@@ -58,7 +71,7 @@ void UIManager::render(HDC hdc)
 
 	for (int i = 0; i < _vExpendable.size(); i++)
 	{
-		_vExpendable[i]->slotRender(hdc, { 80.0f, 10.0f + (i * 70.0f) });
+		_vExpendable[i]->slotRender(hdc, { 10.0f, 80.0f + (i * 70.0f) });
 	}
 
 	// HP Ãâ·Â
@@ -163,6 +176,22 @@ void UIManager::deleteEquiment(Item* equipment)
 		if (_vEquipment[i]->getItemType() == equipment->getItemType())
 		{
 			_vEquipment.erase(_vEquipment.begin() + i);
+		}
+	}
+}
+
+void UIManager::addExpendable(Item* expendable)
+{
+	_vExpendable.push_back(expendable);
+}
+
+void UIManager::deleteExpendable(Item* expendable)
+{
+	for (int i = 0; i < _vExpendable.size(); i++)
+	{
+		if (_vExpendable[i]->getItemType() == expendable->getItemType())
+		{
+			_vExpendable.erase(_vExpendable.begin() + i);
 		}
 	}
 }

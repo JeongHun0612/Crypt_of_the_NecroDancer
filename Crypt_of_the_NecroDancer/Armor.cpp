@@ -10,9 +10,7 @@ HRESULT Armor::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price)
 	_img.frameX = type - 1;
 	_img.frameY = 0;
 
-	_armorType = (ARMOR_TYPE)type;
-
-	switch (_armorType)
+	switch ((ARMOR_TYPE)type)
 	{
 	case ARMOR_TYPE::CLOTHES:
 		_defense = 0;
@@ -43,19 +41,39 @@ void Armor::update()
 {
 	Item::update();
 
-	if (_posIdx.x == PLAYER->getPosIdx().x && _posIdx.y == PLAYER->getPosIdx().y)
+	if (_isCollider && !_isChange)
 	{
 		// 플레이어의 소지금이 아이템의 가격보다 높을 때 
 		if (PLAYER->getCoin() >= _price)
 		{
-			if (PLAYER->getCurArmor() == nullptr)
+			if (_price == 0)
 			{
-				UIMANAGER->addEquipment(this);
+				SOUNDMANAGER->play("pickup_armor");
+			}
+			else
+			{
+				SOUNDMANAGER->play("pickup_purchase");
 			}
 
 			PLAYER->setCoin(PLAYER->getCoin() - _price);
-			PLAYER->setCurArmor(this);
-			_isSale = true;
+			Armor* tempArmor = new Armor;
+			tempArmor->init(_posIdx.x, _posIdx.y, _itemType, _type, 0);
+
+			if (PLAYER->getCurArmor() == nullptr)
+			{
+				UIMANAGER->addEquipment(this);
+				_isSale = true;
+			}
+			else
+			{
+				_type = PLAYER->getCurArmor()->getType();
+				_img.frameX = _type - 1;
+				_defense = PLAYER->getCurArmor()->getDefense();
+				_price = 0;
+			}
+
+			PLAYER->setCurArmor(tempArmor);
+			_isChange = true;
 		}
 	}
 }

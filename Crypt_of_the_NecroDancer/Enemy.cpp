@@ -47,6 +47,7 @@ HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTil
 	_isLeft = true;
 	_isMove = false;
 	_isHit = false;
+	_isCry = false;
 	_isAttack = false;
 	_isInvincible = false;
 

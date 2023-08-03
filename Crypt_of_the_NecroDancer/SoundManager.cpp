@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "SoundManager.h"
 
-SoundManager::SoundManager() : _system(nullptr), _channel(nullptr), _sound(nullptr)
+SoundManager::SoundManager() : _system(nullptr)
 {
 }
 
@@ -12,40 +12,32 @@ HRESULT SoundManager::init()
 	System_Create(&_system);
 
 	// 시스템 초기화
-	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
+	FMOD_RESULT fr = _system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
+	if (fr == FMOD_ERR_OUTPUT_INIT)
+	{
+		_system->release();
 
-	// 채널 수 만큼 메모리 버퍼 및 사운드 생성
-	_sound = new Sound * [TOTALSOUNDBUFFER];
-	_channel = new Channel * [TOTALSOUNDBUFFER];
-
-	// 메모리 초기화
-	memset(_sound, 0, sizeof(Sound*) * (TOTALSOUNDBUFFER));
-	memset(_channel, 0, sizeof(Channel*) * (TOTALSOUNDBUFFER));
+		System_Create(&_system);
+		_system->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
+		fr = _system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
+	}
 
 	return S_OK;
 }
 
 void SoundManager::release()
 {
-	// 사운드 삭제
-	if (_channel != nullptr || _sound != nullptr)
-	{
-		for (int i = 0; i < TOTALSOUNDBUFFER; i++)
-		{
-			if (_channel != nullptr)
-			{
-				if (_channel[i]) _channel[i]->stop();
-			}
+	mapSoundIter soundIter = _mSoundList.begin();
 
-			if (_sound != nullptr)
-			{
-				if (_sound[i]) _sound[i]->release();
-			}
-		}
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
+	{
+		_mActiveChannels[i].chaneel->stop();
 	}
 
-	SAFE_DELETE_ARRAY(_channel);
-	SAFE_DELETE_ARRAY(_sound);
+	for (; soundIter != _mSoundList.end(); ++soundIter)
+	{
+		soundIter->second->release();
+	}
 
 	// 시스템 해제
 	if (_system != nullptr)
@@ -53,17 +45,37 @@ void SoundManager::release()
 		_system->release();
 		_system->close();
 	}
-
-	//_mSoundList.clear();
 }
 
 void SoundManager::update()
 {
 	_system->update();
+
+	bool isPaused;
+	bool isPlaying;
+
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
+	{
+		_mActiveChannels[i].chaneel->getPaused(&isPaused);
+		if (isPaused)return;
+
+		_mActiveChannels[i].chaneel->isPlaying(&isPlaying);
+		if (isPlaying == false)
+		{
+			_mActiveChannels[i].chaneel->stop();
+			_mActiveChannels.erase(_mActiveChannels.begin() + i);
+			--i;
+		}
+	}
 }
 
 void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool loop)
 {
+	mapSoundIter iter = _mSoundList.find(strKey);
+	if (iter != _mSoundList.end()) return;
+
+	Sound* sound = nullptr;
+
 	if (loop)
 	{
 		if (bgm)
@@ -71,59 +83,75 @@ void SoundManager::addSound(string strKey, const char* fileName, bool bgm, bool 
 			// 통로를 만들어주기 떄문에 createStream
 			// 1 : 1 매칭
 			// createStream(파일명, 사운드를 열기 위한 방식, 성공 여부 반환, 주소값)
-			_system->createStream(fileName, FMOD_LOOP_NORMAL, NULL, &_sound[_mSoundList.size()]);
+			_system->createStream(fileName, FMOD_LOOP_NORMAL, NULL, &sound);
 		}
 		else
 		{
 			// 안전성은 떨어지지만 동시에 여러 개의 음원 재생 가능
-			_system->createSound(fileName, FMOD_LOOP_NORMAL, NULL, &_sound[_mSoundList.size()]);
+			_system->createSound(fileName, FMOD_LOOP_NORMAL, NULL, &sound);
 		}
 	}
 	else
 	{
 		if (bgm)
 		{
-			_system->createStream(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
+			_system->createStream(fileName, FMOD_DEFAULT, NULL, &sound);
 		}
 		else
 		{
-			_system->createSound(fileName, FMOD_DEFAULT, NULL, &_sound[_mSoundList.size()]);
+			_system->createSound(fileName, FMOD_DEFAULT, NULL, &sound);
 		}
 	}
 
-	_mSoundList.insert(make_pair(strKey, &_sound[_mSoundList.size()]));
-	//_mSoundList[strKey] = &_sound[_mSoundList.size()];
+	if (sound != nullptr)
+	{
+		_mSoundList.insert(make_pair(strKey, sound));
+	}
 }
 
 void SoundManager::play(string strKey, float volume)
 {
-	return;
-
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	//일시정지 되어 있는 사운드 인지 판단
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
-			//_system->playSound(*iter->second, 0, false, &_channel[count]);
-			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
-			_channel[count]->setVolume(volume);
-			break;
+			bool isPaused;
+			_mActiveChannels[i].chaneel->getPaused(&isPaused);
+			if (isPaused)
+			{
+				_mActiveChannels[i].chaneel->setPaused(false);
+				return;
+			}
 		}
 	}
+
+	if (_mActiveChannels.size() >= TOTALSOUNDBUFFER) return;
+
+	//해당 이름의 사운드가 없다면 return 
+	mapSoundIter iter = _mSoundList.find(strKey);
+	if (iter == _mSoundList.end()) return;
+
+	Channel* channel;
+	Sound* sound = iter->second;
+
+	_system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel);
+	channel->setVolume(volume);
+
+	ChannelInfo channelInfo;
+	channelInfo.chaneel = channel;
+	channelInfo.soundName = strKey;
+	_mActiveChannels.push_back(channelInfo);
 }
 
 void SoundManager::stop(string strKey)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
-			_channel[count]->stop();
+			_mActiveChannels[i].chaneel->stop();
+			_mActiveChannels.erase(_mActiveChannels.begin() + i);
 			break;
 		}
 	}
@@ -131,29 +159,11 @@ void SoundManager::stop(string strKey)
 
 void SoundManager::pause(string strKey)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
-			_channel[count]->setPaused(true);
-			break;
-		}
-	}
-}
-
-void SoundManager::resume(string strKey)
-{
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
-	{
-		if (strKey == iter->first)
-		{
-			_channel[count]->setPaused(false);
+			_mActiveChannels[i].chaneel->setPaused(true);
 			break;
 		}
 	}
@@ -161,16 +171,12 @@ void SoundManager::resume(string strKey)
 
 unsigned int SoundManager::getPosition(string strKey)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
 			unsigned int pos = 0;
-			_channel[count]->getPosition(&pos, FMOD_TIMEUNIT_MS);
-
+			_mActiveChannels[i].chaneel->getPosition(&pos, FMOD_TIMEUNIT_MS);
 			return pos;
 		}
 	}
@@ -178,14 +184,11 @@ unsigned int SoundManager::getPosition(string strKey)
 
 void SoundManager::setPosition(string strKey, float pos)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
-			_channel[count]->setPosition(pos, FMOD_TIMEUNIT_MS);
+			_mActiveChannels[i].chaneel->setPosition(pos, FMOD_TIMEUNIT_MS);
 			break;
 		}
 	}
@@ -193,16 +196,12 @@ void SoundManager::setPosition(string strKey, float pos)
 
 float SoundManager::getVolume(string strKey)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
 			float volume;
-			_channel[count]->getVolume(&volume);
-
+			_mActiveChannels[i].chaneel->getVolume(&volume);
 			return volume;
 		}
 	}
@@ -210,14 +209,11 @@ float SoundManager::getVolume(string strKey)
 
 void SoundManager::setVolume(string strKey, float volume)
 {
-	mapSoundIter iter = _mSoundList.begin();
-	int count = 0;
-
-	for (iter; iter != _mSoundList.end(); ++iter, count++)
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
 	{
-		if (strKey == iter->first)
+		if (_mActiveChannels[i].soundName == strKey)
 		{
-			_channel[count]->setVolume(volume);
+			_mActiveChannels[i].chaneel->setVolume(volume);
 			break;
 		}
 	}
