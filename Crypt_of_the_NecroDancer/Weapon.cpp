@@ -3,10 +3,48 @@
 
 HRESULT Weapon::init()
 {
-	_slotImg = IMAGEMANAGER->findImage("slot_weapon");
-	_img.img = IMAGEMANAGER->findImage("dagger");
+	Item::init();
+
+	_slotImg = IMAGEMANAGER->findImage("slot_attack");
+	_img.img = IMAGEMANAGER->findImage("weapon");
+	_img.frameX = 0;
+	_img.frameY = 0;
+
 	_effectImg.img = IMAGEMANAGER->findImage("effect_dagger");
+	_effectImg.frameX = 0;
+	_effectImg.maxFrameX = _effectImg.img->getMaxFrameX();
+
+	_itemType = ITEM_TYPE::WEAPON;
+	_weaponType = WEAPON_TYPE::DAGGER;
+
 	_power = 1;
+
+	return S_OK;
+}
+
+HRESULT Weapon::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price)
+{
+	Item::init(idxX, idxY, itemType, type, price);
+
+	_slotImg = IMAGEMANAGER->findImage("slot_attack");
+	_img.img = IMAGEMANAGER->findImage("weapon");
+	_img.frameX = type;
+	_img.frameY = 0;
+
+	_weaponType = (WEAPON_TYPE)type;
+
+	switch (_weaponType)
+	{
+	case WEAPON_TYPE::DAGGER:
+		_power = 1;
+		break;
+	case WEAPON_TYPE::BROADSWORD:
+		_power = 2;
+		break;
+	case WEAPON_TYPE::BOW:
+		_power = 2;
+		break;
+	}
 
 	return S_OK;
 }
@@ -14,37 +52,55 @@ HRESULT Weapon::init()
 
 void Weapon::release()
 {
+	Item::release();
 }
 
 void Weapon::update()
 {
-	//_count++;
+	Item::update();
 
-	//if (_count % 5 == 0)
-	//{
-	//	if (_effectImg->getFrameX() == _effectImg->getMaxFrameX())
-	//	{
-	//		_effectImg->setFrameX(0);
-	//		PLAYER->setIsAttack(false);
-	//	}
-
-	//	_effectImg->setFrameX(_effectImg->getFrameX() + 1);
-	//}
+	if (_posIdx.x == PLAYER->getPosIdx().x && _posIdx.y == PLAYER->getPosIdx().y)
+	{
+		// 플레이어의 소지금이 아이템의 가격보다 높을 때 
+		if (PLAYER->getCoin() >= _price)
+		{
+			PLAYER->setCoin(PLAYER->getCoin() - _price);
+			PLAYER->setCurWeapon(this);
+			_isSale = true;
+		}
+	}
 }
 
 void Weapon::render(HDC hdc)
 {
-	//// 이미지 출력
-	//_img.img->frameRender(hdc,
-	//	(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 - _img.img->getFrameWidth() / 2 + _pos.x,
-	//	(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _img.img->getFrameHeight() + _pos.y,
-	//	_img.frameX,
-	//	_img.img->getFrameY());
+	Item::render(hdc);
+}
 
+void Weapon::slotRender(HDC hdc, Vec2_F pos)
+{
+	Item::slotRender(hdc, pos);
 }
 
 void Weapon::effectRender(HDC hdc)
 {
+	// 공격 이펙트 프레임 변경
+	_effectImg.frameCount += TIMEMANAGER->getDeltaTime();
+
+	if (_effectImg.frameCount >= 0.06f)
+	{
+		if (_effectImg.frameX == _effectImg.maxFrameX)
+		{
+			_effectImg.frameX = 0;
+			PLAYER->setIsAttack(false);
+		}
+		else
+		{
+			_effectImg.frameX++;
+		}
+
+		_effectImg.frameCount = 0.0f;
+	}
+
 	// 이펙트 출력
 	switch (PLAYER->getCurDirection())
 	{

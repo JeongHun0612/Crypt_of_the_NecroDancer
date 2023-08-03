@@ -17,6 +17,8 @@
 //	int x, y;
 //};
 
+class Item;
+
 enum class HEART_TYPE
 {
 	EMPTY,
@@ -41,6 +43,9 @@ struct Heart
 class UIManager : public SingletonBase<UIManager>
 {
 private:
+	vector<Item*> _vEquipment;				// 소지 장비
+	vector<Item*> _vExpendable;				// 소지 소모품
+
 	vector<Heart> _vHeart;
 	vector<Coin> _vCoin;
 
@@ -53,5 +58,10 @@ public:
 	void render(HDC hdc);
 
 	void addCoin(int idxX, int idxY, int coinCount);
+
+	void addEquipment(Item* equipment);
+	void deleteEquiment(Item* equipment);
+
+	vector<Item*> getEquipment() { return _vEquipment; }
 };
 

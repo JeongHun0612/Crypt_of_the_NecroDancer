@@ -108,7 +108,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addImage("coin", "Resources/Images/HUD/coin.bmp", 40, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("diamond", "Resources/Images/HUD/diamond.bmp", 50, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("x_button", "Resources/Images/HUD/x_button.bmp", 15, 15, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("number", "Resources/Images/HUD/number.bmp", 150, 17, 10, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("number", "Resources/Images/HUD/number.bmp", 120, 18, 10, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("small_number", "Resources/Images/HUD/number.bmp", 60, 9, 10, 1, true, RGB(255, 0, 255));
 
 	// ===================
 	// 플레이어
@@ -125,7 +126,9 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("shovel", "Resources/Images/Item/Shovel.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dagger", "Resources/Images/Item/Dagger.bmp", 26, 52, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("sword", "Resources/Images/Item/Sword.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));
+
 	IMAGEMANAGER->addFrameImage("armor", "Resources/Images/Item/Armor.bmp", 240, 90, 5, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("weapon", "Resources/Images/Item/Weapon.bmp", 144, 100, 3, 2, true, RGB(255, 0, 255));
 
 	// 아이템 - 코인
 	IMAGEMANAGER->addFrameImage("coin2", "Resources/Images/Item/Coin/coin2.bmp", 48, 96, 1, 2, true, RGB(255, 0, 255));

@@ -26,23 +26,40 @@ void UIManager::release(void)
 
 void UIManager::update(void)
 {
-
+	for (auto iter = _vEquipment.begin(); iter != _vEquipment.end(); ++iter)
+	{
+		switch ((*iter)->getItemType())
+		{
+		case ITEM_TYPE::SHOVEL:
+			break;
+		case ITEM_TYPE::WEAPON:
+			if (PLAYER->getCurWeapon()->getWeaponType() != (*iter)->getWeaponType())
+			{
+				(*iter) = PLAYER->getCurWeapon();
+			}
+			break;
+		case ITEM_TYPE::ARMOR:
+			if (PLAYER->getCurArmor()->getArmorType() != (*iter)->getArmorType())
+			{
+				(*iter) = PLAYER->getCurArmor();
+			}
+			break;
+		}
+	}
 }
 
 void UIManager::render(HDC hdc)
 {
 	// 인벤토리 출력
-	for (int i = 0; i < PLAYER->getEquipment().size(); i++)
+	for (int i = 0; i < _vEquipment.size(); i++)
 	{
-		PLAYER->getEquipment()[i]->render(hdc, { 10.0f + (i * 70.0f), 10.0f });
-	}
-	for (int i = 0; i < PLAYER->getExpendable().size(); i++)
-	{
-		PLAYER->getExpendable()[i]->render(hdc, { 80.0f, 10.0f + (i * 70.0f) });
+		_vEquipment[i]->slotRender(hdc, { 10.0f + (i * 70.0f), 10.0f });
 	}
 
-	// 삽 모션
-	PLAYER->getCurShovel()->render(hdc);
+	for (int i = 0; i < _vExpendable.size(); i++)
+	{
+		_vExpendable[i]->slotRender(hdc, { 80.0f, 10.0f + (i * 70.0f) });
+	}
 
 	// HP 출력
 	for (int i = 0; i < _vHeart.size(); i++)
@@ -133,3 +150,20 @@ void UIManager::addCoin(int idxX, int idxY, int coinCount)
 
 	_vCoin.push_back(coin);
 }
+
+void UIManager::addEquipment(Item* equipment)
+{
+	_vEquipment.push_back(equipment);
+}
+
+void UIManager::deleteEquiment(Item* equipment)
+{
+	for (int i = 0; i < _vEquipment.size(); i++)
+	{
+		if (_vEquipment[i]->getItemType() == equipment->getItemType())
+		{
+			_vEquipment.erase(_vEquipment.begin() + i);
+		}
+	}
+}
+

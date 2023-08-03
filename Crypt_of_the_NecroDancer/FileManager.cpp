@@ -292,8 +292,9 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList)
 
 		int idxX = 0;
 		int idxY = 0;
-		int stats = 0;
-		int type = 0;
+
+		ITEM_TYPE itemType;
+		int type;
 
 		while (true)
 		{
@@ -330,12 +331,6 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList)
 				break;
 			case 1:
 				idxX = tileData;
-				break;
-			case 2:
-				stats = tileData;
-				break;
-			case 3:
-				type = tileData;
 				break;
 			}
 

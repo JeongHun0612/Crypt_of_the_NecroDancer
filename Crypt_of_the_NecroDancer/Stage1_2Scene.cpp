@@ -21,7 +21,7 @@ HRESULT Stage1_2Scene::init(void)
 	_stairTileIdx = 20 * _tileMaxCol + 4;
 
 	// 플레이어 초기화
-	PLAYER->init(13, 5, _vEnemy, _vTiles, _tileMaxCol);
+	//PLAYER->init(13, 5, _vEnemy, _vTiles, _tileMaxCol);
 
 	// 비트 초기화
 	BEAT->init("stage1_2.txt", "stage1_2");

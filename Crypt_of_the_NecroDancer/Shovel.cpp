@@ -5,48 +5,44 @@ HRESULT Shovel::init()
 {
 	_slotImg = IMAGEMANAGER->findImage("slot_shovel");
 	_img.img = IMAGEMANAGER->findImage("shovel");
+
 	_hardNess = 1;
 
+	_destoryTime = 0.0f;
+
+	_isDestory = false;
+
+	return S_OK;
+}
+
+HRESULT Shovel::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price)
+{
 	return S_OK;
 }
 
 void Shovel::release()
 {
+	Item::release();
 }
 
 void Shovel::update()
 {
+	Item::update();
+
+	_destoryTime += TIMEMANAGER->getDeltaTime();
+
+	if (_destoryTime >= 0.2f)
+	{
+		_isDestory = true;
+	}
 }
 
 void Shovel::render(HDC hdc)
 {
-	//for (auto iter = _vShowShovel.begin(); iter != _vShowShovel.end();)
-	//{
-	//	iter->_img->frameRender(hdc,
-	//		CAMERA->getPos().x - (PLAYER->getPosIdx().x - iter->_idxX) * 64 + 5,
-	//		CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->_idxY) * 64 - 20);
-
-	//	iter->_destoryTime += TIMEMANAGER->getDeltaTime();
-
-	//	if (iter->_destoryTime >= 0.2f)
-	//	{
-	//		iter = _vShowShovel.erase(iter);
-	//	}
-	//	else
-	//	{
-	//		++iter;
-	//	}
-	//}
+	Item::render(hdc);
 }
 
-void Shovel::addShowShovel(int idxX, int idxY)
+void Shovel::slotRender(HDC hdc, Vec2_F pos)
 {
-	//Shovel shovel;
-	//shovel._img = IMAGEMANAGER->findImage("shovel");
-	//shovel._idxX = idxX;
-	//shovel._idxY = idxY;
-	//shovel._destoryTime = 0.f;
-	//shovel._hardNess = 1;
-
-	//_vShowShovel.push_back(shovel);
+	Item::slotRender(hdc, pos);
 }

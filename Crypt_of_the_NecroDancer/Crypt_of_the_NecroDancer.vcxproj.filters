@@ -124,6 +124,18 @@
     <Filter Include="MainGame\Beat">
       <UniqueIdentifier>{e10c5776-0b7b-4275-959d-3b5a15c2a09e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Item\Shovel">
+      <UniqueIdentifier>{b01b2a6a-594d-4eb5-9703-2b00c5e25145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Item\Weapon">
+      <UniqueIdentifier>{b8595724-9310-4a77-a08c-affa4a9b0027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Item\Armor">
+      <UniqueIdentifier>{3150e80c-cf48-4b30-a621-f70f3a37c32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Item\Potion">
+      <UniqueIdentifier>{ceedd54d-93d7-4c22-addd-0394ed23a012}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -187,15 +199,6 @@
       <Filter>MainGame\Object\UI</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Shovel.cpp">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Armor.cpp">
       <Filter>MainGame\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
@@ -263,6 +266,18 @@
     </ClCompile>
     <ClCompile Include="Stage1_2Scene.cpp">
       <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Shovel.cpp">
+      <Filter>MainGame\Object\Item\Shovel</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>MainGame\Object\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>MainGame\Object\Item\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>MainGame\Object\Item\Potion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,15 +348,6 @@
       <Filter>MainGame\Object\UI</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Shovel.h">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Armor.h">
       <Filter>MainGame\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="IntroScene.h">
@@ -415,6 +421,18 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>2D FrameWork\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Shovel.h">
+      <Filter>MainGame\Object\Item\Shovel</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>MainGame\Object\Item\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>MainGame\Object\Item\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>MainGame\Object\Item\Potion</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

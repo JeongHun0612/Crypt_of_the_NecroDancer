@@ -2,22 +2,29 @@
 
 enum class ITEM_TYPE
 {
-	EQUIPMENT,
-	EXPENDABLE,
-};
-
-enum class EQUIPMENT_TYPE
-{
 	SHOVEL,
 	WEAPON,
-	ARMOR
-};
-
-enum class EXPENDABLE_TYPE
-{
+	ARMOR,
 	BOMB,
 	POTION
 };
+
+enum class WEAPON_TYPE
+{
+	DAGGER,
+	BROADSWORD,
+	BOW
+};
+
+enum class ARMOR_TYPE
+{
+	CLOTHES,
+	LEATHER,
+	CHAINMAIL,
+	PLATE,
+	HEAVY
+};
+
 
 class Item
 {
@@ -26,22 +33,31 @@ protected:
 	FrameImage _img;
 
 	ITEM_TYPE _itemType;
-	EQUIPMENT_TYPE _equipmentType;
-	EXPENDABLE_TYPE _expendableType;
+	WEAPON_TYPE _weaponType;
+	ARMOR_TYPE _armorType;
 
 	Vec2 _posIdx;
+	int _price;
+	int _distance;
+
+	bool _isSale;
 
 public:
 	virtual HRESULT init();
-	virtual HRESULT init(int idxX, int idxY, int type);
+	virtual HRESULT init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price);
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
-	virtual void render(HDC hdc, Vec2_F pos);
+	virtual void slotRender(HDC hdc, Vec2_F pos);
+
+	Vec2 getPosIdx() { return _posIdx; }
+	void setPosIdx(int idxX, int idxY) { _posIdx = { idxX, idxY }; }
+
+	bool getIsSale() { return _isSale; }
 
 	ITEM_TYPE getItemType() { return _itemType; }
-	EQUIPMENT_TYPE getEquipmentType() { return _equipmentType; }
-	EXPENDABLE_TYPE getExpendableType() { return _expendableType; }
+	WEAPON_TYPE getWeaponType() { return _weaponType; }
+	ARMOR_TYPE getArmorType() { return _armorType; }
 
 	Item() {}
 	~Item() {}

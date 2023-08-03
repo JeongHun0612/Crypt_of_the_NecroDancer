@@ -4,23 +4,20 @@
 class Shovel : public Item
 {
 private:
-	int _idxX;
-	int _idxY;
 	int _hardNess;
-
-	vector<Shovel> _vShowShovel;
 	float _destoryTime;
-
+	bool _isDestory;
 
 public:
 	HRESULT init();
+	HRESULT init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price);
 	void release();
 	void update();
 	void render(HDC hdc);
+	void slotRender(HDC hdc, Vec2_F pos);
 
 	int getHardNess() { return _hardNess; }
-
-	void addShowShovel(int idxX, int idxY);
+	bool getDestory() { return _isDestory; }
 
 	Shovel() {}
 	~Shovel() {}

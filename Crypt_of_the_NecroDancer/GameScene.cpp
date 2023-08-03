@@ -27,6 +27,9 @@ void GameScene::update(void)
 	// 플레이어 업데이트
 	PLAYER->update();
 
+	// UI 업데이트
+	UIMANAGER->update();
+
 	// 애너미 업데이트
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end();)
 	{
@@ -40,6 +43,20 @@ void GameScene::update(void)
 			iter = _vEnemy.erase(iter);
 		}
 		else ++iter;
+	}
+
+	// 아이템 업데이트
+	for (auto iter = _vItem.begin(); iter != _vItem.end(); ++iter)
+	{
+		(*iter)->update();
+
+		// 아이템 삭제
+		//if ((*iter)->getIsSale())
+		//{
+		//	(*iter)->release();
+		//	iter = _vItem.erase(iter);
+		//}
+		//else ++iter;
 	}
 }
 
@@ -69,8 +86,10 @@ void GameScene::render(void)
 		(*iter)->render(getMemDC());
 	}
 
+
 	// 플레이어 출력
 	PLAYER->render(getMemDC());
+
 
 	// 몬스터 출력
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
@@ -78,11 +97,14 @@ void GameScene::render(void)
 		(*iter)->render(getMemDC());
 	}
 
+
 	// 비트 출력
 	BEAT->render(getMemDC());
 
+
 	// UI 출력
 	UIMANAGER->render(getMemDC());
+
 
 	// 디버그 모드
 	if (KEYMANAGER->isToggleKey(VK_F1))

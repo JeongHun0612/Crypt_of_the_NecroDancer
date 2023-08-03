@@ -167,6 +167,7 @@
     <ClCompile Include="Monkey_Normal.cpp" />
     <ClCompile Include="Monkey_White.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Potion.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShopKeeper.cpp" />
     <ClCompile Include="Shovel.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Monkey.h" />
     <ClInclude Include="Monkey_Normal.h" />
     <ClInclude Include="Monkey_White.h" />
+    <ClInclude Include="Potion.h" />
     <ClInclude Include="ShopKeeper.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Skeleton_Yellow.h" />

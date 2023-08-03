@@ -32,28 +32,25 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles)
 	_shadowAlpha = 150;
 	_effectAlpha = 50;
 
-	_coin = 0;
+	_coin = 200;
 	_diamond = 0;
 
 	// 아이템 초기화
 	_curShovel = new Shovel;
 	_curShovel->init();
-	_vEquipment.push_back(_curShovel);
+	UIMANAGER->addEquipment(_curShovel);
 
 	_curWeapon = new Weapon;
 	_curWeapon->init();
-	_vEquipment.push_back(_curWeapon);
-
-	//_curArmor = new Armor;
-	//_curArmor->init();
-	//_vInventory.push_back(_curArmor);
+	UIMANAGER->addEquipment(_curWeapon);
 
 	return S_OK;
 }
 
-HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector<vector<Tile*>> vTiles, int tileMaxCol)
+HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector<Item*> vItem, vector<vector<Tile*>> vTiles, int tileMaxCol)
 {
 	_vEnemy = vEnemy;
+	_vItem = vItem;
 
 	_vTiles = vTiles;
 	_vTerrainTile = vTiles[(int)TILE_TYPE::TERRAIN];
@@ -126,11 +123,6 @@ void Player::update(void)
 		{
 			_nextDirection = PLAYER_DIRECTION::DOWN;
 		}
-
-		//if (KEYMANAGER->isOnceKeyDown('W'))
-		//{
-		//	_curArmor->setArmorType((ARMOR_TYPE)((int)_curArmor->getArmorType() + 1));
-		//}
 	}
 
 	int _curTileIdx = (_tileMaxCol * _posIdx.y) + _posIdx.x;
@@ -172,7 +164,7 @@ void Player::update(void)
 					if (_vWallTile[_nextTileIdx]->_hardNess > _curShovel->getHardNess())
 					{
 						SOUNDMANAGER->play("dig_fail");
-						_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
+						addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 					}
 					else
 					{
@@ -188,7 +180,7 @@ void Player::update(void)
 						else
 						{
 							SOUNDMANAGER->play("dig" + to_string(RND->getFromIntTo(1, 6)));
-							_curShovel->addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
+							addShowShovel(_nextPosIdx.x, _nextPosIdx.y);
 
 							switch (_vWallTile[_nextTileIdx]->_wallType)
 							{
@@ -210,6 +202,7 @@ void Player::update(void)
 			// 적 객체 검사
 			for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
 			{
+
 				if ((_isGrab && (*iter)->getPosIdx().x == _posIdx.x && (*iter)->getPosIdx().y == _posIdx.y) ||
 					!_isGrab && (*iter)->getPosIdx().x == _nextPosIdx.x && (*iter)->getPosIdx().y == _nextPosIdx.y)
 				{
@@ -261,10 +254,19 @@ void Player::update(void)
 		}
 	}
 
-	// 공격 상태일때
-	if (_isAttack)
+	// 삽질 상태일때
+	for (auto iter = _vShowShovel.begin(); iter != _vShowShovel.end();)
 	{
-		_curWeapon->update();
+		iter->update();
+
+		if (iter->getDestory())
+		{
+			iter = _vShowShovel.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 	}
 
 	// 피격 상태일때
@@ -329,20 +331,16 @@ void Player::render(HDC hdc)
 		IMAGEMANAGER->findImage("hit_effect")->alphaRender(hdc, _effectAlpha);
 	}
 
-	// 현재 착용 삽
-	//_curShovel->getImg()->frameRender(hdc,
-	//	40 - _curShovel->getImg()->getFrameWidth() / 2,
-	//	45 - _curShovel->getImg()->getFrameHeight() / 2);
-
-	// 현재 착용 무기
-	//_curWeapon->getImg()->frameRender(hdc,
-	//	110 - _curWeapon->getImg()->getFrameWidth() / 2,
-	//	45 - _curWeapon->getImg()->getFrameHeight() / 2);
+	// 삽 모션
+	for (auto iter = _vShowShovel.begin(); iter != _vShowShovel.end(); ++iter)
+	{
+		iter->render(hdc);
+	}
 
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
 		_pos.x + 8,
-		_pos.y -11,
+		_pos.y - 11,
 		_shadowAlpha);
 
 	// 몸통 이미지
@@ -363,7 +361,6 @@ void Player::render(HDC hdc)
 			_playerAlpha);
 	}
 
-
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,
 		_pos.x + 15,
@@ -376,4 +373,12 @@ void Player::render(HDC hdc)
 	char currentIdx[40];
 	sprintf_s(currentIdx, "Current Index : [%d, %d]", _posIdx.y, _posIdx.x);
 	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, currentIdx, strlen(currentIdx));
+}
+
+void Player::addShowShovel(int idxX, int idxY)
+{
+	Shovel showShovel = *_curShovel;
+	showShovel.setPosIdx(idxX, idxY);
+
+	_vShowShovel.push_back(showShovel);
 }
