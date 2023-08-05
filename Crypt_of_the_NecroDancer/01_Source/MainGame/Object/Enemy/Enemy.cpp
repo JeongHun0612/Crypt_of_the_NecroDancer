@@ -1,7 +1,7 @@
-#include "../../PCH/Stdafx.h"
+#include "../../../2DFrameWork/PCH/Stdafx.h"
 #include "Enemy.h"
 
-HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	_img.frameCount = 0.0f;
 	_img.frameX = 0;
@@ -21,6 +21,7 @@ HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTil
 
 	_heartImg = IMAGEMANAGER->findImage("small_heart");
 
+	_vTiles = vTiles;
 	_vTerrainTile = vTiles[(int)TILE_TYPE::TERRAIN];
 	_vWallTile = vTiles[(int)TILE_TYPE::WALL];
 	_maxTileCol = maxTileCol;
@@ -57,6 +58,7 @@ HRESULT Enemy::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTil
 void Enemy::release()
 {
 	_vTerrainTile[_curTileIdx]->_isCollider = false;
+	_vTerrainTile[_nextTileIdx]->_isCollider = false;
 
 	UIMANAGER->addCoin(_posIdx.x, _posIdx.y, _coinCount);
 }
@@ -67,79 +69,82 @@ void Enemy::update()
 	_distance = abs(_posIdx.x - PLAYER->getPosIdx().x) + abs(_posIdx.y - PLAYER->getPosIdx().y);
 	_shadowImg.alpha = 150;
 
-	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 11)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 17)
 	{
 		// 움직임 타이밍
-		_beatCount = BEAT->getBeatCount();
-
-		if (_prevBeatCount < _beatCount)
+		if (PLAYER->getCurHP() > 0)
 		{
-			_stepCount++;
-			_prevBeatCount = _beatCount;
-		}
+			_beatCount = BEAT->getBeatCount();
 
-		// 캐릭터 아래 쪽에 타일이 있을 시 그림자 숨기기
-		int curBottomTileIdx = _curTileIdx + _maxTileCol;
-		if (_vWallTile[curBottomTileIdx]->_idxX == _posIdx.x && _vWallTile[curBottomTileIdx]->_idxY == _posIdx.y + 1 && _vWallTile[curBottomTileIdx]->_isExist)
-		{
-			_shadowImg.alpha = 0;
-		}
-
-		// 프레임 이미지 변경
-		_img.frameCount += TIMEMANAGER->getDeltaTime();
-
-		if (_img.frameCount >= _frameCycle)
-		{
-			if (_img.frameX == _img.maxFrameX)
+			if (_prevBeatCount < _beatCount)
 			{
-				_img.frameX = _img.startFrameX;
+				_stepCount++;
+				_prevBeatCount = _beatCount;
+			}
+		}
+	}
+
+	// 캐릭터 아래 쪽에 타일이 있을 시 그림자 숨기기
+	int curBottomTileIdx = _curTileIdx + _maxTileCol;
+	if (_vWallTile[curBottomTileIdx]->_idxX == _posIdx.x && _vWallTile[curBottomTileIdx]->_idxY == _posIdx.y + 1 && _vWallTile[curBottomTileIdx]->_isExist)
+	{
+		_shadowImg.alpha = 0;
+	}
+
+	// 프레임 이미지 변경
+	_img.frameCount += TIMEMANAGER->getDeltaTime();
+
+	if (_img.frameCount >= _frameCycle)
+	{
+		if (_img.frameX == _img.maxFrameX)
+		{
+			_img.frameX = _img.startFrameX;
+		}
+		else
+		{
+			_img.frameX++;
+		}
+
+		_img.frameCount = 0.f;
+	}
+
+	// 공격 모션 프레임 변경
+	if (_isAttack)
+	{
+		_effectImg.frameCount += TIMEMANAGER->getDeltaTime();
+
+		if (_effectImg.frameCount >= 0.13f)
+		{
+			_effectImg.img->setFrameX(_effectImg.frameX);
+
+			if (_effectImg.frameX == _effectImg.maxFrameX)
+			{
+				_effectImg.frameX = 0;
+				_isAttack = false;
 			}
 			else
 			{
-				_img.frameX++;
-			}
-
-			_img.frameCount = 0.f;
-		}
-
-		// 공격 모션 프레임 변경
-		if (_isAttack)
-		{
-			_effectImg.frameCount += TIMEMANAGER->getDeltaTime();
-
-			if (_effectImg.frameCount >= 0.13f)
-			{
-				_effectImg.img->setFrameX(_effectImg.frameX);
-
-				if (_effectImg.frameX == _effectImg.maxFrameX)
-				{
-					_effectImg.frameX = 0;
-					_isAttack = false;
-				}
-				else
-				{
-					_effectImg.frameX++;
-				}
+				_effectImg.frameX++;
 			}
 		}
+	}
 
-		// 피격 판정 시
-		if (_isHit)
+	// 피격 판정 시
+	if (_isHit)
+	{
+		if (!_isInvincible)
 		{
-			if (!_isInvincible)
-			{
-				_curHP -= PLAYER->getCurWeapon()->getPower();
-			}
+			_curHP -= PLAYER->getCurWeapon()->getPower();
 		}
 	}
 }
 
 void Enemy::render(HDC hdc)
 {
-	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 11)
+	if (_vTerrainTile[_curTileIdx]->_isLight && _distance < 17)
 	{
 		// 거리에 따른 모습 변화
-		if (_distance > PLAYER->getLightPower() - 1)
+		if (_distance > PLAYER->getLightPower() - 1 && _type != ENEMY_TYPE::NECRODANCER)
 		{
 			_img.img->setFrameY(_img.frameY - 1);
 		}
@@ -210,20 +215,35 @@ void Enemy::render(HDC hdc)
 	}
 }
 
-void Enemy::sortDistance(MoveInfo* moveInfo)
+void Enemy::sortDistance(MoveInfo* moveInfo, int num, bool ASC)
 {
-	// 거리 오름차순 정렬 (가까운 순)
-	for (int i = 0; i < 4; i++)
+	// 거리 정렬
+	for (int i = 0; i < num; i++)
 	{
-		for (int j = 0; j < 3 - i; ++j)
+		for (int j = 0; j < (num - 1) - i; ++j)
 		{
-			if (_moveInfo[j].distance > _moveInfo[j + 1].distance)
+			// 오름차순
+			if (ASC)
 			{
-				MoveInfo tempMoveInfo;
-				tempMoveInfo = moveInfo[j];
-				moveInfo[j] = moveInfo[j + 1];
-				moveInfo[j + 1] = tempMoveInfo;
+				if (moveInfo[j].distance > moveInfo[j + 1].distance)
+				{
+					MoveInfo tempMoveInfo;
+					tempMoveInfo = moveInfo[j];
+					moveInfo[j] = moveInfo[j + 1];
+					moveInfo[j + 1] = tempMoveInfo;
+				}
+			}
 
+			// 내림차순
+			else
+			{
+				if (moveInfo[j].distance < moveInfo[j + 1].distance)
+				{
+					MoveInfo tempMoveInfo;
+					tempMoveInfo = moveInfo[j];
+					moveInfo[j] = moveInfo[j + 1];
+					moveInfo[j + 1] = tempMoveInfo;
+				}
 			}
 		}
 	}

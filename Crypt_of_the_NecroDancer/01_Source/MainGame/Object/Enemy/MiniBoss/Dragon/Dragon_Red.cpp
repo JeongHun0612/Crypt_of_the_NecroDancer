@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Dragon_Red.h"
 
-HRESULT Dragon_Red::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Dragon_Red::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
@@ -85,7 +85,7 @@ void Dragon_Red::update()
 		if (!_isAttack)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			sortDistance(_moveInfo);
+			sortDistance(_moveInfo, 4, true);
 
 			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 2)
 			{

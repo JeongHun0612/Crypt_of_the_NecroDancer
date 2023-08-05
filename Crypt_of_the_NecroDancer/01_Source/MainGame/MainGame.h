@@ -1,8 +1,5 @@
 #pragma once
-
-//#include "../Crypt_of_the_NecroDancer/GameNode.h"
-
-#include "GameNode.h"
+#include "../2DFrameWork/GameCore/GameNode.h"
 
 class MainGame : public GameNode
 {

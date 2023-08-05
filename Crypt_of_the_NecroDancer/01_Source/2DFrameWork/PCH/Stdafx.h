@@ -104,7 +104,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #include "../Utility/RandomFunction.h"
 
 #include "../../MainGame/Object/Player/Player.h"
-#include "../../MainGame/Beat/Beat.h"
+#include "../../MainGame/Object/Beat/Beat.h"
 #include "../Camera/Camera.h"
 
 

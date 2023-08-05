@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Slime_Green.h"
 
-HRESULT Slime_Green::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Slime_Green::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 

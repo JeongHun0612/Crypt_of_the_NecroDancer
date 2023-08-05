@@ -1,9 +1,11 @@
-#include "Stdafx.h"
+#include "../../../2DFrameWork/PCH/Stdafx.h"
+#include "../../../2DFrameWork/ManagerClass/FileManager.h"
 #include "Stage1_2Scene.h"
-#include "FileManager.h"
 
 HRESULT Stage1_2Scene::init(void)
 {
+	GameScene::init();
+
 	// 타일 초기화
 	FileManager::loadTileMapFile("Stage1_2_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
 	FileManager::loadTileMapFile("Stage1_2_Wall.txt", _vWallTile, TILE_TYPE::WALL);
@@ -24,20 +26,19 @@ HRESULT Stage1_2Scene::init(void)
 	PLAYER->init(13, 5, _vEnemy, _vItem, _vTiles, _tileMaxCol);
 
 	// 비트 초기화
-	BEAT->init("stage1_2.txt", "stage1_2");
-	BEAT->setIsBeat(true);
+	BEAT->init("stage1_3.txt", "stage1_3");
 
 	// 사운드 출력
-	SOUNDMANAGER->play("stage1_2", 0.5f);
-	SOUNDMANAGER->play("stage1_2_shopkeeper", 0.5f);
+	SOUNDMANAGER->play("stage1_3");
+	SOUNDMANAGER->play("stage1_3_shopkeeper");
 
 	return S_OK;
 }
 
 void Stage1_2Scene::release(void)
 {
-	SOUNDMANAGER->stop("stage1_2");
-	SOUNDMANAGER->stop("stage1_2_shopkeeper");
+	SOUNDMANAGER->stop("stage1_3");
+	SOUNDMANAGER->stop("stage1_3_shopkeeper");
 
 	_vTiles.clear();
 
@@ -59,9 +60,9 @@ void Stage1_2Scene::update(void)
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR && PLAYER->getIsNextStage())
+	if ((_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::OPEN_STAIR && PLAYER->getIsNextStage()) || _padeAlpha == 255)
 	{
-		//SCENEMANAGER->changeScene("stage1_2");
+		SCENEMANAGER->changeScene("boss");
 	}
 }
 

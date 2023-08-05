@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Skeleton_Yellow.h"
 
-HRESULT Skeleton_Yellow::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Skeleton_Yellow::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Skeleton::init(idxX, idxY, vTiles, maxTileCol);
 

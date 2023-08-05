@@ -1,6 +1,6 @@
-#include "Stdafx.h"
+#include "../PCH/Stdafx.h"
+#include "../GameCore/GameNode.h"
 #include "SceneManager.h"
-#include "GameNode.h"
 
 HRESULT SceneManager::init()
 {

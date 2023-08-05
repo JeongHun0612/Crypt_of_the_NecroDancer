@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Ghost.h"
 
-HRESULT Ghost::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Ghost::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
@@ -85,7 +85,7 @@ void Ghost::update()
 		if (!_isAttack)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			sortDistance(_moveInfo);
+			sortDistance(_moveInfo, 4, true);
 
 			// 추적 최소 거리 5
 			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)

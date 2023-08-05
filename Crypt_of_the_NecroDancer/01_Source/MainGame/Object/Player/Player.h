@@ -1,11 +1,12 @@
 #pragma once
-#include "SingletonBase.h"
-#include "Enemy.h"
-#include "Shovel.h"
-#include "Weapon.h"
-#include "Armor.h"
-#include "Potion.h"
-#include "Bomb.h"
+
+#include "../../../2DFrameWork/DesingPattern/SingletonBase.h"
+#include "../Enemy/Enemy.h"
+#include "../Item/Shovel/Shovel.h"
+#include "../Item/Weapon/Weapon.h"
+#include "../Item/Armor/Armor.h"
+#include "../Item/Potion/Potion.h"
+#include "../Item/Bomb/Bomb.h"
 
 enum class PLAYER_DIRECTION
 {
@@ -60,8 +61,6 @@ private:
 	int _coin;								// 플레이어 보유 코인
 	int _diamond;							// 플레이어 보유 다이아몬드
 
-	bool _isLobby;							// 플레이어가 현재 로비에 있는지
-
 	bool _isMove;							// 움직이고 있는 상태인지
 	bool _isLeft;							// 왼쪽을 바라보고 있는 상태인지
 	bool _isAttack;							// 플레이어가 공격 상태인지
@@ -77,8 +76,9 @@ private:
 	float _speed;							// 플레이어 속도
 
 public:
-	HRESULT init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles);
-	HRESULT init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector<Item*> vItem, vector<vector<Tile*>> vTiles, int tileMaxCol);
+	HRESULT init();
+	HRESULT init(int startIdxX, int startIdxY, vector<vector<Tile*>>& vTiles);
+	HRESULT init(int startIdxX, int startIdxY, vector<Enemy*>& vEnemy, vector<Item*>& vItem, vector<vector<Tile*>>& vTiles, int tileMaxCol);
 	void release(void);
 	void update(void);
 	void render(HDC hdc);
@@ -89,7 +89,7 @@ public:
 	// 타일 정보
 	vector<Tile*> getWallTile() { return _vWallTile; }
 	vector<Tile*> getTerrainTile() { return _vTerrainTile; }
-	vector<Enemy*> getEnemyList() { return _vEnemy; }
+	vector<Enemy*>& getEnemyList() { return _vEnemy; }
 	int getTileMaxCol() { return _tileMaxCol; }
 
 	// 플레이어 포지션
@@ -118,7 +118,10 @@ public:
 	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
 
-	// 플레이어 그림자 알파값
+	// 플레이어 알파값
+	int getPlayerAlpha() { return _playerAlpha; }
+	void setPlayerAlpha(int alpha) { _playerAlpha = alpha; }
+
 	void setShadowAlpha(int alpha) { _shadowAlpha = alpha; }
 
 
@@ -136,8 +139,6 @@ public:
 
 
 	// 플레이어 상태 변수
-	bool getIsLobby() { return _isLobby; }
-
 	bool getIsMove() { return _isMove; }
 	void setIsMove(bool isMove) { _isMove = isMove; }
 

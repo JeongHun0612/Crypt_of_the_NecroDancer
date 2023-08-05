@@ -1,5 +1,5 @@
 #include "../PCH/Stdafx.h"
-#include "../GameCore/GameNode.h"
+#include "GameNode.h"
 
 HRESULT GameNode::init(void)
 {
@@ -29,7 +29,6 @@ HRESULT GameNode::init(bool managerInit)
 
 		// ½Ì±ÛÅæ Å¬·¡½º ÃÊ±âÈ­
 		RND->init();
-
 	}
 
 	return S_OK;

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../GImage/GImage.h"
 
 // 백버퍼 -> 정적 이미지

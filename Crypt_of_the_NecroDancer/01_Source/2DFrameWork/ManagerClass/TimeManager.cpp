@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../PCH/Stdafx.h"
 #include "TimeManager.h"
 
 HRESULT TimeManager::init()

@@ -1,18 +1,36 @@
 #include "../../../2DFrameWork/PCH/Stdafx.h"
+#include "../../../2DFrameWork/Utility/TileMap.h"
 #include "Player.h"
-#include "TileMap.h"
 
-HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles)
+HRESULT Player::init()
+{
+	_headImg = IMAGEMANAGER->findImage("player_head");
+	_bodyImg = IMAGEMANAGER->findImage("player_body");
+	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
+
+	// ¾ÆÀÌÅÛ ÃÊ±âÈ­
+	_curShovel = new Shovel;
+	_curShovel->init();
+	UIMANAGER->getEquipment().push_back(_curShovel);
+
+	_curWeapon = new Weapon;
+	_curWeapon->init();
+	UIMANAGER->getEquipment().push_back(_curWeapon);
+
+	_curBomb = new Bomb;
+	_curBomb->init();
+	UIMANAGER->getExpendable().push_back(_curBomb);
+
+	return S_OK;
+}
+
+HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>>& vTiles)
 {
 	_vTiles = vTiles;
 	_vTerrainTile = _vTiles[(int)TILE_TYPE::TERRAIN];
 	_vWallTile = _vTiles[(int)TILE_TYPE::WALL];
 
 	_tileMaxCol = MAX_LOBBY_COL;
-
-	_headImg = IMAGEMANAGER->findImage("player_head");
-	_bodyImg = IMAGEMANAGER->findImage("player_body");
-	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
 
 	_pos = { (float)WINSIZE_X_HALF - 32.0f, (float)WINSIZE_Y_HALF - 32.0f };
 	_posIdx = { startIdxX , startIdxY };
@@ -32,28 +50,46 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>> vTiles)
 	_shadowAlpha = 150;
 	_effectAlpha = 50;
 
-	_coin = 200;
+	_coin = 0;
 	_diamond = 0;
 
-	_isLobby = true;
+	_isLeft = false;
+	_isMove = false;
+	_isAttack = false;
+	_isHit = false;
+	_isBomb = false;
+	_isInvincible = false;
+	_isGrab = false;
+	_isNextStage = false;
 
-	// ¾ÆÀÌÅÛ ÃÊ±âÈ­
-	_curShovel = new Shovel;
-	_curShovel->init();
-	UIMANAGER->addEquipment(_curShovel);
+	if (_curWeapon->getType() != (int)WEAPON_TYPE::DAGGER)
+	{
+		_curWeapon->init();
+	}
 
-	_curWeapon = new Weapon;
-	_curWeapon->init();
-	UIMANAGER->addEquipment(_curWeapon);
+	if (_curBomb == nullptr)
+	{
+		_curBomb = new Bomb;
+		_curBomb->init();
+		UIMANAGER->getExpendable().push_back(_curBomb);
+	}
 
-	_curBomb = new Bomb;
-	_curBomb->init();
-	UIMANAGER->addExpendable(_curBomb);
+	if (_curArmor != nullptr)
+	{
+		UIMANAGER->deleteEquiment(_curArmor);
+		_curArmor = nullptr;
+	}
+
+	if (_curPotion != nullptr)
+	{
+		UIMANAGER->deleteExpendable(_curPotion);
+		_curPotion = nullptr;
+	}
 
 	return S_OK;
 }
 
-HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector<Item*> vItem, vector<vector<Tile*>> vTiles, int tileMaxCol)
+HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*>& vEnemy, vector<Item*>& vItem, vector<vector<Tile*>>& vTiles, int tileMaxCol)
 {
 	_vEnemy = vEnemy;
 	_vItem = vItem;
@@ -71,7 +107,9 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*> vEnemy, vector
 	_curDirection = PLAYER_DIRECTION::NONE;
 	_nextDirection = PLAYER_DIRECTION::NONE;
 
-	_isLobby = false;
+	_playerAlpha = 255;
+	_shadowAlpha = 150;
+
 	_isLeft = false;
 	_isMove = false;
 	_isAttack = false;
@@ -141,6 +179,7 @@ void Player::update(void)
 
 				_curBomb->setPosIdx(_posIdx.x, _posIdx.y);
 
+				SOUNDMANAGER->play("bomb_lit");
 				UIMANAGER->deleteExpendable(_curBomb);
 			}
 		}
@@ -156,6 +195,7 @@ void Player::update(void)
 					_curHP = _maxHP;
 				}
 
+				SOUNDMANAGER->play("item_food");
 				UIMANAGER->deleteExpendable(_curPotion);
 				_curPotion = nullptr;
 			}
@@ -321,7 +361,7 @@ void Player::update(void)
 	{
 		CAMERA->setShakeCount(25);
 
-		if (_effectAlpha == 50)
+		if (_effectAlpha == 50 && !_isInvincible)
 		{
 			SOUNDMANAGER->play("hurt" + to_string(RND->getFromIntTo(1, 4)));
 			_beatCount = BEAT->getBeatCount();
@@ -338,7 +378,7 @@ void Player::update(void)
 
 		if (_curHP <= 0)
 		{
-			cout << "»ç¸Á" << endl;
+			SOUNDMANAGER->play("death");
 			_isHit = false;
 		}
 	}
@@ -381,7 +421,7 @@ void Player::render(HDC hdc)
 	// »ð ¸ð¼Ç
 	for (auto iter = _vShowShovel.begin(); iter != _vShowShovel.end(); ++iter)
 	{
-		iter->render(hdc);
+		iter->effectRender(hdc);
 	}
 
 	// ÆøÅº ¼³Ä¡

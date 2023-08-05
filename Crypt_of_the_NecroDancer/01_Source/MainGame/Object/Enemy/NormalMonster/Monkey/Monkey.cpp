@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Monkey.h"
 
-HRESULT Monkey::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Monkey::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
@@ -35,7 +35,7 @@ void Monkey::update()
 			_moveInfo[i].direction = i;
 			_moveInfo[i].distance = abs(_nextPosIdx.x - PLAYER->getPosIdx().x) + abs(_nextPosIdx.y - PLAYER->getPosIdx().y);
 
-			if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y && !PLAYER->getIsInvincible())
+			if (_nextPosIdx.x == PLAYER->getNextPosIdx().x && _nextPosIdx.y == PLAYER->getNextPosIdx().y && !PLAYER->getIsInvincible() && PLAYER->getCurHP() > 0)
 			{
 				_isMove = false;
 				_isGrab = true;
@@ -60,7 +60,7 @@ void Monkey::update()
 		if (!_isGrab)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			sortDistance(_moveInfo);
+			sortDistance(_moveInfo, 4, true);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
 			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)

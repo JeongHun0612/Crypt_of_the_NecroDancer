@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../PCH/Stdafx.h"
 #include "SoundManager.h"
 
 SoundManager::SoundManager() : _system(nullptr)
@@ -201,6 +201,7 @@ float SoundManager::getVolume(string strKey)
 		{
 			float volume;
 			_mActiveChannels[i].chaneel->getVolume(&volume);
+
 			return volume;
 		}
 	}
@@ -214,6 +215,22 @@ void SoundManager::setVolume(string strKey, float volume)
 		{
 			_mActiveChannels[i].chaneel->setVolume(volume);
 			break;
+		}
+	}
+}
+
+unsigned int SoundManager::getLength(string strKey)
+{
+	for (int i = 0; i < _mActiveChannels.size(); ++i)
+	{
+		if (_mActiveChannels[i].soundName == strKey)
+		{
+			mapSoundIter iter = _mSoundList.find(strKey);
+			Sound* sound = iter->second;
+
+			unsigned int pos = 0;
+			sound->getLength(&pos, FMOD_TIMEUNIT_MS);
+			return pos;
 		}
 	}
 }

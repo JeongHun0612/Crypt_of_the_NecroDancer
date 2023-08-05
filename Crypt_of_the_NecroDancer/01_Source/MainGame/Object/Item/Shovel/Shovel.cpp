@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Shovel.h"
 
 HRESULT Shovel::init()
@@ -40,6 +40,15 @@ void Shovel::update()
 void Shovel::render(HDC hdc)
 {
 	Item::render(hdc);
+}
+
+void Shovel::effectRender(HDC hdc)
+{
+	_img.img->frameRender(hdc,
+		(CAMERA->getPos().x - (PLAYER->getPosIdx().x - _posIdx.x) * 64) + 32 - _img.img->getFrameWidth() / 2,
+		(CAMERA->getPos().y - (PLAYER->getPosIdx().y - _posIdx.y) * 64) + 32 - _img.img->getFrameHeight(),
+		_img.frameX,
+		_img.img->getFrameY());
 }
 
 void Shovel::slotRender(HDC hdc, Vec2_F pos)

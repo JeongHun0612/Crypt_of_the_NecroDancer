@@ -1,5 +1,5 @@
 #pragma once
-#include "Item.h"
+#include "../Item.h"
 
 class Shovel : public Item
 {
@@ -14,6 +14,7 @@ public:
 	void release();
 	void update();
 	void render(HDC hdc);
+	void effectRender(HDC hdc);
 	void slotRender(HDC hdc, Vec2_F pos);
 
 	int getHardNess() { return _hardNess; }

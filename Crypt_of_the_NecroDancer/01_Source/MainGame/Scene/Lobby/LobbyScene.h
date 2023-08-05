@@ -1,5 +1,5 @@
 #pragma once
-#include "GameScene.h"
+#include "../Stage/GameScene.h"
 
 class LobbyScene : public GameScene
 {

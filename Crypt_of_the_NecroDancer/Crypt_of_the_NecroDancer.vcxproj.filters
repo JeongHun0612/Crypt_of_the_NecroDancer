@@ -85,9 +85,6 @@
     <Filter Include="MainGame\Scene\Stage">
       <UniqueIdentifier>{2c242d6d-fa14-4a66-89d9-285f25dac72a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Object\Enemy\ShopKeeper">
-      <UniqueIdentifier>{865126ec-a351-4b75-831a-feeb84fe4578}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\Enemy\NormalMonster">
       <UniqueIdentifier>{461219e3-4beb-4d5e-b336-cc273c7ec069}</UniqueIdentifier>
     </Filter>
@@ -139,305 +136,327 @@
     <Filter Include="MainGame\Object\Item\Bomb">
       <UniqueIdentifier>{acff219a-7ca1-4a46-ab24-0676fc45e4ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\NPC">
+      <UniqueIdentifier>{865126ec-a351-4b75-831a-feeb84fe4578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy\Boss">
+      <UniqueIdentifier>{7259ea2f-eac1-4e0a-9c03-28b33c16ec73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="01. Source\2DFrameWork\GameCore\GameNode.cpp">
-      <Filter>2D FrameWork\GameCore</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\GImage\GImage.cpp">
-      <Filter>2D FrameWork\GImage</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\WinMain.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\MainGame.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\ImageManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\KeyManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\TimeManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\SceneManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Title\TitleScene.cpp">
-      <Filter>MainGame\Scene\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Lobby\LobbyScene.cpp">
-      <Filter>MainGame\Scene\Lobby</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\FontManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Player\Player.cpp">
-      <Filter>MainGame\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Green.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Beat\Beat.cpp">
-      <Filter>MainGame\Beat</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\SoundManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\SoundManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\ManagerClass\FileManager.cpp">
-      <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\Camera\Camera.cpp">
-      <Filter>2D FrameWork\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Stage\GameScene.cpp">
-      <Filter>MainGame\Scene\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\UI\UIManager.cpp">
-      <Filter>MainGame\Object\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Item.cpp">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Intro\IntroScene.cpp">
-      <Filter>MainGame\Scene\Intro</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Blue.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\Enemy.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Normal.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Black.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Stage\Stage1_1Scene.cpp">
-      <Filter>MainGame\Scene\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Orange.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Yellow.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Blue.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Test\TestScene.cpp">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Red.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Ghost\Ghost.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Wraith\Wraith.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_White.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_Normal.cpp">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\ShopKeeper\ShopKeeper.cpp">
-      <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\MiniBoss\Minotaur\Minotaur_Normal.cpp">
-      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Enemy\MiniBoss\Dragon\Dragon_Red.cpp">
-      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Scene\Stage\Stage1_2Scene.cpp">
-      <Filter>MainGame\Scene\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Shovel\Shovel.cpp">
-      <Filter>MainGame\Object\Item\Shovel</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Weapon\Weapon.cpp">
-      <Filter>MainGame\Object\Item\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Armor\Armor.cpp">
+    <ClCompile Include="01_Source\MainGame\Object\Item\Armor\Armor.cpp">
       <Filter>MainGame\Object\Item\Armor</Filter>
     </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Potion\Potion.cpp">
-      <Filter>MainGame\Object\Item\Potion</Filter>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Blue.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
     </ClCompile>
-    <ClCompile Include="01. Source\MainGame\Object\Item\Bomb\Bomb.cpp">
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Red.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Beat\Beat.cpp">
+      <Filter>MainGame\Beat</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Item\Bomb\Bomb.cpp">
       <Filter>MainGame\Object\Item\Bomb</Filter>
     </ClCompile>
-    <ClCompile Include="01. Source\2DFrameWork\PCH\Stdafx.cpp" />
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\MiniBoss\Dragon\Dragon_Red.cpp">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\FileManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\FontManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\GameCore\GameNode.cpp">
+      <Filter>2D FrameWork\GameCore</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Stage\GameScene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Ghost\Ghost.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\GImage\GImage.cpp">
+      <Filter>2D FrameWork\GImage</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\ImageManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Intro\IntroScene.cpp">
+      <Filter>MainGame\Scene\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Item\Item.cpp">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\KeyManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Lobby\LobbyScene.cpp">
+      <Filter>MainGame\Scene\Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\MiniBoss\Minotaur\Minotaur_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\MainGame.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_White.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Player\Player.cpp">
+      <Filter>MainGame\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Item\Potion\Potion.cpp">
+      <Filter>MainGame\Object\Item\Potion</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\SceneManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NPC\ShopKeeper.cpp">
+      <Filter>MainGame\Object\Enemy\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Item\Shovel\Shovel.cpp">
+      <Filter>MainGame\Object\Item\Shovel</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Black.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Normal.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Yellow.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Blue.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Green.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Orange.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\SoundManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Stage\Stage1_1Scene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Stage\Stage1_2Scene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\PCH\Stdafx.cpp">
+      <Filter>2D FrameWork\PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\ManagerClass\TimeManager.cpp">
+      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\TestScene\TestScene.cpp">
+      <Filter>MainGame\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Title\TitleScene.cpp">
+      <Filter>MainGame\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\UI\UIManager.cpp">
+      <Filter>MainGame\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Item\Weapon\Weapon.cpp">
+      <Filter>MainGame\Object\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Wraith\Wraith.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.cpp">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\WinMain.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Stage\Boss_Scene.cpp">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\Boss\NecroDancer.cpp">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\Enemy\Enemy.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\2DFrameWork\Camera\Camera.cpp">
+      <Filter>2D FrameWork\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="01. Source\2DFrameWork\GameCore\GameNode.h">
+    <ClInclude Include="01_Source\MainGame\Object\Item\Armor\Armor.h">
+      <Filter>MainGame\Object\Item\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Red.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Blue.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Beat\Beat.h">
+      <Filter>MainGame\Beat</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Item\Bomb\Bomb.h">
+      <Filter>MainGame\Object\Item\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\Utility\CommonMacroFunction.h">
+      <Filter>2D FrameWork\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\MiniBoss\Dragon\Dragon_Red.h">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\FileManager.h">
+      <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\FontManager.h">
+      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\GameCore\GameNode.h">
       <Filter>2D FrameWork\GameCore</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\DesingPattern\SingletonBase.h">
+    <ClInclude Include="01_Source\MainGame\Scene\Stage\GameScene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Ghost\Ghost.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\GImage\GImage.h">
+      <Filter>2D FrameWork\GImage</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\Utility\Header.h">
+      <Filter>2D FrameWork\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\ImageManager.h">
+      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Scene\Intro\IntroScene.h">
+      <Filter>MainGame\Scene\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Item\Item.h">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\KeyManager.h">
+      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Scene\Lobby\LobbyScene.h">
+      <Filter>MainGame\Scene\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\MiniBoss\Minotaur\Minotaur_Normal.h">
+      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\MainGame.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_Normal.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_White.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Player\Player.h">
+      <Filter>MainGame\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Item\Potion\Potion.h">
+      <Filter>MainGame\Object\Item\Potion</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\Utility\RandomFunction.h">
+      <Filter>2D FrameWork\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\SceneManager.h">
+      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NPC\ShopKeeper.h">
+      <Filter>MainGame\Object\Enemy\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Item\Shovel\Shovel.h">
+      <Filter>MainGame\Object\Item\Shovel</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Yellow.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Black.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Normal.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\DesingPattern\SingletonBase.h">
       <Filter>2D FrameWork\DesignPattern\Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\Utility\RandomFunction.h">
-      <Filter>2D FrameWork\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\Utility\CommonMacroFunction.h">
-      <Filter>2D FrameWork\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\GImage\GImage.h">
-      <Filter>2D FrameWork\GImage</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\MainGame.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\ImageManager.h">
-      <Filter>2D FrameWork\ManagerClass\ImageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\KeyManager.h">
-      <Filter>2D FrameWork\ManagerClass\KeyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\TimeManager.h">
-      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\SceneManager.h">
-      <Filter>2D FrameWork\ManagerClass\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Title\TitleScene.h">
-      <Filter>MainGame\Scene\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Lobby\LobbyScene.h">
-      <Filter>MainGame\Scene\Lobby</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\FontManager.h">
-      <Filter>2D FrameWork\ManagerClass\FontManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Player\Player.h">
-      <Filter>MainGame\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Green.h">
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Blue.h">
       <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Beat\Beat.h">
-      <Filter>MainGame\Beat</Filter>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Green.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\SoundManager.h">
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Orange.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\SoundManager.h">
       <Filter>2D FrameWork\ManagerClass\SoundManager</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\ManagerClass\FileManager.h">
-      <Filter>2D FrameWork\ManagerClass\FileManager</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\Camera\Camera.h">
-      <Filter>2D FrameWork\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Stage\GameScene.h">
+    <ClInclude Include="01_Source\MainGame\Scene\Stage\Stage1_1Scene.h">
       <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\UI\UIManager.h">
-      <Filter>MainGame\Object\UI</Filter>
+    <ClInclude Include="01_Source\MainGame\Scene\Stage\Stage1_2Scene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Item.h">
-      <Filter>MainGame\Object\Item</Filter>
+    <ClInclude Include="01_Source\2DFrameWork\PCH\Stdafx.h">
+      <Filter>2D FrameWork\PCH</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Intro\IntroScene.h">
-      <Filter>MainGame\Scene\Intro</Filter>
+    <ClInclude Include="01_Source\2DFrameWork\ManagerClass\TimeManager.h">
+      <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Blue.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\Enemy.h">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Normal.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Black.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\Utility\Header.h">
+    <ClInclude Include="01_Source\2DFrameWork\Utility\TileMap.h">
       <Filter>2D FrameWork\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Stage\Stage1_1Scene.h">
-      <Filter>MainGame\Scene\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Orange.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Slime</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Skeleton\Skeleton_Yellow.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Blue.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Test\TestScene.h">
+    <ClInclude Include="01_Source\MainGame\Scene\TestScene\TestScene.h">
       <Filter>MainGame\Scene\TestScene</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Bat\Bat_Red.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Bat</Filter>
+    <ClInclude Include="01_Source\MainGame\Scene\Title\TitleScene.h">
+      <Filter>MainGame\Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
+    <ClInclude Include="01_Source\MainGame\UI\UIManager.h">
+      <Filter>MainGame\Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Ghost\Ghost.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Ghost</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Wraith\Wraith.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_White.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\NormalMonster\Monkey\Monkey_Normal.h">
-      <Filter>MainGame\Object\Enemy\NormalMonster\Monkey</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\ShopKeeper\ShopKeeper.h">
-      <Filter>MainGame\Object\Enemy\ShopKeeper</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\MiniBoss\Minotaur\Minotaur_Normal.h">
-      <Filter>MainGame\Object\Enemy\MiniBoss\Minotaur</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Enemy\MiniBoss\Dragon\Dragon_Red.h">
-      <Filter>MainGame\Object\Enemy\MiniBoss\Dragon</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Scene\Stage\Stage1_2Scene.h">
-      <Filter>MainGame\Scene\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\Utility\TileMap.h">
-      <Filter>2D FrameWork\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Shovel\Shovel.h">
-      <Filter>MainGame\Object\Item\Shovel</Filter>
-    </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Weapon\Weapon.h">
+    <ClInclude Include="01_Source\MainGame\Object\Item\Weapon\Weapon.h">
       <Filter>MainGame\Object\Item\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Armor\Armor.h">
-      <Filter>MainGame\Object\Item\Armor</Filter>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Wraith\Wraith.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Wraith</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Potion\Potion.h">
-      <Filter>MainGame\Object\Item\Potion</Filter>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.h">
+      <Filter>MainGame\Object\Enemy\NormalMonster\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\MainGame\Object\Item\Bomb\Bomb.h">
-      <Filter>MainGame\Object\Item\Bomb</Filter>
+    <ClInclude Include="01_Source\MainGame\Scene\Stage\Boss_Scene.h">
+      <Filter>MainGame\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="01. Source\2DFrameWork\PCH\Stdafx.h" />
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\Boss\NecroDancer.h">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\Enemy\Enemy.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\2DFrameWork\Camera\Camera.h">
+      <Filter>2D FrameWork\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

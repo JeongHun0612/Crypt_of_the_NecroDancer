@@ -1,27 +1,33 @@
 #include "../PCH/Stdafx.h"
 #include "../ManagerClass/FileManager.h"
 
-#include "../Object/Enemy/NormalMonster/Slime/Slime_Green.h"
-#include "../Object/Enemy/NormalMonster/Slime/Slime_Blue.h"
-#include "../Object/Enemy/NormalMonster/Slime/Slime_Orange.h"
-#include "../Object/Enemy/NormalMonster/Skeleton/Skeleton_Normal.h"
-#include "../Object/Enemy/NormalMonster/Skeleton/Skeleton_Yellow.h"
-#include "../Object/Enemy/NormalMonster/Skeleton/Skeleton_Black.h"
-#include "../Object/Enemy/NormalMonster/Zombie/Zombie.h"
-#include "../Object/Enemy/NormalMonster/Bat/Bat_Blue.h"
-#include "../Object/Enemy/NormalMonster/Bat/Bat_Red.h"
-#include "../Object/Enemy/NormalMonster/Monkey/Monkey_Normal.h"
-#include "../Object/Enemy/NormalMonster/Monkey/Monkey_White.h"
-#include "../Object/Enemy/NormalMonster/Ghost/Ghost.h"
-#include "../Object/Enemy/NormalMonster/Wraith/Wraith.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Slime/Slime_Green.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Slime/Slime_Blue.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Slime/Slime_Orange.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Skeleton/Skeleton_Normal.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Skeleton/Skeleton_Yellow.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Skeleton/Skeleton_Black.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Zombie/Zombie.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Bat/Bat_Blue.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Bat/Bat_Red.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Monkey/Monkey_Normal.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Monkey/Monkey_White.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Ghost/Ghost.h"
+#include "../../MainGame/Object/Enemy/NormalMonster/Wraith/Wraith.h"
 
-#include "../Object/Enemy/MiniBoss/Minotaur/Minotaur_Normal.h"
-#include "../Object/Enemy/MiniBoss/Dragon/Dragon_Red.h"
-#include "../Object/Enemy/ShopKeeper/ShopKeeper.h"
+#include "../../MainGame/Object/Enemy/MiniBoss/Minotaur/Minotaur_Normal.h"
+#include "../../MainGame/Object/Enemy/MiniBoss/Dragon/Dragon_Red.h"
 
-void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
+#include "../../MainGame/Object/Enemy/Boss/NecroDancer.h"
+
+#include "../../MainGame/Object/Enemy/NPC/ShopKeeper.h"
+
+
+void FileManager::loadBeatFile(const char* fileName, vector<int>& vBeatList)
 {
-	char filePath[MAX_PATH] = "Resources/Beat/";
+	vBeatList.clear();
+
+	char filePath[MAX_PATH] = "04_Data/Beat/";
 	strcat_s(filePath, fileName);
 
 	ifstream loadStream(filePath);
@@ -41,12 +47,12 @@ void FileManager::loadBeatFile(const char* fileName, queue<int>& queueList)
 
 				if (cutIndex == -1)
 				{
-					queueList.push(stoi(line));
+					vBeatList.push_back(stoi(line));
 					break;
 				}
 
 				int beatMS = stoi(line.substr(0, cutIndex));
-				queueList.push(beatMS);								// ","를 기준으로 자른 문자를 int형으로 변환해서 queue에 저장
+				vBeatList.push_back(beatMS);								// ","를 기준으로 자른 문자를 int형으로 변환해서 vector에 저장
 
 				cutIndex++;
 				line = line.substr(cutIndex, line.length());		// 자른 문자열 이후부터 다시 재할당 (line)
@@ -61,7 +67,7 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 {
 	vTileList.clear();
 
-	char filePath[MAX_PATH] = "Resources/TileMap/";
+	char filePath[MAX_PATH] = "04_Data/TileMap/";
 	strcat_s(filePath, fileName);
 
 	ifstream loadStream(filePath);
@@ -146,7 +152,9 @@ void FileManager::loadTileMapFile(const char* fileName, vector<Tile*>& vTileList
 
 void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList, vector<vector<Tile*>> _vTiles, int maxTileCol)
 {
-	char filePath[MAX_PATH] = "Resources/TileMap/";
+	vEnemyList.clear();
+
+	char filePath[MAX_PATH] = "04_Data/TileMap/";
 	strcat_s(filePath, fileName);
 
 	ifstream loadStream(filePath);
@@ -238,6 +246,10 @@ void FileManager::loadEnemyFile(const char* fileName, vector<Enemy*>& vEnemyList
 					_enemy = new Dragon_Red;
 					_enemy->init(idxX, idxY, _vTiles, maxTileCol);
 					break;
+				case (int)ENEMY_TYPE::NECRODANCER:
+					_enemy = new NecroDancer;
+					_enemy->init(idxX, idxY, _vTiles, maxTileCol);
+					break;
 				case (int)ENEMY_TYPE::SHOPKEEPER:
 					_enemy = new ShopKeeper;
 					_enemy->init(idxX, idxY, _vTiles, maxTileCol);
@@ -271,7 +283,7 @@ void FileManager::loadItemFile(const char* fileName, vector<Item*>& vItemList, i
 {
 	vItemList.clear();
 
-	char filePath[MAX_PATH] = "Resources/TileMap/";
+	char filePath[MAX_PATH] = "04_Data/TileMap/";
 	strcat_s(filePath, fileName);
 
 	ifstream loadStream(filePath);

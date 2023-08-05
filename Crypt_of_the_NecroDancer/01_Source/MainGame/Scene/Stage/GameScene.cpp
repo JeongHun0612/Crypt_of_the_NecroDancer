@@ -1,8 +1,10 @@
-#include "Stdafx.h"
+#include "../../../2DFrameWork/PCH/Stdafx.h"
 #include "GameScene.h"
 
 HRESULT GameScene::init(void)
 {
+	_padeAlpha = 0;
+
 	return S_OK;
 }
 
@@ -25,7 +27,10 @@ void GameScene::update(void)
 	BEAT->update();
 
 	// 플레이어 업데이트
-	PLAYER->update();
+	if (PLAYER->getCurHP() > 0)
+	{
+		PLAYER->update();
+	}
 
 	// UI 업데이트
 	UIMANAGER->update();
@@ -57,6 +62,49 @@ void GameScene::update(void)
 		}
 		else ++iter;
 	}
+
+	// 노래 끝날 시 다음 씬으로 변경
+	if (!BEAT->getIsMusic())
+	{
+		if (_padeAlpha < 255)
+		{
+			_padeAlpha += 2;
+
+			if (_padeAlpha == 20)
+			{
+				IMAGEMANAGER->findImage("trap_door")->setFrameX(1);
+				SOUNDMANAGER->play("trap_door_open");
+				SOUNDMANAGER->play("trap_door");
+			}
+
+			if (_padeAlpha >= 20)
+			{
+				PLAYER->setPos(PLAYER->getPos().x, PLAYER->getPos().y + 1.0f);
+				PLAYER->setPlayerAlpha(PLAYER->getPlayerAlpha() - 15);
+				PLAYER->setShadowAlpha(0);
+
+				if (PLAYER->getPlayerAlpha() <= 0)
+				{
+					PLAYER->setPlayerAlpha(0);
+				}
+			}
+
+			if (_padeAlpha > 255)
+			{
+				_padeAlpha = 255;
+			}
+		}
+	}
+
+	// 플레이어 사망 시
+	if (PLAYER->getCurHP() <= 0)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			PLAYER->release();
+			SCENEMANAGER->changeScene("lobby");
+		}
+	}
 }
 
 void GameScene::render(void)
@@ -85,10 +133,11 @@ void GameScene::render(void)
 		(*iter)->render(getMemDC());
 	}
 
-
 	// 플레이어 출력
-	PLAYER->render(getMemDC());
-
+	if (PLAYER->getCurHP() > 0)
+	{
+		PLAYER->render(getMemDC());
+	}
 
 	// 몬스터 출력
 	for (auto iter = _vEnemy.begin(); iter != _vEnemy.end(); ++iter)
@@ -96,14 +145,37 @@ void GameScene::render(void)
 		(*iter)->render(getMemDC());
 	}
 
-
 	// 비트 출력
 	BEAT->render(getMemDC());
-
 
 	// UI 출력
 	UIMANAGER->render(getMemDC());
 
+	// 노래 끝 애니메이션 출력
+	if (!BEAT->getIsMusic())
+	{
+		// 문 함정
+		IMAGEMANAGER->findImage("trap_door")->frameRender(getMemDC(),
+			WINSIZE_X_HALF - IMAGEMANAGER->findImage("trap_door")->getFrameWidth() / 2,
+			WINSIZE_Y_HALF - IMAGEMANAGER->findImage("trap_door")->getFrameHeight() / 2,
+			IMAGEMANAGER->findImage("trap_door")->getFrameX(), 0);
+
+		// 페이드 인 / 아웃
+		IMAGEMANAGER->findImage("fade_effect")->alphaRender(getMemDC(), _padeAlpha);
+
+		// 노래 끝 텍스트
+		IMAGEMANAGER->findImage("text_songend")->render(getMemDC(),
+			WINSIZE_X_HALF - IMAGEMANAGER->findImage("text_songend")->getWidth() / 2,
+			200);
+	}
+
+	// 플레이어 사망 시 출력
+	if (PLAYER->getCurHP() <= 0)
+	{
+		IMAGEMANAGER->findImage("text_death")->render(getMemDC(),
+			WINSIZE_X_HALF - IMAGEMANAGER->findImage("text_death")->getWidth() / 2,
+			WINSIZE_Y_HALF + 150);
+	}
 
 	// 디버그 모드
 	if (KEYMANAGER->isToggleKey(VK_F1))

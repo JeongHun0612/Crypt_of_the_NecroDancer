@@ -1,13 +1,17 @@
 #pragma once
 
-#define MAX_LOBBY_COL		13
-#define MAX_LOBBY_ROW		15
+#define MAX_LOBBY_COL			13
+#define MAX_LOBBY_ROW			15
 
 #define MAX_STAGE1_1_COL		27
 #define MAX_STAGE1_1_ROW		28
 
 #define MAX_STAGE1_2_COL		34
 #define MAX_STAGE1_2_ROW		26
+
+#define MAX_BOSS_COL			17
+#define MAX_BOSS_ROW			28
+
 
 enum class TILE_TYPE
 {
@@ -33,14 +37,15 @@ enum class ENEMY_TYPE
 	WRAITH,
 	MINOTAUR_NORMAL,
 	DRAGON_RED,
-
-	SHOPKEEPER = 16
+	NECRODANCER,
+	SHOPKEEPER
 };
 
 enum class TERRAIN_TYPE
 {
 	GROUND,
-	STAIR,
+	OPEN_STAIR,
+	LOCK_STAIR,
 
 	END
 };

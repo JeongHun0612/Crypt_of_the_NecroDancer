@@ -1,5 +1,5 @@
 #pragma once
-#include "GameNode.h"
+#include "../../../2DFrameWork/GameCore/GameNode.h"
 
 class IntroScene : public GameNode
 {

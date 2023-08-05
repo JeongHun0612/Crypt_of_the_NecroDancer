@@ -1,6 +1,6 @@
-#include "Stdafx.h"
+#include "../../../2DFrameWork/PCH/Stdafx.h"
+#include "../../../2DFrameWork/ManagerClass/FileManager.h"
 #include "LobbyScene.h"
-#include "FileManager.h"
 
 HRESULT LobbyScene::init()
 {
@@ -34,7 +34,7 @@ HRESULT LobbyScene::init()
 	UIMANAGER->init();
 
 	// 사운드 플레이
-	SOUNDMANAGER->play("lobby", 0.5f);
+	SOUNDMANAGER->play("lobby");
 
 	return S_OK;
 }
@@ -55,9 +55,13 @@ void LobbyScene::update()
 	// 바닥 타일 타입이 계단일 시 씬 변경
 	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
 
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::STAIR)
+	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::OPEN_STAIR)
 	{
-		SCENEMANAGER->changeScene("stage1_1");
+		// 스테이지1 입장
+		if (PLAYER->getPosIdx().x == 7 && PLAYER->getPosIdx().y == 5)
+		{
+			SCENEMANAGER->changeScene("boss");
+		}
 	}
 }
 

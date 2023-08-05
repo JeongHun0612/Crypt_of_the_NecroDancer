@@ -61,12 +61,16 @@ public:
 	void setPosIdx(int idxX, int idxY) { _posIdx = { idxX, idxY }; }
 
 	int getPrice() { return _price; }
+	void setPrice(int price) { _price = price; }
 
 	bool getIsSale() { return _isSale; }
 	bool getIsCollider() { return _isCollider; }
 
 	ITEM_TYPE getItemType() { return _itemType; }
+
 	int getType() { return _type; }
+	void setType(int type) { _type = type; }
+
 	//WEAPON_TYPE getWeaponType() { return _weaponType; }
 	//ARMOR_TYPE getArmorType() { return _armorType; }
 

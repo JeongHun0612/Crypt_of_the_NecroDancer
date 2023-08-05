@@ -1,21 +1,6 @@
 #pragma once
-#include "SingletonBase.h"
 
-//enum class INVENTORY_TYPE
-//{
-//	SHOVEL,
-//	ATTACK,
-//	BODY,
-//
-//	END
-//};
-//
-//struct Inventory
-//{
-//	GImage* img;
-//	INVENTORY_TYPE type;
-//	int x, y;
-//};
+#include "../../2DFrameWork/DesingPattern/SingletonBase.h"
 
 class Item;
 
@@ -32,6 +17,7 @@ struct Coin
 	GImage* img;
 	int x, y;
 	int coinCount;
+	int distance;
 };
 
 struct Heart
@@ -59,13 +45,10 @@ public:
 
 	void addCoin(int idxX, int idxY, int coinCount);
 
-	void addEquipment(Item* equipment);
 	void deleteEquiment(Item* equipment);
-
-	void addExpendable(Item* expendable);
 	void deleteExpendable(Item* expendable);
 
-	vector<Item*> getEquipment() { return _vEquipment; }
-	vector<Item*> getExpendable() { return _vExpendable; }
+	vector<Item*>& getEquipment() { return _vEquipment; }
+	vector<Item*>& getExpendable() { return _vExpendable; }
 };
 

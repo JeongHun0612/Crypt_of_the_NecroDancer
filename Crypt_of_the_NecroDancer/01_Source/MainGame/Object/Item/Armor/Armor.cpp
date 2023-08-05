@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Armor.h"
 
 HRESULT Armor::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price, int tileMaxCol)
@@ -61,7 +61,8 @@ void Armor::update()
 
 			if (PLAYER->getCurArmor() == nullptr)
 			{
-				UIMANAGER->addEquipment(this);
+				UIMANAGER->getEquipment().push_back(this);
+
 				_isSale = true;
 			}
 			else

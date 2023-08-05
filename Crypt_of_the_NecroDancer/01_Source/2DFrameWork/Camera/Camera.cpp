@@ -1,5 +1,8 @@
+//#include "Stdafx.h"
+//#include "Camera.h"
+
 #include "../PCH/Stdafx.h"
-#include "../Camera/Camera.h"
+#include "Camera.h"
 
 HRESULT Camera::init(void)
 {

@@ -1,9 +1,13 @@
-#include "Stdafx.h"
+#include "../../2DFrameWork/PCH/Stdafx.h"
 #include "UIManager.h"
 
 HRESULT UIManager::init(void)
 {
 	_prevHP = 0;
+
+	// 벡터 초기화
+	_vHeart.clear();
+	_vCoin.clear();
 
 	// 하트 초기화
 	for (int i = PLAYER->getMaxHP() / 2; i > 0; i--)
@@ -26,6 +30,7 @@ void UIManager::release(void)
 
 void UIManager::update(void)
 {
+	// 소지 장비 업데이트
 	for (auto iter = _vEquipment.begin(); iter != _vEquipment.end(); ++iter)
 	{
 		switch ((*iter)->getItemType())
@@ -47,6 +52,7 @@ void UIManager::update(void)
 		}
 	}
 
+	// 소지 소모품 업데이트
 	for (auto iter = _vExpendable.begin(); iter != _vExpendable.end(); ++iter)
 	{
 		switch ((*iter)->getItemType())
@@ -57,6 +63,35 @@ void UIManager::update(void)
 				(*iter) = PLAYER->getCurPotion();
 			}
 			break;
+		}
+	}
+
+	// 몬스터 소지금(동전) 업데이트
+	for (auto iter = _vCoin.begin(); iter != _vCoin.end();)
+	{
+		// 거리에 따른 이미지 변화
+		iter->distance = abs(iter->x - PLAYER->getPosIdx().x) + abs(iter->y - PLAYER->getPosIdx().y);
+
+		if (iter->distance > PLAYER->getLightPower())
+		{
+			iter->img->setFrameY(1);
+		}
+		else
+		{
+			iter->img->setFrameY(0);
+		}
+
+		// 픽업 시 코인 삭제
+		if (iter->x == PLAYER->getPosIdx().x && iter->y == PLAYER->getPosIdx().y)
+		{
+			PLAYER->setCoin(PLAYER->getCoin() + iter->coinCount);
+			SOUNDMANAGER->play("pickup_gold");
+			iter = _vCoin.erase(iter);
+		}
+		else
+		{
+			++iter;
+
 		}
 	}
 }
@@ -112,22 +147,13 @@ void UIManager::render(HDC hdc)
 
 
 	// 몬스터 소지금(동전)
-	for (auto iter = _vCoin.begin(); iter != _vCoin.end();)
+	for (auto iter = _vCoin.begin(); iter != _vCoin.end(); ++iter)
 	{
 		iter->img->frameRender(hdc,
 			CAMERA->getPos().x - (PLAYER->getPosIdx().x - iter->x) * 64 + 8,
-			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->y) * 64 - 5);
-
-		if (iter->x == PLAYER->getPosIdx().x && iter->y == PLAYER->getPosIdx().y)
-		{
-			PLAYER->setCoin(PLAYER->getCoin() + iter->coinCount);
-			SOUNDMANAGER->play("pickup_gold");
-			iter = _vCoin.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
+			CAMERA->getPos().y - (PLAYER->getPosIdx().y - iter->y) * 64 - 5,
+			iter->img->getFrameX(),
+			iter->img->getFrameY());
 	}
 }
 
@@ -160,17 +186,15 @@ void UIManager::addCoin(int idxX, int idxY, int coinCount)
 	coin.x = idxX;
 	coin.y = idxY;
 	coin.coinCount = coinCount;
+	coin.distance = 0;
 
 	_vCoin.push_back(coin);
 }
 
-void UIManager::addEquipment(Item* equipment)
-{
-	_vEquipment.push_back(equipment);
-}
-
 void UIManager::deleteEquiment(Item* equipment)
 {
+	if (equipment == nullptr) return;
+
 	for (int i = 0; i < _vEquipment.size(); i++)
 	{
 		if (_vEquipment[i]->getItemType() == equipment->getItemType())
@@ -180,13 +204,10 @@ void UIManager::deleteEquiment(Item* equipment)
 	}
 }
 
-void UIManager::addExpendable(Item* expendable)
-{
-	_vExpendable.push_back(expendable);
-}
-
 void UIManager::deleteExpendable(Item* expendable)
 {
+	if (expendable == nullptr) return;
+
 	for (int i = 0; i < _vExpendable.size(); i++)
 	{
 		if (_vExpendable[i]->getItemType() == expendable->getItemType())

@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy.h"
+#include "../../Enemy.h"
 
 class Skeleton : public Enemy
 {
@@ -16,7 +16,7 @@ protected:
 	bool _isHeadMove;
 
 public:
-	HRESULT init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol);
+	HRESULT init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol);
 	void release();
 	void update();
 	void render(HDC hdc);

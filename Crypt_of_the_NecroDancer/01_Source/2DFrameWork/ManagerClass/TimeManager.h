@@ -1,5 +1,5 @@
 #pragma once
-#include "SingletonBase.h"
+#include "../DesingPattern/SingletonBase.h"
 
 class TimeManager : public SingletonBase<TimeManager>
 {

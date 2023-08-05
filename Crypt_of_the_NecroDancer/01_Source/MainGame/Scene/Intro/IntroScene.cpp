@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../2DFrameWork/PCH/Stdafx.h"
 #include "IntroScene.h"
 
 #include <Vfw.h>

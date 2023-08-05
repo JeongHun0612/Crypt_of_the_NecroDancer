@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Potion.h"
 
 HRESULT Potion::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price, int tileMaxCol)
@@ -42,7 +42,7 @@ void Potion::update()
 		{
 			if (_price == 0)
 			{
-				//SOUNDMANAGER->play("pickup_armor");
+				SOUNDMANAGER->play("pickup_general");
 			}
 			else
 			{
@@ -55,7 +55,8 @@ void Potion::update()
 
 			if (PLAYER->getCurPotion() == nullptr)
 			{
-				UIMANAGER->addExpendable(this);
+				UIMANAGER->getExpendable().push_back(this);
+
 				_isSale = true;
 			}
 			else

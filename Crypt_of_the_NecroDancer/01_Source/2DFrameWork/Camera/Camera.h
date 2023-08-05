@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../DesingPattern/SingletonBase.h"
 
 class Camera : public SingletonBase<Camera>

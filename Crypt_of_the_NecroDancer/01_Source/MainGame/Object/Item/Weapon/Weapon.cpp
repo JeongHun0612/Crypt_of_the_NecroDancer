@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Weapon.h"
 
 HRESULT Weapon::init()
@@ -30,6 +30,10 @@ HRESULT Weapon::init(int idxX, int idxY, ITEM_TYPE itemType, int type, int price
 	_img.img = IMAGEMANAGER->findImage("weapon");
 	_img.frameX = type;
 	_img.frameY = 0;
+
+	_effectImg.img = IMAGEMANAGER->findImage("effect_dagger");
+	_effectImg.frameX = 0;
+	_effectImg.maxFrameX = _effectImg.img->getMaxFrameX();
 
 	switch ((WEAPON_TYPE)_type)
 	{

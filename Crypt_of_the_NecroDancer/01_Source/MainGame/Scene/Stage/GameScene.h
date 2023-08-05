@@ -1,5 +1,5 @@
 #pragma once
-#include "GameNode.h"
+#include "../../../2DFrameWork/GameCore/GameNode.h"
 
 struct Node
 {
@@ -25,6 +25,8 @@ protected:
 	int _tileMaxRow;
 
 	int _stairTileIdx;
+
+	int _padeAlpha;
 
 public:
 	HRESULT init(void);

@@ -1,5 +1,5 @@
 #pragma once
-#include "SingletonBase.h"
+#include "../DesingPattern/SingletonBase.h"
 
 #define	KEY_MAX	256
 

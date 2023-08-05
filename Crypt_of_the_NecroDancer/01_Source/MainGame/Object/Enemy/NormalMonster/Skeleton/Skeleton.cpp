@@ -1,7 +1,7 @@
-#include "Stdafx.h"
+#include "../../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Skeleton.h"
 
-HRESULT Skeleton::init(int idxX, int idxY, vector<vector<Tile*>> vTiles, int maxTileCol)
+HRESULT Skeleton::init(int idxX, int idxY, vector<vector<Tile*>>& vTiles, int maxTileCol)
 {
 	Enemy::init(idxX, idxY, vTiles, maxTileCol);
 
@@ -61,7 +61,7 @@ void Skeleton::update()
 		if (!_isAttack)
 		{
 			// 거리 오름차순 정렬 (가까운 순)
-			sortDistance(_moveInfo);
+			sortDistance(_moveInfo, 4, true);
 
 			// 추적 최소 거리 5보다 크면 움직이지 않는다.
 			if (_moveInfo[0].distance <= PLAYER->getLightPower() + 1)

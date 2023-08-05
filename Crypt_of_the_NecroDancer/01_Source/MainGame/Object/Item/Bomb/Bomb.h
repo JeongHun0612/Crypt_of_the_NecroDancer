@@ -1,10 +1,10 @@
 #pragma once
-#include "Item.h"
+#include "../Item.h"
 
 class Bomb : public Item
 {
 private:
-	Vec2 _explosionRange[8] = { {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0} };
+	Vec2 _explosionRange[9] = { {0, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0} };
 
 	FrameImage _effectImg;
 

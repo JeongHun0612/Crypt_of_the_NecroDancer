@@ -1,0 +1,48 @@
+타일
+Y, X, FrameY FrameX, Collider, Exist, hardNess, (Terrain/Wall)
+
+아이템
+Y, X, type, price, ITEM_TYPE
+
+TERRAIN_TYPE
+0. GROUND
+1. OPEN_STAIR
+2. LOCK_STAIR
+
+
+WALL_TYPE
+0. NONE
+1. DIRT
+2. BRICK
+3. STONE
+4. STEEL
+5. BORDER
+6. DOOR
+7. GOLDWALL
+
+ITEM_TYPE
+0. SHOVEL
+1. WEAPON
+2. ARMOR
+3. BOMB
+4. POTION
+
+
+몬스터
+0. 슬라임 그린
+1. 슬라임 블루
+2. 슬라임 오렌지
+3. 스켈레톤 노말
+4. 스켈레톤 옐로우
+5. 스켈레톤 블랙
+6. 좀비
+7. 박쥐 블루
+8. 박쥐 레드
+9. 몽키 노말
+10. 몽키 화이트
+11. 고스트
+12. 레이스
+13. 미노타우로스 노말
+14. 드래곤 레드
+15. 네크로댄서
+16. 상점주인

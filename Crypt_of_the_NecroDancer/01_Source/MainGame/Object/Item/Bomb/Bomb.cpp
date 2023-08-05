@@ -1,4 +1,4 @@
-#include "Stdafx.h"
+#include "../../../../2DFrameWork/PCH/Stdafx.h"
 #include "Bomb.h"
 
 HRESULT Bomb::init()
@@ -110,7 +110,7 @@ void Bomb::update()
 		if (!_isExplosion)
 		{
 			// 폭발 범위 내 오브젝트 검사
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 9; i++)
 			{
 				Vec2 nextPosIdx;
 				nextPosIdx.x = _posIdx.x + _explosionRange[i].x;
@@ -119,7 +119,7 @@ void Bomb::update()
 				int nextTileIdx = (PLAYER->getTileMaxCol() * nextPosIdx.y) + nextPosIdx.x;
 
 				// 플레이어 검사
-				if (nextPosIdx.x == PLAYER->getPosIdx().x && nextPosIdx.y == PLAYER->getPosIdx().y && !PLAYER->getIsInvincible() && !PLAYER->getIsLobby())
+				if (nextPosIdx.x == PLAYER->getPosIdx().x && nextPosIdx.y == PLAYER->getPosIdx().y && !PLAYER->getIsInvincible())
 				{
 					PLAYER->setIsHit(true);
 					PLAYER->setCurHP(PLAYER->getCurHP() - _power / 2);
@@ -148,6 +148,7 @@ void Bomb::update()
 				}
 			}
 
+			SOUNDMANAGER->play("bomb_explode");
 			_isExplosion = true;
 		}
 

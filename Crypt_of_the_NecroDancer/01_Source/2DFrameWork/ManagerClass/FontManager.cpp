@@ -1,5 +1,5 @@
 #include "../PCH/Stdafx.h"
-#include "../ManagerClass/FontManager.h"
+#include "FontManager.h"
 
 void FontManager::drawText(HDC hdc, int destX, int destY, char* fontName, int fonsSize, int fontWidth, char* printString, int length, COLORREF color)
 {

@@ -1,11 +1,15 @@
 #pragma once
-#include "SingletonBase.h"
+#include "../DesingPattern/SingletonBase.h"
 
-//#pragma comment(lib, "core/lib/x64/fmod_vc.lib")
-//#include "fmod.hpp"
+//#include "inc/fmod.hpp"
+//#pragma comment(lib, "lib/fmodex64_vc.lib")
 
-#include "inc/fmod.hpp"
-#pragma comment(lib, "lib/fmodex64_vc.lib")
+
+#include "../../../03_Library/inc/fmod.hpp"
+
+//#pragma comment(lib, "../../../03_Library/lib/fmodex64_vc.lib")
+#pragma comment(lib, "03_Library/lib/fmodex64_vc.lib")
+
 
 using namespace FMOD;
 
@@ -18,11 +22,6 @@ using namespace FMOD;
 class SoundManager : public SingletonBase<SoundManager>
 {
 private:
-	//typedef map<string, Sound**>				mapSoundList;
-	//typedef map<string, Sound**>::iterator		mapSoundIter;
-	//typedef map<string, Channel**>				mapChannelList;
-	//typedef map<string, Channel**>::iterator	mapChannelIter;
-
 	struct ChannelInfo
 	{
 		string soundName;
@@ -58,6 +57,8 @@ public:
 
 	float getVolume(string strKey);
 	void setVolume(string strKey, float volume);
+
+	unsigned int getLength(string strKey);
 
 	SoundManager();
 	~SoundManager() {}
