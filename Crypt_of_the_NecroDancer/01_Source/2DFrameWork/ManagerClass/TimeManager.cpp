@@ -57,8 +57,6 @@ void TimeManager::render(HDC hdc)
 {
 	char strFrame[256];
 
-
-
 	// FPS
 	sprintf_s(strFrame, "FramePerSec : %d", _frameRate);
 	TextOut(hdc, 10, WINSIZE_Y - 80, strFrame, strlen(strFrame));

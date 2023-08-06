@@ -61,6 +61,8 @@ void Enemy::release()
 	_vTerrainTile[_nextTileIdx]->_isCollider = false;
 
 	UIMANAGER->addCoin(_posIdx.x, _posIdx.y, _coinCount);
+
+	delete(this);
 }
 
 void Enemy::update()

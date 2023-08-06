@@ -56,6 +56,7 @@ void GameNode::release(void)
 
 		// ½Ì±ÛÅæ Å¬·¡½º ÇØÁ¦
 		RND->releaseSingleton();
+		TILEMAP->releaseSingleton();
 		PLAYER->release();
 		PLAYER->releaseSingleton();
 		BEAT->releaseSingleton();

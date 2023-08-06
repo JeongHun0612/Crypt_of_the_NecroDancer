@@ -1,13 +1,13 @@
 #pragma once
 #include "../../../2DFrameWork/GameCore/GameNode.h"
 
-struct Node
-{
-	Vec2 posIdx;
-	int tileIdx;
-	int alpha;
-	bool isCollider;
-};
+//struct Node
+//{
+//	Vec2 posIdx;
+//	int tileIdx;
+//	int alpha;
+//	bool isCollider;
+//};
 
 class GameScene : public GameNode
 {
@@ -36,18 +36,4 @@ public:
 
 	GameScene() {}
 	~GameScene() {}
-
-protected:
-	// 타일 출력
-	void tileSet(vector<Tile*> vTile, TILE_TYPE tileType);
-
-	// 플레이어 시야 범위
-	void getShowTileBFS(vector<vector<Tile*>> vTiles, vector<Node>& vShowNode);
-
-	// 타일 번호 출력
-	void showTileNum(vector<Tile*> _vTile);
-	// 플레이어에서 타일간의 거리 출력
-	void showTileDist(vector<Tile*> _vTile);
-	// 적 객체 
-	void showEnemyCollider(vector<Tile*> _vTile);
 };

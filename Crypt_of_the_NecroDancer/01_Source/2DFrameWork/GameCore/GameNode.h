@@ -9,8 +9,9 @@ class GameNode
 {
 private:
 	HDC _hdc;
-	bool _managerInit;
 	string _name;
+
+	bool _managerInit;
 
 public:
 	virtual HRESULT init(void);

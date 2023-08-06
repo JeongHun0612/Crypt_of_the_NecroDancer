@@ -35,6 +35,7 @@ private:
 	GImage* _headImg;						// 플레이어 머리 이미지
 	GImage* _bodyImg;						// 플레이어 몸통 이미지
 	GImage* _shadowImg;						// 플레이어 그림자 이미지
+	AlphaImage _freezingImg;				// 빙결 이미지
 
 	PLAYER_DIRECTION _curDirection;			// 플레이어 방향 정보
 	PLAYER_DIRECTION _nextDirection;		// 플레이어 다음 방향 정보
@@ -52,7 +53,9 @@ private:
 
 	int _maxHP;								// 플레이어 최대 체력
 	int _curHP;								// 플레이어 현재 체력
+	int _stepCount;							// 스탭 카운트
 	int _beatCount;							// 비트 카운트
+	int _prevBeatCount;						// 이전 비트 카운트
 	int _lightPower;						// 불빛의 세기
 	int _playerAlpha;						// 플레이어 알파값
 	int _shadowAlpha;						// 그림자 알파값
@@ -68,6 +71,7 @@ private:
 	bool _isBomb;							// 플레이어가 폭탄을 사용했는지
 	bool _isInvincible;						// 플레이어가 무적 상태인지
 	bool _isGrab;							// 원숭이가 매달린 상태인지
+	bool _isIce;							// 플레이어가 빙결 상태인지
 	bool _isNextStage;						// 다음 스테이지로 넘어갈 수 있는 조건이 갖춰줬는지
 
 
@@ -84,13 +88,6 @@ public:
 	void render(HDC hdc);
 
 	void addShowShovel(int idxX, int idxY);
-
-
-	// 타일 정보
-	vector<Tile*> getWallTile() { return _vWallTile; }
-	vector<Tile*> getTerrainTile() { return _vTerrainTile; }
-	vector<Enemy*>& getEnemyList() { return _vEnemy; }
-	int getTileMaxCol() { return _tileMaxCol; }
 
 	// 플레이어 포지션
 	Vec2_F	getPos() { return _pos; }
@@ -124,6 +121,9 @@ public:
 
 	void setShadowAlpha(int alpha) { _shadowAlpha = alpha; }
 
+	// 플레이어 스탭 카운트
+	void setStepCount(int stepCount) { _stepCount = stepCount; }
+
 
 	// 플레이어 시야 범위
 	int getLightPower() { return _lightPower; }
@@ -155,8 +155,11 @@ public:
 
 	void setIsGrab(bool isGrab) { _isGrab = isGrab; }
 
+	bool setIsIce(bool isIce) { return _isIce = isIce; }
+
 	bool getIsNextStage() { return _isNextStage; }
 	void setIsNextStage(bool isNextStage) { _isNextStage = isNextStage; }
+
 
 
 	// 플레이어 소지 장비

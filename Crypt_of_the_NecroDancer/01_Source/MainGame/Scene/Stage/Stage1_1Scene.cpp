@@ -7,26 +7,10 @@ HRESULT Stage1_1Scene::init(void)
 	GameScene::init();
 
 	// 타일 초기화
-	FileManager::loadTileMapFile("Stage1_1_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Stage1_1_Wall.txt", _vWallTile, TILE_TYPE::WALL);
-
-	_vTiles.push_back(_vTerrainTile);
-	_vTiles.push_back(_vWallTile);
-
-	_tileMaxCol = MAX_STAGE1_1_COL;
-	_tileMaxRow = MAX_STAGE1_1_ROW;
-
-	// 애너미 초기화
-	FileManager::loadEnemyFile("Stage1_1_Enemy.txt", _vEnemy, _vTiles, _tileMaxCol);
-
-	// 아이템 초기화
-	FileManager::loadItemFile("Stage1_1_Item.txt", _vItem, _tileMaxCol);
-
-	// 다음 스테이지 계단
-	_stairTileIdx = 22 * _tileMaxCol + 4;
+	TILEMAP->init(1);
 
 	// 플레이어 초기화
-	PLAYER->init(13, 10, _vEnemy, _vItem, _vTiles, _tileMaxCol);
+	PLAYER->init(13, 10, TILEMAP->getEnemyList(), TILEMAP->getItemList(), TILEMAP->getTiles(), TILEMAP->getTileMaxCol());
 
 	// 비트 초기화
 	BEAT->init("stage1_1.txt", "stage1_1");
@@ -50,15 +34,8 @@ void Stage1_1Scene::update(void)
 {
 	GameScene::update();
 
-	if (PLAYER->getIsNextStage())
-	{
-		_vTerrainTile[_stairTileIdx]->_frameY = 0;
-	}
-
-	// 바닥 타일 타입이 계단일 시 씬 변경
-	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
-
-	if ((_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::OPEN_STAIR && PLAYER->getIsNextStage()) || _padeAlpha == 255)
+	// 다음 스테이지
+	if (TILEMAP->getIsNextStage() || _padeAlpha == 255)
 	{
 		SCENEMANAGER->changeScene("stage1_2");
 	}

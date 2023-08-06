@@ -6,7 +6,7 @@
 
 HRESULT IntroScene::init()
 {
-	_hWndVideo = MCIWndCreate(_hWnd, _hInstance, MCIWNDF_NOPLAYBAR, "Resources/Video/intro.wmv");
+	_hWndVideo = MCIWndCreate(_hWnd, _hInstance, MCIWNDF_NOPLAYBAR, "02_Resources/Video/intro.wmv");
 
 	MoveWindow(_hWndVideo, 0, 0, WINSIZE_X, WINSIZE_Y, FALSE);
 
@@ -25,7 +25,7 @@ void IntroScene::update()
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || MCIWndGetLength(_hWndVideo) <= MCIWndGetPosition(_hWndVideo))
 	{
-		SCENEMANAGER->changeScene("title");
+		SCENEMANAGER->changeScene("lobby");
 	}
 }
 

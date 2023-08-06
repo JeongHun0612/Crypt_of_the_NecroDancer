@@ -116,7 +116,7 @@ void Bomb::update()
 				nextPosIdx.x = _posIdx.x + _explosionRange[i].x;
 				nextPosIdx.y = _posIdx.y + _explosionRange[i].y;
 
-				int nextTileIdx = (PLAYER->getTileMaxCol() * nextPosIdx.y) + nextPosIdx.x;
+				int nextTileIdx = (TILEMAP->getTileMaxCol() * nextPosIdx.y) + nextPosIdx.x;
 
 				// 플레이어 검사
 				if (nextPosIdx.x == PLAYER->getPosIdx().x && nextPosIdx.y == PLAYER->getPosIdx().y && !PLAYER->getIsInvincible())
@@ -126,23 +126,23 @@ void Bomb::update()
 				}
 
 				// 벽 오브젝트 검사
-				if (PLAYER->getWallTile()[nextTileIdx]->_isCollider && PLAYER->getWallTile()[nextTileIdx]->_hardNess <= _power)
+				if (TILEMAP->getWallTile()[nextTileIdx]->_isCollider && TILEMAP->getWallTile()[nextTileIdx]->_hardNess <= _power)
 				{
-					PLAYER->getWallTile()[nextTileIdx]->_isCollider = false;
-					PLAYER->getWallTile()[nextTileIdx]->_isExist = false;
+					TILEMAP->getWallTile()[nextTileIdx]->_isCollider = false;
+					TILEMAP->getWallTile()[nextTileIdx]->_isExist = false;
 
-					if (PLAYER->getWallTile()[nextTileIdx]->_wallType == WALL_TYPE::GOLDWALL)
+					if (TILEMAP->getWallTile()[nextTileIdx]->_wallType == WALL_TYPE::GOLDWALL)
 					{
 						UIMANAGER->addCoin(nextPosIdx.x, nextPosIdx.y, 10);
 					}
 				}
 
 				// 적 객체 검사
-				for (int i = 0; i < PLAYER->getEnemyList().size(); i++)
+				for (int i = 0; i < TILEMAP->getEnemyList().size(); i++)
 				{
-					if (nextPosIdx.x == PLAYER->getEnemyList()[i]->getPosIdx().x && nextPosIdx.y == PLAYER->getEnemyList()[i]->getPosIdx().y)
+					if (nextPosIdx.x == TILEMAP->getEnemyList()[i]->getPosIdx().x && nextPosIdx.y == TILEMAP->getEnemyList()[i]->getPosIdx().y)
 					{
-						PLAYER->getEnemyList()[i]->setCurHP(PLAYER->getEnemyList()[i]->getCurHP() - _power);
+						TILEMAP->getEnemyList()[i]->setCurHP(TILEMAP->getEnemyList()[i]->getCurHP() - _power);
 						break;
 					}
 				}

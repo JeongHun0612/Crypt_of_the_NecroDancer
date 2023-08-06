@@ -1,5 +1,4 @@
 #include "../../../2DFrameWork/PCH/Stdafx.h"
-#include "../../../2DFrameWork/Utility/TileMap.h"
 #include "Player.h"
 
 HRESULT Player::init()
@@ -7,6 +6,8 @@ HRESULT Player::init()
 	_headImg = IMAGEMANAGER->findImage("player_head");
 	_bodyImg = IMAGEMANAGER->findImage("player_body");
 	_shadowImg = IMAGEMANAGER->findImage("shadow_standard");
+	_freezingImg.img = IMAGEMANAGER->findImage("freezing");
+	_freezingImg.alpha = 255;
 
 	// 아이템 초기화
 	_curShovel = new Shovel;
@@ -20,6 +21,7 @@ HRESULT Player::init()
 	_curBomb = new Bomb;
 	_curBomb->init();
 	UIMANAGER->getExpendable().push_back(_curBomb);
+
 
 	return S_OK;
 }
@@ -39,12 +41,16 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>>& vTiles
 	_curDirection = PLAYER_DIRECTION::NONE;
 	_nextDirection = PLAYER_DIRECTION::NONE;
 
-	_maxHP = 6;
+	_maxHP = 12;
 	_curHP = _maxHP;
 
 	_speed = 6.5f;
 	_jumpPower = 10.0f;
 	_lightPower = 6;
+
+	_stepCount = 0;
+	_beatCount = 0;
+	_prevBeatCount = 0;
 
 	_playerAlpha = 255;
 	_shadowAlpha = 150;
@@ -60,6 +66,7 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<vector<Tile*>>& vTiles
 	_isBomb = false;
 	_isInvincible = false;
 	_isGrab = false;
+	_isIce = false;
 	_isNextStage = false;
 
 	if (_curWeapon->getType() != (int)WEAPON_TYPE::DAGGER)
@@ -104,11 +111,16 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*>& vEnemy, vecto
 	_posIdx = { startIdxX , startIdxY };
 	_nextPosIdx = { startIdxX , startIdxY };
 
+	_stepCount = 0;
+	_beatCount = 0;
+	_prevBeatCount = 0;
+
 	_curDirection = PLAYER_DIRECTION::NONE;
 	_nextDirection = PLAYER_DIRECTION::NONE;
 
 	_playerAlpha = 255;
 	_shadowAlpha = 150;
+	_effectAlpha = 50;
 
 	_isLeft = false;
 	_isMove = false;
@@ -116,8 +128,18 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*>& vEnemy, vecto
 	_isHit = false;
 	_isBomb = false;
 	_isInvincible = false;
+	_isIce = false;
 	_isGrab = false;
 	_isNextStage = false;
+
+	Armor* tempArmor = new Armor;
+	tempArmor->init(_posIdx.x, _posIdx.y, ITEM_TYPE::ARMOR, 4, 0, _tileMaxCol);
+	_curArmor = tempArmor;
+	UIMANAGER->getEquipment().push_back(_curArmor);
+
+	//Weapon* tempWeapon = new Weapon;
+	//tempArmor->init(_posIdx.x, _posIdx.y, ITEM_TYPE::WEAPON, 2, 0, _tileMaxCol);
+	//_curWeapon = tempWeapon;
 
 	return S_OK;
 }
@@ -148,7 +170,7 @@ void Player::update(void)
 	}
 
 	// 플레이어 키입력 동작
-	if (!_isMove)
+	if (!_isMove && !_isIce)
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
@@ -206,10 +228,23 @@ void Player::update(void)
 
 	int _curBottomTilIdx = _curTileIdx + _tileMaxCol;
 
+	if (_vEnemy.size() != TILEMAP->getEnemyList().size())
+	{
+		_vEnemy = TILEMAP->getEnemyList();
+	}
+
 	// 캐릭터 아래 쪽에 타일이 있을 시 그림자 숨기기
 	if (_vWallTile[_curBottomTilIdx]->_idxX == _posIdx.x && _vWallTile[_curBottomTilIdx]->_idxY == _posIdx.y + 1 && _vWallTile[_curBottomTilIdx]->_isExist)
 	{
 		_shadowAlpha = 0;
+	}
+
+	_beatCount = BEAT->getBeatCount();
+
+	if (_prevBeatCount < _beatCount)
+	{
+		_stepCount++;
+		_prevBeatCount = _beatCount;
 	}
 
 	// 키 입력을 받고 다음 행동에 대한 방향이 정해졌을 때
@@ -359,6 +394,7 @@ void Player::update(void)
 	// 피격 상태일때
 	if (_isHit)
 	{
+		_stepCount = 0;
 		CAMERA->setShakeCount(25);
 
 		if (_effectAlpha == 50 && !_isInvincible)
@@ -395,11 +431,31 @@ void Player::update(void)
 			_playerAlpha = 255;
 		}
 
-		if (_beatCount + 1 < BEAT->getBeatCount())
+		if (_stepCount == 2)
 		{
-			_beatCount = 0;
 			_playerAlpha = 255;
 			_isInvincible = false;
+		}
+	}
+
+	if (_isIce)
+	{
+		if (_stepCount > 2)
+		{
+			if (_freezingImg.alpha == 255)
+			{
+				_freezingImg.alpha = 0;
+			}
+			else
+			{
+				_freezingImg.alpha = 255;
+			}
+		}
+
+		if (_stepCount == 4)
+		{
+			_freezingImg.alpha = 255;
+			_isIce = false;
 		}
 	}
 }
@@ -432,15 +488,15 @@ void Player::render(HDC hdc)
 
 	// 그림자 이미지
 	_shadowImg->alphaRender(hdc,
-		_pos.x + 8,
-		_pos.y - 11,
+		_pos.x + 8.0f,
+		_pos.y - 11.0f,
 		_shadowAlpha);
 
 	// 몸통 이미지
 	if (_curArmor != nullptr)
 	{
 		_bodyImg->frameAlphaRender(hdc,
-			_pos.x + 12,
+			_pos.x + 12.0f,
 			_pos.y,
 			_bodyImg->getFrameX(), (_curArmor->getType() * 2) + _isLeft,
 			_playerAlpha);
@@ -448,7 +504,7 @@ void Player::render(HDC hdc)
 	else
 	{
 		_bodyImg->frameAlphaRender(hdc,
-			_pos.x + 12,
+			_pos.x + 12.0f,
 			_pos.y,
 			_bodyImg->getFrameX(), _isLeft,
 			_playerAlpha);
@@ -456,16 +512,25 @@ void Player::render(HDC hdc)
 
 	// 머리 이미지
 	_headImg->frameAlphaRender(hdc,
-		_pos.x + 15,
-		_pos.y - 18,
+		_pos.x + 15.0f,
+		_pos.y - 18.0f,
 		_headImg->getFrameX(), _isLeft,
 		_playerAlpha);
 
+	// 빙결 이미지
+	if (_isIce)
+	{
+		_freezingImg.img->alphaRender(hdc,
+			WINSIZE_X_HALF - _freezingImg.img->getWidth() / 2,
+			WINSIZE_Y_HALF - 10,
+			_freezingImg.alpha);
+	}
+
 
 	// 플레이어 현재 인덱스 좌표
-	char currentIdx[40];
-	sprintf_s(currentIdx, "Current Index : [%d, %d]", _posIdx.y, _posIdx.x);
-	TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, currentIdx, strlen(currentIdx));
+	//char currentIdx[40];
+	//sprintf_s(currentIdx, "Current Index : [%d, %d]", _posIdx.y, _posIdx.x);
+	//TextOut(hdc, WINSIZE_X - 150, WINSIZE_Y - 40, currentIdx, strlen(currentIdx));
 }
 
 void Player::addShowShovel(int idxX, int idxY)

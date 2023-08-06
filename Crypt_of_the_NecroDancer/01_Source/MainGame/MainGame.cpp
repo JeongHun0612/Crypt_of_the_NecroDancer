@@ -2,13 +2,12 @@
 #include "MainGame.h"
 
 #include "../MainGame/Scene/Intro/IntroScene.h"
+#include "../MainGame/Scene/Ending/EndingScene.h"
 #include "../MainGame/Scene/Title/TitleScene.h"
 #include "../MainGame/Scene/Lobby/LobbyScene.h"
 #include "../MainGame/Scene/Stage/Stage1_1Scene.h"
 #include "../MainGame/Scene/Stage/Stage1_2Scene.h"
 #include "../MainGame/Scene/Stage/Boss_Scene.h"
-
-#include "../MainGame/Scene/TestScene/TestScene.h"
 
 
 HRESULT MainGame::init(void)
@@ -28,15 +27,14 @@ HRESULT MainGame::init(void)
 
 	// 씬 추가
 	SCENEMANAGER->addScene("intro", new IntroScene);			// 인트로
+	SCENEMANAGER->addScene("ending", new EndingScene);			// 엔딩
 	SCENEMANAGER->addScene("title", new TitleScene);			// 타이틀
 	SCENEMANAGER->addScene("lobby", new LobbyScene);			// 로비
 	SCENEMANAGER->addScene("stage1_1", new Stage1_1Scene);		// 스테이지1-1
 	SCENEMANAGER->addScene("stage1_2", new Stage1_2Scene);		// 스테이지1-2
 	SCENEMANAGER->addScene("boss", new Boss_Scene);				// 보스
 
-	SCENEMANAGER->addScene("test", new TestScene);		// 테스트
-
-	SCENEMANAGER->changeScene("lobby");
+	SCENEMANAGER->changeScene("title");
 
 	return S_OK;
 }
@@ -53,24 +51,23 @@ void MainGame::update(void)
 
 void MainGame::render(void)
 {
-	if (SCENEMANAGER->getCurScene()->getName() != "intro")
-	{
-		PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
-		// =====================================================================
+	if (SCENEMANAGER->getCurScene()->getName() == "intro" || SCENEMANAGER->getCurScene()->getName() == "ending") return;
 
-		// 글자 배경모드 - TRANSPARENT : 투명한
-		SetBkMode(getMemDC(), TRANSPARENT);
-		SetTextColor(getMemDC(), RGB(255, 255, 255));
+	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
+	// =====================================================================
 
-		// 현재 씬 출력
-		SCENEMANAGER->render();
+	// 글자 배경모드 - TRANSPARENT : 투명한
+	SetBkMode(getMemDC(), TRANSPARENT);
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
 
-		// 시간 확인 (프레임, 월드 타임, 델타 타임)
-		TIMEMANAGER->render(getMemDC());
+	// 현재 씬 출력
+	SCENEMANAGER->render();
 
-		// =====================================================================
-		this->getBackBuffer()->render(getHDC(), 0, 0);
-	}
+	// 시간 확인 (프레임, 월드 타임, 델타 타임)
+	//TIMEMANAGER->render(getMemDC());
+
+	// =====================================================================
+	this->getBackBuffer()->render(getHDC(), 0, 0);
 }
 
 void MainGame::initImage()
@@ -96,6 +93,20 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("tile_torch", "02_Resources/Images/Tile/Tile_Torch.bmp", 96, 52, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("trap_door", "02_Resources/Images/Tile/Trap_Door.bmp", 92, 36, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("tile_audio", "02_Resources/Images/Tile/Tile_Audio.bmp", 448, 128, true, RGB(255, 0, 255));
+
+	// ===================
+	// 미니맵
+	// ===================
+	IMAGEMANAGER->addImage("min_rect_normal", "02_Resources/Images/Map/min_rect_normal.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_door", "02_Resources/Images/Map/min_rect_door.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_stair", "02_Resources/Images/Map/min_rect_stair.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_end", "02_Resources/Images/Map/min_rect_end.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_shop", "02_Resources/Images/Map/min_rect_shop.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_end_else", "02_Resources/Images/Map/min_rect_end_else.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_wall2", "02_Resources/Images/Map/min_rect_wall2.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_player", "02_Resources/Images/Map/min_rect_player.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("min_rect_enemy", "02_Resources/Images/Map/min_rect_enemy.bmp", 6, 6, true, RGB(255, 0, 255));
+
 
 	// ===================
 	// HUD
@@ -133,6 +144,7 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("player_body", "02_Resources/Images/Player/Body.bmp", 160, 720, 4, 20, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadow_standard", "02_Resources/Images/Player/shadow_standard.bmp", 48, 54, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadow_large", "02_Resources/Images/Player/shadow_standard.bmp", 72, 81, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("freezing", "02_Resources/Images/Entities/freezing.bmp", 62, 28, true, RGB(255, 0, 255));
 
 
 	// ===================
@@ -164,6 +176,8 @@ void MainGame::initImage()
 	IMAGEMANAGER->addFrameImage("effect_dagger", "02_Resources/Images/Effect/effect_dagger.bmp", 144, 192, 3, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("enemy_effect", "02_Resources/Images/Effect/enemy_effect.bmp", 240, 44, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("effect_explosion", "02_Resources/Images/Effect/effect_explosion.bmp", 1536, 192, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("effect_big_explosion", "02_Resources/Images/Effect/effect_explosion.bmp", 2240, 320, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("effect_ice_blast", "02_Resources/Images/Effect/effect_ice_blast.bmp", 1536, 640, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("hit_effect", "02_Resources/Images/Effect/hit_effect.bmp", WINSIZE_X, WINSIZE_Y);
 	IMAGEMANAGER->addImage("fade_effect", "02_Resources/Images/Effect/fade_effect.bmp", WINSIZE_X, WINSIZE_Y);
 	IMAGEMANAGER->addFrameImage("dragon_fire", "02_Resources/Images/Effect/dragon_fire.bmp", 448, 48, 7, 1, true, RGB(255, 0, 255));
@@ -233,14 +247,12 @@ void MainGame::initSound()
 	// ===================
 	// BGM
 	// ===================
-	SOUNDMANAGER->addSound("title", "02_Resources/Sounds/BGM/title.ogg", true, true);
+	SOUNDMANAGER->addSound("title", "02_Resources/Sounds/BGM/title.mp3", true, true);
 	SOUNDMANAGER->addSound("lobby", "02_Resources/Sounds/BGM/lobby.ogg", true, true);
 	SOUNDMANAGER->addSound("stage1_1", "02_Resources/Sounds/BGM/stage1_1.ogg", true, false);
 	SOUNDMANAGER->addSound("stage1_1_shopkeeper", "02_Resources/Sounds/BGM/stage1_1_shopkeeper.ogg", true, false);
 	SOUNDMANAGER->addSound("stage1_2", "02_Resources/Sounds/BGM/stage1_2.ogg", true, false);
 	SOUNDMANAGER->addSound("stage1_2_shopkeeper", "02_Resources/Sounds/BGM/stage1_2_shopkeeper.ogg", true, false);
-	SOUNDMANAGER->addSound("stage1_3", "02_Resources/Sounds/BGM/stage1_3.ogg", true, false);
-	SOUNDMANAGER->addSound("stage1_3_shopkeeper", "02_Resources/Sounds/BGM/stage1_3_shopkeeper.ogg", true, false);
 	SOUNDMANAGER->addSound("stage_boss", "02_Resources/Sounds/BGM/stage_boss.ogg", true, false);
 
 	// ===================
@@ -266,7 +278,7 @@ void MainGame::initSound()
 	SOUNDMANAGER->addSound("hurt2", "02_Resources/Sounds/Player/Hurt/vo_cad_hurt_02.wav", false, false);
 	SOUNDMANAGER->addSound("hurt3", "02_Resources/Sounds/Player/Hurt/vo_cad_hurt_03.wav", false, false);
 	SOUNDMANAGER->addSound("hurt4", "02_Resources/Sounds/Player/Hurt/vo_cad_hurt_04.wav", false, false);
-	
+
 	// 플레이어 - 죽음
 	SOUNDMANAGER->addSound("death", "02_Resources/Sounds/Player/Death/vo_cad_death_01.wav", false, false);
 

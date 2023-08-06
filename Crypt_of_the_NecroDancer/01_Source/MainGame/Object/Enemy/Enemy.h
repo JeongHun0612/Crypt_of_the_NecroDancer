@@ -55,7 +55,6 @@ protected:
 	int _stepCount;
 	int _beatCount;
 	int _prevBeatCount;
-	int _skillPattern;
 
 	float _jumpPower;
 	float _frameCycle;
@@ -65,7 +64,6 @@ protected:
 	bool _isHit;
 	bool _isCry;
 	bool _isAttack;
-	bool _isSkill;
 	bool _isInvincible;
 
 public:
@@ -84,7 +82,10 @@ public:
 	Vec2 getNextPosIdx() { return _nextPosIdx; }
 	void setNextPosIdx(int idxX, int idxY) { _nextPosIdx.x = idxX, _nextPosIdx.y = idxY; }
 
-	void setCurTileIdx(int curTileIdx) { _curTileIdx = curTileIdx; }
+	int getCurTileIdx() { return _curTileIdx; }
+
+	// 적 거리
+	int getDistance() { return _distance; }
 
 	// 적 타입
 	ENEMY_TYPE getEnemyType() { return _type; }
@@ -93,18 +94,12 @@ public:
  	int getCurHP() { return _curHP; }
 	void setCurHP(int curHP) { _curHP = curHP; }
 
-	// 스킬 패턴
-	int getSkillPattern() { return _skillPattern; }
-
 	// 적 보유 코인
 	int getCoinCount() { return _coinCount; }
 
 	// 적 상태
 	bool getIsHit() { return _isHit; }
 	void setIsHit(bool isHit) { _isHit = isHit; }
-
-	bool getIsSkill() { return _isSkill; }
-	void setIsSkill(bool isSKill) { _isSkill = isSKill; }
 
 	bool getIsInvincible() { return _isInvincible; }
 

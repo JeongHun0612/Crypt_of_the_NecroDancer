@@ -20,7 +20,7 @@ void TitleScene::update()
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-		SCENEMANAGER->changeScene("lobby");
+		SCENEMANAGER->changeScene("intro");
 	}
 }
 

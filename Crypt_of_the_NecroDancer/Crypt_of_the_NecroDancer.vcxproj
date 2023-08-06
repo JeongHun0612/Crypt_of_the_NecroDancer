@@ -183,7 +183,6 @@
     <ClCompile Include="01_Source\2DFrameWork\ManagerClass\SoundManager.cpp" />
     <ClCompile Include="01_Source\MainGame\Scene\Stage\Stage1_1Scene.cpp" />
     <ClCompile Include="01_Source\MainGame\Scene\Stage\Stage1_2Scene.cpp" />
-    <ClCompile Include="01_Source\MainGame\Scene\TestScene\TestScene.cpp" />
     <ClCompile Include="01_Source\2DFrameWork\ManagerClass\TimeManager.cpp" />
     <ClCompile Include="01_Source\MainGame\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="01_Source\MainGame\UI\UIManager.cpp" />
@@ -193,6 +192,8 @@
     <ClCompile Include="01_Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.cpp" />
     <ClCompile Include="01_Source\MainGame\Scene\Stage\Boss_Scene.cpp" />
     <ClCompile Include="01_Source\MainGame\Object\Enemy\Boss\NecroDancer.cpp" />
+    <ClCompile Include="01_Source\MainGame\Object\TileMap\TileMap.cpp" />
+    <ClCompile Include="01_Source\MainGame\Scene\Ending\EndingScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="01_Source\2DFrameWork\PCH\Stdafx.h" />
@@ -239,8 +240,6 @@
     <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Slime\Slime_Green.h" />
     <ClInclude Include="01_Source\2DFrameWork\ManagerClass\SoundManager.h" />
     <ClInclude Include="01_Source\MainGame\Scene\Stage\Stage1_1Scene.h" />
-    <ClInclude Include="01_Source\MainGame\Scene\TestScene\TestScene.h" />
-    <ClInclude Include="01_Source\2DFrameWork\Utility\TileMap.h" />
     <ClInclude Include="01_Source\2DFrameWork\ManagerClass\TimeManager.h" />
     <ClInclude Include="01_Source\MainGame\Scene\Title\TitleScene.h" />
     <ClInclude Include="01_Source\MainGame\UI\UIManager.h" />
@@ -249,6 +248,8 @@
     <ClInclude Include="01_Source\MainGame\Object\Enemy\NormalMonster\Zombie\Zombie.h" />
     <ClInclude Include="01_Source\MainGame\Scene\Stage\Boss_Scene.h" />
     <ClInclude Include="01_Source\MainGame\Object\Enemy\Boss\NecroDancer.h" />
+    <ClInclude Include="01_Source\MainGame\Object\TileMap\TileMap.h" />
+    <ClInclude Include="01_Source\MainGame\Scene\Ending\EndingScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

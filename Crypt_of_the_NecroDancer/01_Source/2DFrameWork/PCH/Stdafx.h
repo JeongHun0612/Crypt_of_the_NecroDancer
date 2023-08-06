@@ -100,9 +100,9 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 
 #include "../Utility/CommonMacroFunction.h"
 #include "../Utility/Header.h"
-#include "../Utility/TileMap.h"
 #include "../Utility/RandomFunction.h"
 
+#include "../../MainGame/Object/TileMap/TileMap.h"
 #include "../../MainGame/Object/Player/Player.h"
 #include "../../MainGame/Object/Beat/Beat.h"
 #include "../Camera/Camera.h"
@@ -117,6 +117,7 @@ ID2D1HwndRenderTarget*		_ID2DRenderTarget = nullptr;
 #define UIMANAGER UIManager::getSingleton()
 
 #define RND RandomFunction::getSingleton()
+#define TILEMAP TileMap::getSingleton()
 #define PLAYER Player::getSingleton()
 #define CAMERA Camera::getSingleton()
 #define BEAT Beat::getSingleton()

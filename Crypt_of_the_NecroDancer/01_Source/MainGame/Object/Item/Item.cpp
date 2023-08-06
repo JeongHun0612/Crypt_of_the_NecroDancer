@@ -60,7 +60,7 @@ void Item::update()
 
 void Item::render(HDC hdc)
 {
-	if (_distance < 11 && PLAYER->getTerrainTile()[_curTileIdx]->_isLight)
+	if (_distance < 11 && TILEMAP->getTerrainTile()[_curTileIdx]->_isLight)
 	{
 		if (_distance > PLAYER->getLightPower() - 1)
 		{

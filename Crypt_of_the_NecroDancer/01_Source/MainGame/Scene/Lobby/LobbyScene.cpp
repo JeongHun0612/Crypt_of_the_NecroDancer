@@ -5,26 +5,10 @@
 HRESULT LobbyScene::init()
 {
 	// 타일 초기화
-	FileManager::loadTileMapFile("Lobby_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Lobby_Wall.txt", _vWallTile, TILE_TYPE::WALL);
-
-	_vTiles.push_back(_vTerrainTile);
-	_vTiles.push_back(_vWallTile);
-
-	for (int i = 0; i < _vTerrainTile.size(); i++)
-	{
-		_vTerrainTile[i]->_isLight = true;
-		_vTerrainTile[i]->_alpha = 255;
-
-		_vWallTile[i]->_isLight = true;
-		_vWallTile[i]->_alpha = 255;
-	}
-
-	_tileMaxCol = MAX_LOBBY_COL;
-	_tileMaxRow = MAX_LOBBY_ROW;
+	TILEMAP->init(0);
 
 	// 플레이어 초기화
-	PLAYER->init(6, 3, _vTiles);
+	PLAYER->init(6, 3, TILEMAP->getTiles());
 
 	// 비트 초기화
 	BEAT->init();
@@ -41,49 +25,32 @@ HRESULT LobbyScene::init()
 
 void LobbyScene::release()
 {
-	GameScene::release();
-
 	SOUNDMANAGER->stop("lobby");
 }
 
 void LobbyScene::update()
 {
+	TILEMAP->update();
+
 	CAMERA->update();
 
 	PLAYER->update();
 
-	// 바닥 타일 타입이 계단일 시 씬 변경
-	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
-
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::OPEN_STAIR)
+	// 다음 스테이지
+	if (TILEMAP->getIsNextStage())
 	{
-		// 스테이지1 입장
-		if (PLAYER->getPosIdx().x == 7 && PLAYER->getPosIdx().y == 5)
-		{
-			SCENEMANAGER->changeScene("boss");
-		}
+		SCENEMANAGER->changeScene("stage1_1");
 	}
 }
 
 void LobbyScene::render()
 {
 	// 타일 출력
-	tileSet(_vTerrainTile, TILE_TYPE::TERRAIN);
-	tileSet(_vWallTile, TILE_TYPE::WALL);
+	TILEMAP->render(getMemDC());
 
 	// 플레이어 출력
 	PLAYER->render(getMemDC());
 
 	// UI 출력
 	UIMANAGER->render(getMemDC());
-
-	// 디버그 모드
-	if (KEYMANAGER->isToggleKey(VK_F1))
-	{
-		showTileNum(_vTerrainTile);
-	}
-	if (KEYMANAGER->isToggleKey(VK_F2))
-	{
-		showTileDist(_vTerrainTile);
-	}
 }

@@ -67,9 +67,6 @@
     <Filter Include="2D FrameWork\Camera">
       <UniqueIdentifier>{5e83fcd0-5225-4f4e-a246-34be1e4c6624}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Scene\TestScene">
-      <UniqueIdentifier>{1ec34570-aa5e-4ee6-9981-29a57f6fead4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Object\UI">
       <UniqueIdentifier>{a0b99cbb-38a0-4037-981c-a98eeefc1d83}</UniqueIdentifier>
     </Filter>
@@ -141,6 +138,12 @@
     </Filter>
     <Filter Include="MainGame\Object\Enemy\Boss">
       <UniqueIdentifier>{7259ea2f-eac1-4e0a-9c03-28b33c16ec73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\TileMap">
+      <UniqueIdentifier>{67223d15-5d44-4762-b0d1-9d21393cc8da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene\Ending">
+      <UniqueIdentifier>{e70abb46-3a29-4928-a173-b7a0e259b606}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -261,9 +264,6 @@
     <ClCompile Include="01_Source\2DFrameWork\ManagerClass\TimeManager.cpp">
       <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
     </ClCompile>
-    <ClCompile Include="01_Source\MainGame\Scene\TestScene\TestScene.cpp">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClCompile>
     <ClCompile Include="01_Source\MainGame\Scene\Title\TitleScene.cpp">
       <Filter>MainGame\Scene\Title</Filter>
     </ClCompile>
@@ -293,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="01_Source\2DFrameWork\Camera\Camera.cpp">
       <Filter>2D FrameWork\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Object\TileMap\TileMap.cpp">
+      <Filter>MainGame\Object\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="01_Source\MainGame\Scene\Ending\EndingScene.cpp">
+      <Filter>MainGame\Scene\Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,12 +431,6 @@
     <ClInclude Include="01_Source\2DFrameWork\ManagerClass\TimeManager.h">
       <Filter>2D FrameWork\ManagerClass\TimeManager</Filter>
     </ClInclude>
-    <ClInclude Include="01_Source\2DFrameWork\Utility\TileMap.h">
-      <Filter>2D FrameWork\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="01_Source\MainGame\Scene\TestScene\TestScene.h">
-      <Filter>MainGame\Scene\TestScene</Filter>
-    </ClInclude>
     <ClInclude Include="01_Source\MainGame\Scene\Title\TitleScene.h">
       <Filter>MainGame\Scene\Title</Filter>
     </ClInclude>
@@ -457,6 +457,12 @@
     </ClInclude>
     <ClInclude Include="01_Source\2DFrameWork\Camera\Camera.h">
       <Filter>2D FrameWork\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Object\TileMap\TileMap.h">
+      <Filter>MainGame\Object\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="01_Source\MainGame\Scene\Ending\EndingScene.h">
+      <Filter>MainGame\Scene\Ending</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

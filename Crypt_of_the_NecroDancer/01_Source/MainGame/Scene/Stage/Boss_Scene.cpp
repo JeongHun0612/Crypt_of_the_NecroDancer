@@ -1,14 +1,6 @@
 #include "../../../2DFrameWork/PCH/Stdafx.h"
 #include "../../../2DFrameWork/ManagerClass/FileManager.h"
 #include "../../Object/Enemy/Boss/NecroDancer.h"
-
-#include "../../Object/Enemy/NormalMonster/Skeleton/Skeleton_Normal.h"
-#include "../../Object/Enemy/NormalMonster/Skeleton/Skeleton_Yellow.h"
-#include "../../Object/Enemy/NormalMonster/Skeleton/Skeleton_Black.h"
-#include "../../Object/Enemy/MiniBoss/Minotaur/Minotaur_Normal.h"
-#include "../../Object/Enemy/MiniBoss/Dragon/Dragon_Red.h"
-
-
 #include "Boss_Scene.h"
 
 HRESULT Boss_Scene::init(void)
@@ -28,22 +20,17 @@ HRESULT Boss_Scene::init(void)
 	_cutSceneImg.pos.y = 40;
 
 	// 타일 초기화
-	FileManager::loadTileMapFile("Boss_Terrain.txt", _vTerrainTile, TILE_TYPE::TERRAIN);
-	FileManager::loadTileMapFile("Boss_Wall.txt", _vWallTile, TILE_TYPE::WALL);
+	TILEMAP->init(3);
 
-	_vTiles.push_back(_vTerrainTile);
-	_vTiles.push_back(_vWallTile);
-
-	_tileMaxCol = MAX_BOSS_COL;
-	_tileMaxRow = MAX_BOSS_ROW;
+	_vTerrainTile = TILEMAP->getTerrainTile();
+	_vWallTile = TILEMAP->getWallTile();
+	_tileMaxCol = TILEMAP->getTileMaxCol();
 
 	// 애너미 초기화
-	_necroDancer = new NecroDancer;
-	_necroDancer->init(8, 8, _vTiles, _tileMaxCol);
-	_vEnemy.push_back(_necroDancer);
+	_necroDancer = TILEMAP->getEnemyList()[0];
 
 	// 플레이어 초기화
-	PLAYER->init(8, 22, _vEnemy, _vItem, _vTiles, _tileMaxCol);
+	PLAYER->init(8, 22, TILEMAP->getEnemyList(), TILEMAP->getItemList(), TILEMAP->getTiles(), TILEMAP->getTileMaxCol());
 	PLAYER->setLightPower(15);
 
 	// 비트 초기화
@@ -114,76 +101,7 @@ void Boss_Scene::update(void)
 			_vWallTile[i]->_isExist = false;
 		}
 
-		// 남은 몬스터 삭제
-		for (auto iter = _vEnemy.begin(); iter < _vEnemy.end(); ++iter)
-		{
-			(*iter)->setCurHP(0);
-		}
-
-		_necroDancer->setIsHit(false);
-		_necroDancer->setIsSkill(false);
 	}
-
-	// 미니 보스 소환 스킬
-	if (_necroDancer->getIsSkill() && _necroDancer->getSkillPattern() == SKILL_PATTERN::MINIBOSS_SUMMON)
-	{
-		switch (RND->getInt(2))
-		{
-		case 0:
-			_summonEnemy = new Minotaur_Normal;
-			break;
-		case 1:
-			_summonEnemy = new Dragon_Red;
-			break;
-		}
-
-		int posIdxX = 8 - (8 - _necroDancer->getPosIdx().x) / 2;
-		int posIdxY = 11 - (11 - _necroDancer->getPosIdx().y) / 2;
-		_summonEnemy->init(posIdxX, posIdxY, _vTiles, _tileMaxCol);
-
-		_vEnemy.push_back(_summonEnemy);
-		PLAYER->getEnemyList().push_back(_summonEnemy);
-
-		_necroDancer->setIsSkill(false);
-	}
-
-	// 보스 히트 시
-	if (_necroDancer->getIsHit())
-	{
-		SOUNDMANAGER->play("necrodancer_hurt");
-
-		for (int i = 0; i < 2; i++)
-		{
-			switch (RND->getInt(3))
-			{
-			case 0:
-				_summonEnemy = new Skeleton_Normal;
-				break;
-			case 1:
-				_summonEnemy = new Skeleton_Yellow;
-				break;
-			case 2:
-				_summonEnemy = new Skeleton_Black;
-				break;
-			}
-
-			int posIdxX = 8 - (8 - _necroDancer->getPosIdx().x) / 2 + i;
-			int posIdxY = 11 - (11 - _necroDancer->getPosIdx().y) / 2 + i;
-			_summonEnemy->init(posIdxX, posIdxY, _vTiles, _tileMaxCol);
-
-			_vEnemy.push_back(_summonEnemy);
-			PLAYER->getEnemyList().push_back(_summonEnemy);
-		}
-
-		_necroDancer->setPosIdx(8 + (8 - _necroDancer->getPosIdx().x), RND->getFromIntTo(7, 14));
-
-		int curTileIdx = (_necroDancer->getPosIdx().y) * _tileMaxCol + _necroDancer->getPosIdx().x;
-		_vTerrainTile[curTileIdx]->_isCollider = true;
-		_necroDancer->setCurTileIdx(curTileIdx);
-
-		_necroDancer->setIsHit(false);
-	}
-
 
 	// 보스 존 입구에 들어왔을 시 효과
 	if (PLAYER->getPosIdx().y == 15 && !_isOpen)
@@ -212,13 +130,10 @@ void Boss_Scene::update(void)
 		_isOpen = true;
 	}
 
-
-	// 바닥 타일 타입이 계단일 시 씬 변경
-	int _nextTileIdx = (_tileMaxCol * PLAYER->getPosIdx().y) + PLAYER->getPosIdx().x;
-
-	if (_vTerrainTile[_nextTileIdx]->_terrainType == TERRAIN_TYPE::OPEN_STAIR && PLAYER->getIsNextStage())
+	// 다음 스테이지
+	if (TILEMAP->getIsNextStage())
 	{
-		//SCENEMANAGER->changeScene("stage1_2");
+		SCENEMANAGER->changeScene("ending");
 	}
 }
 
