@@ -132,15 +132,6 @@ HRESULT Player::init(int startIdxX, int startIdxY, vector<Enemy*>& vEnemy, vecto
 	_isGrab = false;
 	_isNextStage = false;
 
-	Armor* tempArmor = new Armor;
-	tempArmor->init(_posIdx.x, _posIdx.y, ITEM_TYPE::ARMOR, 4, 0, _tileMaxCol);
-	_curArmor = tempArmor;
-	UIMANAGER->getEquipment().push_back(_curArmor);
-
-	//Weapon* tempWeapon = new Weapon;
-	//tempArmor->init(_posIdx.x, _posIdx.y, ITEM_TYPE::WEAPON, 2, 0, _tileMaxCol);
-	//_curWeapon = tempWeapon;
-
 	return S_OK;
 }
 
